@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://bm0rb0tjg4n64"]
+
+[ext_resource type="Script" path="res://Resources/Items/Item.gd" id="1_4yjhx"]
+
+[resource]
+script = ExtResource("1_4yjhx")
+item_type = 0
+item_name = "TestItem"
+weapon_speed = 1.0
+weapon_bars = 1
+bar_trans_type = 7
+weapon_type = 0
+use_message = ["* You used the Item!"]
+item_information = ["* Item - Heals 0 hp 
+* This item has no description or is the default item."]
+heal_amount = 0
+attack_amount = 0
+defense_amount = 0

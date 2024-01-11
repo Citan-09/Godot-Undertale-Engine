@@ -1,0 +1,109 @@
+[gd_scene load_steps=19 format=3 uid="uid://dupc0kwi03isy"]
+
+[ext_resource type="Script" path="res://Battle/Soul/soul_menu.gd" id="1_mh1v3"]
+[ext_resource type="Texture2D" uid="uid://fxh0hyyct3b7" path="res://Battle/Soul/crack.png" id="1_v1mo5"]
+[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="2_difwp"]
+[ext_resource type="Texture2D" uid="uid://dfxw3k4vh32pd" path="res://Battle/Soul/soul_u.png" id="3_3hffy"]
+[ext_resource type="Texture2D" uid="uid://dhl5vkc26cxqe" path="res://Battle/Soul/soul_l.png" id="4_l83bi"]
+[ext_resource type="Texture2D" uid="uid://dmb72f6ef0qvr" path="res://Battle/Soul/soul_r.png" id="5_4tgxl"]
+[ext_resource type="AudioStream" uid="uid://d0k0xvw728ly7" path="res://sfx/soul_changemode.wav" id="7_30xx6"]
+[ext_resource type="AudioStream" uid="uid://dsid8nuan7lku" path="res://sfx/player_hurt.wav" id="8_p8os4"]
+[ext_resource type="AudioStream" uid="uid://cbt3hmek1bq26" path="res://sfx/soul_snap.wav" id="9_t7ecr"]
+[ext_resource type="AudioStream" uid="uid://bc8nv2lgl82oe" path="res://sfx/snd_shatter.wav" id="10_svf2n"]
+[ext_resource type="AudioStream" uid="uid://dx5o1v0ulqlvx" path="res://sfx/impact_wallhit.wav" id="11_1sdc2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i5wdk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v1mo5")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_difwp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3hffy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_l83bi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_4tgxl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Curve" id="Curve_sspl7"]
+_data = [Vector2(1e-05, 1), 100000.0, 0.0, 1, 0, Vector2(1, 0), -2.00047, 100000.0, 0, 1]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8uiqr"]
+curve = SubResource("Curve_sspl7")
+
+[sub_resource type="Curve" id="Curve_rgrmx"]
+min_value = 1.0
+max_value = 2.0
+_data = [Vector2(0, 1), 0.0, 3.60698, 0, 0, Vector2(1, 2), 0.183359, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_o2f5t"]
+curve = SubResource("Curve_rgrmx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pevcv"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_o2f5t")
+color = Color(0.8, 0.8, 0.8, 0.784314)
+alpha_curve = SubResource("CurveTexture_8uiqr")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjyg3"]
+size = Vector2(8, 8)
+
+[node name="Soul" type="CharacterBody2D"]
+z_index = 1
+platform_on_leave = 1
+script = ExtResource("1_mh1v3")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+sprite_frames = SubResource("SpriteFrames_i5wdk")
+
+[node name="Ghost" type="GPUParticles2D" parent="Sprite"]
+show_behind_parent = true
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_pevcv")
+texture = ExtResource("2_difwp")
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_sjyg3")
+
+[node name="Hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_p8os4")
+bus = &"SFX"
+
+[node name="Ding" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_30xx6")
+bus = &"SFX"
+
+[node name="Crack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_t7ecr")
+bus = &"SFX"
+
+[node name="Shatter" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_svf2n")
+bus = &"SFX"
+
+[node name="Wallhit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_1sdc2")
+bus = &"SFX"

@@ -1,0 +1,400 @@
+[gd_scene load_steps=15 format=3 uid="uid://stqug1x75acy"]
+
+[ext_resource type="Script" path="res://Overworld/ui.gd" id="1_ak61g"]
+[ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Battle/Box/box.png" id="1_hat5n"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="2_40sjh"]
+[ext_resource type="Theme" uid="uid://bevcq3qnk3n8h" path="res://Battle/hud.tres" id="3_cm3qw"]
+[ext_resource type="Script" path="res://Overworld/ui_box.gd" id="3_elx3o"]
+[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="5_hqak4"]
+[ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="7_4hnhj"]
+[ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="8_nv2n8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q71g6"]
+bg_color = Color(0, 0, 0, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="Curve" id="Curve_1h8r1"]
+_data = [Vector2(1e-05, 1), 100000.0, 0.0, 1, 0, Vector2(1, 0), -2.00047, 100000.0, 0, 1]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0v48g"]
+curve = SubResource("Curve_1h8r1")
+
+[sub_resource type="Curve" id="Curve_3k2c6"]
+min_value = 1.0
+max_value = 2.0
+_data = [Vector2(0, 1), 0.0, 2.296, 0, 0, Vector2(1, 1.5), 0.183359, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5slsv"]
+curve = SubResource("Curve_3k2c6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2in6k"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_5slsv")
+color = Color(0.501961, 0.501961, 0.501961, 0.784314)
+alpha_curve = SubResource("CurveTexture_0v48g")
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_ak61g")
+ItemsSeperation = Vector2(0, 29)
+OptionSeperation = Vector2(0, 40)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StatAndOptions" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 36.0
+offset_top = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Stats" type="NinePatchRect" parent="Control/StatAndOptions"]
+clip_contents = true
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 108.0
+texture = ExtResource("1_hat5n")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+script = ExtResource("3_elx3o")
+
+[node name="Panel" type="Panel" parent="Control/StatAndOptions/Stats"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q71g6")
+
+[node name="Name" type="RichTextLabel" parent="Control/StatAndOptions/Stats"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 12.0
+offset_top = 11.0
+offset_right = 262.0
+offset_bottom = 39.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "Name"
+scroll_active = false
+
+[node name="Stats" type="RichTextLabel" parent="Control/StatAndOptions/Stats"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = 49.0
+offset_right = 264.0
+offset_bottom = 133.0
+theme = ExtResource("3_cm3qw")
+theme_override_constants/line_separation = -1
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "LV 1
+HP 20/20
+G   0"
+scroll_active = false
+
+[node name="Options" type="NinePatchRect" parent="Control/StatAndOptions"]
+clip_contents = true
+layout_mode = 0
+offset_top = 114.0
+offset_right = 140.0
+offset_bottom = 274.0
+texture = ExtResource("1_hat5n")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+script = ExtResource("3_elx3o")
+
+[node name="Panel" type="Panel" parent="Control/StatAndOptions/Options"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q71g6")
+
+[node name="Options" type="RichTextLabel" parent="Control/StatAndOptions/Options"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 48.0
+offset_top = 21.0
+offset_right = 262.0
+offset_bottom = 136.0
+theme = ExtResource("2_40sjh")
+theme_override_constants/line_separation = 11
+bbcode_enabled = true
+text = "[color=gray]ITEM[/color]
+[color=white]STATS[/color]
+[color=gray]CELL[/color]"
+scroll_active = false
+
+[node name="Detailed" type="NinePatchRect" parent="Control/StatAndOptions"]
+visible = false
+clip_contents = true
+layout_mode = 0
+offset_left = 154.0
+offset_right = 486.0
+offset_bottom = 396.0
+texture = ExtResource("1_hat5n")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+script = ExtResource("3_elx3o")
+grow_mode = 1
+
+[node name="Panel" type="Panel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q71g6")
+
+[node name="Name" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 27.0
+offset_top = 36.0
+offset_right = 241.0
+offset_bottom = 151.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "\"Name\""
+scroll_active = false
+
+[node name="Hp" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 27.0
+offset_top = 76.0
+offset_right = 241.0
+offset_bottom = 191.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "HP 20/20"
+scroll_active = false
+
+[node name="Stats" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 27.0
+offset_top = 126.0
+offset_right = 241.0
+offset_bottom = 241.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "AT 10(0)
+DF 10(0)"
+scroll_active = false
+
+[node name="Equipment" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 27.0
+offset_top = 194.0
+offset_right = 352.0
+offset_bottom = 309.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "WEAPON: Toy Gun
+Armor: Worn Hat"
+scroll_active = false
+
+[node name="Gold" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 27.0
+offset_top = 336.0
+offset_right = 352.0
+offset_bottom = 451.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "GOLD: 0"
+scroll_active = false
+
+[node name="Lv" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 214.0
+offset_top = 36.0
+offset_right = 428.0
+offset_bottom = 151.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "LV 1"
+scroll_active = false
+
+[node name="Exp" type="RichTextLabel" parent="Control/StatAndOptions/Detailed"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 174.0
+offset_top = 126.0
+offset_right = 388.0
+offset_bottom = 241.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "EXP 0
+"
+scroll_active = false
+
+[node name="Items" type="NinePatchRect" parent="Control/StatAndOptions"]
+visible = false
+clip_contents = true
+layout_mode = 0
+offset_left = 154.0
+offset_right = 486.0
+offset_bottom = 332.0
+texture = ExtResource("1_hat5n")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+script = ExtResource("3_elx3o")
+grow_mode = 1
+
+[node name="Panel" type="Panel" parent="Control/StatAndOptions/Items"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q71g6")
+
+[node name="Items" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 44.0
+offset_top = 25.0
+offset_right = 339.0
+offset_bottom = 284.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "Monster Candy
+Monster Candy
+Monster Candy
+Monster Candy
+Amongus
+Amongus
+Amongus
+Amongus"
+scroll_active = false
+
+[node name="Use" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 44.0
+offset_top = 285.0
+offset_right = 339.0
+offset_bottom = 318.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "USE"
+scroll_active = false
+
+[node name="Info" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 134.0
+offset_top = 285.0
+offset_right = 429.0
+offset_bottom = 318.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "INFO"
+scroll_active = false
+
+[node name="Drop" type="RichTextLabel" parent="Control/StatAndOptions/Items"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 234.0
+offset_top = 285.0
+offset_right = 529.0
+offset_bottom = 318.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "DROP"
+scroll_active = false
+
+[node name="Cells" type="NinePatchRect" parent="Control/StatAndOptions"]
+visible = false
+clip_contents = true
+layout_mode = 0
+offset_left = 154.0
+offset_right = 486.0
+offset_bottom = 332.0
+texture = ExtResource("1_hat5n")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+script = ExtResource("3_elx3o")
+grow_mode = 1
+
+[node name="Panel" type="Panel" parent="Control/StatAndOptions/Cells"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q71g6")
+
+[node name="Numbers" type="RichTextLabel" parent="Control/StatAndOptions/Cells"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 44.0
+offset_top = 25.0
+offset_right = 339.0
+offset_bottom = 284.0
+theme = ExtResource("2_40sjh")
+bbcode_enabled = true
+text = "Toriel's Phone"
+scroll_active = false
+
+[node name="Soul" type="Sprite2D" parent="Control/StatAndOptions"]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(36, 150)
+texture = ExtResource("5_hqak4")
+
+[node name="Ghost" type="GPUParticles2D" parent="Control/StatAndOptions/Soul"]
+show_behind_parent = true
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_2in6k")
+texture = ExtResource("5_hqak4")
+lifetime = 0.5
+one_shot = true
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_4hnhj")
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_nv2n8")

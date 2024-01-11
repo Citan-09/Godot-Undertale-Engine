@@ -1,0 +1,125 @@
+[gd_scene load_steps=11 format=3 uid="uid://llwvcsnw2bb4"]
+
+[ext_resource type="Script" path="res://Menus/settings.gd" id="1_vaq82"]
+[ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Battle/Box/box.png" id="2_0d74t"]
+[ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="2_7ljl4"]
+[ext_resource type="Texture2D" uid="uid://ck1wb2qlndn4h" path="res://Battle/Soul/soulborder.png" id="4_bc3tt"]
+[ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="5_caqbe"]
+[ext_resource type="Theme" uid="uid://bevcq3qnk3n8h" path="res://Battle/hud.tres" id="5_nhp2e"]
+[ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="6_3gipu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s6k4h"]
+bg_color = Color(0, 0, 0, 0.705882)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mp0dj"]
+shader = ExtResource("2_7ljl4")
+shader_parameter/lod = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eoqxj"]
+bg_color = Color(0, 0, 0, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[node name="Settings" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -640.0
+offset_top = -480.0
+offset_right = 640.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(60, 8)
+mouse_filter = 1
+script = ExtResource("1_vaq82")
+time = 0.7
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s6k4h")
+
+[node name="Blur" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_mp0dj")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 480.0
+offset_right = 937.0
+offset_bottom = 769.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_eoqxj")
+
+[node name="Soul" type="Sprite2D" parent="MarginContainer"]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(43, 204)
+texture = ExtResource("4_bc3tt")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_0d74t")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("5_nhp2e")
+theme_override_constants/line_separation = 5
+bbcode_enabled = true
+text = "Volume Settings[ul bullet=*]
+SFX: 100%
+MUSIC: 100%
+MISC: 100%[/ul]
+
+Video Settings
+[ul bullet=*]VFX: ENABLED"
+scroll_active = false
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_caqbe")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_3gipu")
+bus = &"SFX"

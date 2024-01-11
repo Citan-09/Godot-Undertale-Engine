@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://rir536q3wyxx"]
+
+[ext_resource type="Script" path="res://Overworld/overworld_room_loader.gd" id="1_gs3ci"]
+
+[node name="OverworldRoomLoader" type="Node"]
+script = ExtResource("1_gs3ci")

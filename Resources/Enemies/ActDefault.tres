@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Act" load_steps=2 format=3 uid="uid://b6j0wjdo2hrdc"]
+
+[ext_resource type="Script" path="res://Resources/Enemies/Act.gd" id="1_nmcvn"]
+
+[resource]
+script = ExtResource("1_nmcvn")
+Acts = "check"
+Description = ["* THE AMONGUS - ATK 120 DEF -40 
+* The strongest yet weakest enemy."]

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ciy8u2lvhf1qn"]
+
+[ext_resource type="Script" path="res://Battle/Bullets/Bullet_Circle.gd" id="1_gc401"]
+[ext_resource type="AudioStream" uid="uid://cvpctvfr30ycb" path="res://sfx/mus_sfx_a_bullet.wav" id="2_l0pvr"]
+
+[node name="Bullet_Circle" type="Node2D"]
+script = ExtResource("1_gc401")
+
+[node name="Spawn_Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_l0pvr")
+volume_db = -4.0
+bus = &"SFX"
+
+[node name="Bullets" type="Node2D" parent="."]
