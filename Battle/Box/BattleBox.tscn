@@ -1,35 +1,29 @@
-[gd_scene load_steps=18 format=3 uid="uid://3mahpp3h1cx4"]
+[gd_scene load_steps=15 format=3 uid="uid://3mahpp3h1cx4"]
 
 [ext_resource type="Script" path="res://Battle/Box/BattleBox.gd" id="1_htnbd"]
 [ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Battle/Box/box.png" id="2_yeh64"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="3_f5ep8"]
+[ext_resource type="Texture2D" uid="uid://dv5qlp31seevi" path="res://Battle/Box/Scroll/dot.png" id="4_45je1"]
+[ext_resource type="Script" path="res://Battle/Box/item_slider.gd" id="4_g7bet"]
 [ext_resource type="Script" path="res://Battle/Box/Blitter.gd" id="4_shawu"]
+[ext_resource type="Texture2D" uid="uid://b3pb3kl0aoiun" path="res://Battle/Box/Scroll/dot_bg.png" id="5_4buhi"]
 [ext_resource type="AudioStream" uid="uid://bp5oyjspngmp2" path="res://sfx/Clicks/generic2.wav" id="5_61718"]
+[ext_resource type="Texture2D" uid="uid://b6p847lcrjfx3" path="res://Battle/Box/Scroll/arrow.png" id="5_dmagr"]
 [ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="7_u3o5n"]
 [ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="8_wdevt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s5f7x"]
 bg_color = Color(0, 0, 0, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yiolc"]
 size = Vector2(580, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p27oi"]
 size = Vector2(150, 10)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7nto5"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0vlgv"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1xsol"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v40bn"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0mu0e"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g2kr3"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lsvy0"]
 
 [node name="BattleBox" type="Control"]
 layout_mode = 3
@@ -56,14 +50,7 @@ metadata/_edit_group_ = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_s5f7x")
 
-[node name="BoxContainer2" type="MarginContainer" parent="BoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="NinePatchRect" type="NinePatchRect" parent="BoxContainer/BoxContainer2"]
+[node name="NinePatchRect" type="NinePatchRect" parent="BoxContainer"]
 layout_mode = 2
 texture = ExtResource("2_yeh64")
 patch_margin_left = 7
@@ -109,7 +96,7 @@ grow_vertical = 2
 theme_override_constants/margin_left = 44
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 10
 metadata/_edit_group_ = true
 
 [node name="Options" type="SplitContainer" parent="Acts"]
@@ -144,72 +131,84 @@ grow_vertical = 2
 theme_override_constants/margin_left = 44
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 10
 metadata/_edit_group_ = true
 
-[node name="Page" type="RichTextLabel" parent="Items"]
-custom_minimum_size = Vector2(245, 0)
+[node name="TextContainer" type="MarginContainer" parent="Items"]
 layout_mode = 2
-theme = ExtResource("3_f5ep8")
-theme_override_constants/line_separation = 5
-bbcode_enabled = true
-text = "
+theme_override_constants/margin_bottom = 24
 
-							 Page 1"
-scroll_active = false
-
-[node name="TabContainer" type="TabContainer" parent="Items"]
-layout_mode = 2
-theme = ExtResource("3_f5ep8")
-theme_override_styles/tab_selected = SubResource("StyleBoxEmpty_7nto5")
-theme_override_styles/tab_hovered = SubResource("StyleBoxEmpty_0vlgv")
-theme_override_styles/tab_unselected = SubResource("StyleBoxEmpty_1xsol")
-theme_override_styles/tab_disabled = SubResource("StyleBoxEmpty_v40bn")
-theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_0mu0e")
-theme_override_styles/panel = SubResource("StyleBoxEmpty_g2kr3")
-theme_override_styles/tabbar_background = SubResource("StyleBoxEmpty_lsvy0")
-tabs_visible = false
-
-[node name="Page1" type="SplitContainer" parent="Items/TabContainer"]
-layout_mode = 2
-split_offset = 245
-
-[node name="Column1" type="RichTextLabel" parent="Items/TabContainer/Page1"]
+[node name="Items" type="RichTextLabel" parent="Items/TextContainer"]
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
 bbcode_enabled = true
 text = "[ul bullet=*]Item 1
-Item 2"
-scroll_active = false
-
-[node name="Column2" type="RichTextLabel" parent="Items/TabContainer/Page1"]
-layout_mode = 2
-theme = ExtResource("3_f5ep8")
-bbcode_enabled = true
-text = "[ul bullet=*]Item 3
-Item 4"
-scroll_active = false
-
-[node name="Page2" type="SplitContainer" parent="Items/TabContainer"]
-visible = false
-layout_mode = 2
-split_offset = 245
-
-[node name="Column1" type="RichTextLabel" parent="Items/TabContainer/Page2"]
-layout_mode = 2
-theme = ExtResource("3_f5ep8")
-bbcode_enabled = true
-text = "[ul bullet=*]Item 5
-Item 6"
-scroll_active = false
-
-[node name="Column2" type="RichTextLabel" parent="Items/TabContainer/Page2"]
-layout_mode = 2
-theme = ExtResource("3_f5ep8")
-bbcode_enabled = true
-text = "[ul bullet=*]Item 7
+Item 2
+Item 3
+Item 4
+Item 5
+Item 6
+Item 7
 Item 8"
 scroll_active = false
+
+[node name="ScrollContainer" type="MarginContainer" parent="Items"]
+layout_mode = 2
+theme_override_constants/margin_left = 443
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 660
+theme_override_constants/margin_bottom = 55
+
+[node name="Slider" type="Control" parent="Items/ScrollContainer"]
+self_modulate = Color(1, 1, 1, 0.52549)
+layout_mode = 2
+script = ExtResource("4_g7bet")
+offset = -7.0
+step_size = 10.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Grabber" type="TextureRect" parent="Items/ScrollContainer/Slider"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = -6.5
+offset_right = 19.0
+offset_bottom = 17.5
+texture = ExtResource("4_45je1")
+stretch_mode = 2
+
+[node name="TextureRect" type="NinePatchRect" parent="Items/ScrollContainer/Slider"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_right = 0.75
+anchor_bottom = 1.0
+offset_right = 4.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_4buhi")
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
+[node name="ArrowDown" type="TextureRect" parent="Items/ScrollContainer/Slider"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 18.0
+offset_top = 97.0
+offset_right = 34.0
+offset_bottom = 113.0
+rotation = 3.14159
+texture = ExtResource("5_dmagr")
+
+[node name="ArrowTop" type="TextureRect" parent="Items/ScrollContainer/Slider"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = -19.0
+offset_right = 18.0
+offset_bottom = -3.0
+texture = ExtResource("5_dmagr")
 
 [node name="Target" type="MarginContainer" parent="."]
 visible = false
@@ -223,7 +222,7 @@ grow_vertical = 2
 theme_override_constants/margin_left = 44
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 10
 metadata/_edit_group_ = true
 
 [node name="Targets" type="RichTextLabel" parent="Target"]
@@ -248,7 +247,7 @@ grow_vertical = 2
 theme_override_constants/margin_left = 44
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 10
 metadata/_edit_group_ = true
 
 [node name="Choices" type="RichTextLabel" parent="Mercy"]
@@ -269,7 +268,7 @@ offset_bottom = 394.0
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 10
 metadata/_edit_group_ = true
 
 [node name="Text" type="RichTextLabel" parent="Blitter"]

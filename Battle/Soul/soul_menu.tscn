@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://d0k0xvw728ly7" path="res://sfx/soul_changemode.wav" id="7_30xx6"]
 [ext_resource type="AudioStream" uid="uid://dsid8nuan7lku" path="res://sfx/player_hurt.wav" id="8_p8os4"]
 [ext_resource type="AudioStream" uid="uid://cbt3hmek1bq26" path="res://sfx/soul_snap.wav" id="9_t7ecr"]
-[ext_resource type="AudioStream" uid="uid://bc8nv2lgl82oe" path="res://sfx/snd_shatter.wav" id="10_svf2n"]
+[ext_resource type="AudioStream" uid="uid://bc8nv2lgl82oe" path="res://sfx/soul_shatter.wav" id="10_axih7"]
 [ext_resource type="AudioStream" uid="uid://dx5o1v0ulqlvx" path="res://sfx/impact_wallhit.wav" id="11_1sdc2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_i5wdk"]
@@ -101,7 +101,7 @@ stream = ExtResource("9_t7ecr")
 bus = &"SFX"
 
 [node name="Shatter" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("10_svf2n")
+stream = ExtResource("10_axih7")
 bus = &"SFX"
 
 [node name="Wallhit" type="AudioStreamPlayer" parent="."]

@@ -42,10 +42,11 @@ var mercychoice = 0
 var currenttarget = 0
 var button_choice = 0
 var soulposition := Vector2i(0,0)
-var choicesextends = Vector2(2,3)
+var choicesextends := [1,1,1,1,1,1]
 var history = [[null,null],[null,null],[null,null],[null,null]]
 var ActionMemory = [state.Disabled]
 
+const itemsize = 1
 ##STATS
 var enemies :Array[Node] = []
 
@@ -70,7 +71,9 @@ func set_mercy_options():
 	for i in main.encounter.mercy_options.size():
 		txt += main.encounter.mercy_options[i] + "\n"
 	$Mercy/Choices.text = txt
-	choicesextends = Vector2(1,main.encounter.mercy_options.size())
+	choicesextends.resize(main.encounter.mercy_options.size())
+	choicesextends.fill(1)
+
 enum state{
 	Disabled = 0,
 	Blittering = 1,
@@ -83,14 +86,30 @@ enum state{
 func soulpostoid(soulpos:Vector2,x_limit = 2) -> int:
 	return soulpos.y*x_limit + soulpos.x
 
-func idtosoulpos(id:int,x_limit = 2) -> Vector2:
-	return Vector2(max(id/float(x_limit),1), max(x_limit-id % x_limit,1))
+func idtosoulpos(id:int,x_limit :int = 2) -> Array:
+	var x = []
+	while id > 0:
+		if id - x_limit > 0:
+			id -= x_limit
+			x.append(x_limit)
+		else:
+			x.append(id)
+			id = 0
+	return x
 
 func _ready() -> void:
 	_physics_process(0.0)
-	change_anchor(RELATIVE_TOP_LEFT,Vector2(28,246),Vector2(584,148),false,false,0.01)
 	Blitter.show()
 	Blittertext.text = ""
+	anchor_targets[0] = Vector2(container.get("theme_override_constants/margin_left"),container.get("theme_override_constants/margin_top"))
+	anchor_targets[1] = Vector2(640,480) - Vector2(container.get("theme_override_constants/margin_right"),container.get("theme_override_constants/margin_bottom"))
+	defanchors = anchor_targets
+
+var defanchors = []
+func reset_box():
+	anchor_targets = defanchors
+	TweenSize(Duration)
+
 
 func _physics_process(delta: float) -> void:
 	var current_size = Vector2(640,480) - Vector2(container.get("theme_override_constants/margin_right"),container.get("theme_override_constants/margin_bottom")) - Vector2(container.get("theme_override_constants/margin_left"),container.get("theme_override_constants/margin_top"))
@@ -100,10 +119,10 @@ func _physics_process(delta: float) -> void:
 	collisions[0].shape.size.y = colsize
 	collisions[2].shape.size.y = colsize
 	
-	collisions[0].position = Vector2(cornerpositions[0].x + current_size.x/2.0 ,cornerpositions[0].y - (colsize/2.0 - 9.5))
-	collisions[1].position = Vector2(cornerpositions[0].x + current_size.x/2.0 ,cornerpositions[1].y + (colsize/2.0 - 9.5))
-	collisions[2].position = Vector2(cornerpositions[0].x - (colsize/2.0 - 9.5),cornerpositions[0].y + current_size.y/2.0)
-	collisions[3].position = Vector2(cornerpositions[1].x + (colsize/2.0 - 9.5),cornerpositions[0].y + current_size.y/2.0)
+	collisions[0].position = Vector2(cornerpositions[0].x + current_size.x/2.0 ,cornerpositions[0].y - (colsize/2.0 - 5.5))
+	collisions[1].position = Vector2(cornerpositions[0].x + current_size.x/2.0 ,cornerpositions[1].y + (colsize/2.0 - 5.5))
+	collisions[2].position = Vector2(cornerpositions[0].x - (colsize/2.0 - 5.5),cornerpositions[0].y + current_size.y/2.0)
+	collisions[3].position = Vector2(cornerpositions[1].x + (colsize/2.0 - 5.5),cornerpositions[0].y + current_size.y/2.0)
 
 func returnitempage(pagenumber:int):
 	var items:Array
@@ -135,29 +154,14 @@ func setoptions():
 	$Acts/Options/Column2.text = actsp2
 
 func setitems():
-	var items = []
+	var items :PackedStringArray = []
 	for i in Global.items.size():
-		items.append(Global.item_list[Global.items[i]].item_name)
-	var itemsp1 = "[ul bullet=*]"
-	var itemsp2 = "[ul bullet=*]"
-	var itemsp3 = "[ul bullet=*]"
-	var itemsp4 = "[ul bullet=*]"
-	for i in items.size():
-		if i < 4:
-			if i % 2 ==0:
-				itemsp1 += items[i]+"\n"
-			else:
-				itemsp2 += items[i]+"\n"
-		else:
-			if i % 2 ==0:
-				itemsp3 += items[i]+"\n"
-			else:
-				itemsp4 += items[i]+"\n"
-	$Items/TabContainer/Page1/Column1.text = itemsp1
-	$Items/TabContainer/Page1/Column2.text = itemsp2
-	$Items/TabContainer/Page2/Column1.text = itemsp3
-	$Items/TabContainer/Page2/Column2.text = itemsp4
-	$Items/Page.text = "\n\n							 Page %s" % [$Items/TabContainer.current_tab+1]
+		items.append(Global.item_list[Global.items[i]].item_name + "\n")
+	items = items.slice(soulposition.y,soulposition.y+3)
+	$Items/ScrollContainer/Slider.value = soulposition.y
+	choicesextends.resize(Global.items.size())
+	choicesextends.fill(1)
+	$Items/TextContainer/Items.text = "[ul bullet=*]" + "".join(items)
 
 #region OptionsSelecting
 func _on_use_button(choice:int):
@@ -168,7 +172,11 @@ func _on_use_button(choice:int):
 		1:
 			ActionMemory.append(state.TargetEnemy)
 		2:
-			ActionMemory.append(state.Iteming)
+			if Global.items:
+				ActionMemory.append(state.Iteming)
+			else:
+				emit_signal("movetobuttons")
+				return
 		3:
 			ActionMemory.append(state.Mercying)
 			set_mercy_options()
@@ -191,11 +199,10 @@ func backout(steps: int):
 func refresh_options(append_action = null):
 	match append_action if append_action != null else ActionMemory.back():
 		state.TargetEnemy:
-			choicesextends = Vector2(1,enemies.size())
+			choicesextends.resize(enemies.size())
+			choicesextends.fill(1)
 		state.Iteming:
 			setitems()
-			$Items/TabContainer.current_tab = floor(soulposition.x/ 2.0)
-			choicesextends = idtosoulpos(Global.items.size())
 	if append_action != null:
 		ActionMemory.append(append_action)
 		if history[button_choice][0] and (ActionMemory.back() == state.TargetEnemy or ActionMemory.back() == state.Iteming):
@@ -203,12 +210,13 @@ func refresh_options(append_action = null):
 		elif history[button_choice][1] and ActionMemory.back() != state.Disabled and ActionMemory.back() != state.Blittering:
 			soulposition = history[button_choice][1]
 		soul_choice(Vector2i.ZERO)
-	var willrefresh :bool = soulposition.x > choicesextends.x-1 or soulposition.y > choicesextends.y-1
+	var willrefresh :bool = soulposition.y > choicesextends.size() or soulposition.x > choicesextends[clamp(soulposition.y,0,max(choicesextends.size()-1,0))]-1
 	if willrefresh:
-		while soulposition.x > choicesextends.x-1:
-			soulposition.x -= 1
-		while soulposition.y > choicesextends.y-1:
+		print(soulposition)
+		while soulposition.y > choicesextends.size() - 1:
 			soulposition.y -= 1
+		while soulposition.x > choicesextends[min(soulposition.y,choicesextends.size()-1)] - 1:
+			soulposition.x -= 1
 		soul_choice(Vector2i.ZERO)
 	for i in Texts:
 		i.hide()
@@ -241,7 +249,6 @@ func _unhandled_input(event: InputEvent) -> void:
 						1:
 							refresh_options(state.Blittering)
 							emit_signal("exitmenu")
-							print(soulpostoid(soulposition))
 							Blittertext.typetext(enemies[currenttarget].get_act_info(soulpostoid(soulposition)).Description)
 						2:
 							if Blittertext.visibletween.is_valid():await Blittertext.finishedalltexts
@@ -267,6 +274,7 @@ func _unhandled_input(event: InputEvent) -> void:
 							refresh_options(state.Blittering)
 							emit_signal("exitmenu")
 							Blittertext.typetext(Global.item_use_text(soulpostoid(soulposition)))
+							Global.items.remove_at(soulpostoid(soulposition))
 						3:
 							emit_signal("exitmenu")
 							mercychoice = soulpostoid(soulposition,1)
@@ -282,13 +290,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				history[button_choice][1] = soulposition
 				backout(1)
 		if event.is_action_pressed("ui_down") and ActionMemory.size()>1:
-			if soulposition.y < choicesextends.y-1:
+			if soulposition.y < choicesextends.size() - 1:
 				soul_choice(Vector2i.DOWN)
 		if event.is_action_pressed("ui_left") and ActionMemory.size()>1:
 			if soulposition.x > 0:
 				soul_choice(Vector2i.LEFT)
 		if event.is_action_pressed("ui_right") and ActionMemory.size()>1:
-			if soulposition.x < choicesextends.x-1:
+			if soulposition.x < choicesextends[soulposition.y] - 1:
 				soul_choice(Vector2i.RIGHT)
 		if event.is_action_pressed("ui_up") and ActionMemory.size()>1:
 			if soulposition.y > 0:
@@ -299,7 +307,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func soul_choice(action: Vector2i):
 	if ActionMemory.back() != state.Blittering:
 		soulposition += action
-		emit_signal("movesoul",options_pos_base+ options_pos_step * Vector2(soulposition.x % 2, soulposition.y % 3))
+		if ActionMemory.back() == state.Iteming:
+			emit_signal("movesoul",options_pos_base+ options_pos_step * Vector2(soulposition.x, soulposition.y % itemsize))
+		else:
+			emit_signal("movesoul",options_pos_base+ options_pos_step * Vector2(soulposition.x, soulposition.y))
 		if action != Vector2i.ZERO: $Sounds/choice.play()
 #endregion
 #region Manual Size Changers

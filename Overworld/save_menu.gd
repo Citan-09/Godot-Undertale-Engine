@@ -3,8 +3,12 @@ extends CanvasLayer
 @onready var defsize = $Control.size
 var soulpos :int = 0
 var saved := false
+@onready var sc = get_tree().current_scene
+
+signal _on_saved
+
 func _ready():
-	var sc = get_tree().current_scene
+	_on_saved.connect(get_tree().current_scene._on_saved)
 	if "world_name" in sc:
 		$Control/Texts/Location.text = sc.world_name
 	else:
@@ -33,6 +37,7 @@ func _unhandled_input(event):
 				await _hide()
 				queue_free()
 			else:
+				_on_saved.emit()
 				saved = true
 				$Control/Options/Return.hide()
 				$Control/Options/Save.text = "[color=yellow]Saved."
@@ -53,6 +58,10 @@ func refresh():
 	$Control/Texts/Lv.text = "LV%s" % [Global.player_lv]
 	var timetext =  Time.get_time_string_from_unix_time(Global.cache_playtime)
 	$Control/Texts/Time.text = timetext
+	if "world_name" in sc:
+		Global.overworld_data["room_name"] = sc.world_name
+	else:
+		Global.overworld_data["room_name"] = "ROOM HAS NO NAME."
 
 func _show():
 	Global.player_in_menu = true

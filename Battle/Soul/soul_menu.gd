@@ -32,9 +32,9 @@ func _on_movesoul(newpos: Vector2) -> void:
 	if is_inside_tree():
 		movetween = get_tree().create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT).set_parallel()
 	if movetween and movetween.is_valid():
-		movetween.tween_property(self,"scale",Vector2.ZERO,time)
+		movetween.tween_property(self,"scale",Vector2.ZERO,0.01)
 		movetween.chain().tween_callback(set_position.bind(newpos))
-		movetween.tween_property(self,"scale",Vector2.ONE,time)
+		movetween.tween_property(self,"scale",Vector2.ONE,time*2)
 	
 
 

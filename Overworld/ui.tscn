@@ -395,6 +395,8 @@ one_shot = true
 
 [node name="choice" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_4hnhj")
+bus = &"SFX"
 
 [node name="select" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_nv2n8")
+bus = &"SFX"

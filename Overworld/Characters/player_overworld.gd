@@ -40,7 +40,7 @@ func _physics_process(delta):
 		velocity.x = direction.x * walk_speed * walk_speed_modifier
 		velocity.y = direction.y * walk_speed * walk_speed_modifier
 		move_and_slide()
-		Global.player_position = get_global_transform_with_canvas().origin + Vector2(0,-7)
+		Global.player_position = get_global_transform_with_canvas().origin + Vector2(0,-15)
 	interactables.clear()
 	for area in InteracterArea.get_overlapping_areas():
 		if area.is_in_group("interactable"):
@@ -63,6 +63,22 @@ func setdirection():
 			$Timer.stop()
 			$Timer.start()
 			_on_timer_timeout()
+			if direction:
+				match direction.x:
+					1.0:
+						current_animation = walk_anims[2]
+						Sprite.flip_h = true
+					-1.0:
+						current_animation = walk_anims[2]
+						Sprite.flip_h = false
+				match direction.y:
+					1.0:
+						current_animation = walk_anims[0]
+						Sprite.flip_h = false
+					-1.0:
+						current_animation = walk_anims[1]
+						Sprite.flip_h = false
+				Sprite.frame = current_animation[0] + int(shadow) * 4
 
 var moving := false
 

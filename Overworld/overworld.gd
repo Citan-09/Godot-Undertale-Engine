@@ -9,13 +9,20 @@ class_name Overworld
 
 var text_box = preload("res://Overworld/text_box.tscn")
 
+func _on_saved():
+	Global.overworld_data["room_pos"] = [Player.global_position.x,Player.global_position.y]
+
+
 func _notification(what):
 	if what == NOTIFICATION_READY:
 		Camera.blinder.modulate.a = 1
 		Camera.blind(0.5,0)
+		if Global.overworld_data["room_pos"] != [0.0,0.0]:
+			Player.global_position = Vector2(Global.overworld_data["room_pos"][0],Global.overworld_data["room_pos"][1])
 		if Global.overworld_temp_data["global_position"]:
 			Player.global_position =  Global.overworld_temp_data["global_position"]
 			Global.overworld_temp_data["global_position"] = Vector2.ZERO
+			
 
 func summontextbox() -> TextBox:
 	var clone = text_box.instantiate()

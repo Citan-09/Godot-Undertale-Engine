@@ -347,12 +347,12 @@ InteractPosy = {
 }
 
 [node name="BottomCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.5)
+position = Vector2(0, -2.5)
 shape = SubResource("RectangleShape2D_pbnmf")
 debug_color = Color(1, 1, 1, 0.419608)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -13)
+position = Vector2(0, -15)
 sprite_frames = SubResource("SpriteFrames_ex77f")
 animation = &"walks_ut"
 
@@ -361,7 +361,7 @@ wait_time = 0.2
 autostart = true
 
 [node name="Interacter" type="Area2D" parent="." groups=["interaction"]]
-position = Vector2(0, -16)
+position = Vector2(0, -18)
 
 [node name="Collision" type="CollisionShape2D" parent="Interacter"]
 shape = SubResource("RectangleShape2D_3j44q")

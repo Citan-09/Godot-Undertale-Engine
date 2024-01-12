@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://dggr74u132cr4"]
+
+[ext_resource type="Script" path="res://Battle/Death/death_screen.gd" id="1_tng4c"]
+[ext_resource type="PackedScene" uid="uid://dleuqhnhqqffc" path="res://Battle/Death/death_soul.tscn" id="2_kpjqu"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="3_41erg"]
+[ext_resource type="AudioStream" uid="uid://dsid8nuan7lku" path="res://sfx/player_hurt.wav" id="4_cfkwu"]
+
+[node name="DeathScreen" type="Node2D"]
+script = ExtResource("1_tng4c")
+
+[node name="DeathSoul" parent="." instance=ExtResource("2_kpjqu")]
+camera_path = NodePath("../Camera")
+
+[node name="Camera" parent="." instance=ExtResource("3_41erg")]
+z_index = 10
+position = Vector2(320, 240)
+
+[node name="hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_cfkwu")
+bus = &"SFX"

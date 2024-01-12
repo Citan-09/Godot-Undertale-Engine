@@ -12,7 +12,7 @@ config_version=5
 
 config/name="UndertalEngine"
 config/description="The thing"
-run/main_scene="res://Overworld/overworld_room_loader.tscn"
+run/main_scene="res://Intro/intro.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 run/max_fps=60
 boot_splash/bg_color=Color(0, 0, 0, 1)
@@ -27,9 +27,9 @@ MusicController="*res://Musics/music_controller.tscn"
 
 window/size/viewport_width=640
 window/size/viewport_height=480
-window/size/resizable=false
 window/size/always_on_top=true
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 
 [editor_plugins]
 

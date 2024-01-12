@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0rqftd7dm3vs"
-path="res://.godot/imported/bar_two.png-e85fb0cc02258055aee60eba8a824c51.ctex"
+uid="uid://chgl8k0rmbwhy"
+path="res://.godot/imported/spr_heartshards_1.png-bdee73b6a7f0d23a9a47bf01ed18eb65.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Battle/AttackMeter/bar_two.png"
-dest_files=["res://.godot/imported/bar_two.png-e85fb0cc02258055aee60eba8a824c51.ctex"]
+source_file="res://Battle/Death/spr_heartshards_1.png"
+dest_files=["res://.godot/imported/spr_heartshards_1.png-bdee73b6a7f0d23a9a47bf01ed18eb65.ctex"]
 
 [params]
 

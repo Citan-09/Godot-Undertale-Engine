@@ -12,6 +12,7 @@ class_name Item
 @export_multiline var use_message :PackedStringArray = ["* You used the Item!"]
 @export_multiline var item_information :PackedStringArray = ["* Item - Heals 0 hp \n* This means this item has no description or is the default item."]
 @export_multiline var throw_message :PackedStringArray = ["* You threw the Item!"]
+@export_group("","")
 @export var heal_amount :int = 0
 @export var attack_amount :int = 0
 @export var defense_amount :int = 0

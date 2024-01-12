@@ -18,7 +18,6 @@ var gravity_direction := Vector2.DOWN
 @onready var sprites = $Sprite
 @onready var ghost = $Sprite/Ghost
 @onready var mode_change = $Ding
-@onready var Camera = $/root/main/Camera
 @onready var Main = $/root/main
 @onready var hurtsound = $Hurt
 @onready var Area = $Area2D
@@ -45,6 +44,7 @@ var iframes = 0.0
 var invulnerable = false
 var overlapping_areas = []
 
+signal shake_camera(amt:float)
 func _ready() -> void:
 	modulate.a = 0
 	set_physics_process(false)
@@ -120,7 +120,12 @@ func hurt(area):
 		Global.player_kr += area.kr
 	if Global.player_kr >= Global.player_hp:
 		Global.player_kr = max(Global.player_hp -1,0)
+	if Global.player_hp < 0 and !Global.debugmode:
+		Global.player_position = get_global_transform_with_canvas().origin
+		get_tree().change_scene_to_file("res://Battle/Death/death_screen.tscn")
+		return
 	hurtsound.play()
+	
 	
 func heal(area):
 	hiframes = 1
@@ -174,7 +179,7 @@ func red(delta):
 	velocity.x = speed * ( inputlist[0] - inputlist[1] )/slow_down
 	velocity.y = speed * ( inputlist[3] - inputlist[2] )/slow_down
 	move_and_slide()
-	Global.player_position = get_global_transform_with_canvas().origin
+
 
 func blue(delta):
 	up_direction = gravity_direction * -1
@@ -225,7 +230,7 @@ func blue(delta):
 		if gravity_multiplier > 1.0:
 			gravity_multiplier = 1.0
 			$Wallhit.play()
-			Camera.addshake(0.8)
+			shake_camera.emit(0.8)
 		if inputlist[2]:
 			motion.y = -jump[3]
 	else:

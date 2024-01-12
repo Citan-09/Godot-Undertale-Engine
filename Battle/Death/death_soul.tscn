@@ -1,0 +1,67 @@
+[gd_scene load_steps=12 format=3 uid="uid://dleuqhnhqqffc"]
+
+[ext_resource type="Texture2D" uid="uid://fxh0hyyct3b7" path="res://Battle/Soul/crack.png" id="1_5yllq"]
+[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="2_q2i28"]
+[ext_resource type="Texture2D" uid="uid://dfxw3k4vh32pd" path="res://Battle/Soul/soul_u.png" id="3_o0qiy"]
+[ext_resource type="Texture2D" uid="uid://dhl5vkc26cxqe" path="res://Battle/Soul/soul_l.png" id="4_wvp7o"]
+[ext_resource type="Texture2D" uid="uid://dmb72f6ef0qvr" path="res://Battle/Soul/soul_r.png" id="5_qkyxu"]
+[ext_resource type="Script" path="res://DeathSoul.gd" id="6_0dfyh"]
+[ext_resource type="AudioStream" uid="uid://cbt3hmek1bq26" path="res://sfx/soul_snap.wav" id="8_1y2lf"]
+[ext_resource type="AudioStream" uid="uid://bc8nv2lgl82oe" path="res://sfx/soul_shatter.wav" id="9_6pwoj"]
+[ext_resource type="Texture2D" uid="uid://ch278nywihhx8" path="res://Battle/Death/heart_shards_animated_texture.tres" id="9_gwxdv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sgg3o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5yllq")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_q2i28")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_o0qiy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_wvp7o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_qkyxu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ebjb8"]
+particle_flag_disable_z = true
+spread = 110.455
+initial_velocity_min = 272.73
+initial_velocity_max = 272.73
+gravity = Vector3(0, 98, 0)
+
+[node name="DeathSoul" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_sgg3o")
+script = ExtResource("6_0dfyh")
+
+[node name="snap" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_1y2lf")
+bus = &"SFX"
+
+[node name="shatter" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_6pwoj")
+bus = &"SFX"
+
+[node name="shards" type="GPUParticles2D" parent="."]
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_ebjb8")
+texture = ExtResource("9_gwxdv")
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2(-8, -8, 16, 16)

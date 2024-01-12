@@ -129,19 +129,18 @@ animations = [{
 
 [node name="Sans" type="CharacterBody2D" groups=["sans"]]
 y_sort_enabled = true
-position = Vector2(63, 30)
 slide_on_ceiling = false
 wall_min_slide_angle = 0.785398
 platform_on_leave = 2
 script = ExtResource("1_4tjdc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1.5)
+position = Vector2(0, -2.5)
 shape = SubResource("RectangleShape2D_bdrqj")
 debug_color = Color(1, 1, 1, 0.419608)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -14)
+position = Vector2(0, -15)
 sprite_frames = SubResource("SpriteFrames_c51cd")
 
 [node name="Timer" type="Timer" parent="."]
@@ -149,7 +148,7 @@ wait_time = 0.25
 autostart = true
 
 [node name="Area" parent="." instance=ExtResource("3_mi26t")]
-position = Vector2(0, -8)
+position = Vector2(0, -9)
 scale = Vector2(0.983261, 0.774621)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

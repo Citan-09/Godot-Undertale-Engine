@@ -49,7 +49,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				t.tween_property(self,"modulate:r",0,time/2)
 				t.tween_property(self,"modulate:g",0.8,time/2)
 		else:
-			t.tween_property(self,"modulate:a",0,time).set_delay(1)
+			t.tween_property(self,"modulate:a",0,time/2).set_delay(1.5)
 			play("glow")
 			if bar_number != 1:
 				$Slashes.play("slash")

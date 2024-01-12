@@ -114,6 +114,7 @@ func _write_options():
 	$Control/StatAndOptions/Options/Options.text = txt
 
 func _set_overview():
+	$Control/StatAndOptions/Stats/Name.text = Global.player_name
 	$Control/StatAndOptions/Stats/Stats.text = "LV %s\nHP %s/%s\nG   %s" % [Global.player_lv,Global.player_hp,Global.player_max_hp,Global.player_gold]
 
 func _set_detailed():

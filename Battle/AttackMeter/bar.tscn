@@ -1,21 +1,28 @@
-[gd_scene load_steps=17 format=3 uid="uid://e4mlmtm3prrv"]
+[gd_scene load_steps=18 format=3 uid="uid://e4mlmtm3prrv"]
 
-[ext_resource type="Texture2D" uid="uid://ctjtqmp3y0jp" path="res://Battle/AttackMeter/bar_one.png" id="1_l238h"]
-[ext_resource type="Texture2D" uid="uid://c0rqftd7dm3vs" path="res://Battle/AttackMeter/bar_two.png" id="2_x7e6d"]
+[ext_resource type="Texture2D" uid="uid://ct6ntajwcqflg" path="res://Battle/AttackMeter/bars.png" id="1_uqwy5"]
 [ext_resource type="Script" path="res://Battle/AttackMeter/bar.gd" id="3_ndgql"]
 [ext_resource type="AudioStream" uid="uid://bx642qft7tf7o" path="res://Battle/Slashes/Gun/snd_hit_critical.wav" id="4_4xfpp"]
 [ext_resource type="AudioStream" uid="uid://b1bfyxvsevwvw" path="res://sfx/snd_hit.wav" id="4_rdxli"]
 [ext_resource type="AudioStream" uid="uid://ccsemt86o4bp0" path="res://sfx/player_atk.wav" id="5_6fg55"]
 [ext_resource type="Texture2D" uid="uid://cbru6ui556frr" path="res://Battle/Slashes/Knife/slashes.png" id="14_lob80"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4fyr"]
+atlas = ExtResource("1_uqwy5")
+region = Rect2(0, 0, 14, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5rsfn"]
+atlas = ExtResource("1_uqwy5")
+region = Rect2(14, 0, 14, 120)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_ycm5y"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_l238h")
+"texture": SubResource("AtlasTexture_o4fyr")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_x7e6d")
+"texture": SubResource("AtlasTexture_5rsfn")
 }],
 "loop": true,
 "name": &"glow",

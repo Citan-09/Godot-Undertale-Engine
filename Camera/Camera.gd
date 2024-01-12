@@ -27,11 +27,17 @@ func blind(time :float =0,targetopacity: float = 1):
 
 func glitch(time :float =0,targetrate: float = 1):
 	glitchtween = create_tween().set_parallel()
-	glitchtween.tween_property(glitcher,"shader_parameter/shake_rate",targetrate,time)
-	glitchtween.tween_property(glitcher,"shader_parameter/shake_color_rate",targetrate*0.01,time)
+	glitchtween.tween_property(glitcher.material,"shader_parameter/shake_power",targetrate*0.1,time)
+	glitchtween.tween_property(glitcher.material,"shader_parameter/shake_color_rate",targetrate*0.01,time)
 	await glitchtween.finished
 	emit_signal("finishedtween",TweenType.Glitch)
-	return true
+
+func rgbsplit(time :float =0,targetrate: float = 1):
+	glitchtween = create_tween().set_parallel()
+	glitchtween.tween_property(glitcher.material,"shader_parameter/shake_color_rate",targetrate*0.01,time)
+	await glitchtween.finished
+	emit_signal("finishedtween",TweenType.Glitch)
+
 
 func _process(delta):
 	if shakeamt>0.0 and Global.settings["vfx"]:
@@ -40,7 +46,7 @@ func _process(delta):
 			shakeamt = 0
 		shake()
 		
-func addshake(amt:float = 0.1):
+func add_shake(amt:float = 0.1):
 	shakeamt += amt
 	
 func shake():

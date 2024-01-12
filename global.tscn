@@ -18,14 +18,14 @@ use_message = ["* You used the Item!"]
 item_information = ["* Item - Heals 0 hp 
 * This means this item has no description or is the default item."]
 throw_message = ["* You threw the Item!"]
-heal_amount = 0
+heal_amount = 5
 attack_amount = 0
 defense_amount = 0
 
 [sub_resource type="Resource" id="Resource_1h2q8"]
 script = ExtResource("2_1aujb")
 item_type = 0
-item_name = "TestItem"
+item_name = "TestItem2"
 weapon_speed = 1.0
 weapon_bars = 1
 bar_trans_type = 7
@@ -34,14 +34,14 @@ use_message = ["* You used the Item!"]
 item_information = ["* Item - Heals 0 hp 
 * This means this item has no description or is the default item."]
 throw_message = ["* You threw the Item!"]
-heal_amount = 0
+heal_amount = 2
 attack_amount = 0
 defense_amount = 0
 
 [sub_resource type="Resource" id="Resource_kqj2e"]
 script = ExtResource("2_1aujb")
-item_type = 0
-item_name = "TestItem"
+item_type = 2
+item_name = "TestArmor"
 weapon_speed = 1.0
 weapon_bars = 1
 bar_trans_type = 7
@@ -52,12 +52,12 @@ item_information = ["* Item - Heals 0 hp
 throw_message = ["* You threw the Item!"]
 heal_amount = 0
 attack_amount = 0
-defense_amount = 0
+defense_amount = 1
 
 [sub_resource type="Resource" id="Resource_llyn0"]
 script = ExtResource("2_1aujb")
-item_type = 0
-item_name = "TestItem"
+item_type = 1
+item_name = "Testweapon"
 weapon_speed = 1.0
 weapon_bars = 1
 bar_trans_type = 7
@@ -67,7 +67,7 @@ item_information = ["* Item - Heals 0 hp
 * This means this item has no description or is the default item."]
 throw_message = ["* You threw the Item!"]
 heal_amount = 0
-attack_amount = 0
+attack_amount = 2
 defense_amount = 0
 
 [node name="Global" type="CanvasLayer"]
@@ -81,6 +81,7 @@ item_list = Array[ExtResource("2_1aujb")]([SubResource("Resource_p5cqk"), SubRes
 [node name="Info" type="RichTextLabel" parent="."]
 offset_right = 640.0
 offset_bottom = 432.0
+mouse_filter = 2
 theme = ExtResource("2_he4k0")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true

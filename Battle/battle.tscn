@@ -32,10 +32,6 @@ offset_bottom = 425.0
 position = Vector2(0, 453)
 
 [node name="BattleBox" parent="CoreElements" instance=ExtResource("5_1exqf")]
-Duration = 0.7
-EaseType = 1
-wintext = "* You won! 
-* You Earned %s EXP and %s Gold."
 
 [node name="Camera" parent="." instance=ExtResource("3_j2jej")]
 position = Vector2(320, 240)
@@ -64,11 +60,12 @@ stream = ExtResource("11_g3lou")
 [connection signal="selectbutton" from="CoreElements/Buttons" to="CoreElements/BattleBox" method="_on_use_button"]
 [connection signal="act" from="CoreElements/BattleBox" to="." method="_act"]
 [connection signal="exitmenu" from="CoreElements/BattleBox" to="CoreElements/Buttons" method="reset"]
-[connection signal="exitmenu" from="CoreElements/BattleBox" to="Soul_Menu" method="disable"]
 [connection signal="exitmenu" from="CoreElements/BattleBox" to="Soul_Menu" method="_on_exitmenu"]
+[connection signal="exitmenu" from="CoreElements/BattleBox" to="Soul_Menu" method="disable"]
 [connection signal="fight" from="CoreElements/BattleBox" to="." method="_fight"]
 [connection signal="item" from="CoreElements/BattleBox" to="." method="_item"]
 [connection signal="mercy" from="CoreElements/BattleBox" to="." method="_mercy"]
 [connection signal="movesoul" from="CoreElements/BattleBox" to="Soul_Menu" method="_on_movesoul"]
 [connection signal="movetobuttons" from="CoreElements/BattleBox" to="CoreElements/Buttons" method="enable"]
+[connection signal="shake_camera" from="Soul_Battle" to="Camera" method="add_shake"]
 [connection signal="player_turn" from="Attacks/BoxClipper" to="." method="_on_player_turn_start"]

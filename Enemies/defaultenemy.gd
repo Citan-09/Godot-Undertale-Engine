@@ -66,7 +66,7 @@ func throw(dir:Vector2 = Vector2.DOWN):
 	AnimStates.stop()
 	AnimStates.travel(animations.find_key(dir))
 	throw_head.play("crazy",true)
-	await get_tree().create_timer(0.4,false).timeout
+	await get_tree().create_timer(0.3,false).timeout
 	Soul.set_gravity_direction(Vector2.DOWN,true)
 	Soul.gravity_multiplier = 10
 	await get_tree().create_timer(0.4,false).timeout

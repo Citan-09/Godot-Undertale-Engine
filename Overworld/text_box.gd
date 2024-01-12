@@ -3,6 +3,7 @@ extends CanvasLayer
 class_name TextBox
 
 var soulpos = 0
+var soul_position := Vector2.ZERO
 var selecting : bool = false
 var optionamt :int = 0
 
@@ -121,6 +122,7 @@ func generic(text:PackedStringArray,options:PackedStringArray = [],text_after_op
 		optionamt = options.size()
 		soulpos = (optionamt - 1) /2.0
 		$Control/Soul/choice.play()
+		soul_position = Vector2(320,Options[0].global_position.y)
 		$Control/Soul.global_position = Vector2(320,Options[0].global_position.y)
 		await confirm
 	else:
@@ -165,7 +167,7 @@ func character(character:int,text:PackedStringArray,head_expressions:Array,optio
 		optionamt = options.size()
 		soulpos = (optionamt - 1) /2.0
 		$Control/Soul/choice.play()
-		$Control/Soul.global_position = Vector2(320,Options[0].global_position.y)
+		soul_position = Vector2(320,Options[0].global_position.y)
 		await confirm
 	else:
 		await Text.finishedalltexts
@@ -193,13 +195,17 @@ func _unhandled_input(event):
 		if event.is_action_pressed("ui_left") and soulpos > 0:
 			soulpos = int(soulpos- 1)
 			$Control/Soul/choice.play()
-			$Control/Soul.global_position = Options[soulpos].global_position
+			soul_position = Options[soulpos].global_position
 		if event.is_action_pressed("ui_right") and soulpos < optionamt - 1:
 			soulpos = int(soulpos+ 1)
 			$Control/Soul/choice.play()
-			$Control/Soul.global_position = Options[soulpos].global_position
+			soul_position = Options[soulpos].global_position
 		if event.is_action_pressed("ui_accept") and typeof(soulpos) == TYPE_INT:
 			get_viewport().set_input_as_handled()
 			emit_signal("confirm")
 			selecting = false
 			$Control/Soul/select.play()
+
+
+func _process(delta):
+	$Control/Soul.global_position = $Control/Soul.global_position.lerp(soul_position,delta * 40)

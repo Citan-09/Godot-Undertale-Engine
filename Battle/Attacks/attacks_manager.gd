@@ -18,7 +18,7 @@ func start_attack(attack:PackedScene,starter:Enemy):
 	attack_node.start_attack()
 
 func end_attacks():
-	Box.change_anchor(Box.RELATIVE_TOP_LEFT,Vector2(28,246),Vector2(584,148),false,false)
+	Box.reset_box()
 	for i in currentattacks.size():
 		currentattacks[i].queue_free()
 	currentattacks.clear()

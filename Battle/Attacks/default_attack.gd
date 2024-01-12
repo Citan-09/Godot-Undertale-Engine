@@ -6,12 +6,12 @@ func start_attack():
 	for i in 5:
 		for l in i:
 			var clone = bullet1.instantiate()
-			clone.position = Vector2(120,380 - l * 20)
+			clone.position = Vector2(120,385 - l * 20)
 			add_bullet(clone)
 			clone.fire(Vector2(820,380 - l * 14),bullet.fire_modes.TWEEN,120)
 			
 			clone = bullet1.instantiate()
-			clone.position = Vector2(520,380 - l * 20)
+			clone.position = Vector2(520,385 - l * 20)
 			add_bullet(clone)
 			clone.fire(Vector2(-240,380 - l * 14),bullet.fire_modes.TWEEN,120)
 		await get_tree().create_timer(1.0 + i /10.0,false).timeout

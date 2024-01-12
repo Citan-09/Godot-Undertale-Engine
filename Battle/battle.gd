@@ -61,7 +61,9 @@ func _on_enemy_turn_start():
 	move_child(Soul_Battle,1)
 
 func _ready() -> void:
-	if Global.encounter_resource: encounter = Global.encounter_resource 
+	if Global.encounter_resource:
+		encounter = Global.encounter_resource
+		Global.encounter_resource = null
 	else: encounter = load("res://Resources/Encounters/EncounterTest.tres")
 	enemies.append_array(encounter.enemies)
 	enemynames = enemies
@@ -105,8 +107,8 @@ func _ready() -> void:
 	Box.Blittertext.blitter(0)
 	
 func _physics_process(delta: float) -> void:
-	Attacks.TopLeft.position = Vector2(Box.cornerpositions[0].x+9,Box.cornerpositions[0].y+9)
-	Attacks.BottomRight.position = Vector2(Box.cornerpositions[1].x-9,Box.cornerpositions[1].y-9)
+	Attacks.TopLeft.position = Vector2(Box.cornerpositions[0].x+5,Box.cornerpositions[0].y+5)
+	Attacks.BottomRight.position = Vector2(Box.cornerpositions[1].x-5,Box.cornerpositions[1].y-5)
 
 func _act(target:int,option:int):
 	enemies[target].on_act_used(option)
@@ -184,7 +186,6 @@ func miss(target:int):
 	Box.add_child(clone)
 	clone.finished.connect(emit_signal.bind("damage_info_finished"))
 	await clone.finished
-	enemies[target].on_fight_used()
 	emit_signal("endturn")
 # endregion
 

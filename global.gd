@@ -1,15 +1,16 @@
 extends CanvasLayer
 
+var first = true
 var fullscreen = false
 var debugmode = false
 
 var boxesinmenu := false
 var unlockedboxes = 0
 var equipment:Dictionary = {"weapon":3,"armor":2}
-var cells:Array #[]
-var items:Array #[null,null,null,null,null,null,null,null]
+var cells:Array
+var items:Array
 var boxitems:Array #[[],[],[]]
-var settings:Dictionary = {"music":100,"sfx":100,"misc":100,"vfx":false}
+var settings:Dictionary = {"music":100,"sfx":100,"misc":100,"vfx":true}
 
 var savepath = "user://savegame.bin"
 
@@ -49,10 +50,19 @@ var overworld_temp_data = {
 	"global_position" : Vector2.ZERO,
 }
 # Overworld
+@export var rooms = [
+	"res://Overworld/overworld_default.tscn"
+]
 var overworld_data := {
-	"room" : null
+	"room" : null,
+	"room_name" : "",
+	"room_pos": [0.0,0.0],
 }
 var flags := {
+	"done_sans" : false
+}
+
+var flags_at_save := {
 	"done_sans" : false
 }
 
@@ -105,8 +115,8 @@ func item_use_text(inv_pos:int):
 	var item = item_list[items[inv_pos]]
 	var use_text = item.use_message
 	if item.heal_amount:
-		heal(item["heal"])
-		use_text.append("* You healed  %s HP" % [item.heal_amount])
+		heal(item.heal_amount)
+		use_text.append("* You healed %s HP" % [item.heal_amount])
 	if item.defense_amount:
 		if item["itemtype"] == types.CONSUMABLE:
 			temp_def += item.defense_amount
@@ -123,11 +133,6 @@ func item_use_text(inv_pos:int):
 			use_text.append("* +%s ATK!" % [item.attack_amount])
 	return use_text
 
-func set_item(position:int,id:int):
-	if items.size()-1 < position:
-		items.resize(position+1)
-	if item_list.size() >= id:
-		items[position] = id
 #endregion
 
 func heal(amt:int):
@@ -161,8 +166,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	loadgame()
-	for i in item_set_1.size():
-		set_item(i,item_set_1[i])
 	
 
 func _process(delta: float) -> void:
@@ -184,6 +187,8 @@ func _notification(what):
 		#get_tree().quit()
 
 func savegame():
+	first = false
+	flags_at_save = flags.duplicate()
 	var file = FileAccess.open(savepath,FileAccess.WRITE)
 	var savedata = {
 		"stats":
@@ -210,9 +215,11 @@ func savegame():
 		,"overworld": overworld_data
 		,"flags": flags
 		,"playtime": playtime
+		,"first": first
 	}
 	cache_playtime = playtime
 	file.store_line(JSON.stringify(savedata))
+	print("Saved!")
 	
 	
 func loadgame():
@@ -222,9 +229,9 @@ func loadgame():
 		if savedata == null:
 			savedata = {}
 		# EQUIPMENT
-		equipment.merge(savedata.get("inv",{}).get("equipment"),true)
+		equipment.merge(savedata.get("inv",{}).get("equipment",{}),true)
 		# ITEMS
-		items= savedata.get("inv",{}).get("items",[null,null,null,null,null,null,null,null])
+		items = savedata.get("inv",{}).get("items",[])
 		# DIM BOXES
 		boxesinmenu = savedata.get("inv",{}).get("boxinmenu",false)
 		boxitems = savedata.get("inv",{}).get("boxinv",[[],[],[]])
@@ -248,7 +255,10 @@ func loadgame():
 		overworld_data.merge(savedata.get("overworld",{}),true)
 		# FLAGS
 		flags.merge(savedata.get("flags",{}),true)
+		flags_at_save.merge(savedata.get("flags",{}),true)
+		first = savedata.get("first",true)
 	refresh_audio_busses()
+	print("Loaded!")
 	
 func refresh_audio_busses():
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"),linear_to_db(settings["sfx"]/100.0))

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctjtqmp3y0jp"
-path="res://.godot/imported/bar_one.png-f36a704d8c1c23b2592e922683dcf28b.ctex"
+uid="uid://ct6ntajwcqflg"
+path="res://.godot/imported/bars.png-3e339168c8cbcf1edd1bd45400e4bd18.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Battle/AttackMeter/bar_one.png"
-dest_files=["res://.godot/imported/bar_one.png-f36a704d8c1c23b2592e922683dcf28b.ctex"]
+source_file="res://Battle/AttackMeter/bars.png"
+dest_files=["res://.godot/imported/bars.png-3e339168c8cbcf1edd1bd45400e4bd18.ctex"]
 
 [params]
 
