@@ -1,0 +1,167 @@
+[gd_scene load_steps=14 format=3 uid="uid://c2xv747ort8eb"]
+
+[ext_resource type="Theme" uid="uid://p1xnyqmanfpo" path="res://Shared/Box/box.tres" id="1_qkqr8"]
+[ext_resource type="Texture2D" uid="uid://cgr2cirwq0udd" path="res://Shared/Box/box.png" id="2_8sp0q"]
+[ext_resource type="Script" path="res://Shared/Box/white_box.gd" id="2_jcega"]
+[ext_resource type="FontFile" uid="uid://dp6lncabgomk" path="res://Fonts/DTM-Mono.otf" id="3_nbbuj"]
+[ext_resource type="AudioStream" uid="uid://bp5oyjspngmp2" path="res://Shared/Text/Clicks/Files/generic2.wav" id="4_bk3s1"]
+[ext_resource type="Texture2D" uid="uid://ck1wb2qlndn4h" path="res://Shared/Soul/soulborder.png" id="6_k5u1f"]
+[ext_resource type="AudioStream" uid="uid://bhebxqay4seyt" path="res://BattleEngine/Buttons/Sounds/snd_squeak.wav" id="7_2uqdt"]
+[ext_resource type="AudioStream" uid="uid://c00j1651771jc" path="res://BattleEngine/Buttons/Sounds/snd_select.wav" id="8_wnaug"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_dpi84"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ws5oq"]
+size = Vector2(10000, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ujm0"]
+size = Vector2(10, 1000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_24v0d"]
+size = Vector2(10, 1000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aigd8"]
+size = Vector2(10000, 10)
+
+[node name="Border" type="Control"]
+clip_contents = true
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 0
+offset_left = 32.0
+offset_top = 250.0
+offset_right = 607.0
+offset_bottom = 390.0
+theme = ExtResource("1_qkqr8")
+script = ExtResource("2_jcega")
+sizetime = 0.8
+type = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(599, 290)
+scale = Vector2(2118, 1164)
+texture = SubResource("CanvasTexture_dpi84")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+modulate = Color(0.580392, 0.580392, 0.580392, 1)
+light_mask = 2
+clip_contents = true
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_qkqr8")
+texture = ExtResource("2_8sp0q")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="NinePatchRect"]
+light_mask = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 17.0
+offset_right = 16.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_neighbor_left = NodePath("..")
+focus_neighbor_top = NodePath("..")
+focus_neighbor_right = NodePath("..")
+focus_neighbor_bottom = NodePath("..")
+theme_override_fonts/font = ExtResource("3_nbbuj")
+theme_override_font_sizes/font_size = 26
+text = "*                 *
+*                 *
+*                 *"
+autowrap_mode = 1
+
+[node name="Label" type="Label" parent="NinePatchRect/Label"]
+light_mask = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 2.0
+offset_right = -13.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_neighbor_left = NodePath("..")
+focus_neighbor_top = NodePath("..")
+focus_neighbor_right = NodePath("..")
+focus_neighbor_bottom = NodePath("..")
+theme_override_fonts/font = ExtResource("3_nbbuj")
+theme_override_font_sizes/font_size = 26
+text = "test"
+autowrap_mode = 2
+
+[node name="Noise" type="AudioStreamPlayer" parent="NinePatchRect/Label/Label"]
+stream = ExtResource("4_bk3s1")
+max_polyphony = 2
+
+[node name="Label2" type="Label" parent="NinePatchRect/Label"]
+light_mask = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 305.0
+offset_top = 2.0
+offset_right = 268.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_neighbor_left = NodePath("../Label")
+focus_neighbor_top = NodePath("../Label")
+focus_neighbor_right = NodePath("../Label")
+focus_neighbor_bottom = NodePath("../Label")
+theme_override_fonts/font = ExtResource("3_nbbuj")
+theme_override_font_sizes/font_size = 26
+autowrap_mode = 2
+
+[node name="Collisions" type="StaticBody2D" parent="NinePatchRect"]
+collision_priority = 2.0
+
+[node name="Up" type="CollisionShape2D" parent="NinePatchRect/Collisions"]
+position = Vector2(1, 2)
+shape = SubResource("RectangleShape2D_ws5oq")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="Right" type="CollisionShape2D" parent="NinePatchRect/Collisions"]
+position = Vector2(573, 1)
+shape = SubResource("RectangleShape2D_8ujm0")
+
+[node name="Left" type="CollisionShape2D" parent="NinePatchRect/Collisions"]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_24v0d")
+one_way_collision_margin = 0.0
+
+[node name="Down" type="CollisionShape2D" parent="NinePatchRect/Collisions"]
+position = Vector2(0, 138)
+shape = SubResource("RectangleShape2D_aigd8")
+
+[node name="MenuSoul" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(305, 105)
+texture = ExtResource("6_k5u1f")
+
+[node name="Squeak" type="AudioStreamPlayer" parent="MenuSoul"]
+stream = ExtResource("7_2uqdt")
+
+[node name="Select" type="AudioStreamPlayer" parent="MenuSoul"]
+stream = ExtResource("8_wnaug")
+
+[node name="PutThings" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

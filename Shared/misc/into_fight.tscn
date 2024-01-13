@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://dvihwb2ifh0g3"]
+
+[ext_resource type="Script" path="res://Shared/misc/encountertransition.gd" id="1_irh13"]
+[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Shared/Soul/soul.png" id="1_wc46u"]
+[ext_resource type="AudioStream" uid="uid://bhai5dt104pmv" path="res://BattleEngine/sfx/battle_noise.wav" id="3_bd7rp"]
+[ext_resource type="Texture2D" uid="uid://dhl5vkc26cxqe" path="res://Shared/Soul/soul_l.png" id="3_q8i8v"]
+[ext_resource type="Texture2D" uid="uid://dmb72f6ef0qvr" path="res://Shared/Soul/soul_r.png" id="4_oxm16"]
+[ext_resource type="AudioStream" uid="uid://bna625odbjvmr" path="res://BattleEngine/sfx/battle_drop.wav" id="4_xmeyo"]
+[ext_resource type="Texture2D" uid="uid://dfxw3k4vh32pd" path="res://Shared/Soul/soul_u.png" id="5_y1f50"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2uhph"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_wc46u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_q8i8v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_oxm16")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_y1f50")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="IntoFight" type="CanvasLayer"]
+layer = 4
+script = ExtResource("1_irh13")
+encounters = {
+"papyrus": "res://BattleEngine/Fight_Manager/Enemies/Papyrus/papyrusfight.tscn",
+"sans": "res://BattleEngine/Fight_Manager/Enemies/DusttrustSans/sansfight.tscn"
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -101.0
+offset_top = -108.0
+offset_right = 732.0
+offset_bottom = 582.0
+color = Color(0, 0, 0, 1)
+
+[node name="Soul" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(320, 240)
+sprite_frames = SubResource("SpriteFrames_2uhph")
+
+[node name="Noise" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_bd7rp")
+
+[node name="Drop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_xmeyo")

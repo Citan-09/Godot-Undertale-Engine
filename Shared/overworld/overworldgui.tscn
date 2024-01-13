@@ -1,0 +1,286 @@
+[gd_scene load_steps=12 format=3 uid="uid://orcehhal51b5"]
+
+[ext_resource type="Script" path="res://Shared/overworld/overworldgui.gd" id="1_8anhf"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://DTMono24.tres" id="2_e3daf"]
+[ext_resource type="FontFile" uid="uid://bwhey7y6iy5rn" path="res://Fonts/Mars_Needs_Cunnilingus.ttf" id="3_q2a58"]
+[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Shared/Soul/soul.png" id="5_jvbjw"]
+[ext_resource type="Texture2D" uid="uid://cd1m6kn7sr1xx" path="res://Shared/Box/boxfancy.png" id="6_ehycu"]
+[ext_resource type="Texture2D" uid="uid://dhl5vkc26cxqe" path="res://Shared/Soul/soul_l.png" id="6_esy0e"]
+[ext_resource type="Texture2D" uid="uid://dmb72f6ef0qvr" path="res://Shared/Soul/soul_r.png" id="7_d4b5c"]
+[ext_resource type="Texture2D" uid="uid://dfxw3k4vh32pd" path="res://Shared/Soul/soul_u.png" id="8_odeyk"]
+[ext_resource type="AudioStream" uid="uid://bhebxqay4seyt" path="res://BattleEngine/Buttons/Sounds/snd_squeak.wav" id="9_j22gt"]
+[ext_resource type="AudioStream" uid="uid://c00j1651771jc" path="res://BattleEngine/Buttons/Sounds/snd_select.wav" id="10_t6vnq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aapdd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_jvbjw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_esy0e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_d4b5c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_odeyk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Items" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_8anhf")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="Soul" type="AnimatedSprite2D" parent="Control"]
+modulate = Color(1, 0, 0, 1)
+z_index = 1
+position = Vector2(65, 201)
+sprite_frames = SubResource("SpriteFrames_aapdd")
+
+[node name="Stats" type="MarginContainer" parent="Control"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 48.0
+offset_right = 177.0
+offset_bottom = 161.0
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="ColorRect" type="ColorRect" parent="Control/Stats"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Rect" type="NinePatchRect" parent="Control/Stats"]
+layout_mode = 2
+texture = ExtResource("6_ehycu")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="Name" type="RichTextLabel" parent="Control/Stats/Rect"]
+layout_mode = 2
+offset_left = 13.0
+offset_top = 11.0
+offset_right = 128.0
+offset_bottom = 43.0
+theme = ExtResource("2_e3daf")
+text = "NAME"
+
+[node name="Stats" type="RichTextLabel" parent="Control/Stats/Rect"]
+layout_mode = 2
+offset_left = 13.0
+offset_top = 48.0
+offset_right = 128.0
+offset_bottom = 112.0
+theme = ExtResource("2_e3daf")
+theme_override_fonts/normal_font = ExtResource("3_q2a58")
+theme_override_font_sizes/normal_font_size = 16
+text = "LV 1
+HP 20/20
+G   0"
+
+[node name="Options" type="MarginContainer" parent="Control"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 162.0
+offset_right = 177.0
+offset_bottom = 327.0
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="ColorRect" type="ColorRect" parent="Control/Options"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Rect" type="NinePatchRect" parent="Control/Options"]
+layout_mode = 2
+texture = ExtResource("6_ehycu")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="Options" type="RichTextLabel" parent="Control/Options/Rect"]
+layout_mode = 2
+offset_left = 48.0
+offset_top = 21.0
+offset_right = 125.0
+offset_bottom = 152.0
+theme = ExtResource("2_e3daf")
+theme_override_constants/line_separation = 12
+bbcode_enabled = true
+text = "ITEM
+STATS
+[color=#505050]CELL"
+
+[node name="DetailedStats" type="MarginContainer" parent="Control"]
+clip_contents = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 0
+offset_left = 186.0
+offset_top = 48.0
+offset_right = 523.0
+offset_bottom = 449.0
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="Rect" type="NinePatchRect" parent="Control/DetailedStats"]
+layout_mode = 2
+texture = ExtResource("6_ehycu")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="ColorRect" type="ColorRect" parent="Control/DetailedStats/Rect"]
+z_index = -1
+layout_mode = 2
+offset_right = 331.0
+offset_bottom = 395.0
+color = Color(0, 0, 0, 1)
+
+[node name="Name" type="RichTextLabel" parent="Control/DetailedStats/Rect"]
+layout_mode = 2
+offset_left = 28.0
+offset_top = 35.0
+offset_right = 199.0
+offset_bottom = 78.0
+theme = ExtResource("2_e3daf")
+bbcode_enabled = true
+text = "\"NAME\""
+
+[node name="Hp" type="RichTextLabel" parent="Control/DetailedStats/Rect"]
+layout_mode = 2
+offset_left = 28.0
+offset_top = 75.0
+offset_right = 311.0
+offset_bottom = 118.0
+theme = ExtResource("2_e3daf")
+bbcode_enabled = true
+text = "HP 20/20"
+
+[node name="LV" type="RichTextLabel" parent="Control/DetailedStats/Rect"]
+layout_mode = 2
+offset_left = 214.0
+offset_top = 35.0
+offset_right = 347.0
+offset_bottom = 78.0
+theme = ExtResource("2_e3daf")
+bbcode_enabled = true
+text = "LV 1"
+
+[node name="Combat" type="RichTextLabel" parent="Control/DetailedStats/Rect"]
+layout_mode = 2
+offset_left = 28.0
+offset_top = 125.0
+offset_right = 320.0
+offset_bottom = 183.0
+theme = ExtResource("2_e3daf")
+bbcode_enabled = true
+text = "AT 10(0)
+DF 10(0)"
+
+[node name="Exp" type="RichTextLabel" parent="Control/DetailedStats/Rect"]
+layout_mode = 2
+offset_left = 174.0
+offset_top = 125.0
+offset_right = 428.0
+offset_bottom = 152.0
+theme = ExtResource("2_e3daf")
+bbcode_enabled = true
+text = "EXP 69420"
+
+[node name="Equipment" type="RichTextLabel" parent="Control/DetailedStats/Rect"]
+layout_mode = 2
+offset_left = 28.0
+offset_top = 195.0
+offset_right = 441.0
+offset_bottom = 253.0
+theme = ExtResource("2_e3daf")
+bbcode_enabled = true
+text = "WEAPON: REAL KNIFE
+ARMOR: AMONGUS HAT"
+
+[node name="Gold" type="RichTextLabel" parent="Control/DetailedStats/Rect"]
+layout_mode = 2
+offset_left = 28.0
+offset_top = 335.0
+offset_right = 313.0
+offset_bottom = 393.0
+theme = ExtResource("2_e3daf")
+bbcode_enabled = true
+text = "GOLD:0"
+
+[node name="Rect2" type="NinePatchRect" parent="Control/DetailedStats"]
+layout_mode = 2
+texture = ExtResource("6_ehycu")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="ColorRect" type="ColorRect" parent="Control/DetailedStats/Rect2"]
+z_index = -1
+layout_mode = 2
+offset_right = 331.0
+offset_bottom = 395.0
+color = Color(0, 0, 0, 1)
+
+[node name="Ast" type="RichTextLabel" parent="Control/DetailedStats/Rect2"]
+layout_mode = 2
+offset_left = 20.0
+offset_top = 22.0
+offset_right = 279.0
+offset_bottom = 370.0
+theme = ExtResource("2_e3daf")
+theme_override_constants/line_separation = 12
+bbcode_enabled = true
+text = "*
+*
+*
+*
+*
+*
+*
+*"
+
+[node name="Items" type="RichTextLabel" parent="Control/DetailedStats/Rect2"]
+layout_mode = 2
+offset_left = 48.0
+offset_top = 22.0
+offset_right = 307.0
+offset_bottom = 370.0
+theme = ExtResource("2_e3daf")
+theme_override_constants/line_separation = 12
+bbcode_enabled = true
+text = "TEST1
+TEST2
+TEST3
+TEST4
+TEST5
+TEST6
+TEST7
+TEST8"
+
+[node name="squeak" type="AudioStreamPlayer" parent="Control"]
+stream = ExtResource("9_j22gt")
+
+[node name="select" type="AudioStreamPlayer" parent="Control"]
+stream = ExtResource("10_t6vnq")

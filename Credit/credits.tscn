@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://cx5cyf2dtkcbj"]
+
+[ext_resource type="Script" path="res://Credit/credits.gd" id="1_028il"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://DTMono24.tres" id="2_l08mb"]
+[ext_resource type="AudioStream" uid="uid://degl6ii2gdr87" path="res://Shared/Text/Clicks/Files/generic1.wav" id="3_2p45a"]
+[ext_resource type="Shader" path="res://Shaders/vhs_crt.gdshader" id="4_nj0fh"]
+[ext_resource type="AudioStream" uid="uid://dhpy5i2o3270a" path="res://Credit/realc.wav" id="5_v2abp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_penlu"]
+shader = ExtResource("4_nj0fh")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.2
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.248
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = false
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.01
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = false
+shader_parameter/warp_amount = 0.4
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_028il")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 480.0
+offset_right = 640.0
+offset_bottom = 960.0
+theme = ExtResource("2_l08mb")
+bbcode_enabled = true
+text = "[center]--CREDITS--
+Dusttrust by dillywolf
+Original music by nik
+Covers by me
+godotshaders.com for cool shader
+
+[PREES [Z/ENTER] TO RETURN TO MENU]"
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_2p45a")
+volume_db = -80.0
+
+[node name="VhsCrt" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_penlu")
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_v2abp")
+autoplay = true

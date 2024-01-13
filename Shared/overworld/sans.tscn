@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://cin6ykfnlgkru"]
+
+[ext_resource type="Script" path="res://Shared/overworld/sans.gd" id="1_02fdh"]
+[ext_resource type="Texture2D" uid="uid://d2a2x5xxrs4oc" path="res://Shared/overworld/sabswalk1.png" id="2_efq81"]
+[ext_resource type="AudioStream" uid="uid://ci2q55tn2r8uj" path="res://BattleEngine/sfx/stepnoverb.wav" id="3_4e85n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atday"]
+atlas = ExtResource("2_efq81")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4te1"]
+atlas = ExtResource("2_efq81")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m5apx"]
+atlas = ExtResource("2_efq81")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohme8"]
+atlas = ExtResource("2_efq81")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3w0j5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atday")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4te1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m5apx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohme8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 1.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bqiv4"]
+size = Vector2(20, 28)
+
+[node name="Sans" type="AnimatableBody2D" groups=["sans"]]
+modulate = Color(0.529412, 0.529412, 0.529412, 1)
+light_mask = 2
+position = Vector2(100, 100)
+script = ExtResource("1_02fdh")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_3w0j5")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bqiv4")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.4
+autostart = true
+
+[node name="step" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_4e85n")
+volume_db = -3.036
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer"]

@@ -1,0 +1,37 @@
+... It's time.
+text2
+text3
+text4
+text5
+text6
+text7
+text8
+text9
+text10
+[MenuText]
+
+
+atest1
+[ActText1]
+atest2
+[ActText2]
+atest3
+[ActText3]
+atest4
+[ActText4]
+atest5
+[ActText5]
+atest6
+[ActText6]
+
+I ated pie and heal 6420 hp!
+heal'd 60 hp \n die of cancerd.
+i ated burdger and heal 40 hp.
+I ated big steak and healed 60 hp.
+I ated Underswap snowman piece and heal 45 hp. 
+[ItemDialogue]
+
+
+You try to spare Sans...
+He says no
+[Spare]

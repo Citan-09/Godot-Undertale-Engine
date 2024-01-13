@@ -1,0 +1,514 @@
+[gd_scene load_steps=54 format=3 uid="uid://b4nu57xt5fxum"]
+
+[ext_resource type="Script" path="res://Shared/misc/pausemenu.gd" id="1_tuj5f"]
+[ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="2_2ouam"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://DTMono24.tres" id="2_3ps0s"]
+[ext_resource type="Texture2D" uid="uid://vo02kdsyc5qw" path="res://Shared/Box/boxfancypap.png" id="2_qvbl7"]
+[ext_resource type="Shader" uid="uid://nt46bc87pib5" path="res://BattleEngine/Fight_Manager/Enemies/dusttrusdsansd.tres" id="4_ung5s"]
+[ext_resource type="Texture2D" uid="uid://cw7ostrw0sci2" path="res://BattleEngine/Fight_Manager/Enemies/DusttrustSans/leg.png" id="5_a68qj"]
+[ext_resource type="Texture2D" uid="uid://dfcjijqpn7qgo" path="res://BattleEngine/Fight_Manager/Enemies/DusttrustSans/body.png" id="6_ag73r"]
+[ext_resource type="Texture2D" uid="uid://dbh7eti2elifp" path="res://BattleEngine/Fight_Manager/Enemies/Blaster.png" id="7_h2x07"]
+[ext_resource type="Texture2D" uid="uid://d3x0rw7g7hogd" path="res://BattleEngine/Fight_Manager/Enemies/DusttrustSans/Larm.png" id="8_p1qo1"]
+[ext_resource type="Texture2D" uid="uid://d1h5ykmyfxuo6" path="res://BattleEngine/Fight_Manager/Enemies/DusttrustSans/Rarm.png" id="9_wftrw"]
+[ext_resource type="Material" uid="uid://dkacrywm7kvtd" path="res://Shaders/wavycape.tres" id="10_tfjmm"]
+[ext_resource type="Texture2D" uid="uid://crgskbb0nap27" path="res://BattleEngine/Fight_Manager/Enemies/DusttrustSans/cape.png" id="11_1nqbg"]
+[ext_resource type="Shader" path="res://Shaders/skewpoints.gdshader" id="12_qoo54"]
+[ext_resource type="Texture2D" uid="uid://cqkxd0ifryryd" path="res://BattleEngine/Fight_Manager/Enemies/DusttrustSans/jacket.png" id="13_0g11d"]
+[ext_resource type="Texture2D" uid="uid://cw6h7i6dxnphq" path="res://BattleEngine/Fight_Manager/Enemies/DusttrustSans/sansheads.png" id="14_h2kr8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tx4wo"]
+shader = ExtResource("2_2ouam")
+shader_parameter/lod = 0.0
+
+[sub_resource type="Gradient" id="Gradient_88xlg"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jv2pp"]
+gradient = SubResource("Gradient_88xlg")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rqtvh"]
+bg_color = Color(0, 0, 0, 0.427451)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pex8v"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_repvp"]
+shader = ExtResource("4_ung5s")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hqbhn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_a68qj")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"default",
+"speed": 50.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_a68qj")
+}],
+"loop": true,
+"name": &"new",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqp1e"]
+atlas = ExtResource("7_h2x07")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hs333"]
+atlas = ExtResource("7_h2x07")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgt3t"]
+atlas = ExtResource("7_h2x07")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhqk1"]
+atlas = ExtResource("7_h2x07")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxa45"]
+atlas = ExtResource("7_h2x07")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eitx7"]
+atlas = ExtResource("7_h2x07")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11ckl"]
+atlas = ExtResource("7_h2x07")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o03pj"]
+atlas = ExtResource("6_ag73r")
+region = Rect2(0, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvy8d"]
+atlas = ExtResource("6_ag73r")
+region = Rect2(35, 0, 35, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hwscg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ag73r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqp1e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hs333")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgt3t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xhqk1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxa45")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eitx7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11ckl")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o03pj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvy8d")
+}],
+"loop": true,
+"name": &"new",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ggm8"]
+atlas = ExtResource("8_p1qo1")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2uqe6"]
+atlas = ExtResource("8_p1qo1")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7sb4"]
+atlas = ExtResource("8_p1qo1")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lm2dl"]
+atlas = ExtResource("8_p1qo1")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8htr"]
+atlas = ExtResource("8_p1qo1")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gs138"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ggm8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2uqe6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7sb4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm2dl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8htr")
+}],
+"loop": true,
+"name": &"new",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2m4jp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_wftrw")
+}],
+"loop": true,
+"name": &"new",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cbt8d"]
+shader = ExtResource("12_qoo54")
+shader_parameter/offset_0_0 = Vector2(0, 0)
+shader_parameter/offset_0_1 = Vector2(0, 0)
+shader_parameter/offset_1_0 = Vector2(0, 0)
+shader_parameter/offset_1_1 = Vector2(0, 0)
+shader_parameter/speed = 10.0
+shader_parameter/frequency_y = 0.5
+shader_parameter/frequency_x = 0.2
+shader_parameter/amplitude_y = 1.0
+shader_parameter/amplitude_x = 2.0
+shader_parameter/inclination = -1.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r0pas"]
+region = Rect2(0, 0, 33, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q0x8k"]
+region = Rect2(33, 0, 33, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_um6pt"]
+region = Rect2(66, 0, 33, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ki7i"]
+region = Rect2(0, 30, 33, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5x5a"]
+atlas = ExtResource("14_h2kr8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_daeef"]
+atlas = ExtResource("14_h2kr8")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sswqb"]
+atlas = ExtResource("14_h2kr8")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmh82"]
+atlas = ExtResource("14_h2kr8")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkuwg"]
+atlas = ExtResource("14_h2kr8")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbwpx"]
+atlas = ExtResource("14_h2kr8")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epccj"]
+atlas = ExtResource("14_h2kr8")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4ak0"]
+atlas = ExtResource("14_h2kr8")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rfimw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r0pas")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q0x8k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_um6pt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ki7i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5x5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_daeef")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sswqb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mmh82")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkuwg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbwpx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epccj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4ak0")
+}],
+"loop": true,
+"name": &"new",
+"speed": 5.0
+}]
+
+[node name="Pause" type="CanvasLayer"]
+process_mode = 3
+layer = 10
+script = ExtResource("1_tuj5f")
+
+[node name="blur" type="ColorRect" parent="."]
+light_mask = 0
+z_index = -1
+material = SubResource("ShaderMaterial_tx4wo")
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(1, 1, 1, 0)
+metadata/_edit_use_anchors_ = true
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(404.006, 304.65)
+rotation = -1.13876
+scale = Vector2(12.1094, 18.5505)
+range_layer_min = 10
+range_layer_max = 10
+texture = SubResource("GradientTexture2D_jv2pp")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control"]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rqtvh")
+
+[node name="Overlay" type="Panel" parent="Control"]
+modulate = Color(1, 1, 1, 0)
+z_index = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pex8v")
+
+[node name="Sprites" type="Node2D" parent="Control"]
+position = Vector2(483, 185)
+rotation = -3.11599
+scale = Vector2(2, 1)
+
+[node name="Leg" type="AnimatedSprite2D" parent="Control/Sprites"]
+modulate = Color(0.44, 0.44, 0.44, 1)
+light_mask = 4
+z_index = 1
+material = SubResource("ShaderMaterial_repvp")
+position = Vector2(6, 30)
+sprite_frames = SubResource("SpriteFrames_hqbhn")
+animation = &"new"
+offset = Vector2(-0.5, 0)
+
+[node name="Upper" type="Node2D" parent="Control/Sprites"]
+position = Vector2(0, 1)
+
+[node name="Body" type="AnimatedSprite2D" parent="Control/Sprites/Upper"]
+modulate = Color(0.44, 0.44, 0.44, 1)
+light_mask = 4
+z_index = 1
+material = SubResource("ShaderMaterial_repvp")
+position = Vector2(4, 10)
+sprite_frames = SubResource("SpriteFrames_hwscg")
+animation = &"new"
+
+[node name="L_arm" type="AnimatedSprite2D" parent="Control/Sprites/Upper"]
+modulate = Color(0.439216, 0.439216, 0.439216, 1)
+light_mask = 4
+z_index = 1
+position = Vector2(-4.5, -18)
+sprite_frames = SubResource("SpriteFrames_gs138")
+animation = &"new"
+offset = Vector2(-8, 24)
+
+[node name="R_arm" type="AnimatedSprite2D" parent="Control/Sprites/Upper"]
+modulate = Color(0.439216, 0.439216, 0.439216, 1)
+light_mask = 4
+z_index = -1
+position = Vector2(16.6667, 3.33333)
+sprite_frames = SubResource("SpriteFrames_2m4jp")
+animation = &"new"
+offset = Vector2(4, 10)
+
+[node name="cape" type="Sprite2D" parent="Control/Sprites/Upper"]
+modulate = Color(0.439216, 0.439216, 0.439216, 1)
+light_mask = 4
+z_index = -2
+material = ExtResource("10_tfjmm")
+position = Vector2(-4.66667, 7)
+texture = ExtResource("11_1nqbg")
+
+[node name="jacket" type="Sprite2D" parent="Control/Sprites/Upper"]
+modulate = Color(0.439216, 0.439216, 0.439216, 1)
+light_mask = 4
+z_index = -2
+material = SubResource("ShaderMaterial_cbt8d")
+position = Vector2(-3.33333, 21.6667)
+texture = ExtResource("13_0g11d")
+
+[node name="Upper2" type="Node2D" parent="Control/Sprites"]
+position = Vector2(0, 1)
+
+[node name="Head" type="AnimatedSprite2D" parent="Control/Sprites/Upper2"]
+modulate = Color(0.439216, 0.439216, 0.439216, 1)
+light_mask = 4
+z_index = 1
+material = SubResource("ShaderMaterial_repvp")
+position = Vector2(5, -14)
+sprite_frames = SubResource("SpriteFrames_rfimw")
+animation = &"new"
+offset = Vector2(-0.5, 0)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = -449.0
+offset_bottom = -420.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qvbl7")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="ColorRect" type="ColorRect" parent="Control/NinePatchRect"]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Paused" type="RichTextLabel" parent="Control/NinePatchRect"]
+z_index = -1
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 170.0
+offset_bottom = 45.0
+theme = ExtResource("2_3ps0s")
+bbcode_enabled = true
+text = "[center]--PAUSED--"
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="Control"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 71.0
+offset_right = -13.0
+offset_bottom = -341.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qvbl7")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="ColorRect" type="ColorRect" parent="Control/NinePatchRect2"]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Info" type="RichTextLabel" parent="Control/NinePatchRect2"]
+modulate = Color(0.568627, 0.568627, 0.568627, 1)
+z_index = -1
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 603.0
+offset_bottom = 59.0
+theme = ExtResource("2_3ps0s")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[Esc]: Unpause
+[X]: Return to main menu"
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.709804, 0.733333, 0.870588, 1)

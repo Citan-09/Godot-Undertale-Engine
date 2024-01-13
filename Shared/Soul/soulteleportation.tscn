@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://carmfgc3y6fi3"]
+
+[ext_resource type="PackedScene" uid="uid://bc14cru82qfx7" path="res://Shared/Soul/soul.tscn" id="1_kbm5g"]
+[ext_resource type="Script" path="res://Shared/Soul/teleportersoul.gd" id="2_tynor"]
+[ext_resource type="Script" path="res://Shared/Soul/soultpraycast.gd" id="2_yor7a"]
+[ext_resource type="AudioStream" uid="uid://d0k0xvw728ly7" path="res://BattleEngine/sfx/soul_changemode.wav" id="3_b63ad"]
+[ext_resource type="AudioStream" uid="uid://bhai5dt104pmv" path="res://BattleEngine/sfx/battle_noise.wav" id="3_yk80d"]
+[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Shared/Soul/soul.png" id="4_xhn3c"]
+[ext_resource type="FontFile" uid="uid://bwhey7y6iy5rn" path="res://Fonts/Mars_Needs_Cunnilingus.ttf" id="7_41rxp"]
+
+[node name="soul" instance=ExtResource("1_kbm5g")]
+script = ExtResource("2_tynor")
+
+[node name="RayCast2D" type="RayCast2D" parent="." index="10"]
+target_position = Vector2(100000, 0)
+collision_mask = 2
+script = ExtResource("2_yor7a")
+
+[node name="TeleportThing" type="Sprite2D" parent="RayCast2D" index="0"]
+modulate = Color(1, 0, 0, 1)
+self_modulate = Color(1, 1, 1, 0.337255)
+position = Vector2(100, 0)
+texture = ExtResource("4_xhn3c")
+
+[node name="ready" type="AudioStreamPlayer" parent="RayCast2D" index="1"]
+stream = ExtResource("3_b63ad")
+
+[node name="noise" type="AudioStreamPlayer" parent="RayCast2D" index="2"]
+stream = ExtResource("3_yk80d")
+
+[node name="Label" type="Label" parent="RayCast2D" index="3"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+offset_left = -19.0
+offset_top = -37.0
+offset_right = 21.0
+offset_bottom = -10.0
+theme_override_fonts/font = ExtResource("7_41rxp")
+theme_override_font_sizes/font_size = 12
+text = "PRESS
+Z"
+horizontal_alignment = 1

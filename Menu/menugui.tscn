@@ -1,0 +1,98 @@
+[gd_scene load_steps=7 format=3 uid="uid://c3bxhfu54jget"]
+
+[ext_resource type="Texture2D" uid="uid://ck1wb2qlndn4h" path="res://Shared/Soul/soulborder.png" id="1_17s4x"]
+[ext_resource type="Script" path="res://Menu/menugui.gd" id="1_bohe1"]
+[ext_resource type="FontFile" uid="uid://dp6lncabgomk" path="res://Fonts/DTM-Mono.otf" id="2_23pdh"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://DTMono24.tres" id="4_a7b33"]
+[ext_resource type="AudioStream" uid="uid://c00j1651771jc" path="res://BattleEngine/Buttons/Sounds/snd_select.wav" id="4_sv7k8"]
+[ext_resource type="AudioStream" uid="uid://bhebxqay4seyt" path="res://BattleEngine/Buttons/Sounds/snd_squeak.wav" id="5_8kj0f"]
+
+[node name="Gui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 667.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bohe1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+z_index = 1
+position = Vector2(27, 136)
+texture = ExtResource("1_17s4x")
+
+[node name="Settings" type="Node2D" parent="."]
+position = Vector2(-640, 0)
+
+[node name="ast" type="Label" parent="Settings"]
+offset_left = 20.0
+offset_top = 120.0
+offset_right = 60.0
+offset_bottom = 240.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_23pdh")
+theme_override_font_sizes/font_size = 22
+text = "*
+*
+*
+*"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Settings/ast"]
+clip_contents = false
+layout_mode = 0
+offset_left = 22.0
+offset_right = 617.0
+offset_bottom = 188.0
+theme = ExtResource("4_a7b33")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "Back
+Fullscreen: OFF
+Volume: 100%
+Visual Effects: 100%
+"
+
+[node name="ast2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 278.0
+offset_right = 310.0
+offset_bottom = 398.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_23pdh")
+theme_override_font_sizes/font_size = 22
+text = "*
+*
+*"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ast2"]
+clip_contents = false
+layout_mode = 0
+offset_left = 22.0
+offset_right = 361.0
+offset_bottom = 188.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("2_23pdh")
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 16
+bbcode_enabled = true
+text = "PLAY
+[color=yellow]OPTIONS[/color]
+QUIT
+"
+
+[node name="Select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_sv7k8")
+volume_db = -6.0
+
+[node name="Squeak" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_8kj0f")
+volume_db = -6.0

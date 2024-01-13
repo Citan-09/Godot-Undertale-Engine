@@ -1,0 +1,105 @@
+[gd_scene load_steps=13 format=3 uid="uid://dh6vac2klgmdo"]
+
+[ext_resource type="Texture2D" uid="uid://dom3i4prskkf0" path="res://Shared/overworld/coremetta.png" id="1_ftoa3"]
+[ext_resource type="Script" path="res://Shared/overworld/stage.gd" id="1_qpjfl"]
+[ext_resource type="Texture2D" uid="uid://h45qv48e5jla" path="res://Shared/platformcore.png" id="2_hjch8"]
+[ext_resource type="Texture2D" uid="uid://do2qq5qlnoijh" path="res://Shared/overworld/bubbles.png" id="4_8ybwi"]
+[ext_resource type="Texture2D" uid="uid://bolq87u32axgb" path="res://Lights/spotlight.png" id="5_4aav3"]
+[ext_resource type="AudioStream" uid="uid://u4u8kya3fomd" path="res://BattleEngine/sfx/snd_chain_extend_ch1.wav" id="5_uiaj1"]
+[ext_resource type="AudioStream" uid="uid://i6k16cm25drv" path="res://BattleEngine/sfx/bullet_rise2.wav" id="6_8p3rb"]
+[ext_resource type="Texture2D" uid="uid://cgpig87lklfn" path="res://particles/wind.png" id="7_x0j85"]
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_oeb06"]
+tile_data = PackedInt32Array(0, 327680, 5, 65537, 327680, 5, 131074, 327680, 5, 196611, 327680, 5, 196612, 393216, 5, 196613, 393216, 5, 196614, 458752, 5, 131079, 458752, 5, 65544, 458752, 5, 9, 458752, 5)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_agtdw"]
+texture = ExtResource("1_ftoa3")
+texture_region_size = Vector2i(20, 20)
+5:4/0 = 0
+6:4/0 = 0
+6:5/0 = 0
+5:5/0 = 0
+7:4/0 = 0
+7:5/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_mn6wn"]
+tile_size = Vector2i(20, 20)
+sources/0 = SubResource("TileSetAtlasSource_agtdw")
+pattern_0 = SubResource("TileMapPattern_oeb06")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5xbcq"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(300, 0, 1)
+angle_min = 90.0
+angle_max = 90.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 530.03
+initial_velocity_max = 599.6
+gravity = Vector3(0, 2, 0)
+damping_min = 12.203
+damping_max = 41.504
+scale_min = 0.77
+scale_max = 1.11
+color = Color(1, 0.94902, 1, 0.333333)
+
+[node name="Node2D" type="Node2D"]
+z_index = -2
+script = ExtResource("1_qpjfl")
+left = Vector2(5, 5)
+right = Vector2(7, 5)
+middle = Vector2(6, 5)
+
+[node name="Support" type="TileMap" parent="."]
+position = Vector2(0, -2)
+tile_set = SubResource("TileSet_mn6wn")
+format = 2
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(10, 10)
+motion_mirroring = Vector2(0, 480)
+
+[node name="stars" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(6.00003, 235)
+scale = Vector2(5, 7.86667)
+texture = ExtResource("4_8ybwi")
+
+[node name="Stage" type="TileMap" parent="."]
+position = Vector2(0, -2)
+tile_set = SubResource("TileSet_mn6wn")
+format = 2
+layer_0/tile_data = PackedInt32Array(-5, 327680, 4, 65531, 327680, 5, 131067, 327680, 5, 65532, 327680, 4, 131068, 327680, 5, 196604, 327680, 5, 131069, 327680, 4, 196605, 327680, 5, 262141, 327680, 5, 196606, 327680, 4, 262142, 327680, 5, 327678, 327680, 5, 196607, 393216, 4, 262143, 393216, 5, 327679, 393216, 5, 131072, 393216, 4, 196608, 393216, 5, 262144, 393216, 5, 131073, 458752, 4, 196609, 458752, 5, 262145, 458752, 5, 65538, 458752, 4, 131074, 458752, 5, 196610, 458752, 5, 3, 458752, 4, 65539, 458752, 5, 131075, 458752, 5, -65532, 458752, 4, 4, 458752, 5, 65540, 458752, 5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Stage"]
+position = Vector2(0, 2)
+texture = ExtResource("2_hjch8")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Stage"]
+position = Vector2(12, -414)
+rotation = -3.14159
+color = Color(0.964706, 0.745098, 0.745098, 1)
+energy = 0.6
+texture = ExtResource("5_4aav3")
+
+[node name="Rise" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_uiaj1")
+volume_db = -66.444
+
+[node name="Appear" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_8p3rb")
+
+[node name="Wind3" type="GPUParticles2D" parent="."]
+z_index = -5
+z_as_relative = false
+position = Vector2(0, -245)
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_5xbcq")
+texture = ExtResource("7_x0j85")
+lifetime = 2.0
+speed_scale = 2.0
+interp_to_end = 1.0

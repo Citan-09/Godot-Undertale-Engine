@@ -1,0 +1,288 @@
+[gd_scene load_steps=28 format=3 uid="uid://cvn0klp2ibdug"]
+
+[ext_resource type="Script" path="res://Shared/overworld/overworldbox.gd" id="1_r6hsl"]
+[ext_resource type="FontFile" uid="uid://dp6lncabgomk" path="res://Fonts/DTM-Mono.otf" id="2_r5s0w"]
+[ext_resource type="Texture2D" uid="uid://cw6h7i6dxnphq" path="res://BattleEngine/Fight_Manager/Enemies/DusttrustSans/sansheads.png" id="2_tlk34"]
+[ext_resource type="Texture2D" uid="uid://kfli8jdbw55i" path="res://Shared/overworld/heads/papyrusheads.png" id="3_3hyoy"]
+[ext_resource type="Texture2D" uid="uid://cyl2r0ohgbs8a" path="res://Shared/overworld/heads/sabsnormal.png" id="4_apdj3"]
+[ext_resource type="AudioStream" uid="uid://degl6ii2gdr87" path="res://Shared/Text/Clicks/Files/generic1.wav" id="4_cq0ug"]
+[ext_resource type="Texture2D" uid="uid://vo02kdsyc5qw" path="res://Shared/Box/boxfancypap.png" id="5_q4klp"]
+[ext_resource type="AudioStream" uid="uid://c31288d48uxlm" path="res://Shared/Text/Clicks/Files/sans.wav" id="6_uig2n"]
+[ext_resource type="AudioStream" uid="uid://celgg0c7gujrh" path="res://Shared/Text/Clicks/Files/papyrus.wav" id="8_wspky"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7deeg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.498039)
+border_blend = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxpxs"]
+atlas = ExtResource("2_tlk34")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3k2qi"]
+atlas = ExtResource("2_tlk34")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pe6im"]
+atlas = ExtResource("2_tlk34")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dc5y"]
+atlas = ExtResource("2_tlk34")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4e12"]
+atlas = ExtResource("2_tlk34")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07f8k"]
+atlas = ExtResource("2_tlk34")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2g57"]
+atlas = ExtResource("2_tlk34")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ppukr"]
+atlas = ExtResource("2_tlk34")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kd7cm"]
+atlas = ExtResource("3_3hyoy")
+region = Rect2(0, 0, 41, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_phkdu"]
+atlas = ExtResource("3_3hyoy")
+region = Rect2(41, 0, 41, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbgir"]
+atlas = ExtResource("3_3hyoy")
+region = Rect2(82, 0, 41, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o61em"]
+atlas = ExtResource("3_3hyoy")
+region = Rect2(123, 0, 41, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m5xcc"]
+atlas = ExtResource("4_apdj3")
+region = Rect2(0, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xvx0"]
+atlas = ExtResource("4_apdj3")
+region = Rect2(32, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_orw1r"]
+atlas = ExtResource("4_apdj3")
+region = Rect2(64, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qyon"]
+atlas = ExtResource("4_apdj3")
+region = Rect2(96, 0, 32, 31)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mhgs7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxpxs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3k2qi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pe6im")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dc5y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4e12")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07f8k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2g57")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ppukr")
+}],
+"loop": true,
+"name": &"sans",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kd7cm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_phkdu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbgir")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o61em")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m5xcc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6xvx0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_orw1r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qyon")
+}],
+"loop": true,
+"name": &"snowdin",
+"speed": 5.0
+}]
+
+[node name="OverworldDBox" type="CanvasLayer"]
+script = ExtResource("1_r6hsl")
+HeadSpeed = 0.6
+Fonts = ["res://Fonts/DTM-Mono.otf", "res://Fonts/papyrus.ttf", "res://Fonts/pixel-comic-sans-undertale-sans-font.ttf"]
+battlesignal = "⚔"
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 320.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7deeg")
+
+[node name="Control" type="Control" parent="Control"]
+layout_mode = 1
+anchor_left = 0.035
+anchor_top = -0.647
+anchor_right = 0.222
+anchor_bottom = 0.093
+offset_top = 0.0500031
+offset_right = -0.200012
+offset_bottom = 0.0499992
+
+[node name="Panel" type="Panel" parent="Control/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7deeg")
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HeadRect" type="NinePatchRect" parent="Control/Control/MarginContainer2"]
+modulate = Color(1, 1, 1, 0.745098)
+z_index = 1
+clip_contents = true
+layout_mode = 2
+texture = ExtResource("5_q4klp")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control/Control/MarginContainer2/HeadRect"]
+z_index = -1
+position = Vector2(52, 52)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_mhgs7")
+animation = &"snowdin"
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("5_q4klp")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="Sounds" type="Node2D" parent="Control/MarginContainer/NinePatchRect"]
+position = Vector2(28, 21)
+
+[node name="Generic" type="AudioStreamPlayer" parent="Control/MarginContainer/NinePatchRect/Sounds"]
+stream = ExtResource("4_cq0ug")
+
+[node name="Sans" type="AudioStreamPlayer" parent="Control/MarginContainer/NinePatchRect/Sounds"]
+stream = ExtResource("6_uig2n")
+volume_db = -3.0
+
+[node name="Papyrus" type="AudioStreamPlayer" parent="Control/MarginContainer/NinePatchRect/Sounds"]
+stream = ExtResource("8_wspky")
+
+[node name="Label" type="Label" parent="Control/MarginContainer/NinePatchRect"]
+modulate = Color(0.792157, 0.839216, 0.894118, 1)
+layout_mode = 0
+offset_left = 28.0
+offset_top = 19.0
+offset_right = 68.0
+offset_bottom = 53.0
+theme_override_fonts/font = ExtResource("2_r5s0w")
+theme_override_font_sizes/font_size = 25
+text = "*"
+
+[node name="Text" type="RichTextLabel" parent="Control/MarginContainer/NinePatchRect/Label"]
+layout_mode = 0
+offset_left = 30.0
+offset_right = 521.0
+offset_bottom = 102.0
+theme_override_fonts/normal_font = ExtResource("2_r5s0w")
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+visible_characters_behavior = 1
+
+[node name="Debug" type="RichTextLabel" parent="Control/MarginContainer/NinePatchRect/Label"]
+visible = false
+layout_mode = 0
+offset_left = 91.0
+offset_top = 91.0
+offset_right = 582.0
+offset_bottom = 193.0
+theme_override_fonts/normal_font = ExtResource("2_r5s0w")
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+visible_characters_behavior = 1

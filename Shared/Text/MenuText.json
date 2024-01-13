@@ -1,0 +1,55 @@
+{
+	"ItemText":
+		"I ated pie and heal to max hp!
+		I heal 60 hp .../nbut died of frostbite.
+		i ated burdger and heal 40 hp.
+		I ated big steak and healed 60 hp.
+		I ated Underswap snowman piece and heal 45 hp.
+		Ketchup... /nmmm tasty"
+	,"sans":{
+		"MenuText":
+			"... It's time.
+			Sans is taking minecraft knockback...
+			Keep attacking ig idk
+			Try knocking him off
+			text5
+			text6
+			text7
+			text8
+			text9
+			text10
+			"
+		,"ActOptions":
+			"Check
+			Pray
+			Insult"
+		,"ActText":
+			"SANS - [matk] ATK [mdef] DEF /nHe's gonna kill you!
+			You pray to SATAN... /nyou gain 0 ATK!
+			Your mute L bozo XD!."
+		,"SpareText":
+			"You try to spare Sans... /n but he is name wasn't yellow!"
+	}
+	,
+	"papyrus":{
+		"MenuText":
+			"hello
+			hi
+			i am sans
+			burger
+			Nanomachines, son
+			but if you close your eyes, does it almost seem like it's all just a game
+			text7
+			text8"
+		,"ActOptions":
+			"check
+			beg
+			reason"
+		,"ActText":
+			"papyrus - 20 atk 20 def /nhe is definitely gonna kill you!
+			you beg papyrus to stop. /n\"please papyrus, there has to be another way\"/n... papyrus seems to be indifferent.
+			you try to reason with papyrus \"papyrus, killing me won't solve your problems!\"/n... but there is no response."
+		,"SpareText":
+			"you can't spare papyrus."
+	}
+}

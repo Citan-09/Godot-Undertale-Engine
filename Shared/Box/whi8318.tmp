@@ -1,0 +1,82 @@
+[gd_scene load_steps=10 format=3 uid="uid://dk3ty3c2e1my4"]
+
+[ext_resource type="Texture2D" uid="uid://cgr2cirwq0udd" path="res://Shared/Box/box.png" id="1_t1ehs"]
+[ext_resource type="FontFile" uid="uid://dp6lncabgomk" path="res://Fonts/DTM-Mono.otf" id="2_85ttf"]
+[ext_resource type="Script" path="res://Shared/Box/white_box.gd" id="2_evehp"]
+[ext_resource type="AudioStream" uid="uid://bp5oyjspngmp2" path="res://Shared/Text/Clicks/Files/generic2.wav" id="4_a7oxx"]
+
+[sub_resource type="Theme" id="Theme_j6gxh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_80le0"]
+size = Vector2(10000, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q7i8p"]
+size = Vector2(10, 1000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_brdpy"]
+size = Vector2(10, 1000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v8lgw"]
+size = Vector2(10000, 10)
+
+[node name="WhiteBox" type="NinePatchRect"]
+offset_left = 33.0
+offset_right = 608.0
+offset_bottom = 140.0
+theme = SubResource("Theme_j6gxh")
+texture = ExtResource("1_t1ehs")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+script = ExtResource("2_evehp")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 529.0
+offset_bottom = 114.0
+focus_neighbor_left = NodePath("..")
+focus_neighbor_top = NodePath("..")
+focus_neighbor_right = NodePath("..")
+focus_neighbor_bottom = NodePath("..")
+theme_override_fonts/font = ExtResource("2_85ttf")
+theme_override_font_sizes/font_size = 26
+text = "*"
+autowrap_mode = 1
+
+[node name="Label" type="Label" parent="Label"]
+layout_mode = 0
+offset_left = 23.0
+offset_right = 535.0
+offset_bottom = 96.0
+focus_neighbor_left = NodePath("..")
+focus_neighbor_top = NodePath("..")
+focus_neighbor_right = NodePath("..")
+focus_neighbor_bottom = NodePath("..")
+theme_override_fonts/font = ExtResource("2_85ttf")
+theme_override_font_sizes/font_size = 26
+text = "Woah guys   i t's san s undertale  "
+autowrap_mode = 2
+
+[node name="Noise" type="AudioStreamPlayer" parent="Label/Label"]
+stream = ExtResource("4_a7oxx")
+max_polyphony = 2
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+
+[node name="Up" type="CollisionShape2D" parent="Collisions"]
+shape = SubResource("RectangleShape2D_80le0")
+
+[node name="Right" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(575, 0)
+shape = SubResource("RectangleShape2D_q7i8p")
+
+[node name="Left" type="CollisionShape2D" parent="Collisions"]
+shape = SubResource("RectangleShape2D_brdpy")
+one_way_collision_margin = 0.0
+
+[node name="Down" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(0, 140)
+shape = SubResource("RectangleShape2D_v8lgw")

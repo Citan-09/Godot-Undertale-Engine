@@ -1,0 +1,167 @@
+[gd_scene load_steps=22 format=3 uid="uid://dtuopwdwi7qiw"]
+
+[ext_resource type="PackedScene" uid="uid://dcoqwqjeavwg4" path="res://BattleEngine/Fight_Manager/Enemies/attackspapyrus.tscn" id="2_tv4bq"]
+[ext_resource type="PackedScene" uid="uid://drqxj34rgs4ob" path="res://BattleEngine/camera.tscn" id="3_vvqxe"]
+[ext_resource type="PackedScene" uid="uid://bl10drqsyk15c" path="res://BattleEngine/Buttons/Node/Buttons.tscn" id="4_y0a3b"]
+[ext_resource type="PackedScene" uid="uid://d1cu3qpb5eihm" path="res://BattleEngine/gui/guipapyrusencounter.tscn" id="5_0tgjs"]
+[ext_resource type="PackedScene" uid="uid://dg8kglppy6wgi" path="res://BattleEngine/Fight_Manager/Enemies/Papyrus/dtpapyrus.tscn" id="6_acx2p"]
+[ext_resource type="PackedScene" uid="uid://carmfgc3y6fi3" path="res://Shared/Soul/soulteleportation.tscn" id="7_n30w4"]
+[ext_resource type="Texture2D" uid="uid://vo02kdsyc5qw" path="res://Shared/Box/boxfancypap.png" id="8_3mevw"]
+[ext_resource type="PackedScene" uid="uid://cs1hl2dqjud58" path="res://Shared/Box/boxsans.tscn" id="8_4vnf5"]
+[ext_resource type="PackedScene" uid="uid://cs4s364gn7kar" path="res://BattleEngine/DamageMeter/Text/fight.tscn" id="9_cwfki"]
+[ext_resource type="Texture2D" uid="uid://bolq87u32axgb" path="res://Lights/spotlight.png" id="10_jnwyn"]
+[ext_resource type="Texture2D" uid="uid://ceyvoib3lbo4i" path="res://BattleEngine/Fight_Manager/Enemies/Papyrus/background.png" id="13_eg15x"]
+[ext_resource type="PackedScene" uid="uid://cxksqjvuwq7f7" path="res://Menu/bonebackground.tscn" id="14_ar6ai"]
+[ext_resource type="PackedScene" uid="uid://b4nu57xt5fxum" path="res://Shared/misc/pausemenu.tscn" id="14_g8j6i"]
+[ext_resource type="PackedScene" uid="uid://cx8l415fhv1xy" path="res://Shared/misc/noisescroll.tscn" id="14_oxx6q"]
+[ext_resource type="Texture2D" uid="uid://c6tcx0844c2wn" path="res://BattleEngine/Fight_Manager/Enemies/Papyrus/panelmemory1.png" id="15_ab4o1"]
+[ext_resource type="Texture2D" uid="uid://lbq8vm27vh4u" path="res://BattleEngine/Fight_Manager/Enemies/Papyrus/panelmemory2.png" id="16_friss"]
+[ext_resource type="Texture2D" uid="uid://c8v4uue16lvqr" path="res://BattleEngine/Fight_Manager/Enemies/Papyrus/panelmemory3.png" id="17_wfr41"]
+[ext_resource type="Texture2D" uid="uid://bj1iift5dosdi" path="res://BattleEngine/Fight_Manager/Enemies/Papyrus/panelmemory4.png" id="18_alglu"]
+
+[sub_resource type="Gradient" id="Gradient_ku3vj"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2ly0o"]
+gradient = SubResource("Gradient_ku3vj")
+use_hdr = true
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q1f31"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_ab4o1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_friss")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_wfr41")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_alglu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="main" type="Node2D"]
+metadata/_edit_horizontal_guides_ = []
+
+[node name="Camera2D" parent="." instance=ExtResource("3_vvqxe")]
+position = Vector2(320, 240)
+
+[node name="buttons" parent="Camera2D" instance=ExtResource("4_y0a3b")]
+modulate = Color(1, 1, 1, 0.968627)
+z_index = -60
+position = Vector2(-233, 213)
+
+[node name="gui" parent="Camera2D" instance=ExtResource("5_0tgjs")]
+z_index = -60
+offset_left = -290.0
+offset_top = 160.0
+offset_right = -290.0
+offset_bottom = 160.0
+
+[node name="attacks" parent="." instance=ExtResource("2_tv4bq")]
+modulate = Color(0.639216, 0.661734, 0.721569, 1)
+memorycol = Color(0.27451, 0.129412, 0.615686, 1)
+bcolor = Color(0.690196, 0.72549, 0.894118, 1)
+
+[node name="boss" parent="." instance=ExtResource("6_acx2p")]
+position = Vector2(334, 90)
+scale = Vector2(1.4, 1.4)
+
+[node name="soul" parent="." instance=ExtResource("7_n30w4")]
+position = Vector2(320, 320)
+collision_priority = 2.0
+soultype = "monster"
+
+[node name="box" parent="." instance=ExtResource("8_4vnf5")]
+offset_left = 27.0
+offset_top = 245.0
+offset_right = 612.0
+offset_bottom = 395.0
+texture = ExtResource("8_3mevw")
+
+[node name="fight" parent="box" instance=ExtResource("9_cwfki")]
+position = Vector2(0, 330)
+
+[node name="Lights" type="Node2D" parent="."]
+
+[node name="Misc (1)" type="PointLight2D" parent="Lights"]
+position = Vector2(329, 235)
+rotation = -1.7512
+scale = Vector2(3.21874, 974.311)
+texture = SubResource("GradientTexture1D_2ly0o")
+
+[node name="Spot" type="PointLight2D" parent="Lights"]
+position = Vector2(327, 199)
+rotation = -0.265544
+color = Color(0.819608, 0.858824, 0.909804, 1)
+energy = 0.7
+texture = ExtResource("10_jnwyn")
+texture_scale = 0.5
+
+[node name="Box (2)" type="PointLight2D" parent="Lights"]
+position = Vector2(324.51, 279.547)
+rotation = -2.03878
+scale = Vector2(3.21874, 911.273)
+color = Color(0.8, 0.921569, 1, 1)
+energy = 2.0
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture1D_2ly0o")
+
+[node name="Boss (3)" type="PointLight2D" parent="Lights"]
+position = Vector2(247, 303)
+rotation = -2.08457
+scale = Vector2(3.61133, 879.813)
+color = Color(0.929412, 0.972549, 1, 1)
+energy = 0.25
+blend_mode = 1
+range_item_cull_mask = 4
+texture = SubResource("GradientTexture1D_2ly0o")
+
+[node name="Bullets (4)" type="PointLight2D" parent="Lights"]
+position = Vector2(309.731, 199.503)
+rotation = -8.2008
+scale = Vector2(3.31455, 771.768)
+color = Color(0.721569, 0.733333, 0.909804, 1)
+energy = 5.42
+range_item_cull_mask = 8
+texture = SubResource("GradientTexture1D_2ly0o")
+texture_scale = 2.0
+
+[node name="fog" parent="." instance=ExtResource("14_oxx6q")]
+speed = 400.0
+color = Color(0.152941, 0.192157, 0.352941, 0.788235)
+
+[node name="vfx" type="Node2D" parent="."]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="vfx"]
+color = Color(0.854902, 0.815686, 1, 1)
+
+[node name="Background" type="TextureRect" parent="."]
+modulate = Color(0.501961, 0.666667, 0.94902, 0.243137)
+light_mask = 4
+z_index = -100
+offset_left = -6.0
+offset_top = -182.0
+offset_right = 634.0
+offset_bottom = 298.0
+texture = ExtResource("13_eg15x")
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("14_ar6ai")]
+HeightFront = Vector2(105, 140)
+HeightBack = Vector2(80, 150)
+speed = 0.0
+color = Color(0.247059, 0.294118, 0.341176, 1)
+
+[node name="Pause" parent="." instance=ExtResource("14_g8j6i")]
+
+[node name="Memory" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = 101
+position = Vector2(320, 240)
+sprite_frames = SubResource("SpriteFrames_q1f31")

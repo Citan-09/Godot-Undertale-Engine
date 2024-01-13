@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=3 uid="uid://dlqyb74oqbeds"]
+
+[ext_resource type="Script" path="res://Shared/overworld/sanssnowdin.gd" id="1_u0nhr"]
+[ext_resource type="Texture2D" uid="uid://ckj5gwwtgywog" path="res://Shared/overworld/sabswalk2.png" id="2_alpt8"]
+[ext_resource type="AudioStream" uid="uid://ci2q55tn2r8uj" path="res://BattleEngine/sfx/stepnoverb.wav" id="3_26n7j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77r58"]
+atlas = ExtResource("2_alpt8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h5qtw"]
+atlas = ExtResource("2_alpt8")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdsup"]
+atlas = ExtResource("2_alpt8")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xx4o"]
+atlas = ExtResource("2_alpt8")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3w0j5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77r58")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h5qtw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tdsup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xx4o")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bqiv4"]
+size = Vector2(20, 28)
+
+[node name="Sans" type="CharacterBody2D" groups=["sans"]]
+modulate = Color(0.529412, 0.529412, 0.529412, 1)
+light_mask = 2
+position = Vector2(100, 100)
+script = ExtResource("1_u0nhr")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_3w0j5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bqiv4")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_26n7j")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.333
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

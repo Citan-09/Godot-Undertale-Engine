@@ -1,0 +1,70 @@
+[gd_resource type="Theme" load_steps=14 format=3 uid="uid://s3o3wkvbt3ej"]
+
+[ext_resource type="FontFile" uid="uid://dp6lncabgomk" path="res://Fonts/DTM-Mono.otf" id="1_pfd0d"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_majhq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qcuuh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qj6tb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p0pao"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r0vj8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gqenx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ybuae"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vp8q2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dplv4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t0vwc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5chkv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_646oc"]
+bg_color = Color(1, 1, 1, 0.219608)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[resource]
+default_font = ExtResource("1_pfd0d")
+default_font_size = 24
+Button/font_sizes/font_size = 24
+Button/fonts/font = ExtResource("1_pfd0d")
+Button/styles/disabled = SubResource("StyleBoxEmpty_majhq")
+Button/styles/focus = SubResource("StyleBoxEmpty_qcuuh")
+Button/styles/hover = SubResource("StyleBoxEmpty_qj6tb")
+Button/styles/normal = SubResource("StyleBoxEmpty_p0pao")
+Button/styles/pressed = SubResource("StyleBoxEmpty_r0vj8")
+ItemList/colors/font_color = Color(0.909804, 0.909804, 0.909804, 1)
+ItemList/colors/font_hovered_color = Color(0.95, 0.95, 0.95, 1)
+ItemList/colors/font_outline_color = Color(1, 1, 1, 1)
+ItemList/colors/font_selected_color = Color(1, 1, 1, 1)
+ItemList/colors/guide_color = Color(0.701961, 0.701961, 0.701961, 0)
+ItemList/constants/h_separation = 4
+ItemList/constants/icon_margin = 4
+ItemList/constants/line_separation = 2
+ItemList/constants/outline_size = 0
+ItemList/constants/v_separation = 2
+ItemList/font_sizes/font_size = 24
+ItemList/fonts/font = ExtResource("1_pfd0d")
+ItemList/styles/cursor = SubResource("StyleBoxEmpty_gqenx")
+ItemList/styles/cursor_unfocused = SubResource("StyleBoxEmpty_ybuae")
+ItemList/styles/focus = SubResource("StyleBoxEmpty_vp8q2")
+ItemList/styles/hovered = SubResource("StyleBoxEmpty_dplv4")
+ItemList/styles/panel = SubResource("StyleBoxEmpty_t0vwc")
+ItemList/styles/selected = SubResource("StyleBoxEmpty_5chkv")
+ItemList/styles/selected_focus = SubResource("StyleBoxFlat_646oc")
+RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+RichTextLabel/constants/outline_size = 8
+RichTextLabel/font_sizes/normal_font_size = 24
+RichTextLabel/fonts/bold_font = ExtResource("1_pfd0d")
+RichTextLabel/fonts/bold_italics_font = ExtResource("1_pfd0d")
+RichTextLabel/fonts/italics_font = ExtResource("1_pfd0d")
+RichTextLabel/fonts/mono_font = ExtResource("1_pfd0d")
+RichTextLabel/fonts/normal_font = ExtResource("1_pfd0d")

@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxksqjvuwq7f7"]
+
+[ext_resource type="Script" path="res://Menu/bonebackground.gd" id="1_78on4"]
+[ext_resource type="Texture2D" uid="uid://c6twkrsdvjiim" path="res://BattleEngine/Fight_Manager/Enemies/BonePapy.png" id="2_k6qhw"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+scale = Vector2(1, -1)
+transform = Transform2D(1, 0, 0, -1, 0, 0)
+scroll_ignore_camera_zoom = true
+script = ExtResource("1_78on4")
+HeightFront = Vector2(30, 70)
+HeightBack = Vector2(40, 60)
+speed = 40.0
+
+[node name="Back" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(-0.7, -0.7)
+motion_mirroring = Vector2(780, 0)
+
+[node name="Bone" type="NinePatchRect" parent="Back"]
+modulate = Color(0.560784, 0.560784, 0.560784, 1)
+offset_left = -59.0
+offset_top = -480.0
+offset_right = 722.0
+offset_bottom = -410.0
+texture = ExtResource("2_k6qhw")
+patch_margin_top = 5
+patch_margin_bottom = 5
+axis_stretch_horizontal = 1
+
+[node name="Front" type="ParallaxLayer" parent="."]
+position = Vector2(-0.5, 0)
+motion_mirroring = Vector2(793, 0)
+
+[node name="Bone" type="NinePatchRect" parent="Front"]
+offset_left = -65.0
+offset_top = -480.0
+offset_right = 728.0
+offset_bottom = -403.0
+texture = ExtResource("2_k6qhw")
+patch_margin_top = 5
+patch_margin_bottom = 5
+axis_stretch_horizontal = 1
