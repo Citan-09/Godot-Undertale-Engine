@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b6ev1oalu0y0t"]
-
-[ext_resource type="Script" path="res://BattleEngine/Fight_Manager/SansDrip/Enemies/attacks.gd" id="1_ymulr"]
-
-[node name="attacks" type="Node2D"]
-script = ExtResource("1_ymulr")

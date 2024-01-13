@@ -1,0 +1,81 @@
+[gd_scene load_steps=7 format=3 uid="uid://cccvkhteyj2sl"]
+
+[ext_resource type="Script" path="res://Musics/music_controller.gd" id="1_h430f"]
+[ext_resource type="AudioStream" uid="uid://c7jb3g16kcwae" path="res://Musics/default2.wav" id="3_xk8bb"]
+[ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Battle/Box/box.png" id="4_783lr"]
+[ext_resource type="AudioStream" uid="uid://8suhxxampqkc" path="res://sfx/snd_save.wav" id="4_ogiyp"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="4_tkdub"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_br71m"]
+bg_color = Color(0, 0, 0, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[node name="MusicController" type="CanvasLayer"]
+script = ExtResource("1_h430f")
+
+[node name="Overworld" type="Node" parent="."]
+
+[node name="DEFAULT" type="AudioStreamPlayer" parent="Overworld"]
+stream = ExtResource("3_xk8bb")
+bus = &"Music"
+
+[node name="Other" type="Node" parent="."]
+
+[node name="save" type="AudioStreamPlayer" parent="Other"]
+stream = ExtResource("4_ogiyp")
+bus = &"SFX"
+
+[node name="Name" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 212.0
+offset_bottom = 92.0
+
+[node name="Panel2" type="Panel" parent="Name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_br71m")
+
+[node name="Panel" type="NinePatchRect" parent="Name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_783lr")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="Name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="Text" type="RichTextLabel" parent="Name/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("4_tkdub")
+theme_override_font_sizes/bold_font_size = 16
+bbcode_enabled = true
+text = "[center]NAME
+[b]by info1
+misc info2"
+scroll_active = false

@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1p4teid7wp70"]
+
+[ext_resource type="Texture2D" uid="uid://xk38gkvtye7a" path="res://Battle/Attacks/corner.png" id="1_22eaa"]
+[ext_resource type="Script" path="res://Battle/Attacks/attacks_manager.gd" id="1_g3pf3"]
+[ext_resource type="Shader" path="res://Battle/Attacks/mask.gdshader" id="1_u4bks"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g40mv"]
+shader = ExtResource("1_u4bks")
+
+[node name="BoxClipper" type="BackBufferCopy"]
+script = ExtResource("1_g3pf3")
+
+[node name="Mask" type="Node2D" parent="."]
+material = SubResource("ShaderMaterial_g40mv")
+
+[node name="TL" type="Sprite2D" parent="Mask"]
+z_index = 100
+use_parent_material = true
+scale = Vector2(200, 200)
+texture = ExtResource("1_22eaa")
+
+[node name="BR" type="Sprite2D" parent="Mask"]
+z_index = 100
+use_parent_material = true
+position = Vector2(640, 481)
+rotation = 3.14159
+scale = Vector2(200, 200)
+texture = ExtResource("1_22eaa")

@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4h17xgtksukm"]
+
+[ext_resource type="Texture2D" uid="uid://b7upx6exjnrin" path="res://Battle/Bullets/Bone/bone_sans.png" id="1_0le5x"]
+[ext_resource type="Script" path="res://Battle/Bullets/Bone/bone.gd" id="1_p0sqk"]
+[ext_resource type="Script" path="res://Battle/Bullets/bullet_area.gd" id="3_ksvu6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ljatx"]
+size = Vector2(6, 14)
+
+[node name="Bone" type="CharacterBody2D"]
+position = Vector2(273, 153)
+script = ExtResource("1_p0sqk")
+collision_margin = 8
+damage = 10
+iframe_grant = 20
+delete_upon_hit = false
+
+[node name="Sprite" type="NinePatchRect" parent="."]
+offset_left = -7.0
+offset_top = -9.0
+offset_right = 7.0
+offset_bottom = 9.0
+texture = ExtResource("1_0le5x")
+patch_margin_left = 14
+patch_margin_top = 9
+patch_margin_bottom = 9
+
+[node name="Area2D" type="Area2D" parent="." groups=["bullet"]]
+position = Vector2(0, -9)
+script = ExtResource("3_ksvu6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 9)
+shape = SubResource("RectangleShape2D_ljatx")
+debug_color = Color(0.701961, 0.701961, 0.701961, 0.419608)

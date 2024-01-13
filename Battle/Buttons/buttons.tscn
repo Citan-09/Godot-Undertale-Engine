@@ -1,0 +1,148 @@
+[gd_scene load_steps=24 format=3 uid="uid://ctmkb1gh0a14s"]
+
+[ext_resource type="Texture2D" uid="uid://dk2rwlbs7uw0v" path="res://Battle/Buttons/spr_item0.png" id="1_cnynd"]
+[ext_resource type="Script" path="res://Battle/Buttons/buttons.gd" id="1_d0ye7"]
+[ext_resource type="Texture2D" uid="uid://bo8dbluai58qo" path="res://Battle/Buttons/spr_fight0.png" id="1_umftf"]
+[ext_resource type="Texture2D" uid="uid://cp0v75saku3xj" path="res://Battle/Buttons/spr_fight1.png" id="2_aru3e"]
+[ext_resource type="Texture2D" uid="uid://hh75kjhlgr0j" path="res://Battle/Buttons/spr_fight0_u.png" id="3_dys34"]
+[ext_resource type="Texture2D" uid="uid://belhipinq1tmm" path="res://Battle/Buttons/spr_fight1_u.png" id="4_rhekv"]
+[ext_resource type="Texture2D" uid="uid://b1cqdoo2nwny8" path="res://Battle/Buttons/spr_act0.png" id="5_w41yv"]
+[ext_resource type="Texture2D" uid="uid://b7j70qgmhjesf" path="res://Battle/Buttons/spr_act1.png" id="6_werx2"]
+[ext_resource type="Texture2D" uid="uid://btpeiuhmup7p6" path="res://Battle/Buttons/spr_act0_u.png" id="7_otko5"]
+[ext_resource type="Texture2D" uid="uid://sr3pdxhggam5" path="res://Battle/Buttons/spr_act1_u.png" id="8_24mtb"]
+[ext_resource type="Texture2D" uid="uid://m6wq7k7ns7c6" path="res://Battle/Buttons/spr_mercy0.png" id="9_28mv6"]
+[ext_resource type="Texture2D" uid="uid://cyfg13tt4yip" path="res://Battle/Buttons/spr_item1.png" id="10_qhvfw"]
+[ext_resource type="Texture2D" uid="uid://4enbojev6pcs" path="res://Battle/Buttons/spr_item0_u.png" id="11_g1iht"]
+[ext_resource type="Texture2D" uid="uid://dihqsq7fu3ajw" path="res://Battle/Buttons/spr_item1_u.png" id="12_3jn1g"]
+[ext_resource type="Texture2D" uid="uid://1xelfocfpxkv" path="res://Battle/Buttons/spr_mercy1.png" id="13_evnjy"]
+[ext_resource type="Texture2D" uid="uid://cx61fp3c7vpux" path="res://Battle/Buttons/spr_mercy0_u.png" id="14_cge5b"]
+[ext_resource type="Texture2D" uid="uid://cw6cfqmedxo1f" path="res://Battle/Buttons/spr_mercy1_u.png" id="15_ois84"]
+[ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="18_ocd1v"]
+[ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="19_egkmi"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_py7ld"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_umftf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_aru3e")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_dys34")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_rhekv")
+}],
+"loop": true,
+"name": &"underswap",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v0568"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_w41yv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_werx2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_otko5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_24mtb")
+}],
+"loop": true,
+"name": &"underswap",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kht6d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cnynd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_qhvfw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_g1iht")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_3jn1g")
+}],
+"loop": true,
+"name": &"underswap",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k4ql1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_28mv6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_evnjy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_cge5b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ois84")
+}],
+"loop": true,
+"name": &"underswap",
+"speed": 5.0
+}]
+
+[node name="Buttons" type="Node2D"]
+script = ExtResource("1_d0ye7")
+
+[node name="Button1" type="AnimatedSprite2D" parent="."]
+position = Vector2(87, 0)
+sprite_frames = SubResource("SpriteFrames_py7ld")
+
+[node name="Button2" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 0)
+sprite_frames = SubResource("SpriteFrames_v0568")
+
+[node name="Button3" type="AnimatedSprite2D" parent="."]
+position = Vector2(400, 0)
+sprite_frames = SubResource("SpriteFrames_kht6d")
+
+[node name="Button4" type="AnimatedSprite2D" parent="."]
+position = Vector2(555, 0)
+sprite_frames = SubResource("SpriteFrames_k4ql1")
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_ocd1v")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_egkmi")
+bus = &"SFX"

@@ -1,0 +1,22 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://bevcq3qnk3n8h"]
+
+[ext_resource type="Texture2D" uid="uid://caaa653ktqno4" path="res://Battle/progbar.png" id="1_ld71x"]
+[ext_resource type="FontFile" uid="uid://bwhey7y6iy5rn" path="res://Text/Fonts/Mars_Needs_Cunnilingus.ttf" id="2_nn8s4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aqp7e"]
+texture = ExtResource("1_ld71x")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[resource]
+Panel/styles/panel = SubResource("StyleBoxTexture_aqp7e")
+RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+RichTextLabel/constants/outline_size = 8
+RichTextLabel/font_sizes/normal_font_size = 24
+RichTextLabel/fonts/normal_font = ExtResource("2_nn8s4")

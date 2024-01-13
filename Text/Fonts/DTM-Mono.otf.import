@@ -1,0 +1,39 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://dp6lncabgomk"
+path="res://.godot/imported/DTM-Mono.otf-d5298b0faf75bee5b87e5b021b068395.fontdata"
+
+[deps]
+
+source_file="res://Text/Fonts/DTM-Mono.otf"
+dest_files=["res://.godot/imported/DTM-Mono.otf-d5298b0faf75bee5b87e5b021b068395.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=0
+generate_mipmaps=false
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=64
+allow_system_fallback=true
+force_autohinter=false
+hinting=1
+subpixel_positioning=0
+oversampling=10.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=false
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "New Configuration",
+"size": Vector2i(16, 8),
+"variation_embolden": 0.0
+}]
+language_support={}
+script_support={}
+opentype_features={}

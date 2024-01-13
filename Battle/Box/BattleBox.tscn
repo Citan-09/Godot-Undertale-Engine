@@ -1,0 +1,290 @@
+[gd_scene load_steps=15 format=3 uid="uid://3mahpp3h1cx4"]
+
+[ext_resource type="Script" path="res://Battle/Box/BattleBox.gd" id="1_htnbd"]
+[ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Battle/Box/box.png" id="2_yeh64"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="3_f5ep8"]
+[ext_resource type="Texture2D" uid="uid://dv5qlp31seevi" path="res://Battle/Box/Scroll/dot.png" id="4_45je1"]
+[ext_resource type="Script" path="res://Battle/Box/item_slider.gd" id="4_g7bet"]
+[ext_resource type="Script" path="res://Battle/Box/Blitter.gd" id="4_shawu"]
+[ext_resource type="Texture2D" uid="uid://b3pb3kl0aoiun" path="res://Battle/Box/Scroll/dot_bg.png" id="5_4buhi"]
+[ext_resource type="AudioStream" uid="uid://bp5oyjspngmp2" path="res://sfx/Clicks/generic2.wav" id="5_61718"]
+[ext_resource type="Texture2D" uid="uid://b6p847lcrjfx3" path="res://Battle/Box/Scroll/arrow.png" id="5_dmagr"]
+[ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="7_u3o5n"]
+[ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="8_wdevt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s5f7x"]
+bg_color = Color(0, 0, 0, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yiolc"]
+size = Vector2(580, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p27oi"]
+size = Vector2(150, 10)
+
+[node name="BattleBox" type="Node"]
+script = ExtResource("1_htnbd")
+TransType = 5
+
+[node name="BoxContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(35, 35)
+offset_right = 640.0
+offset_bottom = 480.0
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 250
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 90
+metadata/_edit_group_ = true
+
+[node name="Panel" type="Panel" parent="BoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s5f7x")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="BoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_yeh64")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
+
+[node name="Collisions" type="StaticBody2D" parent="BoxContainer"]
+collision_mask = 0
+
+[node name="Top" type="CollisionShape2D" parent="BoxContainer/Collisions"]
+position = Vector2(318, 250)
+rotation = 3.14159
+shape = SubResource("RectangleShape2D_yiolc")
+debug_color = Color(0.219608, 0.321569, 1, 0.105882)
+
+[node name="Bottom" type="CollisionShape2D" parent="BoxContainer/Collisions"]
+position = Vector2(316, 390)
+shape = SubResource("RectangleShape2D_yiolc")
+debug_color = Color(0.219608, 0.321569, 1, 0.105882)
+
+[node name="Left" type="CollisionShape2D" parent="BoxContainer/Collisions"]
+position = Vector2(32, 320)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_p27oi")
+debug_color = Color(0.219608, 0.321569, 1, 0.105882)
+
+[node name="Right" type="CollisionShape2D" parent="BoxContainer/Collisions"]
+position = Vector2(608, 320)
+rotation = 4.71239
+shape = SubResource("RectangleShape2D_p27oi")
+debug_color = Color(0.219608, 0.321569, 1, 0.105882)
+
+[node name="Acts" type="MarginContainer" parent="."]
+visible = false
+offset_left = 28.0
+offset_top = 246.0
+offset_right = 612.0
+offset_bottom = 394.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 44
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+metadata/_edit_group_ = true
+
+[node name="Options" type="SplitContainer" parent="Acts"]
+layout_mode = 2
+split_offset = 245
+
+[node name="Column1" type="RichTextLabel" parent="Acts/Options"]
+layout_mode = 2
+theme = ExtResource("3_f5ep8")
+bbcode_enabled = true
+text = "[ul bullet=*]Check
+Shoo
+"
+scroll_active = false
+
+[node name="Column2" type="RichTextLabel" parent="Acts/Options"]
+layout_mode = 2
+theme = ExtResource("3_f5ep8")
+bbcode_enabled = true
+text = "[ul bullet=*]Flex"
+scroll_active = false
+
+[node name="Items" type="MarginContainer" parent="."]
+visible = false
+offset_left = 28.0
+offset_top = 246.0
+offset_right = 1196.0
+offset_bottom = 394.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 44
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+metadata/_edit_group_ = true
+
+[node name="TextContainer" type="MarginContainer" parent="Items"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 24
+
+[node name="Items" type="RichTextLabel" parent="Items/TextContainer"]
+layout_mode = 2
+theme = ExtResource("3_f5ep8")
+bbcode_enabled = true
+text = "[ul bullet=*]Item 1
+Item 2
+Item 3
+Item 4
+Item 5
+Item 6
+Item 7
+Item 8"
+scroll_active = false
+
+[node name="ScrollContainer" type="MarginContainer" parent="Items"]
+layout_mode = 2
+theme_override_constants/margin_left = 443
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 660
+theme_override_constants/margin_bottom = 55
+
+[node name="Slider" type="Control" parent="Items/ScrollContainer"]
+self_modulate = Color(1, 1, 1, 0.52549)
+layout_mode = 2
+script = ExtResource("4_g7bet")
+offset = -7.0
+step_size = 10.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Grabber" type="TextureRect" parent="Items/ScrollContainer/Slider"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = -6.5
+offset_right = 19.0
+offset_bottom = 17.5
+texture = ExtResource("4_45je1")
+stretch_mode = 2
+
+[node name="TextureRect" type="NinePatchRect" parent="Items/ScrollContainer/Slider"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_right = 0.75
+anchor_bottom = 1.0
+offset_right = 4.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_4buhi")
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
+[node name="ArrowDown" type="TextureRect" parent="Items/ScrollContainer/Slider"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 18.0
+offset_top = 97.0
+offset_right = 34.0
+offset_bottom = 113.0
+rotation = 3.14159
+texture = ExtResource("5_dmagr")
+
+[node name="ArrowTop" type="TextureRect" parent="Items/ScrollContainer/Slider"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = -19.0
+offset_right = 18.0
+offset_bottom = -3.0
+texture = ExtResource("5_dmagr")
+
+[node name="Target" type="MarginContainer" parent="."]
+visible = false
+offset_left = 28.0
+offset_top = 246.0
+offset_right = 612.0
+offset_bottom = 394.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 44
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+metadata/_edit_group_ = true
+
+[node name="Targets" type="RichTextLabel" parent="Target"]
+layout_mode = 2
+theme = ExtResource("3_f5ep8")
+bbcode_enabled = true
+text = "  * Enemy 1
+  * Enemy 2
+  * Enemy 3
+"
+scroll_active = false
+
+[node name="Mercy" type="MarginContainer" parent="."]
+visible = false
+offset_left = 28.0
+offset_top = 246.0
+offset_right = 612.0
+offset_bottom = 394.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 44
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+metadata/_edit_group_ = true
+
+[node name="Choices" type="RichTextLabel" parent="Mercy"]
+layout_mode = 2
+theme = ExtResource("3_f5ep8")
+bbcode_enabled = true
+text = "  * Spare
+  * Flee"
+scroll_active = false
+
+[node name="Blitter" type="MarginContainer" parent="."]
+visible = false
+offset_left = 28.0
+offset_top = 246.0
+offset_right = 612.0
+offset_bottom = 394.0
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+metadata/_edit_group_ = true
+
+[node name="Text" type="RichTextLabel" parent="Blitter"]
+layout_mode = 2
+theme = ExtResource("3_f5ep8")
+bbcode_enabled = true
+text = "* Blitter
+  aa"
+scroll_active = false
+context_menu_enabled = true
+visible_characters_behavior = 1
+script = ExtResource("4_shawu")
+interval = 0.04
+queued_texts_handling = 1
+
+[node name="Click" type="AudioStreamPlayer" parent="Blitter/Text"]
+stream = ExtResource("5_61718")
+volume_db = -4.0
+bus = &"SFX"
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="select" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("7_u3o5n")
+bus = &"SFX"
+
+[node name="choice" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("8_wdevt")
+bus = &"SFX"
+
+[connection signal="finishedalltexts" from="Blitter/Text" to="." method="_debug_finish"]

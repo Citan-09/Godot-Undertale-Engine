@@ -1,0 +1,158 @@
+[gd_scene load_steps=7 format=3 uid="uid://df7xhaqls5ufd"]
+
+[ext_resource type="Script" path="res://Overworld/save_menu.gd" id="1_86oyx"]
+[ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Battle/Box/box.png" id="1_xautt"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="2_hb2sc"]
+[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="3_fvu3e"]
+[ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="5_ef50b"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3a02"]
+bg_color = Color(0, 0, 0, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[node name="SaveMenu" type="CanvasLayer"]
+script = ExtResource("1_86oyx")
+
+[node name="Control" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 120.0
+offset_top = 120.0
+offset_right = 530.0
+offset_bottom = 290.0
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q3a02")
+metadata/_edit_use_anchors_ = true
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_xautt")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+metadata/_edit_use_anchors_ = true
+
+[node name="Texts" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Name" type="RichTextLabel" parent="Control/Texts"]
+clip_contents = false
+layout_mode = 0
+offset_left = 28.0
+offset_top = 22.0
+offset_right = 440.0
+offset_bottom = 53.0
+theme = ExtResource("2_hb2sc")
+bbcode_enabled = true
+text = "Chara"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Lv" type="RichTextLabel" parent="Control/Texts"]
+clip_contents = false
+layout_mode = 0
+offset_left = 165.0
+offset_top = 22.0
+offset_right = 577.0
+offset_bottom = 53.0
+theme = ExtResource("2_hb2sc")
+bbcode_enabled = true
+text = "LV2"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Time" type="RichTextLabel" parent="Control/Texts"]
+clip_contents = false
+layout_mode = 0
+offset_left = 270.0
+offset_top = 22.0
+offset_right = 682.0
+offset_bottom = 53.0
+theme = ExtResource("2_hb2sc")
+bbcode_enabled = true
+text = "HH:MM:SS"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Location" type="RichTextLabel" parent="Control/Texts"]
+clip_contents = false
+layout_mode = 0
+offset_left = 28.0
+offset_top = 61.0
+offset_right = 440.0
+offset_bottom = 92.0
+theme = ExtResource("2_hb2sc")
+bbcode_enabled = true
+text = "Ruins-LeafPile"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Options" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Soul" type="Sprite2D" parent="Control/Options"]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(57, 121)
+texture = ExtResource("3_fvu3e")
+offset = Vector2(-15, 15)
+
+[node name="Save" type="RichTextLabel" parent="Control/Options"]
+clip_contents = false
+layout_mode = 0
+offset_left = 57.0
+offset_top = 121.0
+offset_right = 469.0
+offset_bottom = 152.0
+theme = ExtResource("2_hb2sc")
+bbcode_enabled = true
+text = "Save"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Return" type="RichTextLabel" parent="Control/Options"]
+clip_contents = false
+layout_mode = 0
+offset_left = 233.0
+offset_top = 121.0
+offset_right = 645.0
+offset_bottom = 152.0
+theme = ExtResource("2_hb2sc")
+bbcode_enabled = true
+text = "Return"
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ef50b")
+bus = &"SFX"

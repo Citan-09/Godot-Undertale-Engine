@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://dhlmmv358jk10"]
+
+[ext_resource type="Script" path="res://Battle/Bullets/defaultbullet.gd" id="1_n04ay"]
+[ext_resource type="Script" path="res://Battle/Bullets/bullet_area.gd" id="2_rn5mj"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_tu4yw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ry4yi"]
+radius = 3.0
+height = 14.0
+
+[sub_resource type="Animation" id="Animation_84f6e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ovdne"]
+resource_name = "default_animation"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.5708, 3.14159]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tjhxm"]
+_data = {
+"RESET": SubResource("Animation_84f6e"),
+"default_animation": SubResource("Animation_ovdne")
+}
+
+[node name="Bullet" type="CharacterBody2D" groups=["bullet"]]
+motion_mode = 1
+script = ExtResource("1_n04ay")
+TweenTrans = 1
+TweenEase = 1
+damage = 1
+iframe_grant = 2
+kr_amount = 1
+
+[node name="Sprite2" type="Polygon2D" parent="."]
+scale = Vector2(1, 33.5)
+color = Color(0, 0, 0, 1)
+texture = SubResource("CanvasTexture_tu4yw")
+polygon = PackedVector2Array(0, -0.238806, 3, -0.149254, 4, 0, 3, 0.179104, 0, 0.238806, -3, 0.179104, -4, 0, -3, -0.149254)
+
+[node name="Sprite" type="Polygon2D" parent="."]
+scale = Vector2(1, 33.5)
+texture = SubResource("CanvasTexture_tu4yw")
+polygon = PackedVector2Array(0, -0.208955, 2, -0.149254, 3, 0, 2, 0.149254, 0, 0.208955, -2, 0.149254, -3, 0, -2, -0.149254)
+
+[node name="Area2D" type="Area2D" parent="." groups=["bullet"]]
+script = ExtResource("2_rn5mj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_ry4yi")
+debug_color = Color(0.760784, 0.905882, 0.929412, 0.294118)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tjhxm")
+}
+autoplay = "default_animation"
+
+[node name="On_Screen" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-4.76837e-07, 0)
+scale = Vector2(0.1, 0.1)
+
+[connection signal="screen_exited" from="On_Screen" to="." method="_on_exit_screen"]

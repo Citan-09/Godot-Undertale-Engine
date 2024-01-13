@@ -1,0 +1,6 @@
+[gd_resource type="RichTextEffect" script_class="Tremble" load_steps=2 format=3 uid="uid://ow3wqtvijk5x"]
+
+[ext_resource type="Script" path="res://Resources/RichTextEffects/tremble.gd" id="1_4476o"]
+
+[resource]
+script = ExtResource("1_4476o")

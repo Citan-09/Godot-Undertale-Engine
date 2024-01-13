@@ -1,0 +1,108 @@
+[gd_scene load_steps=13 format=3 uid="uid://c1wx3v78bpu57"]
+
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="1_m7kmx"]
+[ext_resource type="Script" path="res://Intro/name_selection.gd" id="1_osq8k"]
+[ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="3_ovwmy"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="3_yercc"]
+[ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="3_yoymk"]
+[ext_resource type="RichTextEffect" uid="uid://ow3wqtvijk5x" path="res://Resources/RichTextEffects/tremble.tres" id="4_2dwwy"]
+[ext_resource type="AudioStream" uid="uid://btx6cbfdqvvbh" path="res://sfx/mus_cymbal.ogg" id="6_eucha"]
+[ext_resource type="Script" path="res://Text/TextTyper.gd" id="7_kw0yt"]
+[ext_resource type="AudioStream" uid="uid://bp5oyjspngmp2" path="res://sfx/Clicks/generic2.wav" id="8_ajba3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tm4b4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sqa4a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ohbf4"]
+
+[node name="Name Selection" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_osq8k")
+
+[node name="Camera" parent="." instance=ExtResource("3_yercc")]
+position = Vector2(320, 240)
+
+[node name="NAMEPLS" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.026
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("1_m7kmx")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center][tremble chance=1 amp=5]GIVE THE FALLEN HUMAN A NAME"
+scroll_active = false
+custom_effects = [ExtResource("4_2dwwy")]
+
+[node name="NameInput" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.12
+anchor_right = 1.0
+anchor_bottom = 0.2
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_m7kmx")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tm4b4")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sqa4a")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_ohbf4")
+placeholder_text = "NAME"
+alignment = 1
+max_length = 6
+context_menu_enabled = false
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ovwmy")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_yoymk")
+bus = &"SFX"
+
+[node name="cymbal" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_eucha")
+bus = &"SFX"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = -257.0
+offset_top = -131.0
+offset_right = 849.0
+offset_bottom = 552.0
+mouse_filter = 2
+
+[node name="Typer" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 216.0
+offset_right = 640.0
+offset_bottom = 400.0
+mouse_filter = 2
+theme = ExtResource("1_m7kmx")
+bbcode_enabled = true
+script = ExtResource("7_kw0yt")
+interval = 0.06
+queued_texts_handling = 1
+
+[node name="Click" type="AudioStreamPlayer" parent="Typer"]
+stream = ExtResource("8_ajba3")
+bus = &"SFX"
+
+[connection signal="text_changed" from="NameInput" to="." method="_on_name_input_text_changed"]
+[connection signal="text_submitted" from="NameInput" to="." method="_on_name_input_text_submitted"]

@@ -1,105 +1,42 @@
-[gd_scene load_steps=11 format=3 uid="uid://qp13rtd1na0l"]
+[gd_scene load_steps=7 format=3 uid="uid://b4slb6gco6aly"]
 
-[ext_resource type="Script" path="res://Intro/intro.gd" id="1_uikau"]
-[ext_resource type="PackedScene" uid="uid://drqxj34rgs4ob" path="res://BattleEngine/camera.tscn" id="2_by1qw"]
-[ext_resource type="AudioStream" uid="uid://bjhyua2b8s8lc" path="res://Intro/dtintro.wav" id="3_1hadc"]
-[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://DTMono24.tres" id="4_2pn5l"]
-[ext_resource type="Texture2D" uid="uid://ch2htird14tbs" path="res://Intro/paneltest.png" id="4_amsqc"]
-[ext_resource type="AudioStream" uid="uid://bp5oyjspngmp2" path="res://Shared/Text/Clicks/Files/generic2.wav" id="7_7qreg"]
-[ext_resource type="Shader" path="res://Shaders/vhs_crt.gdshader" id="7_pygof"]
+[ext_resource type="Script" path="res://Intro/intro.gd" id="1_3heb2"]
+[ext_resource type="Texture2D" uid="uid://bbapsrh2xq1gd" path="res://Intro/panel.png" id="1_w3set"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="2_pcxj1"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="2_t2ayt"]
+[ext_resource type="Script" path="res://Text/TextTyper.gd" id="3_04b31"]
+[ext_resource type="AudioStream" uid="uid://bp5oyjspngmp2" path="res://sfx/Clicks/generic2.wav" id="5_1hq8x"]
 
-[sub_resource type="Gradient" id="Gradient_5qt05"]
-offsets = PackedFloat32Array(0, 0.0145631, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_vv78n"]
-gradient = SubResource("Gradient_5qt05")
-fill_from = Vector2(0.491453, 1)
-fill_to = Vector2(0.517094, 0)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wb152"]
-shader = ExtResource("7_pygof")
-shader_parameter/overlay = true
-shader_parameter/scanlines_opacity = 0.0
-shader_parameter/scanlines_width = 0.25
-shader_parameter/grille_opacity = 0.161
-shader_parameter/resolution = Vector2(640, 480)
-shader_parameter/pixelate = false
-shader_parameter/roll = false
-shader_parameter/roll_speed = 8.0
-shader_parameter/roll_size = 11.522
-shader_parameter/roll_variation = 1.459
-shader_parameter/distort_intensity = 0.057
-shader_parameter/noise_opacity = 0.085
-shader_parameter/noise_speed = 5.0
-shader_parameter/static_noise_intensity = 0.06
-shader_parameter/aberration = 0.012
-shader_parameter/brightness = 1.4
-shader_parameter/discolor = true
-shader_parameter/warp_amount = 0.0
-shader_parameter/clip_warp = false
-shader_parameter/vignette_intensity = 0.4
-shader_parameter/vignette_opacity = 0.57
-
-[node name="Intro" type="Node2D"]
-script = ExtResource("1_uikau")
-
-[node name="Camera2D" parent="." instance=ExtResource("2_by1qw")]
-position = Vector2(320, 240)
-
-[node name="music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_1hadc")
-volume_db = -4.0
-autoplay = true
-
-[node name="Panels" type="Control" parent="."]
+[node name="Intro" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 640.0
-offset_bottom = 480.0
+script = ExtResource("1_3heb2")
 
-[node name="TextureRect" type="TextureRect" parent="Panels"]
-layout_mode = 2
+[node name="Camera" parent="." instance=ExtResource("2_t2ayt")]
+position = Vector2(320, 240)
+
+[node name="Panel" type="TextureRect" parent="."]
+layout_mode = 0
 offset_left = 120.0
-offset_top = 48.0
+offset_top = 60.0
 offset_right = 520.0
-offset_bottom = 268.0
-texture = ExtResource("4_amsqc")
+offset_bottom = 280.0
+texture = ExtResource("1_w3set")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panels"]
-layout_mode = 2
-offset_left = 118.0
-offset_top = 304.0
+[node name="IntroText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 293.0
 offset_right = 520.0
-offset_bottom = 456.0
-theme = ExtResource("4_2pn5l")
+offset_bottom = 471.0
+theme = ExtResource("2_pcxj1")
 bbcode_enabled = true
-text = "Once upon a time...
-I ate a burger"
-fit_content = true
+text = "ONCE UPON A TIME...
+SQUID GAMES"
+scroll_active = false
 visible_characters_behavior = 1
+script = ExtResource("3_04b31")
+click_path = NodePath("Generic")
 
-[node name="Click" type="AudioStreamPlayer" parent="Panels/RichTextLabel"]
-stream = ExtResource("7_7qreg")
-volume_db = -12.0
-
-[node name="lights" type="Node2D" parent="."]
-
-[node name="CanvasModulate" type="CanvasModulate" parent="lights"]
-color = Color(0.698039, 0.572549, 0.858824, 1)
-
-[node name="PointLight2D" type="PointLight2D" parent="lights"]
-position = Vector2(296, 240)
-rotation = -0.00114144
-scale = Vector2(14.0335, 8.82311)
-color = Color(0.776471, 0.690196, 0.913725, 1)
-energy = 0.5
-texture = SubResource("GradientTexture2D_vv78n")
-
-[node name="vfx" type="Node2D" parent="."]
-
-[node name="vhs" type="ColorRect" parent="vfx"]
-material = SubResource("ShaderMaterial_wb152")
-offset_left = -271.0
-offset_right = 912.0
-offset_bottom = 604.0
+[node name="Generic" type="AudioStreamPlayer" parent="IntroText"]
+stream = ExtResource("5_1hq8x")
