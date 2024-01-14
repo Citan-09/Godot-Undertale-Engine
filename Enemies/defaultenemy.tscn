@@ -1191,7 +1191,7 @@ local_coords = true
 [node name="Dialogue" parent="." instance=ExtResource("4_ds1rv")]
 offset_left = 52.0
 offset_top = -140.0
-offset_right = 285.0
+offset_right = 287.0
 offset_bottom = -32.0
 texture = ExtResource("5_8173r")
 custom_character = 1

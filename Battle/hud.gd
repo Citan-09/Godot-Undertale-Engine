@@ -1,5 +1,5 @@
 extends HBoxContainer
-class_name BattleUI
+class_name BattleHUD
 
 @onready var Name = $Name
 @onready var Lv = $Lv
@@ -13,7 +13,7 @@ var kr = false
 # Called when the node enters the scene tree for the first time.
 func _process(delta: float) -> void:
 	Name.text = str(Global.player_name)
-	Lv.text = "Lv" + str(Global.player_lv)
+	Lv.text = "Lv " + str(Global.player_lv)
 	HpBarContainer.custom_minimum_size.x = min(max(Global.player_max_hp*1.2 +1,4),220)
 	HpBar.value = Global.player_hp - Global.player_kr
 	KrBar.value = Global.player_hp

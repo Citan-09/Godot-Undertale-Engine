@@ -12,5 +12,5 @@ metadata/_edit_group_ = true
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ymshj")
 
-[connection signal="area_entered" from="." to="." method="_on_obj_entered"]
 [connection signal="body_entered" from="." to="." method="_on_obj_entered"]
+[connection signal="finished_work" from="." to="." method="disable"]

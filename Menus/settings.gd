@@ -6,7 +6,8 @@ var hardcodedpositions = [
 	Vector2(43, 60),
 	Vector2(43, 89),
 	Vector2(43, 118),
-	Vector2(43, 204)
+	Vector2(43, 204),
+	Vector2(43, 258),
 ]
 var maxsizey = hardcodedpositions.size()
 var souly = 0
@@ -23,12 +24,16 @@ var bool_text = {
 func parse_setting_to_text(setting_value):
 	if typeof(setting_value) == TYPE_BOOL:
 		return bool_text.find_key(setting_value)
+	else:
+		return setting_value
 
 
 func settings_text():
-	var settingarray: Array = Global.settings.values()
-	settingarray[3] = parse_setting_to_text(settingarray[3])
-	var text = "Volume Settings[ul bullet=*]\nMUSIC: {gset} %\nSFX: {gset} %\nMISC: {gset} %[/ul]\n\nVideo Settings\n[ul bullet=*]VFX: {gset}".format(settingarray, "{gset}")
+	var settings_array_raw: Array = Global.settings.values()
+	var settings_array := []
+	for i in settings_array_raw.size():
+		settings_array.append(parse_setting_to_text(settings_array_raw[i]))
+	var text = "Volume Settings[ul bullet=*]\nMUSIC: {gset} %\nSFX: {gset} %\nMISC: {gset} %[/ul]\n\nVideo Settings\n[ul bullet=*]SCREEN SHAKE: {gset}\nVFX: {gset}".format(settings_array, "{gset}")
 	$MarginContainer/NinePatchRect/MarginContainer/RichTextLabel.text = text
 
 func _input(event: InputEvent) -> void:

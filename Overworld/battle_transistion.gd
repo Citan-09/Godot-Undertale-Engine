@@ -19,6 +19,7 @@ func transistion():
 	tw.tween_property($Black/Soul, "position", target, 0.8).set_delay(0.07)
 	tw.tween_property($Black/Soul, "modulate:a", 0, 0.3)
 	await tw.finished
+	queue_free()
 
 
 

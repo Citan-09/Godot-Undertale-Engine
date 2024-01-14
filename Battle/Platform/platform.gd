@@ -3,15 +3,15 @@ class_name Platform
 
 var platform_mode: modes = modes.GREEN
 
-enum modes{
+enum modes {
 	GREEN,
 	PINK,
 }
 
 
 var colors: Array[Color] = [
-	Color.LIME_GREEN,
-	Color.DEEP_PINK,
+	Color("009618"),
+	Color("b700b8"),
 ]
 
 @onready var colored_platform = $Platform
@@ -20,7 +20,7 @@ var colors: Array[Color] = [
 
 func _ready():
 	Collision.shape = RectangleShape2D.new()
-	Collision.shape.size.y = 6
+	Collision.shape.size.y = 10
 
 
 func _physics_process(delta):
@@ -37,10 +37,9 @@ func _physics_process(delta):
 func fire(target_position: Vector2, length: float = 40, speed: float = 100.0, fire_mode: fire_modes = fire_modes.TWEEN, plat_mode: modes = modes.GREEN):
 	self.size.x = length
 	Collision.shape.size.x = length
-	Collision.position.x = length/2.0
+	Collision.position.x = length / 2.0
 	var distance = target_position - position
 	platform_mode = plat_mode
-	print(distance)
 	match fire_mode:
 		fire_modes.VELOCITY:
 			velocity = speed * distance.normalized()
@@ -48,5 +47,5 @@ func fire(target_position: Vector2, length: float = 40, speed: float = 100.0, fi
 			velocity_tween = create_tween().set_ease(TweenEase).set_trans(TweenTrans)
 			velocity_tween.tween_property(self, "position", distance, distance.length() / speed).as_relative()
 			velocity_tween.play()
-	
+
 

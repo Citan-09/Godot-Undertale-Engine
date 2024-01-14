@@ -6,10 +6,13 @@ func _default_cutscene():
 	$YSortNodes/TileMap/Sans.start_walking(Vector2i.LEFT)
 
 func _default_trigger_battle():
-	Global.set_flag(Global.Flag.DEFEATED_DEFAULT_ENEMY,1)
-	await load_battle_save_data()
+	await Global.load_battle()
+	request_ready()
+	$YSortNodes/TileMap/Sans.start_walking(Vector2.ZERO)
+	$YSortNodes/TileMap/Sans.position.x += 100
+	#await load_battle_save_data()
 
 func _ready():
 	if Global.flags & Global.Flag.DEFEATED_DEFAULT_ENEMY:
-		$YSortNodes/TileMap/CutsceneStarters/Start.queue_free()
-		$YSortNodes/TileMap/CutsceneStarters/SansStop.queue_free()
+		$YSortNodes/TileMap/CutsceneStarters/Start.disable()
+		$YSortNodes/TileMap/CutsceneStarters/SansStop.disable()

@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://cy0ailywvxv4s"]
 
-[ext_resource type="Script" path="res://global.gd" id="1_iel2y"]
+[ext_resource type="Script" path="res://Singletons/global.gd" id="1_iel2y"]
 [ext_resource type="Script" path="res://Resources/Items/Item.gd" id="2_1aujb"]
 [ext_resource type="PackedScene" uid="uid://llwvcsnw2bb4" path="res://Menus/settings.tscn" id="2_g1cw8"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="2_he4k0"]
@@ -67,7 +67,7 @@ item_information = ["* Item - Heals 0 hp
 * This means this item has no description or is the default item."]
 throw_message = ["* You threw the Item!"]
 heal_amount = 0
-attack_amount = 2
+attack_amount = 5
 defense_amount = 0
 
 [node name="Global" type="CanvasLayer"]

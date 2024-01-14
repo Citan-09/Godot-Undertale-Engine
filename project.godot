@@ -20,8 +20,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://global.tscn"
-MusicController="*res://Musics/music_controller.tscn"
+Global="*res://Singletons/global.tscn"
+OverworldSceneChanger="*res://Singletons/overworld_scene_changer.tscn"
 
 [display]
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4c1hkxfxvh2t"]
+[gd_scene load_steps=7 format=3 uid="uid://c4c1hkxfxvh2t"]
 
 [ext_resource type="Script" path="res://Menus/SaveLoader.gd" id="1_u8fb3"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="2_u0ptt"]
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="3_55hs8"]
 [ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="4_6utps"]
 [ext_resource type="AudioStream" uid="uid://dkpyd33jvupcp" path="res://sfx/warning.ogg" id="5_rfr4t"]
+[ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="5_rk211"]
 
 [node name="SaveLoader" type="CanvasLayer"]
 script = ExtResource("1_u8fb3")
@@ -115,6 +116,10 @@ scroll_active = false
 
 [node name="choice" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_6utps")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_rk211")
 bus = &"SFX"
 
 [node name="warn" type="AudioStreamPlayer" parent="."]

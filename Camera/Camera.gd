@@ -40,7 +40,7 @@ func rgbsplit(time: float = 0, targetrate: float = 1):
 
 
 func _process(delta):
-	if shakeamt > 0.0 and Global.settings["vfx"]:
+	if shakeamt > 0.0 and Global.settings["shake"]:
 		shakeamt = lerpf(shakeamt, 0, 0.2)
 		if shakeamt < 0:
 			shakeamt = 0

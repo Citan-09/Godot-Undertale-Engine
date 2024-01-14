@@ -6,6 +6,7 @@ class_name GenericTextTyper
 @export var interval = 0.1
 @export var currentfont: FontFile = load("res://Text/Fonts/DTM-Mono.otf")
 @export var queued_texts_handling: text_queue_modes = text_queue_modes.AWAIT_FINISH
+var pausetween: Tween
 var visibletween: Tween
 var soundtween: Tween
 var chache_parsed_text
@@ -23,6 +24,7 @@ enum text_queue_modes {
 signal startedtyping(line: int)
 signal confirm
 signal finishedalltexts
+
 func _process(delta: float) -> void:
 	if currentfont:
 		set("theme_override_fonts/normal_font", currentfont)
@@ -31,21 +33,30 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and visibletween and visibletween.is_running():
-		soundtween.kill()
-		visibletween.custom_step(10000)
-		get_viewport().set_input_as_handled()
+		kill_tweens(true)
 	if event.is_action_pressed("ui_accept") and (!visibletween or !visibletween.is_running()):
 		emit_signal("confirm")
 
+func kill_tweens(complete_text :=false):
+	if pausetween and pausetween.is_valid():
+		pausetween.stop()
+		pausetween.kill()
+	if soundtween and soundtween.is_valid():
+		soundtween.stop()
+		soundtween.kill()
+	if visibletween and visibletween.is_valid():
+		if complete_text:
+			visibletween.custom_step(10000)
+		else:
+			visibletween.stop()
+			visibletween.kill()
+	
 
-func _on_start_typing(number):
-	pass
 
 func typetext(Text = "Blank"):
 	typing = true
 	if typeof(Text) != TYPE_ARRAY and typeof(Text) != TYPE_PACKED_STRING_ARRAY: Text = [Text]
 	for i in Text.size():
-		_on_start_typing(i)
 		emit_signal("startedtyping", i)
 		await _type_one_line(Text[i])
 		await confirm
@@ -56,20 +67,17 @@ func createtweeners():
 	visibletween = create_tween()
 	soundtween = create_tween()
 	visibletween.tween_interval(interval / 2.0)
+
+
 func _type_one_line(line: String):
 	text = entire_text_bbcode + line
 	chache_parsed_text = get_parsed_text()
 	match queued_texts_handling:
 		text_queue_modes.AWAIT_FINISH:
-			while visibletween and visibletween.is_valid():
-				await get_tree().process_frame
+			while visibletween and visibletween.is_valid() and visibletween.is_running():
+				await visibletween.finished
 		text_queue_modes.OVERRIDE_CURRENT:
-			if visibletween:
-				visibletween.kill()
-				visibletween = null
-			if soundtween:
-				soundtween.kill()
-				soundtween = null
+			kill_tweens()
 		text_queue_modes.VOID_QUEUED:
 			if visibletween and visibletween.is_valid():
 				return false
@@ -88,7 +96,7 @@ func playclick():
 	if currentchar in extra_delay:
 		soundtween.pause()
 		visibletween.pause()
-		var pausetween = create_tween()
+		pausetween = create_tween()
 		pausetween.tween_callback(visibletween.play).set_delay(interval)
 		pausetween.tween_callback(soundtween.play).set_delay(interval)
 		return false

@@ -10,7 +10,7 @@ var equipment: Dictionary = {"weapon": 3, "armor": 2}
 var cells: Array
 var items: Array
 var boxitems: Array  #[[],[],[]]
-var settings: Dictionary = {"music": 100, "sfx": 100, "misc": 100, "vfx": true}
+var settings: Dictionary = {"music": 100, "sfx": 100, "misc": 100, "shake": true, "vfx": false}
 
 var savepath = "user://savegame.bin"
 
@@ -45,24 +45,23 @@ var krtime = 0.5
 var temp_atk: int = 0
 var temp_def: int = 0
 var player_position := Vector2.ZERO
-var encounter_resource: Encounter
+var overworld_scene: Overworld
 var overworld_temp_data = {
 	"global_position": Vector2.ZERO,
-	"room_entrance": 0,
 }
 # Overworld
-@export var rooms = [
-	"res://Overworld/overworld_default.tscn"
-]
+#@export var rooms :Array[PackedScene] = [
+	#preload("res://Overworld/overworld_default.tscn")
+#]
 var just_died := true
 var overworld_data := {
-	"room": null,
+	"room": "",
 	"room_name": "",
 	"room_pos": [0.0, 0.0],
 }
 
 ## ADD FLAGS HERE
-enum Flag{
+enum Flag {
 	DEFEATED_DEFAULT_ENEMY = 0b1,
 }
 var flags: int = 0b0
@@ -72,10 +71,13 @@ var flags_at_save: int = 0b0
 ## Sets a flag in Global.flags to a binary value.
 func set_flag(flag: Flag, value: int):
 	if value and value != 1:
-		push_error("Global.set_flag(%s, %s): value %s is not binary." % [flag,value,value])
+		push_error("Global.set_flag(%s, %s): value %s is not binary." % [flag, value, value])
 		value = 1
-	if value and !flags & flag: flags += flag
-	elif flags & flag: flags -= flag
+	if value:
+		if !flags & flag:
+			flags += flag
+	elif flags & flag:
+		flags -= flag
 
 
 var playtime = 0.0
@@ -106,17 +108,6 @@ enum weaponstype {
 
 ## USE THESE TO ADD NEW ITEMS
 @export var item_list: Array[Item] = [
-]
-
-var item_set_1 = [
-	0,
-	1,
-	1,
-	0,
-	1,
-	1,
-	0,
-	0
 ]
 
 @onready var heal_sound = $heal
@@ -166,7 +157,7 @@ func _input(event: InputEvent) -> void:
 		debugmode = not debugmode
 	if event.is_action_pressed("force_save"):
 		savegame()
-		MusicController.play_music_key("other", "save", false)
+		print_debug("Save game forced")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if debugmode:
@@ -296,7 +287,7 @@ func loadgame():
 		# OVERWORLD
 		overworld_data.merge(savedata.get("overworld", {}), true)
 		# FLAGS
-		flags = savedata.get("flags",0)
+		flags = savedata.get("flags", 0)
 		first = savedata.get("first", true)
 	flags_at_save = flags
 	refresh_audio_busses()
@@ -329,7 +320,7 @@ func _on_kr_tick() -> void:
 
 func check_level_up():
 	var lv = player_lv
-	var lvup
+	var lvup = 0
 	if player_exp >= 10:
 		lv = 2
 	if player_exp >= 30:
@@ -380,20 +371,27 @@ func check_level_up():
 	else:
 		lvup = 0
 
-	player_lv += lvup
+	player_lv = lv
 
 	return lvup
 
 func load_battle(battle_scene_path: String = "res://Battle/battle.tscn", battle_resource: Encounter = preload("res://Resources/Encounters/EncounterTest.tres"), transistion := true, to_position := Vector2(48, 452)):
+	var tree := get_tree()
+	var screen
 	if transistion:
-		var screen = load("res://Overworld/battle_transistion.tscn").instantiate()
+		screen = preload("res://Overworld/battle_transistion.tscn").instantiate()
 		screen.target = to_position
-		get_tree().current_scene.add_child(screen)
+		tree.current_scene.add_child(screen)
 		await screen.transistion()
 	player_in_menu = false
 	player_can_move = true
-	encounter_resource = battle_resource
-	get_tree().change_scene_to_file(battle_scene_path)
+	var battle = load(battle_scene_path).instantiate() as BattleMain
+	battle.encounter = battle_resource
+	overworld_scene = tree.current_scene
+	tree.root.remove_child(overworld_scene)
+	tree.root.add_child(battle)
+	tree.current_scene = battle
+	
 
 
 

@@ -13,6 +13,7 @@ const enemysizelimit = 3
 	"  * Spare",
 	"  * Flee",
 ]
+@export_range(0, 1) var flee_chance: float = 0.2
+
 func _init():
 	if enemies.size() > 3: enemies.resize(3)
-

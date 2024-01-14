@@ -1,3 +1,12 @@
+res://Battle/AttackMeter
+res://Utilities
+D:/Godot/Godot-Undertale-Engine-main/FlatUI
+D:/Godot/Godot-Undertale-Engine-main/Text/Fonts
+C:/Users/silic/Downloads/gam
+C:/Users/silic/Downloads/gametest
+res://Musics
+res://Overworld
+res://Singletons
 res://Battle/Bullets/BoneSpike
 res://Battle/Platform
 res://Battle/Bullets/Blaster
@@ -8,4 +17,3 @@ res://Enemies
 res://Battle/Death
 res://
 res://Intro
-res://Battle/AttackMeter

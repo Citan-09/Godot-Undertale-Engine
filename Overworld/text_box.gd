@@ -76,6 +76,8 @@ var char_head := {
 signal confirm
 
 signal selected_option(option)
+
+
 func _ready():
 	$Control/Speaker.modulate.a = 0
 	$Control/Speaker.hide()
@@ -97,7 +99,7 @@ func _dismiss_box():
 	tw.tween_property($Control, "size:x", 0, summon_duration)
 	tw.tween_property($Control, "position:x", 320, summon_duration)
 	tw.tween_property($Control, "modulate:a", 0, summon_duration)
-	await get_tree().create_timer(summon_duration, false).timeout
+	await tw.finished
 	queue_free()
 
 func generic(text: PackedStringArray, options: PackedStringArray = [], text_after_options: Array = []):

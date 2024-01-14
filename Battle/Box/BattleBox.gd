@@ -6,7 +6,6 @@ class_name BattleBox
 @export var TransType = Tween.TRANS_QUAD
 @export var EaseType = Tween.EASE_OUT
 
-@export_range(0, 1) var flee_chance: float = 0.2
 @export var mercytexts = ["* You spared the enemies.", "* You fled.", "* Failed to flee."]
 @export var wintext = "* You won! \n* You Earned %s EXP and %s Gold."
 @onready var Blitter = $Blitter
@@ -71,7 +70,7 @@ func set_mercy_options():
 	var txt = ""
 	var spare_color = "white"
 	for i in enemies.size():
-		if enemies[i].enemy_states[enemies[i].current_state].Sparable:
+		if enemies[i] and enemies[i].enemy_states[enemies[i].current_state].Sparable:
 			spare_color = "yellow"
 	for i in main.encounter.mercy_options.size():
 		txt += "[color=%s]%s[/color]\n" % [spare_color, main.encounter.mercy_options[i]]
@@ -281,7 +280,9 @@ func _unhandled_input(event: InputEvent) -> void:
 						3:
 							emit_signal("exitmenu")
 							mercychoice = soulpostoid(soulposition, 1)
-							if mercychoice == 1 and randf() > flee_chance:
+							randomize()
+							var rand = randf()
+							if mercychoice == 1 and rand >= main.encounter.flee_chance:
 								mercychoice = -1
 								Blittertext.typetext(mercytexts[mercychoice])
 								refresh_options(state.Blittering)
@@ -368,19 +369,19 @@ func change_anchor(relative_to, new_position: Vector2 = Vector2.ZERO, new_size: 
 	await TweenSize(custom_time)
 
 func TweenSize(duration):
-	if !duration: duration = Duration
-	if not tw or not tw.is_valid():
-		tw = create_tween().set_parallel().set_ease(EaseType).set_trans(TransType)
-	else:
-		tw.pause()
+	if !duration:
+		duration = Duration
+	if tw and (tw.is_valid() and tw.is_running()):
+		tw.stop()
 		tw.chain()
+	else:
+		tw = create_tween().set_parallel().set_ease(EaseType).set_trans(TransType)
 	tw.tween_property(container, "theme_override_constants/margin_left", anchor_targets[0].x, duration)
 	tw.tween_property(container, "theme_override_constants/margin_top", anchor_targets[0].y, duration)
 	tw.tween_property(container, "theme_override_constants/margin_right", 640- anchor_targets[1].x, duration)
 	tw.tween_property(container, "theme_override_constants/margin_bottom", 480- anchor_targets[1].y, duration)
 	tw.play()
 	await tw.finished
-	tw.kill()
 	return true
 #endregion
 

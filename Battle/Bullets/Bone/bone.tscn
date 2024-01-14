@@ -8,12 +8,10 @@
 size = Vector2(6, 14)
 
 [node name="Bone" type="CharacterBody2D"]
-position = Vector2(273, 153)
 script = ExtResource("1_p0sqk")
 collision_margin = 8
-damage = 10
+damage = 11
 iframe_grant = 20
-delete_upon_hit = false
 
 [node name="Sprite" type="NinePatchRect" parent="."]
 offset_left = -7.0

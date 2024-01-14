@@ -34,9 +34,10 @@ var direction := Vector2.ZERO
 var interactables = []
 
 var playermenu = preload("res://Overworld/ui.tscn")
+
 func _physics_process(delta):
 	if Global.player_can_move and !Global.player_in_menu:
-		setdirection()
+		get_direction()
 		velocity.x = direction.x * walk_speed * walk_speed_modifier
 		velocity.y = direction.y * walk_speed * walk_speed_modifier
 		move_and_slide()
@@ -46,14 +47,37 @@ func _physics_process(delta):
 		if area.is_in_group("interactable"):
 			interactables.append(area)
 
-func setdirection():
-		inputs = [
+
+func get_direction():
+	inputs = [
 			Input.is_action_pressed("ui_down"),
 			Input.is_action_pressed("ui_up"),
 			Input.is_action_pressed("ui_left"),
 			Input.is_action_pressed("ui_right")
 		]
-		direction = Vector2(inputs[3] - inputs[2], inputs[0] - inputs[1])
+	direction = Vector2(inputs[3] - inputs[2], inputs[0] - inputs[1])
+	set_direction()
+
+func force_direction(dir: Vector2):
+	direction = dir.normalized()
+	if direction:
+		match direction.x:
+			1.0:
+				current_animation = walk_anims[2]
+				Sprite.flip_h = true
+			-1.0:
+				current_animation = walk_anims[2]
+				Sprite.flip_h = false
+		match direction.y:
+			1.0:
+				current_animation = walk_anims[0]
+				Sprite.flip_h = false
+			-1.0:
+				current_animation = walk_anims[1]
+				Sprite.flip_h = false
+		Sprite.frame = current_animation[0] + int(shadow) * 4
+
+func set_direction():
 		Interacter.position = InteractPosx.get(int(direction.x), Interacter.position)
 		Interacter.position = InteractPosy.get(int(direction.y), Interacter.position)
 		if direction.x: Interacter.rotation_degrees = 90.0
@@ -82,26 +106,26 @@ func setdirection():
 
 var moving := false
 
-func _ready():
-	moving = false
-	setdirection()
-	if direction:
-		match direction.x:
-			1.0:
-				current_animation = walk_anims[2]
-				Sprite.flip_h = true
-			-1.0:
-				current_animation = walk_anims[2]
-				Sprite.flip_h = false
-		match direction.y:
-			1.0:
-				current_animation = walk_anims[0]
-				Sprite.flip_h = false
-			-1.0:
-				current_animation = walk_anims[1]
-				Sprite.flip_h = false
-		Sprite.frame = current_animation[0] + int(shadow) * 4
-		moving = true
+#func _ready():
+	#moving = false
+	#get_direction()
+	#if direction:
+		#match direction.x:
+			#1.0:
+				#current_animation = walk_anims[2]
+				#Sprite.flip_h = true
+			#-1.0:
+				#current_animation = walk_anims[2]
+				#Sprite.flip_h = false
+		#match direction.y:
+			#1.0:
+				#current_animation = walk_anims[0]
+				#Sprite.flip_h = false
+			#-1.0:
+				#current_animation = walk_anims[1]
+				#Sprite.flip_h = false
+		#Sprite.frame = current_animation[0] + int(shadow) * 4
+		#moving = true
 
 func _unhandled_input(event):
 	if Global.player_can_move and !Global.player_in_menu:
@@ -110,7 +134,7 @@ func _unhandled_input(event):
 		or event.is_action("ui_left")
 		or event.is_action("ui_right")
 		) and (event.is_pressed() or event.is_released()):
-			setdirection()
+			get_direction()
 			if direction:
 				match direction.x:
 					1.0:

@@ -14,8 +14,6 @@ class_name Enemy
 @onready var Soul: SoulBattle = $/root/main/Soul_Battle
 @onready var MenuSoul = $/root/main/Soul_Battle
 
-var attack = preload("res://Battle/Attacks/default_attack.tscn")
-
 var kr: bool = true
 
 ##USED FOR THE BATTLE SYSTEM THIS IS NOT AN ID USED TO LOAD THEM
@@ -134,3 +132,6 @@ func _on_spared(_id):
 	$Spare.restart()
 	$Spare.emitting = true
 	$Sounds/Dust.play()
+
+func on_defeat():
+	pass

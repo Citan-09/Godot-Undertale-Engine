@@ -1,9 +1,9 @@
 extends AnimatedSprite2D
 
 var attackwindow = 2.5
-var speed_mult = 1.0
 var time = 0.4
-var transtype = Tween.TRANS_QUINT
+var transtype = Tween.TRANS_QUAD
+var speed_mult: float
 @onready var movetype = Global.item_list[Global.equipment["weapon"]].bar_trans_type
 
 var direction: float
@@ -22,8 +22,8 @@ func _ready() -> void:
 	tw = create_tween().set_ease(Tween.EASE_OUT).set_trans(transtype).set_parallel()
 	tw.tween_property(self, "modulate:a", 1, time)
 	tw.set_ease(Tween.EASE_IN_OUT)
-	tw.tween_property(self, "position:x", 550.0 * sign(direction), attackwindow).as_relative().set_trans(movetype)
-	tw.tween_property(self, "hityet", false, attackwindow / 5.0)
+	tw.tween_property(self, "position:x", 550.0 * sign(direction), attackwindow / speed_mult).as_relative().set_trans(movetype)
+	tw.tween_property(self, "hityet", false, (attackwindow / speed_mult) / 6.0)
 	tw.chain()
 	tw.tween_property(self, "modulate:a", 0, time)
 	tw.chain()

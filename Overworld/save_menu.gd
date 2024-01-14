@@ -44,7 +44,7 @@ func _unhandled_input(event):
 				$Control/Options/Soul.hide()
 				Global.savegame()
 				refresh()
-				MusicController.play_music_key("other","save",false)
+			$save.play()
 
 func _hide():
 	Global.player_in_menu = false

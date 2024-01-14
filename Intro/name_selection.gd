@@ -30,7 +30,7 @@ func _on_name_input_text_submitted(new_text):
 	$Camera.rgbsplit(5, 0.7)
 	await tw.finished
 	Global.savegame()
-	get_tree().change_scene_to_file("res://Overworld/overworld_room_loader.tscn")
+	OverworldSceneChanger.enter_room_default()
 
 
 signal allow_name

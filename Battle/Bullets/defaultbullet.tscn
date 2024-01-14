@@ -54,7 +54,6 @@ TweenTrans = 1
 TweenEase = 1
 damage = 1
 iframe_grant = 2
-kr_amount = 1
 
 [node name="Sprite2" type="Polygon2D" parent="."]
 scale = Vector2(1, 33.5)

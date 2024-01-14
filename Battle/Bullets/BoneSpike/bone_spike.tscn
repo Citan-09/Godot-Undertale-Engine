@@ -50,6 +50,8 @@ _data = {
 
 [node name="BoneSpike" type="CharacterBody2D"]
 script = ExtResource("1_m2xpf")
+damage = 1
+iframe_grant = 2
 
 [node name="Sprite" type="NinePatchRect" parent="."]
 visible = false

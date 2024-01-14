@@ -18,6 +18,7 @@ func _unhandled_input(event):
 		$Control/Options/Soul.position = $Control/Options/Load.position
 	if event.is_action_pressed("ui_accept"):
 		get_viewport().set_input_as_handled()
+		$select.play()
 		if soulpos:
 			if reset:
 				set_process_unhandled_input(false)
@@ -26,13 +27,14 @@ func _unhandled_input(event):
 				tw.tween_property($Control, "position:y", 640, 0.7).as_relative()
 				await tw.finished
 				await get_tree().create_timer(0.4, false).timeout
-				get_tree().change_scene_to_file(ProjectSettings.get("application/run/main_scene"))
+				OverworldSceneChanger.enter_room_default()
 			else:
 				$warn.play()
 				$Control/Options/Reset.text = "[color=red]CONFIRM RESET"
 				reset = true
 		else:
-			get_tree().change_scene_to_file("res://Overworld/overworld_room_loader.tscn")
+			set_process_unhandled_input(false)
+			OverworldSceneChanger.enter_room_path(Global.overworld_data.room if Global.overworld_data.room is String else OverworldSceneChanger.default_scene, {})
 
 func _hide():
 	Global.player_in_menu = false

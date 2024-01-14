@@ -17,12 +17,12 @@ var damageinfo: PackedScene = preload("res://Battle/AttackMeter/damage.tscn")
 ## Attacks Handler (NOT THE CURRENT ATTACK).
 @onready var Attacks: AttackManager = $Attacks/BoxClipper
 ## Battle HUD (Name, Hp, Kr, etc).
-@onready var HUD: BattleUI = $CoreElements/HUD
+@onready var HUD: BattleHUD = $CoreElements/HUD
 
 ## Turn Number, increases every time the enemy gets their turn.
 var TurnNumber := 0
-## Encounter Resource used to play music and set enemies.
-var encounter: Encounter
+## Default Encounter Resource used to play music and set enemies and more.
+@export var encounter: Encounter
 
 ## Temporary rewards used to grant rewards at the end of the battle.
 var rewards = {"gold": 0, "exp": 0}
@@ -45,11 +45,14 @@ signal damage_info_finished
 ## Used to start enemies' turn (after all actions have been processed).
 signal endturn
 
+signal item_used(id: int)
+signal spare_used
+
 ## Handles resettings Battle Box's ActionMemory and puts your soul into the Battle Box
 func _on_player_turn_start():
 	Soul_Battle.disable()
 	add_child(Soul_Menu, true)
-	move_child(Soul_Menu, 1)
+	move_child(Soul_Menu, 6)
 	Buttons.enable()
 	Box.ActionMemory[0] = Box.state.Blittering
 	Box.Blitter.show()
@@ -58,13 +61,9 @@ func _on_player_turn_start():
 func _on_enemy_turn_start():
 	TurnNumber += 1
 	add_child(Soul_Battle, true)
-	move_child(Soul_Battle, 1)
+	move_child(Soul_Battle, 6)
 
 func _ready() -> void:
-	if Global.encounter_resource:
-		encounter = Global.encounter_resource
-		Global.encounter_resource = null
-	else: encounter = load("res://Resources/Encounters/EncounterTest.tres")
 	enemies.append_array(encounter.enemies)
 	enemynames = enemies
 	for i in enemies.size():
@@ -94,6 +93,10 @@ func _ready() -> void:
 		rewards["exp"] += rwrds.get("exp", 0)
 		# END
 		music = encounter.music
+		
+		item_used.connect(enemies[i].on_item_used)
+		spare_used.connect(enemies[i].on_mercy_used)
+		
 		enemies[i].spared.connect(spare_enemy)
 		endturn.connect(enemies[i]._on_get_turn)
 
@@ -120,14 +123,15 @@ func _mercy(choice: int):
 			emit_signal("endturn")
 		0:
 			for i in enemies.size():
-				enemies[i].on_mercy_used()
+				if enemies[i]:
+					enemies[i].on_mercy_used()
 			if not check_end_encounter():
 				emit_signal("endturn")
 		1:
 			await Camera.blind(1, 1)
 			Global.temp_atk = 0
 			Global.temp_def = 0
-			get_tree().change_scene_to_file("res://Overworld/overworld_room_loader.tscn")
+			OverworldSceneChanger.load_cached_overworld_scene()
 
 func _item(item_id):
 	for e in enemies:
@@ -193,12 +197,27 @@ func miss(target: int):
 
 ## Kills enemy and checks if the encounter can end.
 func kill_enemy(enemy_id: int = 0):
+	enemies[enemy_id].on_defeat()
 	enemies[enemy_id].script = null
 	enemies[enemy_id] = null
-	enemynames.remove_at(enemy_id)
+	enemynames[enemy_id] = null
 	Box.setenemies(enemies)
 	if check_end_encounter():
 		end_encounter()
+	else:
+		var _solo = check_enemy_solo()
+		for i in enemies.size():
+			enemies[i].solo = _solo
+
+
+func check_enemy_solo() -> bool:
+	var enemy_count = 0
+	for i in enemies.size():
+		if enemies[i]:
+			enemy_count += 1
+	return enemy_count == 1
+
+
 
 func check_end_encounter() -> bool:
 	var empty = true
@@ -210,13 +229,19 @@ func check_end_encounter() -> bool:
 ## Spares enemy and checks if the encounter can end.
 func spare_enemy(enemy_id: int = 0):
 	rewards["exp"] -= enemies[enemy_id].rewards.get("exp", 0)
+	enemies[enemy_id].on_defeat()
 	enemies[enemy_id].sprites.modulate.a = 0.5
 	enemies[enemy_id].script = null
 	enemies[enemy_id] = null
-	enemynames.remove_at(enemy_id)
+	enemynames[enemy_id] = null
 	Box.setenemies(enemies)
 	if check_end_encounter():
 		end_encounter()
+	else:
+		var _solo = check_enemy_solo()
+		for i in enemies.size():
+			if enemies[i]:
+				enemies[i].solo = _solo
 
 ## Ends encounter and gives rewards.
 func end_encounter():
@@ -237,5 +262,5 @@ func end_encounter():
 	await Camera.blind(1, 1)
 	Global.temp_atk = 0
 	Global.temp_def = 0
-	get_tree().change_scene_to_file("res://Overworld/overworld_room_loader.tscn")
+	OverworldSceneChanger.load_cached_overworld_scene()
 

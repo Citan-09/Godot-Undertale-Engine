@@ -7,22 +7,22 @@
 [ext_resource type="AudioStream" uid="uid://ccsemt86o4bp0" path="res://sfx/player_atk.wav" id="5_6fg55"]
 [ext_resource type="Texture2D" uid="uid://cbru6ui556frr" path="res://Battle/Slashes/Knife/slashes.png" id="14_lob80"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_o4fyr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fuboy"]
 atlas = ExtResource("1_uqwy5")
-region = Rect2(0, 0, 14, 120)
+region = Rect2(0, 0, 14, 130)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5rsfn"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ji8tq"]
 atlas = ExtResource("1_uqwy5")
-region = Rect2(14, 0, 14, 120)
+region = Rect2(14, 0, 14, 130)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ycm5y"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_o4fyr")
+"texture": SubResource("AtlasTexture_fuboy")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5rsfn")
+"texture": SubResource("AtlasTexture_ji8tq")
 }],
 "loop": true,
 "name": &"glow",

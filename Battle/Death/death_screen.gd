@@ -22,7 +22,7 @@ func _ready():
 	await Confirm
 	await Camera.blind(0.6, 1)
 	Global.just_died = true
-	get_tree().change_scene_to_file("res://Overworld/overworld_room_loader.tscn")
+	OverworldSceneChanger.enter_room_path(Global.overworld_data.room if Global.overworld_data.room is String else OverworldSceneChanger.default_scene, {})
 
 signal Confirm
 

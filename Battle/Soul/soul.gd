@@ -54,7 +54,7 @@ func disable():
 	if is_processing():
 		set_process(false)
 		set_physics_process(false)
-		var tw = create_tween().tween_property(self, "modulate:a", 0, 0.6)
+		var tw = create_tween().tween_property(self, "modulate:a", 0, 0.5)
 		await tw.finished
 		get_parent().remove_child.call_deferred(self)
 
@@ -63,13 +63,15 @@ func _enter_tree() -> void:
 	mode = DISABLE_MOVEMENT
 
 func enable() -> void:
-	if !is_node_ready(): await ready
-	position = Vector2(320, 320)
-	var tw = create_tween()
-	tw.tween_property(self, "modulate:a", 1, 0.6)
-	await tw.finished
-	set_process(true)
-	set_physics_process(true)
+	if !is_processing():
+		if !is_node_ready(): await ready
+		position = Vector2(320, 320)
+		var tw = create_tween()
+		tw.tween_property(self, "modulate:a", 1, 0.5)
+		await tw.finished
+		tw.kill()
+		set_process(true)
+		set_physics_process(true)
 
 func _physics_process(delta: float) -> void:
 	match mode:
@@ -148,6 +150,8 @@ func set_mode(new_mode := RED):
 	if new_mode != BLUE:
 		gravity_direction = Vector2.DOWN
 	match_sprites_with_soul()
+
+
 func set_gravity_direction(new_direction: Vector2, force_blue_mode: bool = true):
 	velocity = Vector2.ZERO
 	gravity_direction = new_direction

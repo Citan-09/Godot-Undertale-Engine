@@ -4,12 +4,13 @@
 [ext_resource type="Script" path="res://Battle/Platform/platform.gd" id="2_h68qc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgcng"]
-size = Vector2(40, 6)
+size = Vector2(40, 10)
 
 [node name="PlatformBase" type="NinePatchRect"]
 offset_left = -20.0
 offset_top = -6.0
 offset_right = 20.0
+offset_bottom = 2.0
 texture = ExtResource("1_2kgtr")
 patch_margin_left = 1
 patch_margin_top = 1
@@ -18,15 +19,14 @@ patch_margin_bottom = 1
 script = ExtResource("2_h68qc")
 
 [node name="Platform" type="NinePatchRect" parent="."]
-self_modulate = Color(0, 1, 0.156863, 1)
+self_modulate = Color(0.717647, 0, 0.721569, 1)
+show_behind_parent = true
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1.0
 offset_top = -4.0
-offset_right = 1.0
-offset_bottom = -4.0
+offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_2kgtr")

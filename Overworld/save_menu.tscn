@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://df7xhaqls5ufd"]
+[gd_scene load_steps=8 format=3 uid="uid://df7xhaqls5ufd"]
 
 [ext_resource type="Script" path="res://Overworld/save_menu.gd" id="1_86oyx"]
 [ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Battle/Box/box.png" id="1_xautt"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="2_hb2sc"]
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="3_fvu3e"]
 [ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="5_ef50b"]
+[ext_resource type="AudioStream" uid="uid://8suhxxampqkc" path="res://sfx/snd_save.wav" id="6_q5m82"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3a02"]
 bg_color = Color(0, 0, 0, 1)
@@ -155,4 +156,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="choice" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_ef50b")
+bus = &"SFX"
+
+[node name="save" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_q5m82")
 bus = &"SFX"
