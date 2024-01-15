@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-var time = 0.7
+var time = 0.5
 var transtype = Tween.TRANS_EXPO
 
 var targetdef = 0
@@ -22,7 +22,7 @@ var crits = 0
 var summonclock: Tween
 func _ready() -> void:
 	meter.modulate.a = 0
-	meter.scale.x = 0
+	meter.scale.x = 0.33
 	var tw = create_tween().set_ease(Tween.EASE_OUT).set_trans(transtype).set_parallel()
 	tw.tween_property(meter, "scale:x", 1, time)
 	tw.tween_property(meter, "modulate:a", 1, time / 2.0)  #.set_trans(Tween.TRANS_LINEAR)

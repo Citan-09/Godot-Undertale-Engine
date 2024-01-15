@@ -57,8 +57,9 @@ func _set_player_data(current_scene):
 func load_cached_overworld_scene():
 	var tree := get_tree()
 	tree.unload_current_scene()
-	tree.root.add_child(Global.overworld_scene)
-	tree.current_scene = Global.overworld_scene
+	var sc = Global.overworld_scene if Global.overworld_scene else default_scene
+	tree.root.add_child(sc)
+	tree.current_scene = sc
 
 #func _ready():
 	#var room = Global.overworld_data.get("room")

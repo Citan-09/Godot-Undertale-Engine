@@ -13,7 +13,7 @@ signal remove_bullets
 
 func add_attack(attack: PackedScene, starter: Enemy) -> Node:
 	var attack_node = attack.instantiate()
-	add_child(attack_node)
+	add_child(attack_node, true)
 	currentattacks.append(attack_node)
 	attack_node.attack_id = currentattacks.size() - 1
 	attack_node.remove_attack.connect(end_attack)

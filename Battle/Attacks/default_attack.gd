@@ -54,8 +54,8 @@ func start_attack():
 	add_bullet(spike)
 	spike.position = Vector2(600, 400)
 	spike.rotation = PI
-	spike.fire(Vector2(600, 60), 0.5, 1)
-	await get_tree().create_timer(1.3, false).timeout
+	spike.fire(Vector2(600, 60), 0.5, 2)
+	await get_tree().create_timer(2.3, false).timeout
 	plat.fire(Vector2(300, 600), 40, 80.0)
 	Soul.set_mode(Soul.RED)
 	await Box.change_anchor(Box.RELATIVE_CENTER, Vector2(0, -50), Vector2(0, 100), true, true)

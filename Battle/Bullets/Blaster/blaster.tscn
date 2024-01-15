@@ -129,18 +129,30 @@ sprite_frames = SubResource("SpriteFrames_vkq66")
 visible = false
 layout_mode = 3
 anchors_preset = 0
-offset_left = -10.0
-offset_top = 33.0
-offset_right = 10.0
-offset_bottom = 2081.0
+offset_left = -12.0
+offset_top = 30.0
+offset_right = 12.0
+offset_bottom = 2078.0
 pivot_offset = Vector2(10, 0)
+
+[node name="Smallerer" type="ColorRect" parent="Sprite/Beam"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.38
+anchor_top = -0.004
+anchor_right = 0.6
+anchor_bottom = 1.0
+offset_bottom = -0.00012207
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(4, 0)
 
 [node name="Smaller" type="ColorRect" parent="Sprite/Beam"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.3
+anchor_left = 0.25
 anchor_top = -0.003
-anchor_right = 0.7
+anchor_right = 0.75
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2

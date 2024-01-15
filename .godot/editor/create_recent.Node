@@ -1,3 +1,4 @@
+AudioStreamPlayer
 Timer
 VideoStreamPlayer
 Tree
@@ -12,4 +13,3 @@ ReferenceRect
 Node2D
 CanvasGroup
 BackBufferCopy
-AudioStreamPlayer

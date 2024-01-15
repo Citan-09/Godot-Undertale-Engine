@@ -41,7 +41,7 @@ enum damage_modes {
 @export var colors: Array[Color] = [
 	Color.WHITE,
 	Color.GREEN,
-	Color(0, 0.9, 0.9),
+	Color(0, 0.85, 1),
 	Color.ORANGE,
 ]
 

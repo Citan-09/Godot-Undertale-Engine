@@ -172,6 +172,7 @@ func setitems():
 
 #region OptionsSelecting
 func _on_use_button(choice: int):
+	soulposition = Vector2.ZERO
 	button_choice = choice
 	match choice:
 		0:
@@ -197,6 +198,7 @@ func _on_use_button(choice: int):
 
 func backout(steps: int):
 	ActionMemory.resize(ActionMemory.size()-steps)
+	soulposition = Vector2.ZERO
 	soul_choice(Vector2i.ZERO)
 
 

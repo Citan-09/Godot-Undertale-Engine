@@ -1,9 +1,10 @@
-[gd_scene load_steps=52 format=3 uid="uid://d4g7r4oj7f4t8"]
+[gd_scene load_steps=53 format=3 uid="uid://d4g7r4oj7f4t8"]
 
 [ext_resource type="Script" path="res://Overworld/Characters/player_overworld.gd" id="1_pcoqs"]
 [ext_resource type="Texture2D" uid="uid://bybvlxtnn2rh3" path="res://Overworld/Characters/friskfromunderswaprealnofake.png" id="2_7grso"]
 [ext_resource type="Texture2D" uid="uid://cqbiox3gwrn6e" path="res://Overworld/Characters/frisk.png" id="3_54vmf"]
 [ext_resource type="Texture2D" uid="uid://dgt76c4oamvka" path="res://Overworld/Interactions/alert.png" id="4_3i2lt"]
+[ext_resource type="AudioStream" uid="uid://b7pkf261ktb1q" path="res://sfx/overworld_encounter_surprise.wav" id="5_5j3a3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbnmf"]
 size = Vector2(16, 3)
@@ -369,7 +370,10 @@ shape = SubResource("RectangleShape2D_3j44q")
 
 [node name="Alert" type="AnimatedSprite2D" parent="."]
 visible = false
-position = Vector2(1, -32)
+position = Vector2(1, -34)
 sprite_frames = SubResource("SpriteFrames_5wajs")
+
+[node name="encounter" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_5j3a3")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

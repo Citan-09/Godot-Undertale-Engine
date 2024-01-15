@@ -68,7 +68,7 @@ func _ready() -> void:
 	enemynames = enemies
 	for i in enemies.size():
 		var enemy = enemies[i].instantiate()
-		Enemies.add_child(enemy)
+		Enemies.add_child(enemy, true)
 		if enemies.size() == 2:
 			enemy.position.x = -100 if i == 0 else 100
 		if enemies.size() == 3 and i != 1:
@@ -145,7 +145,7 @@ func _fight(target: int):
 	clone.target = target
 	clone.damagetarget.connect(hit)
 	clone.missed.connect(miss)
-	add_child(clone)
+	add_child(clone, true)
 	move_child(clone, 1)
 	clone.targetdef = enemies[target].stats.get("def", 0)
 	await damage_info_finished
@@ -155,7 +155,7 @@ func _fight(target: int):
 func hit(damage, target: int, crit):
 	var slashes = slash.instantiate()
 	slashes.crit = crit
-	Box.add_child(slashes)
+	Box.add_child(slashes, true)
 	slashes.global_position = enemies[target].sprites.global_position
 	if enemies[target].dodging:
 		enemies[target].dodge()
@@ -172,7 +172,7 @@ func hit(damage, target: int, crit):
 	else:
 		clone.damage = damage
 		enemieshp[target] -= damage
-	Box.add_child(clone)
+	Box.add_child(clone, true)
 	clone.finished.connect(emit_signal.bind("damage_info_finished"))
 	await clone.finished
 	await enemies[target].on_fight_used()
