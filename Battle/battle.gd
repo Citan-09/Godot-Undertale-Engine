@@ -10,6 +10,8 @@ class_name BattleMain
 var attack: PackedScene = preload("res://Battle/AttackMeter/meter.tscn")
 var slash: PackedScene = preload("res://Battle/Slashes/slashes.tscn")
 var damageinfo: PackedScene = preload("res://Battle/AttackMeter/damage.tscn")
+## Background
+@onready var Bg: Background = $Background
 ## Seperate Soul for menu.
 @onready var Soul_Menu: SoulMenu = $Soul_Menu
 ## Seperate Soul for Battle Box.
@@ -64,6 +66,7 @@ func _on_enemy_turn_start():
 	move_child(Soul_Battle, 6)
 
 func _ready() -> void:
+	Bg.texture_rect.texture = encounter.background
 	enemies.append_array(encounter.enemies)
 	enemynames = enemies
 	for i in enemies.size():

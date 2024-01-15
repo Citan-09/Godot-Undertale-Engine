@@ -1,7 +1,8 @@
 extends Resource
 class_name Encounter
 
-@export var encounter_name := "Encounter"
+@export var encounter_name :StringName = "Encounter"
+@export var background: Texture2D = preload("res://Battle/Backgrounds/default.png")
 const enemysizelimit = 3
 ## SIZE MUST BE AT MAX 3
 @export var enemies: Array[PackedScene] = [
