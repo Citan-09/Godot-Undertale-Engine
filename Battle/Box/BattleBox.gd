@@ -138,7 +138,7 @@ func returnitempage(pagenumber: int):
 	return items
 
 func setoptions():
-	var actsd = enemies[currenttarget].enemy_states[0]
+	var actsd = enemies[currenttarget].enemy_states[enemies[currenttarget].current_state]
 	var acts = []
 	for i in actsd.Acts.size():
 		acts.append(actsd.Acts[i].Act)
