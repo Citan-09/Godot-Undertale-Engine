@@ -84,8 +84,9 @@ func get_act_info(act_choice: int):
 
 func _get_act(state: int,option: int):
 	if enemy_states[state].Acts.size() > option:
-		print(state,": ",enemy_states[state].Acts[option].Act)
 		_info = enemy_states[state].Acts[option]
+
+
 func change_state(new_state: int):
 	current_state = new_state
 	emit_signal("changed_state")
