@@ -78,7 +78,6 @@ shape = SubResource("RectangleShape2D_p27oi")
 debug_color = Color(0.219608, 0.321569, 1, 0.105882)
 
 [node name="Acts" type="MarginContainer" parent="."]
-visible = false
 offset_left = 28.0
 offset_top = 246.0
 offset_right = 612.0
@@ -99,8 +98,8 @@ split_offset = 245
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
 bbcode_enabled = true
-text = "[ul bullet=*]Check
-Shoo
+text = "  * Check
+  * Shoo
 "
 scroll_active = false
 
@@ -108,7 +107,7 @@ scroll_active = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
 bbcode_enabled = true
-text = "[ul bullet=*]Flex"
+text = "  * Flex"
 scroll_active = false
 
 [node name="Items" type="MarginContainer" parent="."]
