@@ -138,10 +138,12 @@ func returnitempage(pagenumber: int):
 	return items
 
 func setoptions():
-	var actsd = enemies[currenttarget].enemy_states[enemies[currenttarget].current_state]
+	print_debug("refresh")
 	var acts = []
-	for i in actsd.Acts.size():
-		acts.append(actsd.Acts[i].Act)
+	for i in 6:
+		var _act = enemies[currenttarget].get_act_info(i)
+		if _act:
+			acts.append(_act.Act)
 	choicesextends = idtosoulpos(acts.size())
 	for i in acts.size():
 		acts[i] = acts[i].capitalize()
@@ -149,9 +151,9 @@ func setoptions():
 	var actsp2 = ""
 	for i in acts.size():
 		if i == 0:
-			actsp1 = "[ul bullet=*]"
+			actsp1 = ""
 		if i == 1:
-			actsp2 = "[ul bullet=*]"
+			actsp2 = ""
 		if i % 2 == 0:
 			actsp1 += acts[i] + "\n"
 		else:
