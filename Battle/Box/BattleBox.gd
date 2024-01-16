@@ -138,7 +138,6 @@ func returnitempage(pagenumber: int):
 	return items
 
 func setoptions():
-	print_debug("refresh")
 	var acts = []
 	for i in 6:
 		var _act = enemies[currenttarget].get_act_info(i)
