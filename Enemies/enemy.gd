@@ -65,23 +65,27 @@ var current_state: int = 0
 
 func _init():
 	spared.connect(_on_spared)
-func get_act_info(act_choice: int) -> ActInfo:
-	var _info
-	if not change_act_infos: act_choice = 0
-	if new_states_override:
-		if enemy_states[0].Acts.size() > act_choice:
-			_info = enemy_states[0].Acts[act_choice]
-			if enemy_states[current_state].Acts.size() > act_choice:
-				if one_by_one_overrdie:
-					_info = enemy_states[current_state].Acts[act_choice]
-					for i in current_state:
-						_info = enemy_states[i].Acts[act_choice]
-				else:
-					_info = enemy_states[current_state].Acts[act_choice]
-	else:
-		_info = enemy_states[current_state].Acts[act_choice]
-	return _info
 
+var _info
+
+func get_act_info(act_choice: int):
+	if new_states_override:
+		if one_by_one_overrdie:
+			_get_act(0,act_choice)
+			for i in current_state + 1:
+				_get_act(i, act_choice)
+		else:
+			_get_act(current_state,act_choice)
+	else:
+		_get_act(current_state,act_choice)
+	var __info = _info
+	_info = null
+	return __info
+
+func _get_act(state: int,option: int):
+	if enemy_states[state].Acts.size() > option:
+		print(state,": ",enemy_states[state].Acts[option].Act)
+		_info = enemy_states[state].Acts[option]
 func change_state(new_state: int):
 	current_state = new_state
 	emit_signal("changed_state")
