@@ -84,7 +84,7 @@ offset_right = 612.0
 offset_bottom = 394.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 44
+theme_override_constants/margin_left = 74
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 10
@@ -98,8 +98,8 @@ split_offset = 245
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
 bbcode_enabled = true
-text = "  * Check
-  * Shoo
+text = "* Check
+* Shoo
 "
 scroll_active = false
 
@@ -107,7 +107,7 @@ scroll_active = false
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
 bbcode_enabled = true
-text = "  * Flex"
+text = "* Flex"
 scroll_active = false
 
 [node name="Items" type="MarginContainer" parent="."]
