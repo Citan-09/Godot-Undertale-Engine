@@ -78,6 +78,7 @@ shape = SubResource("RectangleShape2D_p27oi")
 debug_color = Color(0.219608, 0.321569, 1, 0.105882)
 
 [node name="Acts" type="MarginContainer" parent="."]
+visible = false
 offset_left = 28.0
 offset_top = 246.0
 offset_right = 612.0
