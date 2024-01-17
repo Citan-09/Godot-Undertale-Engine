@@ -39,6 +39,7 @@ var enemiesmaxhp := []
 
 ## music that gets cached when loading enemies.
 var music
+@onready var music_player: AudioStreamPlayer = $music
 
 ## True if any enemy has kr enabled
 var kr := false
