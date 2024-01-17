@@ -34,7 +34,7 @@ func _load_and_set_scene(path: String):
 	var resource = load(path)
 	if !resource is PackedScene:
 		Global.overworld_data.room = default_scene
-		resource = default_scene
+		resource = load(default_scene)
 	else:
 		Global.overworld_data.room = path
 	resource = resource.instantiate()
