@@ -94,6 +94,7 @@ metadata/_edit_group_ = true
 [node name="Options" type="SplitContainer" parent="Acts"]
 layout_mode = 2
 split_offset = 245
+dragger_visibility = 2
 
 [node name="Column1" type="RichTextLabel" parent="Acts/Options"]
 layout_mode = 2
