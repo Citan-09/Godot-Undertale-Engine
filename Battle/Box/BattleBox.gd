@@ -250,6 +250,7 @@ func _unhandled_input(event: InputEvent) -> void:
 							disable()
 					return
 				if ActionMemory.size() == 3:
+					history[button_choice][1] = soulposition
 					match button_choice:
 						1:
 							refresh_options(state.Blittering)
