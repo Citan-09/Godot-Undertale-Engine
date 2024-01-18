@@ -25,7 +25,7 @@ size = Vector2(580, 10)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p27oi"]
 size = Vector2(150, 10)
 
-[node name="BattleBox" type="Node"]
+[node name="BattleBox" type="Node2D"]
 script = ExtResource("1_htnbd")
 TransType = 5
 
@@ -120,7 +120,7 @@ offset_right = 1196.0
 offset_bottom = 394.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 44
+theme_override_constants/margin_left = 74
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 10
@@ -134,9 +134,9 @@ theme_override_constants/margin_bottom = 24
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
 bbcode_enabled = true
-text = "[ul bullet=*]Item 1
-Item 2
-Item 3
+text = "* Item 1
+* Item 2
+* Item 3
 Item 4
 Item 5
 Item 6
@@ -210,7 +210,7 @@ offset_right = 612.0
 offset_bottom = 394.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 44
+theme_override_constants/margin_left = 74
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 10
