@@ -33,7 +33,9 @@ func glow_choice(id: int):
 
 func enable():
 	enabled = true
-	changepos(0)
+	emit_signal("movesoul", buttons[choice].global_position - Vector2(38, 0))
+	glow_choice(choice)
+
 
 func disable():
 	enabled = false
