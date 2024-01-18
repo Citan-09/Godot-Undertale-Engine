@@ -1,5 +1,5 @@
 @icon("res://Battle/Box/battleboxicon.png")
-extends Node
+extends Node2D
 class_name BattleBox
 
 @export var Duration = 0.7
@@ -58,9 +58,9 @@ func settargets():
 	var Targets = ""
 	for i in enemies.size():
 		if main.enemies[i]:
-			Targets += "  * [color=%s]%s[/color]\n" % ["yellow" if enemies[i].enemy_states[enemies[i].current_state].Sparable else "white", enemies[i].enemy_name]
+			Targets += "* [color=%s]%s[/color]\n" % ["yellow" if enemies[i].enemy_states[enemies[i].current_state].Sparable else "white", enemies[i].enemy_name]
 		else:
-			Targets += "    [color=white][/color]\n"
+			Targets += "  [color=white][/color]\n"
 	$Target/Targets.text = Targets
 
 func _debug_finish():
@@ -169,7 +169,7 @@ func setitems():
 	$Items/ScrollContainer/Slider.value = soulposition.y
 	choicesextends.resize(Global.items.size())
 	choicesextends.fill(1)
-	$Items/TextContainer/Items.text = "[ul bullet=*]" + "".join(items)
+	$Items/TextContainer/Items.text = "* ".join(items)
 
 #region OptionsSelecting
 func _on_use_button(choice: int):
