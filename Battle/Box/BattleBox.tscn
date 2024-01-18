@@ -113,6 +113,7 @@ text = "* Flex"
 scroll_active = false
 
 [node name="Items" type="MarginContainer" parent="."]
+visible = false
 offset_left = 28.0
 offset_top = 246.0
 offset_right = 1196.0
