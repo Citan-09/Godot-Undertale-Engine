@@ -113,7 +113,6 @@ text = "* Flex"
 scroll_active = false
 
 [node name="Items" type="MarginContainer" parent="."]
-visible = false
 offset_left = 28.0
 offset_top = 246.0
 offset_right = 1196.0
@@ -175,7 +174,8 @@ anchors_preset = -1
 anchor_left = 0.25
 anchor_right = 0.75
 anchor_bottom = 1.0
-offset_right = 4.0
+offset_left = 4.0
+offset_right = 16.0
 offset_bottom = 34.0
 grow_horizontal = 2
 grow_vertical = 2
