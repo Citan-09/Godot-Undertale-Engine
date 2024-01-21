@@ -18,3 +18,6 @@
 * Player overworld UI, Save UI, Custom text boxes
 
 (Check the default scenes to help)
+
+**REQUIREMENTS**
+* godot 4.2
