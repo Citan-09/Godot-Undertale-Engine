@@ -27,13 +27,13 @@ animations = [{
 "texture": ExtResource("3_lkhun")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_35uhq")
+"texture": ExtResource("5_bq5fe")
 }, {
 "duration": 1.0,
 "texture": ExtResource("4_kqx3k")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_bq5fe")
+"texture": ExtResource("6_35uhq")
 }],
 "loop": true,
 "name": &"directions",
