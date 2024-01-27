@@ -6,8 +6,8 @@ class_name BattleBox
 @export var TransType = Tween.TRANS_QUAD
 @export var EaseType = Tween.EASE_OUT
 
-@export var mercytexts = ["* You spared the enemies.", "* You fled.", "* Failed to flee."]
-@export var wintext = "* You won! \n* You Earned %s EXP and %s Gold."
+@export_multiline var mercytexts: PackedStringArray= ["* You spared the enemies.", "* You fled.", "* Failed to flee."]
+@export var wintext := "* You won! \n* You Earned %s EXP and %s Gold."
 @onready var Blitter = $Blitter
 @onready var Blittertext: GenericTextTyper = $Blitter/Text
 var anchor_targets = [Vector2(220, 140), Vector2(420, 340)]
@@ -20,7 +20,7 @@ var cornerpositions
 var options_pos_base = Vector2(76, 286)
 var options_pos_step = Vector2(257, 30)
 @onready var collisions = [$BoxContainer/Collisions/Top, $BoxContainer/Collisions/Bottom, $BoxContainer/Collisions/Left, $BoxContainer/Collisions/Right]
-var colsize = 6
+var colsize = 50
 @onready var Texts = [$Blitter, $Target, $Acts, $Items, $Mercy]
 enum {
 	RELATIVE_TOP_LEFT,
@@ -117,12 +117,14 @@ func reset_box():
 	anchor_targets = defanchors.duplicate()
 	TweenSize(Duration)
 
+@onready var TL = $BoxContainer/TL
+@onready var BR = $BoxContainer/BR
 
 func _physics_process(delta: float) -> void:
 	var current_size = Vector2(640, 480) - Vector2(container.get("theme_override_constants/margin_right"), container.get("theme_override_constants/margin_bottom")) - Vector2(container.get("theme_override_constants/margin_left"), container.get("theme_override_constants/margin_top"))
 	cornerpositions = [Vector2(container.get("theme_override_constants/margin_left"), container.get("theme_override_constants/margin_top")), Vector2(640 -container.get("theme_override_constants/margin_right"), 480 -container.get("theme_override_constants/margin_bottom"))]
-	collisions[0].shape.size.x = current_size.x
-	collisions[2].shape.size.x = current_size.y
+	collisions[0].shape.size.x = current_size.x + colsize
+	collisions[2].shape.size.x = current_size.y + colsize
 	collisions[0].shape.size.y = colsize
 	collisions[2].shape.size.y = colsize
 
@@ -130,6 +132,10 @@ func _physics_process(delta: float) -> void:
 	collisions[1].position = Vector2(cornerpositions[0].x + current_size.x / 2.0, cornerpositions[1].y + (colsize / 2.0 - 5.5))
 	collisions[2].position = Vector2(cornerpositions[0].x - (colsize / 2.0 - 5.5), cornerpositions[0].y + current_size.y / 2.0)
 	collisions[3].position = Vector2(cornerpositions[1].x + (colsize / 2.0 - 5.5), cornerpositions[0].y + current_size.y / 2.0)
+	container.pivot_offset = cornerpositions[0] + current_size / 2.0
+	
+	TL.position = cornerpositions[0]
+	BR.position = cornerpositions[1]
 
 func returnitempage(pagenumber: int):
 	var items: Array
@@ -144,8 +150,6 @@ func setoptions():
 		if _act:
 			acts.append(_act.Act)
 	choicesextends = idtosoulpos(acts.size())
-	for i in acts.size():
-		acts[i] = acts[i].capitalize()
 	var actsp1 = ""
 	var actsp2 = ""
 	for i in acts.size():
@@ -169,7 +173,7 @@ func setitems():
 	$Items/ScrollContainer/Slider.value = soulposition.y
 	choicesextends.resize(Global.items.size())
 	choicesextends.fill(1)
-	$Items/TextContainer/Items.text = "* ".join(items)
+	$Items/TextContainer/Items.text =  "* " + "* ".join(items)
 
 #region OptionsSelecting
 func _on_use_button(choice: int):
