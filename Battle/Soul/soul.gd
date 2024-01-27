@@ -10,7 +10,12 @@ var gravity = 3.25
 
 var soul_type = soul_types.SOUL_HUMAN
 var mode = RED
-var inputlist: Array[float]
+var inputlist: Array[float] = [
+	0,
+	0,
+	0,
+	0,
+]
 var slow_down: int
 
 var gravity_direction := Vector2.DOWN
@@ -49,6 +54,7 @@ func _ready() -> void:
 	modulate.a = 0
 	set_physics_process(false)
 	set_process(false)
+	
 
 func disable():
 	if is_processing():
@@ -60,6 +66,9 @@ func disable():
 
 func _enter_tree() -> void:
 	enable()
+	motion = Vector2.ZERO
+	velocity = Vector2.ZERO
+	gravity_direction = Vector2.DOWN
 	mode = DISABLE_MOVEMENT
 
 func enable() -> void:
@@ -74,14 +83,23 @@ func enable() -> void:
 		set_physics_process(true)
 
 func _physics_process(delta: float) -> void:
+	if gravity_direction.x:
+		motion.x = velocity.y
+		motion.y = velocity.x * gravity_direction.x
+	else:
+		motion.y = velocity.y * gravity_direction.y
+		motion.x = velocity.x
+	
+	up_direction = gravity_direction * -1
 	match mode:
 		RED:
 			red(delta)
 		BLUE:
 			blue(delta)
 		DISABLE_MOVEMENT:
-			sprites.modulate = Color(1, 0, 0, 1)
-
+			sprites.modulate = Color(1, 1, 1, 1) if soul_type == soul_types.SOUL_MONSTER else Color(1, 0, 0 , 1)
+	_motion_align_gravity_direction()
+	
 	overlapping_areas = Area.get_overlapping_areas()
 	for i in overlapping_areas.size():
 		check_bullet(overlapping_areas[i])
@@ -100,7 +118,7 @@ func _process(delta: float) -> void:
 		self.modulate.a = 1
 
 
-func check_bullet(area: Area2D):
+func check_bullet(area):
 	if !invulnerable and area.is_in_group("bullet"):
 		if hiframes <= 0:
 			match area.damage_mode:
@@ -138,6 +156,7 @@ func heal(area):
 	if Global.player_kr >= Global.player_hp:
 		Global.player_kr = max(Global.player_hp -1, 0)
 	Global.heal_sound.play()
+
 func match_sprites_with_soul():
 	var texture: Texture2D = sprites.sprite_frames.get_frame_texture(sprites.get_animation(), sprites.frame)
 	ghost.texture = texture
@@ -158,8 +177,8 @@ func set_gravity_direction(new_direction: Vector2, force_blue_mode: bool = true)
 	if force_blue_mode:
 		mode_change.play()
 		mode = BLUE
-	ghost.restart()
-	ghost.emitting = true
+		ghost.restart()
+		ghost.emitting = true
 	match gravity_direction:
 		Vector2.DOWN:
 			sprites.frame = 0 + int(soul_type)
@@ -172,8 +191,7 @@ func set_gravity_direction(new_direction: Vector2, force_blue_mode: bool = true)
 	match_sprites_with_soul()
 
 func red(delta):
-	up_direction = gravity_direction * -1
-	sprites.modulate = Color(1, 0, 0, 1)
+	sprites.modulate = Color(1, 1, 1, 1) if soul_type == soul_types.SOUL_MONSTER else Color(1, 0, 0 , 1)
 	slow_down = Input.is_action_pressed("ui_cancel")
 	slow_down += 1
 	inputlist = [
@@ -182,13 +200,12 @@ func red(delta):
 				Input.is_action_pressed("ui_up"),
 				Input.is_action_pressed("ui_down")
 			]
-	velocity.x = speed * (inputlist[0] - inputlist[1]) / slow_down
-	velocity.y = speed * (inputlist[3] - inputlist[2]) / slow_down
-	move_and_slide()
+	motion.x = speed * (inputlist[0] - inputlist[1]) / slow_down
+	motion.y = speed * (inputlist[3] - inputlist[2]) / slow_down
 
+var motion := Vector2.ZERO
 
 func blue(delta):
-	up_direction = gravity_direction * -1
 	sprites.modulate = Color(0, 0, 1, 1)
 	slow_down = Input.is_action_pressed("ui_cancel")
 	slow_down += 1
@@ -221,24 +238,17 @@ func blue(delta):
 				Input.is_action_pressed("ui_up"),
 				Input.is_action_pressed("ui_left")
 				]
-	var motion: Vector2
-	if gravity_direction.x:
-		motion.x = velocity.y
-		motion.y = velocity.x * gravity_direction.x
-	else:
-		motion.y = velocity.y * gravity_direction.y
-		motion.x = velocity.x
 	if not is_on_floor():
 		motion.y += gravity * gravity_multiplier
 	motion.x = speed * (inputlist[0]-inputlist[1]) / slow_down
 	if is_on_floor():
-		motion.y = 0
+		if motion.y > 0: motion.y = 0
 		if gravity_multiplier > 1.0:
 			gravity_multiplier = 1.0
 			$Wallhit.play()
 			shake_camera.emit(0.6)
 		if inputlist[2]:
-			motion.y = -jump[3]
+			motion.y -= jump[3]
 	else:
 		if motion.y > 0:
 			motion.y += gravity * (jump[2]-1.0)
@@ -248,7 +258,7 @@ func blue(delta):
 			else:
 				motion.y = lerpf(motion.y, 20, (jump[0]-1.0) / 20.0)
 
-
+func _motion_align_gravity_direction():
 	if gravity_direction.x:
 		velocity.x = motion.y * gravity_direction.x
 		velocity.y = motion.x
