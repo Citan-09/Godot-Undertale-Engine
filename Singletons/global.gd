@@ -113,7 +113,7 @@ enum weaponstype {
 @onready var heal_sound = $heal
 
 func item_use_text(item_id: int):
-	var item = items[item_id]
+	var item = item_list[item_id]
 	var use_text = item.use_message
 	if item.heal_amount:
 		heal(item.heal_amount)
