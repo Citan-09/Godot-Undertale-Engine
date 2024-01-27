@@ -27,16 +27,33 @@ animations = [{
 "texture": ExtResource("3_lkhun")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_bq5fe")
+"texture": ExtResource("6_35uhq")
 }, {
 "duration": 1.0,
 "texture": ExtResource("4_kqx3k")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_35uhq")
+"texture": ExtResource("5_bq5fe")
 }],
 "loop": true,
 "name": &"directions",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_kqx3k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_35uhq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_lkhun")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bq5fe")
+}],
+"loop": true,
+"name": &"directions_m",
 "speed": 5.0
 }]
 
@@ -70,14 +87,12 @@ size = Vector2(10, 10)
 size = Vector2(16, 16)
 
 [node name="Soul" type="CharacterBody2D"]
-z_index = 1
 collision_layer = 0
 platform_on_leave = 1
 script = ExtResource("1_baf50")
 special_bullet_mode = 2
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-modulate = Color(1, 0, 0, 1)
 sprite_frames = SubResource("SpriteFrames_i5wdk")
 animation = &"directions"
 
