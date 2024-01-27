@@ -12,7 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://bc8nv2lgl82oe" path="res://sfx/soul_shatter.wav" id="10_axih7"]
 [ext_resource type="AudioStream" uid="uid://dx5o1v0ulqlvx" path="res://sfx/impact_wallhit.wav" id="11_1sdc2"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_i5wdk"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_kblwu"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -27,16 +27,33 @@ animations = [{
 "texture": ExtResource("2_difwp")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_3hffy")
+"texture": ExtResource("4_l83bi")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_l83bi")
+"texture": ExtResource("3_3hffy")
 }, {
 "duration": 1.0,
 "texture": ExtResource("5_4tgxl")
 }],
 "loop": true,
-"name": &"default",
+"name": &"directions",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3hffy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_4tgxl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_difwp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_l83bi")
+}],
+"loop": true,
+"name": &"directions_m",
 "speed": 5.0
 }]
 
@@ -67,13 +84,12 @@ alpha_curve = SubResource("CurveTexture_8uiqr")
 size = Vector2(8, 8)
 
 [node name="Soul" type="CharacterBody2D"]
-z_index = 1
 platform_on_leave = 1
 script = ExtResource("1_mh1v3")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-modulate = Color(1, 0, 0, 1)
-sprite_frames = SubResource("SpriteFrames_i5wdk")
+sprite_frames = SubResource("SpriteFrames_kblwu")
+animation = &"directions"
 
 [node name="Ghost" type="GPUParticles2D" parent="Sprite"]
 show_behind_parent = true
