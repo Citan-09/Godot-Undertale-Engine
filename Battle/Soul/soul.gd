@@ -51,6 +51,7 @@ var overlapping_areas = []
 
 signal shake_camera(amt: float)
 func _ready() -> void:
+	set_gravity_direction(Vector2.DOWN, false)
 	modulate.a = 0
 	set_physics_process(false)
 	set_process(false)
@@ -179,16 +180,16 @@ func set_gravity_direction(new_direction: Vector2, force_blue_mode: bool = true)
 		mode = BLUE
 		ghost.restart()
 		ghost.emitting = true
-	match gravity_direction:
-		Vector2.DOWN:
-			sprites.frame = 0 + int(soul_type)
-		Vector2.LEFT:
-			sprites.frame = 1 + int(soul_type)
-		Vector2.UP:
-			sprites.frame = 2 + int(soul_type)
-		Vector2.RIGHT:
-			sprites.frame = 3 + int(soul_type)
+	sprites.frame = DIRS[new_direction]
+	sprites.animation = &"directions" if soul_type == soul_types.SOUL_HUMAN else &"directions_m"
 	match_sprites_with_soul()
+
+const DIRS = {
+	Vector2.DOWN: 0,
+	Vector2.LEFT: 1,
+	Vector2.UP: 2,
+	Vector2.RIGHT: 3,
+}
 
 func red(delta):
 	sprites.modulate = Color(1, 1, 1, 1) if soul_type == soul_types.SOUL_MONSTER else Color(1, 0, 0 , 1)
@@ -211,28 +212,24 @@ func blue(delta):
 	slow_down += 1
 	match gravity_direction:
 		Vector2.DOWN:
-			sprites.frame = 0 + int(soul_type)
 			inputlist = [
 				Input.is_action_pressed("ui_right"),
 				Input.is_action_pressed("ui_left"),
 				Input.is_action_pressed("ui_up")
 				]
 		Vector2.LEFT:
-			sprites.frame = 1 + int(soul_type)
 			inputlist = [
 				Input.is_action_pressed("ui_down"),
 				Input.is_action_pressed("ui_up"),
 				Input.is_action_pressed("ui_right")
 				]
 		Vector2.UP:
-			sprites.frame = 2 + int(soul_type)
 			inputlist = [
 				Input.is_action_pressed("ui_right"),
 				Input.is_action_pressed("ui_left"),
 				Input.is_action_pressed("ui_down")
 				]
 		Vector2.RIGHT:
-			sprites.frame = 3 + int(soul_type)
 			inputlist = [
 				Input.is_action_pressed("ui_down"),
 				Input.is_action_pressed("ui_up"),
@@ -265,7 +262,7 @@ func _motion_align_gravity_direction():
 	else:
 		velocity.y = motion.y * gravity_direction.y
 		velocity.x = motion.x
-
+	
 	move_and_slide()
 
 
