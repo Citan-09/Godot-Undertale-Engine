@@ -114,7 +114,7 @@ enum weaponstype {
 
 func item_use_text(item_id: int):
 	var item = item_list[item_id]
-	var use_text = item.use_message
+	var use_text = item.use_message.duplicate()
 	if item.heal_amount:
 		heal(item.heal_amount)
 		use_text.append("* healed %s HP" % [item.heal_amount])
