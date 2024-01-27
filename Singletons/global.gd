@@ -112,14 +112,12 @@ enum weaponstype {
 
 @onready var heal_sound = $heal
 
-func item_use_text(inv_pos: int):
-	if inv_pos > 7: inv_pos = 7
-	if inv_pos < 0: inv_pos = 0
-	var item = item_list[items[inv_pos]]
+func item_use_text(item_id: int):
+	var item = items[item_id]
 	var use_text = item.use_message
 	if item.heal_amount:
 		heal(item.heal_amount)
-		use_text.append("* You healed %s HP" % [item.heal_amount])
+		use_text.append("* healed %s HP" % [item.heal_amount])
 	if item.defense_amount:
 		if item["itemtype"] == types.CONSUMABLE:
 			temp_def += item.defense_amount
