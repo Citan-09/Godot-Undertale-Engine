@@ -10,21 +10,18 @@ func _ready():
 	$hurt.play()
 	Camera.add_shake(1)
 	$DeathSoul.position = Global.player_position
-	await get_tree().create_timer(0.4, false).timeout
 	var tw = create_tween().set_trans(Tween.TRANS_QUAD).set_parallel()
-	tw.tween_property(Camera, "zoom", Vector2.ONE * 3, 0.4).set_ease(Tween.EASE_IN).set_delay(0.2)
+	tw.tween_interval(0.4)
+	tw.chain().tween_property(Camera, "zoom", Vector2.ONE * 3, 0.4).set_ease(Tween.EASE_IN).set_delay(0.4)
 	tw.tween_property(Camera, "position", $DeathSoul.position, 0.4).set_ease(Tween.EASE_OUT)
-	await tw.finished
-	await get_tree().create_timer(0.3, false).timeout
-	await $DeathSoul.die()
-	tw = create_tween().set_trans(Tween.TRANS_QUAD).set_parallel()
-	tw.tween_property($Fade/RichTextLabel, "modulate:a", 1, 0.3).set_ease(Tween.EASE_OUT)
-	await Confirm
-	await Camera.blind(0.6, 1)
-	Global.just_died = true
-	OverworldSceneChanger.enter_room_path(Global.overworld_data.room if Global.overworld_data.room is String else OverworldSceneChanger.default_scene, {})
+	tw.chain().tween_callback($DeathSoul.die).set_delay(0.3)
+	tw.tween_property($Fade/RichTextLabel, "modulate:a", 1, 0.3).set_ease(Tween.EASE_OUT).set_delay(2)
 
-signal Confirm
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_accept"): Confirm.emit()
+	if event.is_action_pressed("ui_accept"): 
+		_done()
+
+func _done():
+	Global.just_died = true
+	OverworldSceneChanger.enter_room_path(Global.overworld_data.room if Global.overworld_data.room is String else OverworldSceneChanger.default_scene, {})
