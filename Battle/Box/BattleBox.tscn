@@ -39,6 +39,13 @@ theme_override_constants/margin_right = 28
 theme_override_constants/margin_bottom = 90
 metadata/_edit_group_ = true
 
+[node name="TL" type="RemoteTransform2D" parent="BoxContainer"]
+update_scale = false
+
+[node name="BR" type="RemoteTransform2D" parent="BoxContainer"]
+rotation = 3.14159
+update_scale = false
+
 [node name="Panel" type="Panel" parent="BoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_s5f7x")
@@ -116,10 +123,8 @@ scroll_active = false
 visible = false
 offset_left = 28.0
 offset_top = 246.0
-offset_right = 1196.0
+offset_right = 1210.0
 offset_bottom = 394.0
-grow_horizontal = 2
-grow_vertical = 2
 theme_override_constants/margin_left = 74
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 5
@@ -209,8 +214,6 @@ offset_left = 28.0
 offset_top = 246.0
 offset_right = 612.0
 offset_bottom = 394.0
-grow_horizontal = 2
-grow_vertical = 2
 theme_override_constants/margin_left = 74
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 5
@@ -233,9 +236,7 @@ offset_left = 28.0
 offset_top = 246.0
 offset_right = 612.0
 offset_bottom = 394.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 44
+theme_override_constants/margin_left = 74
 theme_override_constants/margin_top = 26
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 10
@@ -245,12 +246,11 @@ metadata/_edit_group_ = true
 layout_mode = 2
 theme = ExtResource("3_f5ep8")
 bbcode_enabled = true
-text = "  * Spare
-  * Flee"
+text = "* Spare
+* Flee"
 scroll_active = false
 
 [node name="Blitter" type="MarginContainer" parent="."]
-visible = false
 offset_left = 28.0
 offset_top = 246.0
 offset_right = 612.0
