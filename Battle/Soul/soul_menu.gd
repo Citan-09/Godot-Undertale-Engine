@@ -7,6 +7,12 @@ var enabled = true
 
 var movetween: Tween
 
+@export var soul_type := SoulBattle.soul_types.SOUL_HUMAN
+
+func _ready() -> void:
+	$Sprite.modulate = Color(1, 1, 1, 1) if soul_type == SoulBattle.soul_types.SOUL_MONSTER else Color(1, 0, 0 , 1)
+	$Sprite.animation = &"directions" if soul_type == SoulBattle.soul_types.SOUL_HUMAN else &"directions_m"
+
 func enable() -> void:
 	if !enabled:
 		enabled = true
