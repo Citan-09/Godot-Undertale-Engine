@@ -73,8 +73,6 @@ var char_head := {
 @onready var defpos = $Control.position
 @onready var defsize = $Control.size
 
-signal confirm
-
 signal selected_option(option)
 
 
@@ -125,7 +123,7 @@ func generic(text: PackedStringArray, options: PackedStringArray = [], text_afte
 		$Control/Soul/choice.play()
 		soul_position = Vector2(320, Options[0].global_position.y)
 		$Control/Soul.global_position = Vector2(320, Options[0].global_position.y)
-		await confirm
+		await selected_option
 	else:
 		await Text.finishedalltexts
 	get_viewport().set_input_as_handled()
@@ -169,7 +167,7 @@ func character(character: int, text: PackedStringArray, head_expressions: Array,
 		soulpos = (optionamt - 1) / 2.0
 		$Control/Soul/choice.play()
 		soul_position = Vector2(320, Options[0].global_position.y)
-		await confirm
+		await selected_option
 	else:
 		await Text.finishedalltexts
 	get_viewport().set_input_as_handled()
@@ -202,7 +200,7 @@ func _unhandled_input(event):
 			soul_position = Options[soulpos].global_position
 		if event.is_action_pressed("ui_accept") and typeof(soulpos) == TYPE_INT:
 			get_viewport().set_input_as_handled()
-			emit_signal("confirm")
+			selected_option.emit(soulpos)
 			selecting = false
 			$Control/Soul/select.play()
 
