@@ -208,12 +208,6 @@ func backout(steps: int):
 
 
 func refresh_options(append_action = null):
-	match append_action if append_action != null else ActionMemory.back():
-		state.TargetEnemy:
-			choicesextends.resize(enemies.size())
-			choicesextends.fill(1)
-		state.Iteming:
-			setitems()
 	if append_action != null:
 		ActionMemory.append(append_action)
 		if history[button_choice][0] and (ActionMemory.back() == state.TargetEnemy or ActionMemory.back() == state.Iteming):
@@ -221,6 +215,12 @@ func refresh_options(append_action = null):
 		elif history[button_choice][1] and ActionMemory.back() != state.Disabled and ActionMemory.back() != state.Blittering:
 			soulposition = history[button_choice][1]
 		soul_choice(Vector2i.ZERO)
+	match append_action if append_action != null else ActionMemory.back():
+		state.TargetEnemy:
+			choicesextends.resize(enemies.size())
+			choicesextends.fill(1)
+		state.Iteming:
+			setitems()
 	var willrefresh: bool = soulposition.y >= choicesextends.size() or soulposition.x > choicesextends[clamp(soulposition.y, 0, max(choicesextends.size()-1, 0))]-1
 	if willrefresh:
 		while soulposition.y > choicesextends.size() - 1:
@@ -242,6 +242,8 @@ func disable():
 	if button_choice != 0:
 		button_choice = 0
 
+var used_item: int = 0
+
 func _unhandled_input(event: InputEvent) -> void:
 	if ActionMemory[0] != state.Disabled:
 		if event.is_action_pressed("ui_accept"):
@@ -262,7 +264,7 @@ func _unhandled_input(event: InputEvent) -> void:
 							Blittertext.typetext(enemies[currenttarget].get_act_info(soulpostoid(soulposition)).Description)
 						2:
 							if Blittertext.visibletween.is_valid(): await Blittertext.finishedalltexts
-							if button_choice != 0: emit_signal("item", Global.items[soulpostoid(soulposition)])
+							if button_choice != 0: emit_signal("item", used_item)
 							disable()
 						3:
 							if Blittertext.visibletween.is_valid(): await Blittertext.finishedalltexts
@@ -281,10 +283,13 @@ func _unhandled_input(event: InputEvent) -> void:
 								setoptions()
 								refresh_options(state.Acting)
 						2:
-							refresh_options(state.Blittering)
 							emit_signal("exitmenu")
-							Blittertext.typetext(Global.item_use_text(soulpostoid(soulposition)))
+							refresh_options(state.Blittering)
+							used_item = Global.items[soulpostoid(soulposition)]
+							Blittertext.typetext(Global.item_use_text(used_item))
 							Global.items.remove_at(soulpostoid(soulposition))
+							print("hi")
+							
 						3:
 							emit_signal("exitmenu")
 							mercychoice = soulpostoid(soulposition, 1)
