@@ -8,7 +8,7 @@ var stop_speed = 26
 var speed = 190
 var gravity = 3.25
 
-var soul_type = soul_types.SOUL_HUMAN
+@export var soul_type = soul_types.SOUL_HUMAN
 var mode = RED
 var inputlist: Array[float] = [
 	0,
