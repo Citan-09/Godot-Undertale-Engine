@@ -1,5 +1,4 @@
 extends Node2D
-## Main battle logic. Also sets bullet masks.
 class_name BattleMain
 
 @onready var Camera: CameraFx = $Camera
@@ -55,7 +54,7 @@ signal spare_used
 func _on_player_turn_start():
 	Soul_Battle.disable()
 	add_child(Soul_Menu, true)
-	move_child(Soul_Menu, 6)
+	move_child(Soul_Menu, 3)
 	Buttons.enable()
 	Box.ActionMemory[0] = Box.state.Blittering
 	Box.Blitter.show()
@@ -64,7 +63,7 @@ func _on_player_turn_start():
 func _on_enemy_turn_start():
 	TurnNumber += 1
 	add_child(Soul_Battle, true)
-	move_child(Soul_Battle, 6)
+	move_child(Soul_Battle, 3)
 
 func _ready() -> void:
 	Bg.texture_rect.texture = encounter.background
@@ -108,14 +107,17 @@ func _ready() -> void:
 	Camera.blind(0.5, 0)
 	Buttons.enable()
 	remove_child(Soul_Battle)
-	$music.stream = encounter.music
-	$music.play()
+	music_player.stream = encounter.music
+	music_player.play()
 	Box.ActionMemory[0] = Box.state.Blittering
 	Box.Blittertext.blitter(0)
 
 func _physics_process(delta: float) -> void:
-	Attacks.TopLeft.position = Vector2(Box.cornerpositions[0].x + 5, Box.cornerpositions[0].y + 5)
-	Attacks.BottomRight.position = Vector2(Box.cornerpositions[1].x -5, Box.cornerpositions[1].y -5)
+	Box.TL.remote_path = Box.TL.get_path_to(Attacks.TopLeft)
+	Box.BR.remote_path = Box.TL.get_path_to(Attacks.BottomRight)
+	pass
+	#Attacks.TopLeft.global_position = Box.TL.global_position + Vector2.ONE * 5
+	#Attacks.BottomRight.global_position =  Box.BR.global_position - Vector2.ONE * 5
 
 func _act(target: int, option: int):
 	enemies[target].on_act_used(option)
@@ -149,7 +151,7 @@ func _fight(target: int):
 	clone.target = target
 	clone.damagetarget.connect(hit)
 	clone.missed.connect(miss)
-	add_child(clone, true)
+	Box.add_child(clone, true)
 	move_child(clone, 1)
 	clone.targetdef = enemies[target].stats.get("def", 0)
 	await damage_info_finished
