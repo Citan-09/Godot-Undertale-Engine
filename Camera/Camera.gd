@@ -54,7 +54,6 @@ func _process(delta):
 		vfx = Global.settings.vfx
 		for i in VFX:
 			i.visible = vfx
-			print(i.name)
 
 func add_shake(amt: float = 0.1):
 	shakeamt += amt
