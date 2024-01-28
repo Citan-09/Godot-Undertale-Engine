@@ -3,6 +3,9 @@ class_name CameraFx
 
 @onready var blinder = $CanvasLayer/Blinder
 @onready var glitcher = $Glitch/Glitch
+@onready var VFX: Array[CanvasItem] = [
+	$Glitch/Glitch
+]
 var blindertween: Tween
 
 @export var shake_amounts = [32.0, 32.0, 10.0]
@@ -18,6 +21,7 @@ enum TweenType {
 	Blind,
 	Glitch,
 }
+
 func blind(time: float = 0, targetopacity: float = 1):
 	blindertween = create_tween()
 	blindertween.tween_property(blinder, "modulate:a", targetopacity, time)
@@ -38,6 +42,7 @@ func rgbsplit(time: float = 0, targetrate: float = 1):
 	await glitchtween.finished
 	emit_signal("finishedtween", TweenType.Glitch)
 
+var vfx: bool = Global.settings.vfx
 
 func _process(delta):
 	if shakeamt > 0.0 and Global.settings["shake"]:
@@ -45,6 +50,11 @@ func _process(delta):
 		if shakeamt < 0:
 			shakeamt = 0
 		shake()
+	if Global.settings.vfx != vfx:
+		vfx = Global.settings.vfx
+		for i in VFX:
+			i.visible = vfx
+			print(i.name)
 
 func add_shake(amt: float = 0.1):
 	shakeamt += amt
