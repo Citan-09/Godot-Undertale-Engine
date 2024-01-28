@@ -121,18 +121,18 @@ func _physics_process(delta: float) -> void:
 
 func _act(target: int, option: int):
 	enemies[target].on_act_used(option)
-	emit_signal("endturn")
+	endturn.emit()
 
 func _mercy(choice: int):
 	match choice:
 		-1:
-			emit_signal("endturn")
+			endturn.emit()
 		0:
 			for i in enemies.size():
 				if enemies[i]:
 					enemies[i].on_mercy_used()
 			if not check_end_encounter():
-				emit_signal("endturn")
+				endturn.emit()
 		1:
 			await Camera.blind(1, 1)
 			Global.temp_atk = 0
@@ -142,7 +142,7 @@ func _mercy(choice: int):
 func _item(item_id):
 	for e in enemies:
 		e.on_item_used(item_id)
-	emit_signal("endturn")
+	endturn.emit()
 
 # region fight_logic
 ##Creates the attack meter and handles damaging enemies and showing damage with hit() and miss().
@@ -186,7 +186,7 @@ func hit(damage, target: int, crit):
 		enemies[target].on_death()
 		kill_enemy(target)
 	else:
-		emit_signal("endturn")
+		endturn.emit()
 
 ## Used when you miss (for dodging as well).
 func miss(target: int):
@@ -198,7 +198,7 @@ func miss(target: int):
 	Box.add_child(clone)
 	clone.finished.connect(emit_signal.bind("damage_info_finished"))
 	await clone.finished
-	emit_signal("endturn")
+	endturn.emit()
 # endregion
 
 ## Kills enemy and checks if the encounter can end.
