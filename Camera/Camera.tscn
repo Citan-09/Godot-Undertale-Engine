@@ -19,7 +19,6 @@ shader_parameter/shake_block_size = 30.5
 shader_parameter/shake_color_rate = 0.0
 
 [node name="Camera" type="Camera2D"]
-process_mode = 3
 ignore_rotation = false
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
@@ -43,6 +42,7 @@ offset_right = 640.0
 offset_bottom = 480.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="Glitch" type="CanvasLayer" parent="."]
 layer = 10
@@ -53,3 +53,9 @@ material = SubResource("ShaderMaterial_un5sr")
 offset_right = 640.0
 offset_bottom = 480.0
 mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
