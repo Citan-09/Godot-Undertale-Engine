@@ -8,7 +8,6 @@ class_name Enemy
 @onready var Attacks: AttackManager = $/root/main/Attacks/BoxClipper
 @onready var Main: BattleMain = $/root/main
 @onready var NonMask = $/root/main/Attacks
-@onready var Mask = $/root/main/Attacks/BoxClipper/Mask
 @onready var Camera = $/root/main/Camera
 @onready var Box: BattleBox = $/root/main/CoreElements/BattleBox
 @onready var Soul: SoulBattle = $/root/main/Soul_Battle
@@ -27,7 +26,7 @@ signal spared(id_number)
 ## Enables/Disable giving different act options depending on the state of the enemy.
 @export var change_act_infos: bool = true
 @export var dodging: bool = false
-@export var stats = {
+@export var stats := {
 	"def": 10,
 	"hp": 100,
 	"max_hp": 100,
@@ -36,12 +35,9 @@ signal spared(id_number)
 
 @export var dialogues: Array[Dialogues] = []
 
-@export var flavour_text: Array[String] = [
-				"* Test123",
-				"* This is a default_enemy"
-			]
+@export_multiline var flavour_text: PackedStringArray
 
-@export var rewards: Dictionary = {
+@export var rewards := {
 				"exp": 10,
 				"gold": 10
 			}
