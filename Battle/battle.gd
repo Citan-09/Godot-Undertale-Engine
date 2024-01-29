@@ -152,7 +152,6 @@ func _fight(target: int):
 	clone.damagetarget.connect(hit)
 	clone.missed.connect(miss)
 	Box.add_child(clone, true)
-	move_child(clone, 1)
 	clone.targetdef = enemies[target].stats.get("def", 0)
 	await damage_info_finished
 	clone.remove_meter()
