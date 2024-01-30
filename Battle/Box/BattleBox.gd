@@ -20,7 +20,7 @@ var cornerpositions
 var options_pos_base = Vector2(76, 286)
 var options_pos_step = Vector2(257, 30)
 @onready var collisions = [$BoxContainer/Collisions/Top, $BoxContainer/Collisions/Bottom, $BoxContainer/Collisions/Left, $BoxContainer/Collisions/Right]
-var colsize = 50
+var colsize = 500
 @onready var Texts = [$Blitter, $Target, $Acts, $Items, $Mercy]
 enum {
 	RELATIVE_TOP_LEFT,
