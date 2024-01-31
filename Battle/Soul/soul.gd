@@ -10,12 +10,7 @@ var gravity = 3.25
 
 @export var soul_type = soul_types.SOUL_HUMAN
 var mode = RED
-var inputlist: Array[float] = [
-	0,
-	0,
-	0,
-	0,
-]
+var inputlist := Vector2.ZERO
 var slow_down: int
 
 var gravity_direction := Vector2.DOWN
@@ -130,10 +125,10 @@ func check_bullet(area):
 				bullet.damage_modes.WHITE:
 					hurt(area)
 				bullet.damage_modes.BLUE:
-					if special_bullet_mode == 0 and 1.0 in inputlist or special_bullet_mode == 1 and velocity or special_bullet_mode == 2 and (1.0 in inputlist and velocity):
+					if special_bullet_mode == 0 and !inputlist.is_zero_approx() or special_bullet_mode == 1 and velocity or special_bullet_mode == 2 and (!inputlist.is_zero_approx() and velocity):
 						hurt(area)
 				bullet.damage_modes.ORANGE:
-					if special_bullet_mode == 0 and not 1.0 in inputlist or special_bullet_mode == 1 and not velocity or special_bullet_mode == 2 and not (1.0 in inputlist and velocity):
+					if special_bullet_mode == 0 and !inputlist.is_zero_approx() or special_bullet_mode == 1 and not velocity or special_bullet_mode == 2 and not (!inputlist.is_zero_approx() and velocity):
 						hurt(area)
 
 func hurt(area):
@@ -193,63 +188,47 @@ const DIRS = {
 
 func red(delta):
 	sprites.modulate = Color(1, 1, 1, 1) if soul_type == soul_types.SOUL_MONSTER else Color(1, 0, 0 , 1)
-	slow_down = Input.is_action_pressed("ui_cancel")
-	slow_down += 1
-	inputlist = [
-				Input.is_action_pressed("ui_right"),
-				Input.is_action_pressed("ui_left"),
-				Input.is_action_pressed("ui_up"),
-				Input.is_action_pressed("ui_down")
-			]
-	motion.x = speed * (inputlist[0] - inputlist[1]) / slow_down
-	motion.y = speed * (inputlist[3] - inputlist[2]) / slow_down
+	slow_down = int(Input.is_action_pressed("ui_cancel")) + 1
+	inputlist = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	motion = speed * inputlist / slow_down
 
 var motion := Vector2.ZERO
 
 func blue(delta):
 	sprites.modulate = Color(0, 0, 1, 1)
-	slow_down = Input.is_action_pressed("ui_cancel")
-	slow_down += 1
+	slow_down = int(Input.is_action_pressed("ui_cancel")) + 1
 	match gravity_direction:
 		Vector2.DOWN:
-			inputlist = [
-				Input.is_action_pressed("ui_right"),
-				Input.is_action_pressed("ui_left"),
-				Input.is_action_pressed("ui_up")
-				]
+			inputlist = Vector2(
+				Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
+				Input.is_action_pressed("ui_up"))
 		Vector2.LEFT:
-			inputlist = [
-				Input.is_action_pressed("ui_down"),
-				Input.is_action_pressed("ui_up"),
-				Input.is_action_pressed("ui_right")
-				]
-		Vector2.UP:
-			inputlist = [
-				Input.is_action_pressed("ui_right"),
-				Input.is_action_pressed("ui_left"),
-				Input.is_action_pressed("ui_down")
-				]
+			inputlist = Vector2(
+				Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up"),
+				Input.is_action_pressed("ui_right"))
 		Vector2.RIGHT:
-			inputlist = [
-				Input.is_action_pressed("ui_down"),
-				Input.is_action_pressed("ui_up"),
-				Input.is_action_pressed("ui_left")
-				]
+			inputlist = Vector2(
+				Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up"),
+				Input.is_action_pressed("ui_left"))
+		Vector2.UP:
+			inputlist = Vector2(
+				Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
+				Input.is_action_pressed("ui_down"))
 	if not is_on_floor():
 		motion.y += gravity * gravity_multiplier
-	motion.x = speed * (inputlist[0]-inputlist[1]) / slow_down
+	motion.x = speed * ceil(inputlist.x) / slow_down
 	if is_on_floor():
 		if motion.y > 0: motion.y = 0
 		if gravity_multiplier > 1.0:
 			gravity_multiplier = 1.0
 			$Wallhit.play()
 			shake_camera.emit(0.6)
-		if inputlist[2]:
+		if inputlist.y:
 			motion.y -= jump[3]
 	else:
 		if motion.y > 0:
 			motion.y += gravity * (jump[2]-1.0)
-		elif not inputlist[2]:
+		elif not inputlist.y:
 			if motion.y < 20:
 				motion.y = lerpf(motion.y, 0, (jump[1]-1.0) / 20.0)
 			else:
