@@ -157,7 +157,7 @@ func _fight(target: int):
 	clone.remove_meter()
 
 ## Used when the bar doesn't miss (NOT FOR BLOCKING).
-func hit(damage, target: int, crit):
+func hit(damage, target: int, crit := false):
 	var slashes = slash.instantiate()
 	slashes.crit = crit
 	Box.add_child(slashes, true)
