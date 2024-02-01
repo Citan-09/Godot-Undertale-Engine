@@ -114,6 +114,9 @@ var defanchors = []
 func reset_box():
 	if tw and tw.is_valid():
 		tw.kill()
+	if !is_zero_approx(container.rotation):
+		var tw = create_tween().set_ease(EaseType).set_trans(TransType)
+		tw.tween_property(container, "rotation", 0, Duration)
 	anchor_targets = defanchors.duplicate()
 	TweenSize(Duration)
 
@@ -381,6 +384,10 @@ func change_anchor(relative_to, new_position: Vector2 = Vector2.ZERO, new_size: 
 	anchor_targets[1] = anchor_targets[0] + new_size
 	await TweenSize(custom_time)
 
+func rotate_by(rot: float, relative := false, custom_time = null):
+	var tw: PropertyTweener = create_tween().set_ease(EaseType).set_trans(TransType).tween_property(container, "rotation", rot, custom_time if custom_time else Duration)
+	if relative: tw.as_relative()
+		
 func TweenSize(duration):
 	if !duration:
 		duration = Duration
