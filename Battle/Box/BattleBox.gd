@@ -115,6 +115,7 @@ func reset_box():
 	if tw and tw.is_valid():
 		tw.kill()
 	if !is_zero_approx(container.rotation):
+		container.rotation = fmod(container.rotation, PI)
 		var tw = create_tween().set_ease(EaseType).set_trans(TransType)
 		tw.tween_property(container, "rotation", 0, Duration)
 	anchor_targets = defanchors.duplicate()
