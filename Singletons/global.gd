@@ -117,7 +117,7 @@ func item_use_text(item_id: int):
 	var use_text = item.use_message.duplicate()
 	if item.heal_amount:
 		heal(item.heal_amount)
-		use_text.append("* healed %s HP" % [item.heal_amount])
+		use_text.append("* You healed %s HP" % [item.heal_amount])
 	if item.defense_amount:
 		if item["itemtype"] == types.CONSUMABLE:
 			temp_def += item.defense_amount
@@ -153,9 +153,6 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug") and OS.is_debug_build():
 		toggle_collision_shape_visibility()
 		debugmode = not debugmode
-	if event.is_action_pressed("force_save"):
-		savegame()
-		print_debug("Save game forced")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if debugmode:
@@ -164,6 +161,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			player_can_move = true
 			player_in_menu = false
 			get_tree().reload_current_scene.call_deferred()
+		if event.is_action_pressed("force_save"):
+			savegame()
 
 func _ready() -> void:
 	loadgame()
