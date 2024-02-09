@@ -274,10 +274,14 @@ func _unhandled_input(event: InputEvent) -> void:
 				States.SELLING_ITEMS:
 					if Global.items.size() > soul_position and Global.items[soul_position] >= 0:
 						Global.items.remove_at(soul_position)
-						_write_sell_items(soul_position)
 						_refresh_g_info()
 						$bought.play()
-						if !_get_sell_items(0):
+						option_numbers[3] = _get_sell_items_count() - 1
+						if soul_position > option_numbers[3]:
+							soul_position = option_numbers[3]
+						_set_soul_pos()
+						_write_sell_items(soul_position)
+						if !_get_sell_items_count():
 							soul_position = 1
 							_in_state(States.SELECTING_ACTIONS)
 			

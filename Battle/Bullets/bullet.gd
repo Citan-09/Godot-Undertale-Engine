@@ -75,7 +75,7 @@ func _on_hit_yellow() -> void:
 	pass
 
 
-func set_damage_mode(mode := MODE_BLUE):
+func set_mode(mode := MODE_BLUE):
 	damage_mode = mode
 	
 

@@ -81,23 +81,23 @@ func start_attack() -> void:
 			clone.fire(Vector2(Soul.position.x, 100), 1.5, 0.7, 0.2)
 		circle = bullet_circle.instantiate() as BulletCircle
 		add_bullet(circle, Masking.ABSOLUTE)
-		circle.bullet_circle(bullet1, 6, 80, 0.6, 250)
+		circle.position = Soul.position
+		circle.bullet_circle(bullet1, 250, 6, 80, 0.6)
 		if i % 2 == 0:
 			circle.rotation_degrees += 90
-		circle.position = Soul.position
 		await get_tree().create_timer(0.8, false).timeout
 	await get_tree().create_timer(1.2, false).timeout
 	for i in 4:
 		circle = bullet_circle.instantiate() as BulletCircle
 		add_bullet(circle, Masking.ABSOLUTE)
 		circle.position = Soul.position
-		circle.bullet_circle(bullet1, 30, 80, 0.5, 100).set_damage_mode(Bullet.MODE_BLUE if i % 2 == 0 else Bullet.MODE_ORANGE).set_destroy_time(BulletCircle.FADE_OFF_SCREEN)
+		circle.bullet_circle(bullet1, 100, 30, 80, 0.5).set_mode(Bullet.MODE_BLUE if i % 2 == 0 else Bullet.MODE_ORANGE).set_destroy_time(BulletCircle.FADE_OFF_SCREEN)
 		await get_tree().create_timer(1, false).timeout
 	await get_tree().create_timer(1.5, false).timeout
 	circle = bullet_circle.instantiate() as BulletCircle
 	add_bullet(circle, Masking.ABSOLUTE)
 	circle.position = Soul.position
-	circle.bullet_circle(bullet1, 30, 80, 1, 60).set_delay(2).set_damage_mode( Bullet.MODE_GREEN).set_destroy_time(BulletCircle.FADE_OFF_SCREEN)
+	circle.bullet_circle(bullet1,60, 30, 80, 1).set_delay(2).set_mode( Bullet.MODE_GREEN).set_destroy_time(BulletCircle.FADE_OFF_SCREEN)
 	await get_tree().create_timer(4.5, false).timeout
 	Soul.set_mode(Soul.GREEN)
 	var bl = quick_bullet(blaster, Vector2(320, 40), 0, Masking.ABSOLUTE) as Blaster
