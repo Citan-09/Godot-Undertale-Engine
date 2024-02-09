@@ -16,9 +16,9 @@
 * Custom overworlds (scripts)
 * Custom interactables (instantiate interact scene and connect signal)
 * Player overworld UI, Save UI, Custom text boxes
+* Red, Blue, Cyan, Orange, Purple, Yellow, Green Soul modes
 
 (Check the default scenes to help)
 
 **REQUIREMENTS**
 * godot 4.2
-* gdscript
