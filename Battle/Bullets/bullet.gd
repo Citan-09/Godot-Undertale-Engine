@@ -21,7 +21,7 @@ var velocity_tween: Tween
 @export var sprite_path := ^"Sprite"
 @onready var Area: BulletArea = get_node(area_path)
 @onready var Collision: CollisionShape2D = get_node(collision_path)
-@onready var Sprite = get_node(sprite_path)
+@onready var Sprite: CanvasItem = get_node(sprite_path)
 
 enum {
 	MOVEMENT_VELOCITY,
@@ -64,13 +64,20 @@ func _physics_process(_delta: float) -> void:
 func _on_hit_player() -> void:
 	queue_free()
 
+
 ## Called by green soul shield.
 func _on_hit_player_shield() -> void:
 	_on_hit_player()
 
+
 ## Called by the yellow soul bullets
 func _on_hit_yellow() -> void:
 	pass
+
+
+func set_damage_mode(mode := MODE_BLUE):
+	damage_mode = mode
+	
 
 
 func fade() -> void:

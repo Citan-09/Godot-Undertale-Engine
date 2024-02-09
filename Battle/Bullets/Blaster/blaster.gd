@@ -13,10 +13,9 @@ func _ready() -> void:
 	Collision.shape.size = Vector2.ZERO
 
 
-func fire(target: Vector2, size: float = 1, delay: float = 0.5, duration: float = 0.5, mode: int = MODE_WHITE) -> void:
+func fire(target: Vector2, size: float = 1, delay: float = 0.5, duration: float = 0.5) -> void: #, mode: int = MODE_WHITE
 	$load.play()
 	scale = Vector2(max(size, 1), max(size, 1.5))
-	damage_mode = mode
 	target_position = target
 	var distance: Vector2 = target_position - global_position
 	velocity_tween = create_tween().set_ease(TweenEase).set_trans(TweenTrans).set_parallel()
@@ -27,12 +26,7 @@ func fire(target: Vector2, size: float = 1, delay: float = 0.5, duration: float 
 	velocity_tween.tween_interval(0.15)
 	velocity_tween.chain().tween_callback($fire.play)
 	velocity_tween.tween_callback(_blast.bind(duration))
-	#await velocity_tween.finished
-	#await get_tree().create_timer(delay -0.3, false).timeout
-	#AnimPlayer.play("prepare")
-	#await AnimPlayer.animation_finished
-	#$fire.play()
-	#_blast(duration)
+
 
 const grow_time = 0.15
 
@@ -51,8 +45,7 @@ func _blast(duration: float) -> void:
 	var tw_remove := create_tween()
 	tw_remove.tween_interval(duration + grow_time)
 	tw_remove.set_parallel()
-	#tw_remove.tween_callback(tween_beam.stop)
-	#tw_remove.chain().tween_interval(0.1)
+	
 	tw_remove.chain()
 	tw_remove.tween_property(Beam, "modulate:a", 0, grow_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tw_remove.tween_property(Collision, "scale:x", 0, grow_time)
