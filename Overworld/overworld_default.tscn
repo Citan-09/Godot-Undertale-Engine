@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bj6e8xllsfsj4" path="res://Overworld/Characters/sans.tscn" id="6_2ciga"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="7_6m03c"]
 [ext_resource type="PackedScene" uid="uid://gyhc83v53iax" path="res://Overworld/Interactions/save.tscn" id="8_bicj3"]
-[ext_resource type="AudioStream" uid="uid://n4nbydhkmdog" path="res://Musics/default2.wav" id="9_mintf"]
+[ext_resource type="PackedScene" uid="uid://e06nntxil3bd" path="res://Overworld/Interactions/Items/default_item.tscn" id="9_cs8w5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_37vgg"]
 resource_name = "Last Corridor"
@@ -122,7 +122,11 @@ size = Vector2(1580, 20)
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_q8h1i")
 world_name = "Final Corridor"
+player_path = null
+camera_path = null
+music = null
 room_entrances = Array[Vector2]([Vector2(56, 50)])
+metadata/_edit_horizontal_guides_ = [-79.0]
 
 [node name="YSortNodes" type="Node2D" parent="."]
 
@@ -139,6 +143,9 @@ layer_1/tile_data = PackedInt32Array(-65533, 2, 0, 11, 196612, 0, 17, 196612, 0,
 
 [node name="Save" parent="YSortNodes/TileMap" instance=ExtResource("8_bicj3")]
 position = Vector2(110, 37)
+
+[node name="DefaultItem" parent="YSortNodes/TileMap" instance=ExtResource("9_cs8w5")]
+position = Vector2(43, 100)
 
 [node name="PlayerOverworld" parent="YSortNodes/TileMap" instance=ExtResource("3_6otus")]
 y_sort_enabled = true
@@ -209,15 +216,15 @@ debug_color = Color(0.447059, 0.447059, 0.447059, 0.419608)
 [node name="RoomExits" type="Node2D" parent="."]
 
 [node name="Entry" parent="RoomExits" instance=ExtResource("5_mpiu6")]
-position = Vector2(60, 30)
-scale = Vector2(2, 1)
-action = 11
+position = Vector2(60, 28)
+scale = Vector2(2, 0.8)
+action = 19
+new_room = "res://Overworld/Shops/shop.tscn"
 room_entrance = 0
 
 [node name="Exit" parent="RoomExits" instance=ExtResource("5_mpiu6")]
-position = Vector2(1500, 30)
-scale = Vector2(2, 1)
-action = 11
+position = Vector2(1500, 28)
+scale = Vector2(2, 0.8)
 room_entrance = 0
 
 [node name="Label" type="Label" parent="."]
@@ -229,10 +236,15 @@ theme = ExtResource("7_6m03c")
 theme_override_font_sizes/font_size = 16
 text = "(THIS IS THE DEFAULT ROOM)"
 
-[node name="music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_mintf")
-volume_db = -80.0
-bus = &"Music"
+[node name="Shop" type="Label" parent="."]
+offset_left = 31.0
+offset_top = -27.0
+offset_right = 377.0
+offset_bottom = 16.0
+theme = ExtResource("7_6m03c")
+theme_override_font_sizes/font_size = 16
+text = "^^^^^^
+SHOP!!"
 
 [node name="Marker" type="Marker2D" parent="."]
 position = Vector2(56, 41)

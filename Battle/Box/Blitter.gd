@@ -1,25 +1,25 @@
 extends GenericTextTyper
 
-@onready var container = get_parent()
+@onready var container: MarginContainer = get_parent()
 var flavour_texts: PackedStringArray = []
 
-@onready var default_volume = get_node(click_path).volume_db
+@onready var default_volume: float = get_node(click_path).volume_db
 
-func blitter(turn: int):
+func blitter(turn: int) -> void:
 	typetext(flavour_texts[turn % max(flavour_texts.size(), 1)])
 
-func blittertext(alltext):
+func blittertext(alltext: PackedStringArray) -> void:
 	typetext(alltext)
 
-func typetext(Text = "Blank"):
+func typetext(Text: Variant = "Blank") -> void:
 	if typeof(Text) != TYPE_ARRAY and typeof(Text) != TYPE_PACKED_STRING_ARRAY: Text = [Text]
-	for i in Text.size():
-		emit_signal("startedtyping", i)
+	for i: int in Text.size():
+		started_typing.emit(i)
 		await _type_one_line(Text[i])
 		await confirm
-	emit_signal("finishedalltexts")
+	finished_all_texts.emit()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if !container.visible:
 		click.volume_db = -80
 	else:

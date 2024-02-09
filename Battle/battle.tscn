@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c01b4hbwgce3o"]
+[gd_scene load_steps=12 format=3 uid="uid://c01b4hbwgce3o"]
 
 [ext_resource type="Script" path="res://Battle/battle.gd" id="1_yqdne"]
 [ext_resource type="Resource" uid="uid://cxu6iatwdxlye" path="res://Resources/Encounters/EncounterTest.tres" id="2_ju3kp"]
@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://dqju025dnhuna" path="res://Battle/hud.tscn" id="8_pj1aw"]
 [ext_resource type="PackedScene" uid="uid://0nraaqapf5jy" path="res://Battle/Backgrounds/background.tscn" id="9_0orpf"]
 [ext_resource type="AudioStream" uid="uid://dip1sm43dv85a" path="res://sfx/snd_levelup.wav" id="10_ldyum"]
-[ext_resource type="AudioStream" uid="uid://c0jw2rgycrg6i" path="res://Musics/default.wav" id="11_g3lou"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_yqdne")
@@ -19,56 +18,58 @@ encounter = ExtResource("2_ju3kp")
 
 [node name="Background" parent="." instance=ExtResource("9_0orpf")]
 
-[node name="CoreElements" type="Node2D" parent="."]
-
-[node name="Enemies" type="Node2D" parent="CoreElements"]
-position = Vector2(317, 240)
-
-[node name="HUD" parent="CoreElements" instance=ExtResource("8_pj1aw")]
+[node name="HUD" parent="." instance=ExtResource("8_pj1aw")]
+unique_name_in_owner = true
 offset_left = 32.0
 offset_top = 401.0
 offset_right = 718.0
 offset_bottom = 425.0
 
-[node name="Buttons" parent="CoreElements" instance=ExtResource("3_m5l1o")]
+[node name="Buttons" parent="." instance=ExtResource("3_m5l1o")]
+unique_name_in_owner = true
 position = Vector2(0, 453)
 
-[node name="BattleBox" parent="CoreElements" instance=ExtResource("5_1exqf")]
+[node name="Enemies" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(317, 240)
 
-[node name="Camera" parent="." instance=ExtResource("3_j2jej")]
-position = Vector2(320, 240)
+[node name="BattleBox" parent="." instance=ExtResource("5_1exqf")]
+unique_name_in_owner = true
 
-[node name="Soul_Menu" parent="." instance=ExtResource("5_rabss")]
+[node name="Soul_Menu" parent="BattleBox" instance=ExtResource("5_rabss")]
+unique_name_in_owner = true
 position = Vector2(320, 454)
 
-[node name="Soul_Battle" parent="." instance=ExtResource("6_rlfkv")]
+[node name="Soul_Battle" parent="BattleBox" instance=ExtResource("6_rlfkv")]
+unique_name_in_owner = true
 position = Vector2(324, 323)
 
-[node name="Attacks" type="CanvasLayer" parent="."]
-layer = 0
-follow_viewport_enabled = true
+[node name="Camera" parent="." instance=ExtResource("3_j2jej")]
+unique_name_in_owner = true
+position = Vector2(320, 240)
+
+[node name="Attacks" type="Node2D" parent="."]
+unique_name_in_owner = true
 
 [node name="BoxClipper" parent="Attacks" instance=ExtResource("4_elftc")]
+unique_name_in_owner = true
 
 [node name="lvlup" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_ldyum")
 bus = &"SFX"
 
-[node name="music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("11_g3lou")
-bus = &"Music"
-
 [connection signal="endturn" from="." to="." method="_on_enemy_turn_start"]
-[connection signal="movesoul" from="CoreElements/Buttons" to="Soul_Menu" method="_on_movesoul"]
-[connection signal="selectbutton" from="CoreElements/Buttons" to="CoreElements/BattleBox" method="_on_use_button"]
-[connection signal="act" from="CoreElements/BattleBox" to="." method="_act"]
-[connection signal="exitmenu" from="CoreElements/BattleBox" to="CoreElements/Buttons" method="reset"]
-[connection signal="exitmenu" from="CoreElements/BattleBox" to="Soul_Menu" method="disable"]
-[connection signal="exitmenu" from="CoreElements/BattleBox" to="Soul_Menu" method="_on_exitmenu"]
-[connection signal="fight" from="CoreElements/BattleBox" to="." method="_fight"]
-[connection signal="item" from="CoreElements/BattleBox" to="." method="_item"]
-[connection signal="mercy" from="CoreElements/BattleBox" to="." method="_mercy"]
-[connection signal="movesoul" from="CoreElements/BattleBox" to="Soul_Menu" method="_on_movesoul"]
-[connection signal="movetobuttons" from="CoreElements/BattleBox" to="CoreElements/Buttons" method="enable"]
-[connection signal="shake_camera" from="Soul_Battle" to="Camera" method="add_shake"]
+[connection signal="movesoul" from="Buttons" to="BattleBox/Soul_Menu" method="_on_movesoul"]
+[connection signal="selectbutton" from="Buttons" to="BattleBox" method="_on_use_button"]
+[connection signal="act" from="BattleBox" to="." method="_act"]
+[connection signal="exitmenu" from="BattleBox" to="Buttons" method="reset"]
+[connection signal="exitmenu" from="BattleBox" to="BattleBox/Soul_Menu" method="disable"]
+[connection signal="exitmenu" from="BattleBox" to="BattleBox/Soul_Menu" method="_on_exitmenu"]
+[connection signal="fight" from="BattleBox" to="." method="_fight"]
+[connection signal="item" from="BattleBox" to="." method="_item"]
+[connection signal="mercy" from="BattleBox" to="." method="_mercy"]
+[connection signal="movesoul" from="BattleBox" to="BattleBox/Soul_Menu" method="_on_movesoul"]
+[connection signal="movetobuttons" from="BattleBox" to="Buttons" method="enable"]
+[connection signal="shake_camera" from="BattleBox/Soul_Battle" to="Camera" method="add_shake"]
 [connection signal="player_turn" from="Attacks/BoxClipper" to="." method="_on_player_turn_start"]
+[connection signal="player_turn" from="Attacks/BoxClipper" to="BattleBox" method="reset_box"]

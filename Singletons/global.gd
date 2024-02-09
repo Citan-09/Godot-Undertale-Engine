@@ -1,18 +1,20 @@
 extends CanvasLayer
 
-var first = true
-var fullscreen = false
-var debugmode = false
+@onready var Music: AudioStreamPlayer = $MusicGlobal
+
+var first := true
+var fullscreen := false
+var debugmode := false
 
 var boxesinmenu := false
-var unlockedboxes = 0
+var unlockedboxes: int = 0
 var equipment: Dictionary = {"weapon": 3, "armor": 2}
 var cells: Array
 var items: Array
 var boxitems: Array  #[[],[],[]]
 var settings: Dictionary = {"music": 100, "sfx": 100, "misc": 100, "shake": true, "vfx": false}
 
-var savepath = "user://savegame.bin"
+var savepath := "user://savegame.bin"
 
 signal saved
 
@@ -23,30 +25,29 @@ enum types {
 }
 
 # overworld
-var player_in_menu = false
-var player_can_move = true
-var paused = false
+var player_in_menu := false
+var player_can_move := true
+var paused := false
 
 
 # stats
-var player_name = "ERROR"
-var player_gold = 0
-var player_lv = 1
-var player_exp = 0
-var player_hp = 20
-var player_max_hp = 20
-var player_defense = 0
-var player_attack = 10
-var player_kr = 0
+var player_name := "ERROR"
+var player_gold: int = 0
+var player_lv: int  = 1
+var player_exp: int  = 0
+var player_hp: int  = 20
+var player_max_hp: int  = 20
+var player_defense: int  = 0
+var player_attack: int  = 10
+var player_kr: int  = 0
 
-var krtime = 0.5
+var krtime: float = 0.5
 
 # Temps.
 var temp_atk: int = 0
 var temp_def: int = 0
 var player_position := Vector2.ZERO
-var overworld_scene: Overworld
-var overworld_temp_data = {
+var overworld_temp_data := {
 	"global_position": Vector2.ZERO,
 }
 # Overworld
@@ -61,29 +62,23 @@ var overworld_data := {
 }
 
 ## ADD FLAGS HERE
-enum Flag {
-	DEFEATED_DEFAULT_ENEMY = 0b1,
+var flags: Dictionary = {
+	
 }
-var flags: int = 0b0
 
-var flags_at_save: int = 0b0
+var flags_at_save: Dictionary = {
+	
+}
 
 ## Sets a flag in Global.flags to a binary value.
-func set_flag(flag: Flag, value: int):
-	if value and value != 1:
-		push_error("Global.set_flag(%s, %s): value %s is not binary." % [flag, value, value])
-		value = 1
-	if value:
-		if !flags & flag:
-			flags += flag
-	elif flags & flag:
-		flags -= flag
+func set_flag(flag: String, value: Variant) -> void:
+	flags.merge({flag: value}, true)
 
 
-var playtime = 0.0
-var cache_playtime = 0.0
+var playtime: float = 0.0
+var cache_playtime: float = 0.0
 #region items
-var ItemStats = {
+var ItemStats := {
 	"weaponspeed": 1.0,
 	"weaponbars": 1,
 	"bartranstype": Tween.TRANS_CUBIC,
@@ -110,11 +105,11 @@ enum weaponstype {
 @export var item_list: Array[Item] = [
 ]
 
-@onready var heal_sound = $heal
+@onready var heal_sound: AudioStreamPlayer = $heal
 
-func item_use_text(item_id: int):
-	var item = item_list[item_id]
-	var use_text = item.use_message.duplicate()
+func item_use_text(item_id: int) -> PackedStringArray:
+	var item := item_list[item_id]
+	var use_text := item.use_message.duplicate()
 	if item.heal_amount:
 		heal(item.heal_amount)
 		use_text.append("* You healed %s HP" % [item.heal_amount])
@@ -136,12 +131,11 @@ func item_use_text(item_id: int):
 
 #endregion
 
-func heal(amt: int):
+func heal(amt: int) ->  void:
 	heal_sound.play()
 	##check max hp
 	if player_hp + amt > player_max_hp: amt = player_max_hp - player_hp
 	player_hp += amt
-	return amt
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_fullscreen"):
@@ -157,14 +151,17 @@ func _input(event: InputEvent) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if debugmode:
 		if event.is_action_pressed("refresh_scene"):
+			push_warning("WARNING: This will basically leak a bunch of memory due to leaked orphan nodes!")
 			player_hp = player_max_hp
 			player_can_move = true
 			player_in_menu = false
 			get_tree().reload_current_scene.call_deferred()
+			
 		if event.is_action_pressed("force_save"):
 			savegame()
 
 func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	loadgame()
 
 
@@ -179,18 +176,17 @@ func _process(delta: float) -> void:
 	$KrTimer.wait_time = krtime / 3.0 if player_kr > 30 else krtime
 
 
-func _notification(what):
-	pass
+#func _notification(what):
 	#if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		#savegame()
 		#await get_tree().process_frame
 		#get_tree().quit()
 
-func savegame():
+func savegame() -> void:
 	first = false
-	flags_at_save = flags
-	var file = FileAccess.open(savepath, FileAccess.WRITE)
-	var savedata = {
+	flags_at_save = flags.duplicate()
+	var file := FileAccess.open(savepath, FileAccess.WRITE)
+	var savedata := {
 		"stats":
 			{
 				"gold": player_gold,
@@ -221,7 +217,7 @@ func savegame():
 	file.store_line(JSON.stringify(savedata))
 	print("Saved!")
 
-func resetgame():
+func resetgame() -> void:
 	# EQUIPMENT
 	equipment = {"weapon": 3, "armor": 2}
 	# ITEMS
@@ -245,17 +241,24 @@ func resetgame():
 	# OVERWORLD
 	overworld_data = {}
 	# FLAGS
-	flags = 0
+	flags = {}
 	first = true
-	flags_at_save = flags
+	flags_at_save = flags.duplicate()
 	refresh_audio_busses()
 	print("Reset")
 
-
-func loadgame():
-	var file = FileAccess.open(savepath, FileAccess.READ)
+func savesettings() -> void:
+	var file := FileAccess.open(savepath, FileAccess.READ_WRITE)
+	var savedata: Dictionary
 	if FileAccess.file_exists(savepath) and !file.eof_reached():
-		var savedata = JSON.parse_string(file.get_as_text())
+		savedata = JSON.parse_string(file.get_as_text()) as Dictionary
+	savedata.merge(settings, true)
+	file.store_line(JSON.stringify(savedata))
+
+func loadgame() -> void:
+	var file := FileAccess.open(savepath, FileAccess.READ)
+	if FileAccess.file_exists(savepath) and !file.eof_reached():
+		var savedata: Dictionary = JSON.parse_string(file.get_as_text()) as Dictionary
 		if savedata == null:
 			savedata = {}
 		# EQUIPMENT
@@ -284,13 +287,13 @@ func loadgame():
 		# OVERWORLD
 		overworld_data.merge(savedata.get("overworld", {}), true)
 		# FLAGS
-		flags = savedata.get("flags", 0)
+		flags = savedata.get("flags", {})
 		first = savedata.get("first", true)
-	flags_at_save = flags
+	flags_at_save = flags.duplicate()
 	refresh_audio_busses()
 	print("Loaded!")
 
-func refresh_audio_busses():
+func refresh_audio_busses() -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(settings["sfx"] / 100.0))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Misc"), linear_to_db(settings["misc"] / 100.0))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(settings["music"] / 100.0))
@@ -315,9 +318,9 @@ func _on_kr_tick() -> void:
 		player_kr -= 1
 		player_hp -= 1
 
-func check_level_up():
-	var lv = player_lv
-	var lvup = 0
+func check_level_up() -> int:
+	var lv := player_lv
+	var lvup: int = 0
 	if player_exp >= 10:
 		lv = 2
 	if player_exp >= 30:
@@ -372,25 +375,7 @@ func check_level_up():
 
 	return lvup
 
-func load_battle(battle_scene_path: String = "res://Battle/battle.tscn", battle_resource: Encounter = preload("res://Resources/Encounters/EncounterTest.tres"), transistion := true, to_position := Vector2(48, 452)):
-	var tree := get_tree()
-	var screen
-	if transistion:
-		screen = preload("res://Overworld/battle_transistion.tscn").instantiate()
-		screen.target = to_position
-		tree.current_scene.add_child(screen)
-		await screen.transistion()
-	player_in_menu = false
-	player_can_move = true
-	var battle = load(battle_scene_path).instantiate() as BattleMain
-	battle.encounter = battle_resource
-	overworld_scene = tree.current_scene
-	tree.root.remove_child(overworld_scene)
-	tree.root.add_child(battle)
-	tree.current_scene = battle
 	
 
 
 
-func exit_battle():
-	pass

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Dialogues" load_steps=4 format=3 uid="uid://bxh15k4s2f3y5"]
+
+[ext_resource type="Script" path="res://Resources/Dialogues/dialogue.gd" id="1_qwrjl"]
+[ext_resource type="Script" path="res://Resources/Dialogues/dialogues.gd" id="2_01cyl"]
+
+[sub_resource type="Resource" id="Resource_quwwy"]
+script = ExtResource("1_qwrjl")
+dialog_text = "* Can't sell to me bozo."
+dialog_expressions = Array[int]([0, 0])
+
+[resource]
+script = ExtResource("2_01cyl")
+dialogues = Array[ExtResource("1_qwrjl")]([SubResource("Resource_quwwy")])

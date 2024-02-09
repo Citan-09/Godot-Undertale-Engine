@@ -303,7 +303,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3j44q"]
-size = Vector2(2, 14)
+size = Vector2(3, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ilg8t"]
 atlas = ExtResource("4_3i2lt")
@@ -339,12 +339,12 @@ slide_on_ceiling = false
 wall_min_slide_angle = 0.785398
 script = ExtResource("1_pcoqs")
 InteractPosx = {
--1: Vector2(-6, 8),
-1: Vector2(6, 8)
+-1: Vector2(-5, -2),
+1: Vector2(5, -2)
 }
 InteractPosy = {
--1: Vector2(0, 0),
-1: Vector2(0, 16)
+-1: Vector2(0, -5),
+1: Vector2(0, 2)
 }
 
 [node name="BottomCollision" type="CollisionShape2D" parent="."]
@@ -362,11 +362,10 @@ wait_time = 0.2
 autostart = true
 
 [node name="Interacter" type="Area2D" parent="." groups=["interaction"]]
-position = Vector2(0, -10)
 
 [node name="Collision" type="CollisionShape2D" parent="Interacter"]
-position = Vector2(0, 18)
 shape = SubResource("RectangleShape2D_3j44q")
+debug_color = Color(0.239216, 1, 0.447059, 0.419608)
 
 [node name="Alert" type="AnimatedSprite2D" parent="."]
 visible = false

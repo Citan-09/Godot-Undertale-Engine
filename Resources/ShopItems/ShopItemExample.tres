@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ShopItem" load_steps=2 format=3 uid="uid://7nmjdvoq46n8"]
+
+[ext_resource type="Script" path="res://Resources/ShopItems/shop_item.gd" id="1_q00hn"]
+
+[resource]
+script = ExtResource("1_q00hn")
+item = 0
+cost = 15

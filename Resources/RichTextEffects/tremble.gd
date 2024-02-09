@@ -2,11 +2,11 @@
 extends RichTextEffect
 class_name Tremble
 
-var bbcode = "tremble"
+var bbcode := "tremble"
 
-func _process_custom_fx(char_fx):
-	var freq = char_fx.env.get("amp", 1.0)/10.0
-	var chance = char_fx.env.get("chance", 2)
+func _process_custom_fx(char_fx: CharFXTransform) -> bool:
+	var freq: float = char_fx.env.get("amp", 1.0) / 10.0
+	var chance: float = char_fx.env.get("chance", 2)
 	
 	randomize()
 	

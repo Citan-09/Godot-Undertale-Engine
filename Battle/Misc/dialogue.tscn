@@ -148,6 +148,7 @@ I LOVE TEXT."
 scroll_active = false
 visible_characters_behavior = 1
 script = ExtResource("11_0sva1")
+click_path = NodePath("Sounds/Generic")
 interval = 0.045
 
 [node name="Sounds" type="Node" parent="TextContainer/Text"]
@@ -216,5 +217,3 @@ bus = &"SFX"
 stream = SubResource("AudioStreamRandomizer_34yic")
 max_polyphony = 3
 bus = &"SFX"
-
-[connection signal="startedtyping" from="TextContainer/Text" to="." method="_on_text_startedtyping"]

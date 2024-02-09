@@ -1,9 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqju025dnhuna"]
+[gd_scene load_steps=7 format=3 uid="uid://dqju025dnhuna"]
 
 [ext_resource type="Script" path="res://Battle/hud.gd" id="1_7bydp"]
 [ext_resource type="Theme" uid="uid://bevcq3qnk3n8h" path="res://Battle/hud.tres" id="1_e8i8v"]
 [ext_resource type="FontFile" uid="uid://cpwhwcvfj8ern" path="res://Text/Fonts/ut-hp-font.ttf" id="2_6w6gy"]
-[ext_resource type="Texture2D" uid="uid://caaa653ktqno4" path="res://Battle/progbar.png" id="3_avg0y"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="4_h3gwi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lhhit"]
+bg_color = Color(0.988235, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tb5la"]
 
 [node name="HUD" type="HBoxContainer"]
 anchors_preset = 15
@@ -50,38 +64,27 @@ fit_content = true
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(111, 0)
 layout_mode = 2
-theme_override_constants/margin_bottom = 3
+theme_override_constants/margin_bottom = 4
 
-[node name="Border" type="Panel" parent="MarginContainer"]
-modulate = Color(0, 0, 0, 1)
+[node name="KrBar" type="ProgressBar" parent="MarginContainer"]
+modulate = Color(1, 0, 1, 1)
 layout_mode = 2
-theme = ExtResource("1_e8i8v")
-
-[node name="KrBar" type="TextureProgressBar" parent="MarginContainer"]
-layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("4_h3gwi")
+theme_override_styles/background = SubResource("StyleBoxFlat_lhhit")
 max_value = 20.0
-value = 14.0
-nine_patch_stretch = true
-stretch_margin_left = 5
-stretch_margin_top = 5
-stretch_margin_right = 5
-stretch_margin_bottom = 5
-texture_under = ExtResource("3_avg0y")
-texture_progress = ExtResource("3_avg0y")
-tint_under = Color(1, 0, 0, 1)
-tint_progress = Color(1, 0, 1, 1)
+value = 15.0
+show_percentage = false
 
-[node name="HpBar" type="TextureProgressBar" parent="MarginContainer"]
+[node name="HpBar" type="ProgressBar" parent="MarginContainer"]
+modulate = Color(1, 0.890196, 0, 1)
 layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("4_h3gwi")
+theme_override_styles/background = SubResource("StyleBoxEmpty_tb5la")
 max_value = 20.0
 value = 10.0
-nine_patch_stretch = true
-stretch_margin_left = 5
-stretch_margin_top = 5
-stretch_margin_right = 5
-stretch_margin_bottom = 5
-texture_progress = ExtResource("3_avg0y")
-tint_progress = Color(1, 0.890196, 0, 1)
+show_percentage = false
 
 [node name="KrText" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(42, 0)

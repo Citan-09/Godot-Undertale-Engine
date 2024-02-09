@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnu6jhm3w5lk8"]
+
+[ext_resource type="Script" path="res://Menus/item_slider.gd" id="1_6xn38"]
+[ext_resource type="Texture2D" uid="uid://dv5qlp31seevi" path="res://Battle/Box/Scroll/dot.png" id="2_c5whc"]
+[ext_resource type="Texture2D" uid="uid://b3pb3kl0aoiun" path="res://Battle/Box/Scroll/dot_bg.png" id="3_1vsdv"]
+[ext_resource type="Texture2D" uid="uid://b6p847lcrjfx3" path="res://Battle/Box/Scroll/arrow.png" id="4_nk5xq"]
+
+[node name="Slider" type="Control"]
+layout_mode = 3
+offset_right = 20.0
+offset_bottom = 100.0
+script = ExtResource("1_6xn38")
+offset = 12.0
+step_size = 10.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Grabber" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 12.0
+offset_right = 19.0
+offset_bottom = 36.0
+texture = ExtResource("2_c5whc")
+stretch_mode = 2
+
+[node name="TextureRect" type="NinePatchRect" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 19.0
+offset_right = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_1vsdv")
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
+[node name="ArrowDown" type="TextureRect" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = 19.0
+offset_right = 14.0
+offset_bottom = 35.0
+grow_horizontal = 0
+grow_vertical = 0
+rotation = 3.14159
+texture = ExtResource("4_nk5xq")
+
+[node name="ArrowTop" type="TextureRect" parent="."]
+show_behind_parent = true
+layout_mode = 0
+offset_left = 2.0
+offset_right = 18.0
+offset_bottom = 16.0
+texture = ExtResource("4_nk5xq")

@@ -1,18 +1,18 @@
-extends bullet
+class_name BoneSpike extends Bullet
 
 @export var collision_margin: float = 4
 
-@onready var Warning = $Warning
+@onready var Warning: NinePatchRect = $Warning
 
 
-func fire(size: Vector2, warn_time: float = 0.4, remain_time: float = 1, mode: damage_modes = damage_modes.WHITE):
+func fire(size: Vector2, warn_time: float = 0.4, remain_time: float = 1, mode: int = MODE_WHITE) -> void:
 	damage_mode = mode
 	Sprite.size = size
 	Warning.size = size
 	Warning.get_child(0).modulate = colors[damage_mode]
 	$Alert.play()
-	var alert_tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
-	var alert_tween2 = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	var alert_tween := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	var alert_tween2 := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 	alert_tween.tween_property(Warning.get_child(0), "self_modulate:a", 1, warn_time / 5.0)
 	alert_tween2.tween_property(Warning, "modulate:a", 0, warn_time * 7 / 8.0)
 	alert_tween.tween_property(Warning.get_child(0), "self_modulate:a", 0, 4 * warn_time / 5.0)
@@ -28,9 +28,9 @@ func fire(size: Vector2, warn_time: float = 0.4, remain_time: float = 1, mode: d
 
 const spike_time = 0.3
 
-func spike(remain_time):
+func spike(remain_time: float) -> void:
 	$Spike.play()
-	var tw = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART).set_parallel()
+	var tw := create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART).set_parallel()
 	tw.tween_property(Sprite, "size:y", Warning.size.y, spike_time)
 	tw.tween_property(Collision.shape, "size:y", Warning.size.y - collision_margin, spike_time)
 	tw.tween_property(Collision, "position:y", (Warning.size.y - collision_margin) / 2.0, spike_time)

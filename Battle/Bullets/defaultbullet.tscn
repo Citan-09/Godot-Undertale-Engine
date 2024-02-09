@@ -47,7 +47,7 @@ _data = {
 "default_animation": SubResource("Animation_ovdne")
 }
 
-[node name="Bullet" type="CharacterBody2D" groups=["bullet"]]
+[node name="Bullet" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_n04ay")
 TweenTrans = 1
@@ -66,7 +66,7 @@ scale = Vector2(1, 33.5)
 texture = SubResource("CanvasTexture_tu4yw")
 polygon = PackedVector2Array(0, -0.208955, 2, -0.149254, 3, 0, 2, 0.149254, 0, 0.208955, -2, 0.149254, -3, 0, -2, -0.149254)
 
-[node name="Area2D" type="Area2D" parent="." groups=["bullet"]]
+[node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("2_rn5mj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

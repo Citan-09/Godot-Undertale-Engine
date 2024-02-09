@@ -14,7 +14,8 @@ uniform float starscale = 20.0;
 uniform float prob: hint_range(0.0,1.0) = 0.98;
 
 float rand(vec2 input){
-	return fract(sin(dot(input,vec2(23.53,44.0)))*42350.45);
+	input += min(0.0, TIME);
+	return fract(sin(dot(input,vec2(23.53,44.0))) * 42350.0);
 }
 
 float perlin(vec2 input){

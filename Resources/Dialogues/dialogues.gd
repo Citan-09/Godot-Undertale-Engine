@@ -11,7 +11,7 @@ enum {
 }
 
 func get_dialogues_single(dialog_type: int) -> Array:
-	var arr = []
+	var arr := []
 	for i in dialogues.size():
 		match dialog_type:
 			DIALOGUE_TEXT:

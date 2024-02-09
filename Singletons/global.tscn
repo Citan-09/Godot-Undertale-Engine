@@ -12,11 +12,12 @@ item_type = 0
 item_name = "TestItem"
 weapon_speed = 1.0
 weapon_bars = 1
-bar_trans_type = 7
+bar_trans_type = 0
 weapon_type = 0
+critical_hits = false
 use_message = ["* You used the Item!"]
-item_information = ["* Item - Heals 0 hp 
-* This means this item has no description or is the default item."]
+item_information = ["* Test item - heals 5 hp.
+* Very much not useful."]
 throw_message = ["* You threw the Item!"]
 heal_amount = 5
 attack_amount = 0
@@ -28,11 +29,12 @@ item_type = 0
 item_name = "TestItem2"
 weapon_speed = 1.0
 weapon_bars = 1
-bar_trans_type = 7
+bar_trans_type = 0
 weapon_type = 0
-use_message = ["* You used the Item!"]
-item_information = ["* Item - Heals 0 hp 
-* This means this item has no description or is the default item."]
+critical_hits = false
+use_message = ["* You used the Item2!"]
+item_information = ["* TestItem2 - heals 2 hp.
+* More useful than you think."]
 throw_message = ["* You threw the Item!"]
 heal_amount = 2
 attack_amount = 0
@@ -44,8 +46,9 @@ item_type = 2
 item_name = "TestArmor"
 weapon_speed = 1.0
 weapon_bars = 1
-bar_trans_type = 7
+bar_trans_type = 0
 weapon_type = 0
+critical_hits = false
 use_message = ["* You used the Item!"]
 item_information = ["* Item - Heals 0 hp 
 * This means this item has no description or is the default item."]
@@ -59,15 +62,16 @@ script = ExtResource("2_1aujb")
 item_type = 1
 item_name = "Testweapon"
 weapon_speed = 1.0
-weapon_bars = 1
-bar_trans_type = 7
+weapon_bars = 4
+bar_trans_type = 1
 weapon_type = 0
+critical_hits = false
 use_message = ["* You used the Item!"]
 item_information = ["* Item - Heals 0 hp 
 * This means this item has no description or is the default item."]
 throw_message = ["* You threw the Item!"]
 heal_amount = 0
-attack_amount = 5
+attack_amount = 4
 defense_amount = 0
 
 [node name="Global" type="CanvasLayer"]
@@ -92,5 +96,9 @@ bus = &"SFX"
 
 [node name="KrTimer" type="Timer" parent="."]
 autostart = true
+
+[node name="MusicGlobal" type="AudioStreamPlayer" parent="."]
+process_mode = 1
+bus = &"Music"
 
 [connection signal="timeout" from="KrTimer" to="." method="_on_kr_tick"]

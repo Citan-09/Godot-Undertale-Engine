@@ -1,0 +1,361 @@
+[gd_scene load_steps=30 format=3 uid="uid://cky15oufpvxym"]
+
+[ext_resource type="Shader" path="res://Shaders/fog.gdshader" id="1_6eh7p"]
+[ext_resource type="Script" path="res://Overworld/Shops/shop.gd" id="1_l5aam"]
+[ext_resource type="Resource" uid="uid://7nmjdvoq46n8" path="res://Resources/ShopItems/ShopItemExample.tres" id="2_4d5yb"]
+[ext_resource type="Script" path="res://Resources/ShopItems/shop_item.gd" id="2_345qe"]
+[ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="2_c0m18"]
+[ext_resource type="Shader" path="res://Shaders/nebula.gdshader" id="2_rkaxw"]
+[ext_resource type="Texture2D" uid="uid://v2uk8ex2yh8f" path="res://Enemies/dust/default_dust.png" id="3_2p1tb"]
+[ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="3_dls26"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="3_lws8l"]
+[ext_resource type="Script" path="res://Overworld/Shops/Keeper.gd" id="4_3knms"]
+[ext_resource type="Script" path="res://Text/TextTyper.gd" id="4_yk2vs"]
+[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="5_axeqr"]
+[ext_resource type="AudioStream" uid="uid://degl6ii2gdr87" path="res://sfx/Clicks/generic1.wav" id="5_upaer"]
+[ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="10_bn7bx"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="11_1yrkt"]
+[ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="11_udity"]
+[ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Menus/Slider.tscn" id="12_tldfv"]
+[ext_resource type="AudioStream" uid="uid://bf28qk1u2k1xi" path="res://sfx/buy_item.wav" id="15_ssolt"]
+[ext_resource type="AudioStream" uid="uid://dsid8nuan7lku" path="res://sfx/player_hurt.wav" id="16_jjntu"]
+
+[sub_resource type="Resource" id="Resource_m0kg6"]
+script = ExtResource("2_345qe")
+item = 1
+cost = 250
+
+[sub_resource type="Resource" id="Resource_bcjth"]
+script = ExtResource("2_345qe")
+item = 0
+cost = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ire60"]
+shader = ExtResource("2_rkaxw")
+shader_parameter/OCTAVE = 3
+shader_parameter/timescale = 1.482
+shader_parameter/CLOUD1_COL = Color(0.41, 0.64, 0.78, 0.4)
+shader_parameter/CLOUD2_COL = Color(0.99, 0.79, 0.46, 0.2)
+shader_parameter/CLOUD3_COL = Color(0.81, 0.31, 0.59, 1)
+shader_parameter/CLOUD4_COL = Color(0.27, 0.15, 0.33, 1)
+shader_parameter/SPACE = Color(0.09, 0.06, 0.28, 0.3)
+shader_parameter/zoomScale = 6.0
+shader_parameter/size = 10.0
+shader_parameter/starscale = 20.0
+shader_parameter/prob = 0.98
+
+[sub_resource type="Gradient" id="Gradient_hk5mi"]
+colors = PackedColorArray(0, 0, 0, 1, 0.425781, 0.425781, 0.425781, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_f8okn"]
+noise_type = 2
+seed = 2
+frequency = 0.0158
+cellular_distance_function = 3
+cellular_return_type = 5
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7hfl3"]
+width = 640
+height = 480
+seamless = true
+color_ramp = SubResource("Gradient_hk5mi")
+noise = SubResource("FastNoiseLite_f8okn")
+
+[sub_resource type="Gradient" id="Gradient_7kfc5"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lyf63"]
+noise_type = 0
+seed = 2
+frequency = 0.004
+cellular_distance_function = 3
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fr68d"]
+width = 200
+height = 480
+seamless = true
+color_ramp = SubResource("Gradient_7kfc5")
+noise = SubResource("FastNoiseLite_lyf63")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_njevl"]
+shader = ExtResource("1_6eh7p")
+shader_parameter/density = 1.0
+shader_parameter/speed = Vector2(0.2, 0.06)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_fr68d")
+
+[node name="Shop" type="CanvasLayer"]
+script = ExtResource("1_l5aam")
+Offerings = Array[ExtResource("2_345qe")]([ExtResource("2_4d5yb"), SubResource("Resource_m0kg6")])
+Sellferings = Array[ExtResource("2_345qe")]([SubResource("Resource_bcjth")])
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="TextureRect" parent="Control"]
+material = SubResource("ShaderMaterial_ire60")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("NoiseTexture2D_7hfl3")
+
+[node name="Keeper" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 177.0
+offset_right = 317.0
+offset_bottom = 321.0
+texture = ExtResource("3_2p1tb")
+script = ExtResource("4_3knms")
+
+[node name="Info" type="NinePatchRect" parent="Control"]
+layout_mode = 0
+offset_left = 422.0
+offset_top = 250.0
+offset_right = 640.0
+offset_bottom = 455.0
+texture = ExtResource("2_c0m18")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
+
+[node name="Panel" type="Panel" parent="Control/Info"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_dls26")
+
+[node name="ItemInfo" type="RichTextLabel" parent="Control/Info"]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 21.0
+offset_right = 209.0
+offset_bottom = 254.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "ItemName - Heals 80 hp
+do something
+...
+..."
+scroll_active = false
+
+[node name="TextBox" type="NinePatchRect" parent="Control"]
+layout_mode = 0
+offset_top = 240.0
+offset_right = 419.0
+offset_bottom = 479.0
+texture = ExtResource("2_c0m18")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
+
+[node name="Panel" type="Panel" parent="Control/TextBox"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_dls26")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/TextBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 25
+
+[node name="Dialogue" type="RichTextLabel" parent="Control/TextBox/MarginContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("3_lws8l")
+bbcode_enabled = true
+text = "* (Why do I always 
+  get the freaks?)"
+scroll_active = false
+visible_characters_behavior = 1
+script = ExtResource("4_yk2vs")
+interval = 0.05
+
+[node name="Click" type="AudioStreamPlayer" parent="Control/TextBox/MarginContainer/Dialogue"]
+stream = ExtResource("5_upaer")
+bus = &"SFX"
+
+[node name="Items" type="RichTextLabel" parent="Control/TextBox"]
+visible = false
+layout_mode = 0
+offset_left = 70.0
+offset_top = 22.0
+offset_right = 410.0
+offset_bottom = 278.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = " 60G - Starfait
+120G - Glamburger
+300G - Legendary Hero
+500G - [i]Steakintheshapeofmettaton'sface[/i]
+Exit"
+scroll_active = false
+
+[node name="SellItems" type="RichTextLabel" parent="Control/TextBox"]
+visible = false
+layout_mode = 0
+offset_left = 70.0
+offset_top = 22.0
+offset_right = 410.0
+offset_bottom = 278.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = "Item1 - 0G
+Item2 - 3G
+..."
+scroll_active = false
+
+[node name="Dialogues" type="RichTextLabel" parent="Control/TextBox"]
+visible = false
+layout_mode = 0
+offset_left = 70.0
+offset_top = 22.0
+offset_right = 410.0
+offset_bottom = 278.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = "Say Hello
+Mug
+Threaten
+Hate Crime
+Murder"
+scroll_active = false
+
+[node name="Slider" parent="Control/TextBox" instance=ExtResource("12_tldfv")]
+layout_mode = 1
+anchor_left = 0.926014
+anchor_top = 0.251046
+anchor_right = 0.926014
+anchor_bottom = 0.251046
+
+[node name="Main" type="NinePatchRect" parent="Control"]
+layout_mode = 0
+offset_left = 422.0
+offset_top = 240.0
+offset_right = 640.0
+offset_bottom = 480.0
+texture = ExtResource("2_c0m18")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
+
+[node name="Soul" type="Sprite2D" parent="Control/Main"]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(38, 38)
+texture = ExtResource("5_axeqr")
+
+[node name="Panel" type="Panel" parent="Control/Main"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_dls26")
+
+[node name="Options" type="RichTextLabel" parent="Control/Main"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 22.0
+offset_right = 396.0
+offset_bottom = 278.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = "Buy
+Sell
+Talk
+Exit"
+scroll_active = false
+
+[node name="Gold" type="RichTextLabel" parent="Control/Main"]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 181.0
+offset_right = 217.0
+offset_bottom = 210.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = "2729G"
+scroll_active = false
+
+[node name="Space" type="RichTextLabel" parent="Control/Main"]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 181.0
+offset_right = 318.0
+offset_bottom = 210.0
+theme = ExtResource("3_lws8l")
+theme_override_constants/line_separation = 11
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = "7/8"
+scroll_active = false
+
+[node name="Camera" parent="." instance=ExtResource("11_1yrkt")]
+
+[node name="Fog" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_njevl")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.239216)
+
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_bn7bx")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_udity")
+bus = &"SFX"
+
+[node name="bought" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_ssolt")
+bus = &"SFX"
+
+[node name="insufficient" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_jjntu")
+bus = &"SFX"
+
+[connection signal="keeper_expression" from="." to="Control/Keeper" method="_set_expression"]

@@ -1,0 +1,125 @@
+[gd_scene load_steps=12 format=3 uid="uid://xad06i5xoh8d"]
+
+[ext_resource type="Texture2D" uid="uid://b46tua2q2juh5" path="res://Battle/Soul/yellow_bullet.png" id="1_r4pw3"]
+[ext_resource type="Script" path="res://Battle/Soul/yellow_soul_bullet.gd" id="2_ruwnr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o55m7"]
+atlas = ExtResource("1_r4pw3")
+region = Rect2(32, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsu4n"]
+atlas = ExtResource("1_r4pw3")
+region = Rect2(24, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7p17a"]
+atlas = ExtResource("1_r4pw3")
+region = Rect2(0, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3hm3"]
+atlas = ExtResource("1_r4pw3")
+region = Rect2(8, 0, 8, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mqxby"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o55m7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsu4n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7p17a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3hm3")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.0
+}]
+
+[sub_resource type="Animation" id="Animation_srfc3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pcwrs"]
+resource_name = "fire"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hf80h"]
+_data = {
+"RESET": SubResource("Animation_srfc3"),
+"fire": SubResource("Animation_pcwrs")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mtwmf"]
+size = Vector2(9, 6)
+
+[node name="YellowSoulBullet" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_mqxby")
+centered = false
+offset = Vector2(-4, 0)
+script = ExtResource("2_ruwnr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hf80h")
+}
+autoplay = "fire"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_mtwmf")
+disabled = true
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

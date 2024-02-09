@@ -1,9 +1,9 @@
 @icon("res://Battle/Soul/soul.png")
-extends CharacterBody2D
+extends Node2D
 class_name SoulMenu
 
-var time = 0.07
-var enabled = true
+const time: float = 0.1
+var enabled := true
 
 var movetween: Tween
 
@@ -11,7 +11,9 @@ var movetween: Tween
 
 func _ready() -> void:
 	$Sprite.modulate = Color(1, 1, 1, 1) if soul_type == SoulBattle.soul_types.SOUL_MONSTER else Color(1, 0, 0 , 1)
-	$Sprite.animation = &"directions" if soul_type == SoulBattle.soul_types.SOUL_HUMAN else &"directions_m"
+	#$Sprite.animation = &"directions" if soul_type == SoulBattle.soul_types.SOUL_HUMAN else &"directions_m"
+
+var _able_tween: Tween
 
 func enable() -> void:
 	if !enabled:
@@ -19,8 +21,8 @@ func enable() -> void:
 		if !is_node_ready(): await ready
 		position = Vector2(320, 454)
 		modulate.a = 0
-		var tw = create_tween()
-		tw.tween_property(self, "modulate:a", 1, 0.4)
+		_able_tween = create_tween()
+		_able_tween.tween_property(self, "modulate:a", 1, 0.2)
 
 func _enter_tree() -> void:
 	enable()
@@ -28,11 +30,9 @@ func _enter_tree() -> void:
 func disable() -> void:
 	if enabled:
 		enabled = false
-		var tw = create_tween()
-		tw.tween_property(self, "modulate:a", 0, time)
-		await tw.finished
-		tw.kill()
-		get_parent().remove_child.call_deferred(self)
+		_able_tween = create_tween()
+		_able_tween.tween_property(self, "modulate:a", 0, 0.2)
+		_able_tween.tween_callback(get_parent().remove_child.bind(self)).set_delay(0.05)
 
 func _on_movesoul(newpos: Vector2) -> void:
 	if movetween and movetween.is_valid():

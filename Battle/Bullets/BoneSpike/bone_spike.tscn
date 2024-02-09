@@ -64,7 +64,7 @@ patch_margin_bottom = 9
 axis_stretch_horizontal = 1
 
 [node name="Warning" type="NinePatchRect" parent="."]
-self_modulate = Color(0.992157, 1, 0, 1)
+self_modulate = Color(1, 0, 0, 1)
 offset_right = 640.0
 offset_bottom = 118.0
 texture = ExtResource("4_nwx77")
@@ -83,7 +83,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dm26u")
 
-[node name="Area2D" type="Area2D" parent="." groups=["bullet"]]
+[node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("1_2imqv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

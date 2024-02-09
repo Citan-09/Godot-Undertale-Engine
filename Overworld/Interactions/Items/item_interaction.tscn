@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://tl343l587k6h"]
+
+[ext_resource type="Script" path="res://Overworld/Interactions/Items/item_interaction.gd" id="1_soebc"]
+[ext_resource type="AudioStream" uid="uid://f7fwve387ecq" path="res://sfx/snd_item.wav" id="2_r50j3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xipl7"]
+
+[node name="PickupInteractArea" type="Area2D" groups=["interactable", "item"]]
+script = ExtResource("1_soebc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xipl7")
+
+[node name="PickUp" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_r50j3")
+bus = &"SFX"
+
+[connection signal="interacted" from="." to="." method="discover"]

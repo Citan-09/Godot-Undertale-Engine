@@ -18,9 +18,9 @@
 [ext_resource type="AudioStream" uid="uid://dvdqlca4fmuvf" path="res://sfx/snd_punchstrong.wav" id="15_lad84"]
 [ext_resource type="Texture2D" uid="uid://cb4vuf8qsdbuq" path="res://Battle/Slashes/Gun/explode.png" id="16_nmbjf"]
 [ext_resource type="AudioStream" uid="uid://dreim7cuj6m6y" path="res://sfx/snd_punchweak.wav" id="16_p8h40"]
-[ext_resource type="AudioStream" uid="uid://bo0m28s5pfmqo" path="res://sfx/snd_saber3.wav" id="17_xbps2"]
 [ext_resource type="AudioStream" uid="uid://bne80hkk2ukoj" path="res://sfx/mus_sfx_gunshot.wav" id="18_los0d"]
-[ext_resource type="AudioStream" uid="uid://ccsemt86o4bp0" path="res://sfx/player_atk.wav" id="19_bcuhi"]
+[ext_resource type="AudioStream" uid="uid://bo0m28s5pfmqo" path="res://sfx/snd_magic.wav" id="19_gki2r"]
+[ext_resource type="AudioStream" uid="uid://ccsemt86o4bp0" path="res://sfx/player_slash.wav" id="21_eofdd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q5v0y"]
 atlas = ExtResource("1_yy3dm")
@@ -887,7 +887,7 @@ states/gun/position = Vector2(681, 261)
 states/pan/node = SubResource("AnimationNodeAnimation_rve3l")
 states/pan/position = Vector2(793, 261)
 states/punch/node = SubResource("AnimationNodeAnimation_22pc8")
-states/punch/position = Vector2(309, 158)
+states/punch/position = Vector2(299, 164)
 states/shoe/node = SubResource("AnimationNodeAnimation_pursx")
 states/shoe/position = Vector2(755, 52)
 states/slash/node = SubResource("AnimationNodeAnimation_jcram")
@@ -895,10 +895,10 @@ states/slash/position = Vector2(903, 229)
 states/weak/node = SubResource("AnimationNodeAnimation_5dcda")
 states/weak/position = Vector2(567, 189)
 transitions = ["punch", "explosion", SubResource("AnimationNodeStateMachineTransition_p4bpu"), "punch", "weak", SubResource("AnimationNodeStateMachineTransition_g7608"), "shoe", "End", SubResource("AnimationNodeStateMachineTransition_kcc3s"), "book", "End", SubResource("AnimationNodeStateMachineTransition_c4q41"), "slash", "End", SubResource("AnimationNodeStateMachineTransition_gamg7"), "pan", "End", SubResource("AnimationNodeStateMachineTransition_nf4vv"), "gun", "End", SubResource("AnimationNodeStateMachineTransition_3f5mg"), "explosion", "End", SubResource("AnimationNodeStateMachineTransition_lsbf5"), "weak", "End", SubResource("AnimationNodeStateMachineTransition_7ve1p")]
-graph_offset = Vector2(80, 78)
+graph_offset = Vector2(-92, 10)
 
 [sub_resource type="Curve" id="Curve_ovl0o"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.0696, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, -0.0480263, 0, 0, Vector2(1, 0), -3.56593, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_lxfxy"]
@@ -930,12 +930,8 @@ frame_1/duration = 1.0
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1nb72"]
 particle_flag_disable_z = true
 spread = 180.0
-initial_velocity_min = 100.0
-initial_velocity_max = 100.0
-orbit_velocity_min = 0.5
-orbit_velocity_max = 0.5
-radial_velocity_min = 70.0
-radial_velocity_max = 70.0
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
 gravity = Vector3(0, 0, 0)
 scale_min = 2.0
 scale_max = 2.0
@@ -1089,11 +1085,13 @@ one_shot = true
 explosiveness = 1.0
 
 [node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
+show_behind_parent = true
+position = Vector2(-2, -4)
 emitting = false
 amount = 32
 process_material = SubResource("ParticleProcessMaterial_1nb72")
 texture = SubResource("AnimatedTexture_gevep")
-lifetime = 0.6
+lifetime = 0.4
 one_shot = true
 explosiveness = 1.0
 
@@ -1108,6 +1106,7 @@ one_shot = true
 interp_to_end = 0.1
 
 [node name="GPUParticles2D4" type="GPUParticles2D" parent="."]
+show_behind_parent = true
 material = SubResource("CanvasItemMaterial_7x4aq")
 emitting = false
 process_material = SubResource("ParticleProcessMaterial_8nq8d")
@@ -1135,7 +1134,7 @@ stream = ExtResource("16_p8h40")
 bus = &"SFX"
 
 [node name="Sparkle" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("17_xbps2")
+stream = ExtResource("19_gki2r")
 bus = &"SFX"
 
 [node name="Gunshot" type="AudioStreamPlayer" parent="."]
@@ -1147,7 +1146,7 @@ stream = SubResource("AudioStreamOggVorbis_6ojk4")
 bus = &"SFX"
 
 [node name="Slash" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("19_bcuhi")
+stream = ExtResource("21_eofdd")
 bus = &"SFX"
 
 [node name="Timer" type="Timer" parent="."]

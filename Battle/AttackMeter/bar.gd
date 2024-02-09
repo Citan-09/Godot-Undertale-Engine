@@ -1,65 +1,86 @@
 extends AnimatedSprite2D
+class_name AttackBar
 
-var attackwindow = 2.5
-var time = 0.4
-var transtype = Tween.TRANS_QUAD
+const MOVE_SPEED: float = 210
+const TIME: float = 0.3
+const TRANSTYPE = Tween.TRANS_CUBIC
 var speed_mult: float
-@onready var movetype = Global.item_list[Global.equipment["weapon"]].bar_trans_type
+var movetype: int = Global.item_list[Global.equipment["weapon"]].bar_trans_type
+var single: bool = Global.item_list[Global.equipment["weapon"]].weapon_bars == 1
 
-var direction: float
-var critzone = Vector2(308, 332)
+var direction: int
+const critzone = Vector2(310, 330)
 var tw: Tween
 
-var bar_number = 0
-var hityet = true
-signal hit(pos, crit, speed)
+var hityet := true
+signal hit(pos: Vector2, crit: bool, speed: float)
 signal miss
 
-var can_crit = false
+var can_crit: bool = Global.item_list[Global.equipment["weapon"]].critical_hits
 
 func _ready() -> void:
-	if int(Global.item_list[Global.equipment["weapon"]].weapon_type) > 0: can_crit = true
-	tw = create_tween().set_ease(Tween.EASE_OUT).set_trans(transtype).set_parallel()
-	tw.tween_property(self, "modulate:a", 1, time)
+	$Area2D/CollisionShape2D.position.x = 25 * direction
+	#if can_crit: create_tween().tween_callback($AnimationPlayer.play.bind("glow")).set_delay(randf_range(0, 0.2))
+	tw = create_tween().set_ease(Tween.EASE_OUT).set_trans(TRANSTYPE).set_parallel()
+	tw.tween_interval(TIME)
 	tw.set_ease(Tween.EASE_IN_OUT)
-	tw.tween_property(self, "position:x", 550.0 * sign(direction), attackwindow / speed_mult).as_relative().set_trans(movetype)
-	tw.tween_property(self, "hityet", false, (attackwindow / speed_mult) / 6.0)
+	var _dist = abs(position.x - 320) * 2
+	tw.tween_property(self, "position:x", _dist * sign(direction), _dist / (MOVE_SPEED * speed_mult)).as_relative().set_trans(movetype)
+	tw.tween_property(self, "hityet", false, 0.1)
+	await tw.finished
+	tw = create_tween().set_ease(Tween.EASE_OUT).set_trans(TRANSTYPE).set_parallel()
+	tw.tween_property(self, "self_modulate:a", 0, TIME)
 	tw.chain()
-	tw.tween_property(self, "modulate:a", 0, time)
-	tw.chain()
-	tw.tween_callback(_miss)
+	tw.tween_callback(emit_signal.bind("miss"))
 	tw.tween_callback(queue_free)
 
-func _miss():
-	miss.emit()
+@onready var Overlay: ColorRect = $Overlay
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept") && !hityet:
-		hityet = true
-		animation = "glow"
-		get_viewport().set_input_as_handled()
 		tw.kill()
-		emit_signal("hit", position.x, position.x > critzone.x and position.x < critzone.y, 550.0 / attackwindow)
-		var t = create_tween().set_ease(Tween.EASE_OUT).set_trans(transtype).set_parallel()
+		position.x = round(position.x / 2.0) * 2
+		hityet = true
+		get_viewport().set_input_as_handled()
+		hit.emit(position.x, position.x > critzone.x and position.x < critzone.y and can_crit, MOVE_SPEED * speed_mult)
+		var t := create_tween().set_ease(Tween.EASE_OUT).set_trans(TRANSTYPE).set_parallel()
+		if !single:
+			t.tween_property(self, "scale", Vector2(1.2, 1.5), TIME)
+			t.tween_property(Overlay, "color:a", 0, TIME)
+			frame = 2
+			Overlay.color.a = 1
+			Overlay.modulate.a = 1
+		else:
+			$AnimationPlayer.play("glow")
+			t.tween_property(self, "modulate:a", 0, TIME).set_delay(TIME)
 		if can_crit:
-			t.tween_property(self, "modulate:a", 0, time).set_delay(time / 3.0)
-			t.tween_property(self, "scale", Vector2(1.25, 1.25), time)
+			#var t2 = create_tween().set_trans(Tween.TRANS_SINE).set_loops(3)
+			#t2.tween_property(Overlay, "color:a", 1, TIME / 3).set_ease(Tween.EASE_IN)
+			#t2.tween_property(Overlay, "color:a", 0, TIME / 3).set_ease(Tween.EASE_IN)
 			if position.x > critzone.x and position.x < critzone.y:
 				$critical.play()
-				t.tween_property(self, "modulate:b", 0, time / 2)
+				t.tween_property(self, "modulate:b", 0, TIME / 2)
+			elif position.x > 70 and position.x < 570:
+				$hit.play()
+				Overlay.color.a = 0.7
+				t.tween_property(self, "modulate:r", 0, TIME / 2)
 			else:
 				$hit.play()
-				t.tween_property(self, "modulate:r", 0, time / 2)
-				t.tween_property(self, "modulate:g", 0.8, time / 2)
+				t.tween_property(self, "modulate:g", 0, TIME / 2)
+				t.tween_property(self, "modulate:b", 0, TIME / 2)
 		else:
-			t.tween_property(self, "modulate:a", 0, time / 2).set_delay(1.5)
-			play("glow")
-			if bar_number != 1:
-				$Slashes.play("slash")
-				$Slashes.rotation = randi_range(-80, 80)
-				$Slashes.scale = Vector2.ONE * (bar_number / 2.0 + 0.5)
-				$Slashes.modulate.a = 0.8
-				$Slashes.global_position.x = lerpf($Slashes.global_position.x, 320, 0.85)
-				$slash.play()
+			$hit.play()
 		await t.finished
 		queue_free()
+
+
+func _on_enter_meter(area: Area2D) -> void:
+	if area.is_in_group("attack_meter"):
+		var t := create_tween().set_trans(TRANSTYPE).set_ease(Tween.EASE_IN)
+		t.tween_property(self, "self_modulate:a", 1, 50.0 / (MOVE_SPEED * speed_mult))
+
+
+func _on_exit_box(area: Area2D) -> void:
+	if area.is_in_group("attack_meter"):
+		var t := create_tween().set_trans(TRANSTYPE).set_ease(Tween.EASE_OUT)
+		t.tween_property(self, "self_modulate:a", 0, 50.0 / (MOVE_SPEED * speed_mult))

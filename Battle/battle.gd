@@ -1,10 +1,10 @@
 extends Node2D
 class_name BattleMain
 
-@onready var Camera: CameraFx = $Camera
-@onready var Buttons = $CoreElements/Buttons
-@onready var Box: BattleBox = $CoreElements/BattleBox
-@onready var Enemies = $CoreElements/Enemies
+@onready var Camera: CameraFx = %Camera
+@onready var Buttons: BattleButtons = %Buttons
+@onready var Box: BattleBox = %BattleBox
+@onready var Enemies: Node2D = %Enemies
 
 var attack: PackedScene = preload("res://Battle/AttackMeter/meter.tscn")
 var slash: PackedScene = preload("res://Battle/Slashes/slashes.tscn")
@@ -12,13 +12,15 @@ var damageinfo: PackedScene = preload("res://Battle/AttackMeter/damage.tscn")
 ## Background
 @onready var Bg: Background = $Background
 ## Seperate Soul for menu.
-@onready var Soul_Menu: SoulMenu = $Soul_Menu
+@onready var Soul_Menu: SoulMenu = %Soul_Menu
 ## Seperate Soul for Battle Box.
-@onready var Soul_Battle: SoulBattle = $Soul_Battle
+@onready var Soul_Battle: SoulBattle = %Soul_Battle
 ## Attacks Handler (NOT THE CURRENT ATTACK).
-@onready var Attacks: AttackManager = $Attacks/BoxClipper
+@onready var Attacks: AttackManager = %BoxClipper
+## Attacks Handler (NOT THE CURRENT ATTACK).
+@onready var AttacksParent: Node = %Attacks
 ## Battle HUD (Name, Hp, Kr, etc).
-@onready var HUD: BattleHUD = $CoreElements/HUD
+@onready var HUD: BattleHUD = %HUD
 
 ## Turn Number, increases every time the enemy gets their turn.
 var TurnNumber := 0
@@ -26,7 +28,7 @@ var TurnNumber := 0
 @export var encounter: Encounter
 
 ## Temporary rewards used to grant rewards at the end of the battle.
-var rewards = {"gold": 0, "exp": 0}
+var rewards := {"gold": 0, "exp": 0}
 ## Cache enemy names.
 var enemynames := []
 ## Cache enemy Nodes.
@@ -37,8 +39,8 @@ var enemieshp := []
 var enemiesmaxhp := []
 
 ## music that gets cached when loading enemies.
-var music
-@onready var music_player: AudioStreamPlayer = $music
+var music: AudioStream
+@onready var music_player: AudioStreamPlayer = Global.Music
 
 ## True if any enemy has kr enabled
 var kr := false
@@ -51,26 +53,26 @@ signal item_used(id: int)
 signal spare_used
 
 ## Handles resettings Battle Box's ActionMemory and puts your soul into the Battle Box
-func _on_player_turn_start():
+func _on_player_turn_start() -> void:
 	Soul_Battle.disable()
-	add_child(Soul_Menu, true)
-	move_child(Soul_Menu, 3)
+	Box.add_child(Soul_Menu, true)
+	Box.move_child(Soul_Menu, 3)
 	Buttons.enable()
 	Box.ActionMemory[0] = Box.state.Blittering
 	Box.Blitter.show()
 	Box.Blittertext.blitter(TurnNumber)
 
-func _on_enemy_turn_start():
+func _on_enemy_turn_start() -> void:
 	TurnNumber += 1
-	add_child(Soul_Battle, true)
-	move_child(Soul_Battle, 3)
+	Box.add_child(Soul_Battle, true)
+	Box.move_child(Soul_Battle, 3)
 
 func _ready() -> void:
 	Bg.texture_rect.texture = encounter.background
 	enemies.append_array(encounter.enemies)
 	enemynames = enemies
 	for i in enemies.size():
-		var enemy = enemies[i].instantiate()
+		var enemy: Node = enemies[i].instantiate()
 		Enemies.add_child(enemy, true)
 		if enemies.size() == 2:
 			enemy.position.x = -100 if i == 0 else 100
@@ -89,9 +91,9 @@ func _ready() -> void:
 		enemies[i].changed_state.connect(Box.settargets)
 		enemieshp.append(enemies[i].stats.get("hp", 0))
 		enemiesmaxhp.append(enemies[i].stats.get("max_hp", 1))
-		Box.Blittertext.flavour_texts.append_array(enemies[i].flavour_text if enemies[i].flavour_text else " * %s approaches!" % enemies[i])
+		Box.Blittertext.flavour_texts.append_array(enemies[i].flavour_text if enemies[i].flavour_text else ["* %s approaches!" % enemies[i].enemy_name])
 		# REWARDS (add more if needed)
-		var rwrds = enemies[i].rewards if enemies[i].rewards else {}
+		var rwrds: Dictionary = enemies[i].rewards if enemies[i].rewards else {}
 		rewards["gold"] += rwrds.get("gold", 0)
 		rewards["exp"] += rwrds.get("exp", 0)
 		# END
@@ -102,28 +104,30 @@ func _ready() -> void:
 		
 		enemies[i].spared.connect(spare_enemy)
 		endturn.connect(enemies[i]._on_get_turn)
-
-	Camera.blinder.modulate.a = 1
-	Camera.blind(0.5, 0)
+	
 	Buttons.enable()
-	remove_child(Soul_Battle)
-	music_player.stream = encounter.music
+	Soul_Battle.get_parent().remove_child(Soul_Battle)
+	music_player.stream = music
 	music_player.play()
 	Box.ActionMemory[0] = Box.state.Blittering
 	Box.Blittertext.blitter(0)
-
-func _physics_process(delta: float) -> void:
 	Box.TL.remote_path = Box.TL.get_path_to(Attacks.TopLeft)
 	Box.BR.remote_path = Box.TL.get_path_to(Attacks.BottomRight)
-	pass
-	#Attacks.TopLeft.global_position = Box.TL.global_position + Vector2.ONE * 5
-	#Attacks.BottomRight.global_position =  Box.BR.global_position - Vector2.ONE * 5
+	
+	_initialize()
 
-func _act(target: int, option: int):
+
+## Initialize anything here (runs after ready and setting enemies)
+func _initialize() -> void:
+	Camera.blinder.modulate.a = 1
+	Camera.blind(0.5, 0)
+
+
+func _act(target: int, option: int) -> void:
 	enemies[target].on_act_used(option)
 	endturn.emit()
 
-func _mercy(choice: int):
+func _mercy(choice: int) -> void:
 	match choice:
 		-1:
 			endturn.emit()
@@ -139,26 +143,24 @@ func _mercy(choice: int):
 			Global.temp_def = 0
 			OverworldSceneChanger.load_cached_overworld_scene()
 
-func _item(item_id):
-	for e in enemies:
+func _item(item_id: int) -> void:
+	for e: Enemy in enemies:
 		e.on_item_used(item_id)
 	endturn.emit()
 
 # region fight_logic
 ##Creates the attack meter and handles damaging enemies and showing damage with hit() and miss().
-func _fight(target: int):
-	var clone = attack.instantiate()
+func _fight(target: int) -> void:
+	var clone: Node = attack.instantiate()
 	clone.target = target
 	clone.damagetarget.connect(hit)
 	clone.missed.connect(miss)
 	Box.add_child(clone, true)
 	clone.targetdef = enemies[target].stats.get("def", 0)
-	await damage_info_finished
-	clone.remove_meter()
 
 ## Used when the bar doesn't miss (NOT FOR BLOCKING).
-func hit(damage, target: int, crit := false):
-	var slashes = slash.instantiate()
+func hit(damage: int, target: int, crit := false) -> void:
+	var slashes: Node = slash.instantiate()
 	slashes.crit = crit
 	Box.add_child(slashes, true)
 	slashes.global_position = enemies[target].sprites.global_position
@@ -167,7 +169,7 @@ func hit(damage, target: int, crit := false):
 	await slashes.finished
 	damage = floor(damage * slashes.dmg_mult)
 
-	var clone = damageinfo.instantiate()
+	var clone: Node = damageinfo.instantiate()
 	clone.connect("damagetarget", enemies[target]._hurt)
 	clone.global_position = slashes.global_position
 	clone.hp = enemieshp[target]
@@ -188,8 +190,8 @@ func hit(damage, target: int, crit := false):
 		endturn.emit()
 
 ## Used when you miss (for dodging as well).
-func miss(target: int):
-	var clone = damageinfo.instantiate()
+func miss(target: int) -> void:
+	var clone: Node = damageinfo.instantiate()
 	clone.global_position = enemies[target].sprites.global_position
 	clone.hp = enemieshp[target]
 	clone.max_hp = enemiesmaxhp[target]
@@ -201,7 +203,7 @@ func miss(target: int):
 # endregion
 
 ## Kills enemy and checks if the encounter can end.
-func kill_enemy(enemy_id: int = 0):
+func kill_enemy(enemy_id: int = 0) -> void:
 	enemies[enemy_id].on_defeat()
 	enemies[enemy_id].script = null
 	enemies[enemy_id] = null
@@ -210,13 +212,13 @@ func kill_enemy(enemy_id: int = 0):
 	if check_end_encounter():
 		end_encounter()
 	else:
-		var _solo = check_enemy_solo()
+		var _solo := check_enemy_solo()
 		for i in enemies.size():
 			enemies[i].solo = _solo
 
 
 func check_enemy_solo() -> bool:
-	var enemy_count = 0
+	var enemy_count: int = 0
 	for i in enemies.size():
 		if enemies[i]:
 			enemy_count += 1
@@ -225,14 +227,14 @@ func check_enemy_solo() -> bool:
 
 
 func check_end_encounter() -> bool:
-	var empty = true
+	var empty := true
 	for i in enemies.size():
 		if enemies[i -1] or enemies[i]:
 			empty = false
 	return empty
 
 ## Spares enemy and checks if the encounter can end.
-func spare_enemy(enemy_id: int = 0):
+func spare_enemy(enemy_id: int = 0) -> void:
 	rewards["exp"] -= enemies[enemy_id].rewards.get("exp", 0)
 	enemies[enemy_id].on_defeat()
 	enemies[enemy_id].sprites.modulate.a = 0.5
@@ -243,29 +245,49 @@ func spare_enemy(enemy_id: int = 0):
 	if check_end_encounter():
 		end_encounter()
 	else:
-		var _solo = check_enemy_solo()
+		var _solo := check_enemy_solo()
 		for i in enemies.size():
 			if enemies[i]:
 				enemies[i].solo = _solo
 
+const Magnitudes := {
+	0.00_000_000_1: "n",
+	0.00_000_1: "u",
+	0.00_1: "m",
+	1: "",
+	1_000: "k",
+	1_000_000: "M",
+	1_000_000_000: "B",
+}
+
+func pure_int_to_short_representation(input: int) -> String:
+	var highest = 1
+	var keys := Magnitudes.keys()
+	for i in keys.size():
+		if input >= keys[i]: highest = keys[i]
+	input /= highest
+	return "%s%s" % [round(float(str(input).left(4))), Magnitudes[highest]]
+
 ## Ends encounter and gives rewards.
-func end_encounter():
-	$music.stop()
+func end_encounter() -> void:
+	music_player.stop()
 	# REWARDS again (add here too)
 	Global.player_gold += rewards["gold"]
 	Global.player_exp += rewards["exp"]
-	var wintxt = Box.wintext
-	wintxt = wintxt % [rewards["exp"], rewards["gold"]]
+	var wintxt := Box.wintext
+	wintxt = wintxt % [pure_int_to_short_representation(rewards["exp"]), pure_int_to_short_representation(rewards["gold"])]
 	if Global.check_level_up():
-		wintxt += " \n* Your LV increased!"
+		wintxt += " \n* Your Love increased!"
 		$lvlup.play()
 	await get_tree().process_frame
 	Box.Blitter.show()
 	Box.ActionMemory = [Box.state.Blittering]
 	Box.Blittertext.typetext(wintxt)
-	await Box.Blittertext.finishedalltexts
+	await Box.Blittertext.finished_all_texts
 	await Camera.blind(1, 1)
 	Global.temp_atk = 0
 	Global.temp_def = 0
+	Soul_Battle.queue_free()
+	Soul_Menu.queue_free()
 	OverworldSceneChanger.load_cached_overworld_scene()
 

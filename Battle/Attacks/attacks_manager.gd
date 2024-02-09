@@ -1,10 +1,10 @@
 extends BackBufferCopy
 class_name AttackManager
 
-@onready var TopLeft = $Mask/TL
-@onready var BottomRight = $Mask/BR
-@onready var Mask = $Mask
-@onready var Box = $/root/main/CoreElements/BattleBox
+@onready var TopLeft: Sprite2D = $Mask/TL
+@onready var BottomRight: Sprite2D = $Mask/BR
+@onready var Mask: Node2D = $Mask
+#@onready var Box: BattleBox = %BattleBox
 
 signal player_turn
 var currentattacks: Array[Node]
@@ -12,7 +12,7 @@ var currentattacks: Array[Node]
 signal remove_bullets
 
 func add_attack(attack: PackedScene, starter: Enemy) -> Node:
-	var attack_node = attack.instantiate()
+	var attack_node: Node = attack.instantiate()
 	add_child(attack_node, true)
 	currentattacks.append(attack_node)
 	attack_node.attack_id = currentattacks.size() - 1
@@ -20,24 +20,22 @@ func add_attack(attack: PackedScene, starter: Enemy) -> Node:
 	attack_node.enemy_attacker = starter
 	return attack_node
 
-func start_attack(id: int):
+func start_attack(id: int) -> void:
 	currentattacks[id].start_attack()
 
-func force_end_attacks():
-	Box.reset_box()
+func force_end_attacks() -> void:
 	for i in currentattacks.size():
 		currentattacks[i].queue_free()
 	currentattacks.clear()
-	emit_signal("player_turn")
+	player_turn.emit()
 
-func end_attack(id: int):
+func end_attack(id: int) -> void:
 	currentattacks[id].queue_free()
 	currentattacks[id] = null
 	if check_all_attacks_finished():
-		Box.reset_box()
-		emit_signal("player_turn")
+		player_turn.emit()
 
-func check_all_attacks_finished():
+func check_all_attacks_finished() -> bool:
 	var finished := true
 	for i in currentattacks.size():
 		if currentattacks[i]:

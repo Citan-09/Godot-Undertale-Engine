@@ -1,41 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://1aj5s3305sun"]
+[gd_scene load_steps=10 format=3 uid="uid://1aj5s3305sun"]
 
 [ext_resource type="Script" path="res://Overworld/battle_transistion.gd" id="1_cu27i"]
-[ext_resource type="Texture2D" uid="uid://fxh0hyyct3b7" path="res://Battle/Soul/crack.png" id="2_r4fmo"]
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="2_xx2xi"]
-[ext_resource type="Texture2D" uid="uid://dhl5vkc26cxqe" path="res://Battle/Soul/soul_l.png" id="4_6c3sg"]
-[ext_resource type="Texture2D" uid="uid://dfxw3k4vh32pd" path="res://Battle/Soul/soul_u.png" id="5_q5u84"]
-[ext_resource type="Texture2D" uid="uid://dmb72f6ef0qvr" path="res://Battle/Soul/soul_r.png" id="6_yrsvl"]
 [ext_resource type="AudioStream" uid="uid://bhai5dt104pmv" path="res://sfx/battle_noise.wav" id="7_jicjp"]
 [ext_resource type="AudioStream" uid="uid://bna625odbjvmr" path="res://sfx/battle_drop.wav" id="8_o8lk2"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_jbvbr"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_r4fmo")
-}],
-"loop": true,
-"name": &"death",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_xx2xi")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_6c3sg")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_q5u84")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_yrsvl")
-}],
-"loop": true,
-"name": &"directions",
-"speed": 5.0
-}]
 
 [sub_resource type="Curve" id="Curve_odjrj"]
 _data = [Vector2(1e-05, 1), 100000.0, 0.0, 1, 0, Vector2(1, 0), -2.00047, 100000.0, 0, 1]
@@ -72,11 +40,10 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Soul" type="AnimatedSprite2D" parent="Black"]
+[node name="Soul" type="Sprite2D" parent="Black"]
 modulate = Color(1, 0, 0, 1)
 position = Vector2(320, 240)
-sprite_frames = SubResource("SpriteFrames_jbvbr")
-animation = &"directions"
+texture = ExtResource("2_xx2xi")
 
 [node name="Ghost" type="GPUParticles2D" parent="Black/Soul"]
 show_behind_parent = true

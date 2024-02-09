@@ -1,17 +1,17 @@
 extends HBoxContainer
 class_name BattleHUD
 
-@onready var Name = $Name
-@onready var Lv = $Lv
-@onready var HpBar = $MarginContainer/HpBar
-@onready var KrBar = $MarginContainer/KrBar
-@onready var HpBarContainer = $MarginContainer
-@onready var KrText = $KrText/KR
-@onready var Hp = $Hp
+@onready var Name: RichTextLabel = $Name
+@onready var Lv: RichTextLabel = $Lv
+@onready var HpBar: ProgressBar = $MarginContainer/HpBar
+@onready var KrBar: ProgressBar = $MarginContainer/KrBar
+@onready var HpBarContainer: MarginContainer = $MarginContainer
+@onready var KrText: RichTextLabel = $KrText/KR
+@onready var Hp: RichTextLabel = $Hp
 
-var kr = false
+var kr := false
 # Called when the node enters the scene tree for the first time.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	Name.text = str(Global.player_name)
 	Lv.text = "Lv " + str(Global.player_lv)
 	HpBarContainer.custom_minimum_size.x = min(max(Global.player_max_hp*1.2 +1,4),220)
@@ -19,12 +19,14 @@ func _process(delta: float) -> void:
 	KrBar.value = Global.player_hp
 	KrBar.max_value = Global.player_max_hp
 	HpBar.max_value = Global.player_max_hp
-	var hptext = "[color=%s]" % Color(KrBar.tint_progress).to_html() if Global.player_kr >0 else ""
+	var hptext := "[color=%s]" % Color.MAGENTA.to_html() if Global.player_kr >0 else ""
 	Hp.text = hptext + "%s / %s" % [Global.player_hp,Global.player_max_hp]
 
-func _ready():
+func _ready() -> void:
 	_process(0.0)
-func set_kr(to:bool = true):
+
+
+func set_kr(to := true) -> void:
 	if to:
 		KrText.show()
 	else:

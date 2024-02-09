@@ -12,7 +12,7 @@ enum fire_modes {
 	TWEEN
 }
 
-func fade():
-	var fadetw = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+func fade() -> void:
+	var fadetw := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	fadetw.tween_property(self, "modulate:a", 0, 0.5)
 	fadetw.tween_callback(queue_free)

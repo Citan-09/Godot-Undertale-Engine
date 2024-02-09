@@ -5,9 +5,9 @@ extends AnimatedSprite2D
 signal finished
 signal punchfinish
 var canpunch := false
-var z_count = 0
-var crit
-var dmg_mult = 1.0
+var z_count: int = 0
+var crit: bool
+var dmg_mult: float = 1.0
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept") and canpunch:
@@ -23,17 +23,21 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
 	$GPUParticles2D3.process_material.scale_max = 0.2
 	$GPUParticles2D3.process_material.scale_min = 0.4
+	var tw := create_tween()
+	tw.stop()
 	if crit:
 		modulate = Color("fffd8a")
 	match Global.item_list[Global.equipment["weapon"]].weapon_type:
 		Global.weaponstype.KNIFE:
 			animtree.start("slash")
+			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.6)
 		Global.weaponstype.PUNCH:
 			$GPUParticles2D3.emitting = true
 			canpunch = true
 			$press_z.show()
 			get_tree().create_timer(0.8).timeout.connect(emit_signal.bind("punchfinish"))
 			await punchfinish
+			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.5)
 			canpunch = false
 			animtree.next()
 			if z_count > 2:
@@ -43,28 +47,31 @@ func _ready() -> void:
 				animtree.start("punch")
 				$AnimationTree.set("parameters/conditions/weak", true)
 		Global.weaponstype.SHOE:
+			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.4)
 			animtree.start("shoe")
 			if crit:
 				$Sparkle.play()
 		Global.weaponstype.BOOK:
+			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.7)
 			animtree.start("book")
 			if crit:
 				$Sparkle.play()
 		Global.weaponstype.PAN:
+			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.5)
 			animtree.start("pan")
 			if crit:
 				$Sparkle.play()
 		Global.weaponstype.GUN:
+			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.65)
 			animtree.start("gun")
 			if crit:
 				$Sparkle.play()
+	tw.play()
 	while animtree.get_current_node() != "End":
 		if get_tree():
 			await get_tree().process_frame
 		else:
 			break
-	hide()
-	emit_signal("finished")
 	hide()
 	$Timer.start()
 	await $Timer.timeout

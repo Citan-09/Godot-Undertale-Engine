@@ -1,10 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://dleuqhnhqqffc"]
+[gd_scene load_steps=9 format=3 uid="uid://dleuqhnhqqffc"]
 
 [ext_resource type="Texture2D" uid="uid://fxh0hyyct3b7" path="res://Battle/Soul/crack.png" id="1_5yllq"]
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="2_q2i28"]
-[ext_resource type="Texture2D" uid="uid://dfxw3k4vh32pd" path="res://Battle/Soul/soul_u.png" id="3_o0qiy"]
-[ext_resource type="Texture2D" uid="uid://dhl5vkc26cxqe" path="res://Battle/Soul/soul_l.png" id="4_wvp7o"]
-[ext_resource type="Texture2D" uid="uid://dmb72f6ef0qvr" path="res://Battle/Soul/soul_r.png" id="5_qkyxu"]
 [ext_resource type="Script" path="res://Battle/Death/DeathSoul.gd" id="6_0dfyh"]
 [ext_resource type="AudioStream" uid="uid://cbt3hmek1bq26" path="res://sfx/soul_snap.wav" id="8_1y2lf"]
 [ext_resource type="AudioStream" uid="uid://bc8nv2lgl82oe" path="res://sfx/soul_shatter.wav" id="9_6pwoj"]
@@ -23,15 +20,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_q2i28")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_o0qiy")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_wvp7o")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_qkyxu")
 }],
 "loop": true,
 "name": &"default",
@@ -41,10 +29,9 @@ animations = [{
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ebjb8"]
 particle_flag_disable_z = true
 direction = Vector3(1, 1, 0)
-spread = 110.455
-flatness = 0.368
-initial_velocity_min = 280.0
-initial_velocity_max = 300.0
+spread = 166.364
+initial_velocity_min = 180.0
+initial_velocity_max = 220.0
 gravity = Vector3(0, 0, 0)
 
 [node name="DeathSoul" type="AnimatedSprite2D"]

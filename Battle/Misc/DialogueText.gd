@@ -18,7 +18,7 @@ enum characters {
 	TORIEL
 }
 
-func character_customize():
+func character_customize() -> void:
 	match current_character:
 		characters.PAPYRUS:
 			currentfont = load("res://Text/Fonts/papyrus.ttf")
@@ -28,3 +28,13 @@ func character_customize():
 			entire_text_bbcode = "[shake amp=6]"
 
 
+func typetext(Text: Variant = "Blank") -> void:
+	typing = true
+	if typeof(Text) != TYPE_ARRAY and typeof(Text) != TYPE_PACKED_STRING_ARRAY: Text = [Text]
+	for i: int in Text.size():
+		started_typing.emit(i)
+		await _type_one_line(Text[i])
+		await confirm
+		get_viewport().set_input_as_handled()
+	finished_all_texts.emit()
+	typing = false

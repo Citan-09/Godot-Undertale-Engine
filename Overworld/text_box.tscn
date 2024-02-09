@@ -1,9 +1,10 @@
 [gd_scene load_steps=72 format=3 uid="uid://myti8icl1mtx"]
 
 [ext_resource type="Script" path="res://Overworld/text_box.gd" id="1_oeaq5"]
-[ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Battle/Box/box.png" id="2_bii2d"]
+[ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_wslm2"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="3_ew1cw"]
 [ext_resource type="Texture2D" uid="uid://cpcpbncmm3ati" path="res://Enemies/sans_raw.png" id="3_fg50u"]
+[ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="4_pkb5c"]
 [ext_resource type="Texture2D" uid="uid://cyfih286nbflx" path="res://References/textbox.png" id="4_rsv03"]
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="5_r7glb"]
 [ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="5_xlpvk"]
@@ -12,8 +13,8 @@
 [ext_resource type="AudioStream" uid="uid://c31288d48uxlm" path="res://sfx/Clicks/sans.wav" id="7_ayrok"]
 [ext_resource type="AudioStream" uid="uid://celgg0c7gujrh" path="res://sfx/Clicks/papyrus.wav" id="8_e2arg"]
 [ext_resource type="Script" path="res://Overworld/textboxwriter.gd" id="8_kq74i"]
-[ext_resource type="Script" path="res://Overworld/textboxoptionswriter.gd" id="9_gjrdw"]
 [ext_resource type="AudioStream" uid="uid://dp0b2vwktmxyv" path="res://sfx/Clicks/undyne1.wav" id="9_hcihw"]
+[ext_resource type="Script" path="res://Overworld/textbox_options_writer.gd" id="10_mpdck"]
 [ext_resource type="AudioStream" uid="uid://4ueo8s56ie5m" path="res://sfx/Clicks/undyne2.wav" id="10_prty4"]
 [ext_resource type="AudioStream" uid="uid://c7xw8v00lgkl0" path="res://sfx/Clicks/undyne3.wav" id="11_hojin"]
 [ext_resource type="AudioStream" uid="uid://cidymbe8vbuk0" path="res://sfx/Clicks/undyne4.wav" id="12_bkejw"]
@@ -47,13 +48,6 @@
 [ext_resource type="AudioStream" uid="uid://do1da1erd4lgy" path="res://sfx/Clicks/toriel1.wav" id="40_dqska"]
 [ext_resource type="AudioStream" uid="uid://bwtyu078dolgx" path="res://sfx/Clicks/toriel2.wav" id="41_qtffe"]
 [ext_resource type="AudioStream" uid="uid://dujqmsj4dnghp" path="res://sfx/Clicks/toriel3.wav" id="42_y78cp"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0am0x"]
-bg_color = Color(0, 0, 0, 1)
-expand_margin_left = 2.0
-expand_margin_top = 2.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ns30s"]
 atlas = ExtResource("3_fg50u")
@@ -315,7 +309,6 @@ offset_bottom = 470.0
 pivot_offset = Vector2(289, 74)
 
 [node name="Speaker" type="Control" parent="Control"]
-clip_contents = true
 layout_mode = 1
 anchor_left = 0.022
 anchor_top = -0.615
@@ -333,7 +326,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_0am0x")
+theme_override_styles/panel = ExtResource("2_wslm2")
 
 [node name="Head" type="AnimatedSprite2D" parent="Control/Speaker"]
 position = Vector2(48, 47)
@@ -348,11 +341,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_bii2d")
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
+texture = ExtResource("4_pkb5c")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
 
 [node name="Panel" type="Panel" parent="Control"]
 layout_mode = 1
@@ -361,7 +354,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_0am0x")
+theme_override_styles/panel = ExtResource("2_wslm2")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Control"]
 layout_mode = 1
@@ -370,11 +363,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_bii2d")
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
+texture = ExtResource("4_pkb5c")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
 
 [node name="Soul" type="Sprite2D" parent="Control"]
 visible = false
@@ -420,6 +413,8 @@ visible_characters_behavior = 1
 script = ExtResource("8_kq74i")
 click_path = NodePath("../../../Sounds/Generic")
 interval = 0.05
+queued_texts_handling = null
+entire_text_bbcode = null
 
 [node name="Options" type="HBoxContainer" parent="Control/TextContainer"]
 layout_mode = 2
@@ -438,9 +433,11 @@ bbcode_enabled = true
 text = "Yes"
 scroll_active = false
 autowrap_mode = 0
-script = ExtResource("9_gjrdw")
+script = ExtResource("10_mpdck")
 click_path = NodePath("../../../../Sounds/Generic")
 interval = 0.05
+queued_texts_handling = null
+entire_text_bbcode = null
 
 [node name="Second" type="RichTextLabel" parent="Control/TextContainer/Options"]
 visible = false
@@ -456,9 +453,11 @@ text = "No
 "
 scroll_active = false
 autowrap_mode = 0
-script = ExtResource("9_gjrdw")
+script = ExtResource("10_mpdck")
 click_path = NodePath("../../../../Sounds/Generic")
 interval = 0.05
+queued_texts_handling = null
+entire_text_bbcode = null
 
 [node name="Third" type="RichTextLabel" parent="Control/TextContainer/Options"]
 visible = false
@@ -473,9 +472,11 @@ bbcode_enabled = true
 text = "Maybe"
 scroll_active = false
 autowrap_mode = 0
-script = ExtResource("9_gjrdw")
+script = ExtResource("10_mpdck")
 click_path = NodePath("../../../../Sounds/Generic")
 interval = 0.05
+queued_texts_handling = null
+entire_text_bbcode = null
 
 [node name="Fourth" type="RichTextLabel" parent="Control/TextContainer/Options"]
 visible = false
@@ -490,9 +491,11 @@ bbcode_enabled = true
 text = "Later"
 scroll_active = false
 autowrap_mode = 0
-script = ExtResource("9_gjrdw")
+script = ExtResource("10_mpdck")
 click_path = NodePath("../../../../Sounds/Generic")
 interval = 0.05
+queued_texts_handling = null
+entire_text_bbcode = null
 
 [node name="Textbox" type="TextureRect" parent="."]
 visible = false

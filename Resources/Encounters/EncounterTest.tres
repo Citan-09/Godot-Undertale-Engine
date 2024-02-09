@@ -11,5 +11,5 @@ encounter_name = &"Encounter"
 background = ExtResource("1_usoym")
 enemies = Array[PackedScene]([ExtResource("1_2egsl")])
 music = ExtResource("2_61squ")
-mercy_options = ["  * Spare", "  * Flee"]
+mercy_options = Array[String](["* Spare", "* Flee"])
 flee_chance = 0.2

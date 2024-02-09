@@ -21,3 +21,4 @@
 
 **REQUIREMENTS**
 * godot 4.2
+* gdscript

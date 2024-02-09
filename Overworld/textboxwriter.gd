@@ -1,16 +1,17 @@
 extends GenericTextTyper
 
-signal finishedtyping
-func typetext(Text = "Blank"):
+signal finished_typing
+
+func typetext(Text: Variant = "Blank") -> void:
 	typing = true
 	if typeof(Text) != TYPE_ARRAY and typeof(Text) != TYPE_PACKED_STRING_ARRAY: Text = [Text]
-	for i in Text.size():
-		emit_signal("startedtyping", i)
+	for i: int in Text.size():
+		started_typing.emit(i)
 		await _type_one_line(Text[i])
 		if i == Text.size() - 1:
-			emit_signal("finishedtyping")
+			finished_typing.emit()
 		await confirm
-		if i != Text.size() - 1:
+		if true:#i != Text.size() - 1:
 			get_viewport().set_input_as_handled()
-	emit_signal("finishedalltexts")
+	finished_all_texts.emit()
 	typing = false

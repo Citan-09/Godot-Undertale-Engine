@@ -2,14 +2,14 @@
 extends CanvasLayer
 class_name TextBox
 
-var soulpos = 0
+var soulpos: Variant = 0
 var soul_position := Vector2.ZERO
 var selecting: bool = false
 var optionamt: int = 0
 
-@export var summon_duration = 0.6
+@export var summon_duration: float = 0.6
 @export var transtype := Tween.TRANS_EXPO
-var talking_character = DEFAULT
+var talking_character := DEFAULT
 ## Characters (add as needed)
 enum {
 	DEFAULT,
@@ -70,13 +70,13 @@ var char_head := {
 	$Control/TextContainer/Options/Third,
 	$Control/TextContainer/Options/Fourth
 ]
-@onready var defpos = $Control.position
-@onready var defsize = $Control.size
+@onready var defpos: Vector2 = $Control.position
+@onready var defsize: Vector2 = $Control.size
 
-signal selected_option(option)
+signal selected_option(option: int)
 
 
-func _ready():
+func _ready() -> void:
 	$Control/Speaker.modulate.a = 0
 	$Control/Speaker.hide()
 	$Control.modulate.a = 0
@@ -85,22 +85,22 @@ func _ready():
 	for i in Options.size():
 		Options[i].text = ""
 
-func _summon_box():
-	var tw = create_tween().set_parallel().set_ease(Tween.EASE_OUT).set_trans(transtype)
+func _summon_box() -> void:
+	var tw := create_tween().set_parallel().set_ease(Tween.EASE_OUT).set_trans(transtype)
 	tw.tween_property($Control, "size:x", defsize.x, summon_duration)
 	tw.tween_property($Control, "position:x", defpos.x, summon_duration).from(320)
 	tw.tween_property($Control, "modulate:a", 1.0, summon_duration)
 	await get_tree().create_timer(summon_duration / 2.0, false).timeout
 
-func _dismiss_box():
-	var tw = create_tween().set_parallel().set_ease(Tween.EASE_IN).set_trans(transtype)
+func _dismiss_box() -> void:
+	var tw := create_tween().set_parallel().set_ease(Tween.EASE_IN).set_trans(transtype)
 	tw.tween_property($Control, "size:x", 0, summon_duration)
 	tw.tween_property($Control, "position:x", 320, summon_duration)
 	tw.tween_property($Control, "modulate:a", 0, summon_duration)
 	await tw.finished
 	queue_free()
 
-func generic(text: PackedStringArray, options: PackedStringArray = [], text_after_options: Array = []):
+func generic(text: PackedStringArray, options: PackedStringArray = [], text_after_options: Array = []) -> void:
 	for i in Options.size() + 1:
 		if i == 0:
 			Text.click = get_node(char_sound[DEFAULT])
@@ -109,23 +109,24 @@ func generic(text: PackedStringArray, options: PackedStringArray = [], text_afte
 	Global.player_in_menu = true
 	await _summon_box()
 	Text.typetext(text)
-	await Text.finishedtyping
-	for i in min(options.size(), 4):
+	await Text.finished_typing
+	for i: int in min(options.size(), 4):
 		Options[i].show()
-	for i in min(options.size(), 4):
+	for i: int in min(options.size(), 4):
 		Options[i].typetext(options[i])
-		await Options[i].finishedtyping
+		await Options[i].finished_typing
 	if options.size():
 		$Control/Soul.show()
 		selecting = true
 		optionamt = options.size()
+		@warning_ignore("narrowing_conversion")
 		soulpos = (optionamt - 1) / 2.0
 		$Control/Soul/choice.play()
 		soul_position = Vector2(320, Options[0].global_position.y)
 		$Control/Soul.global_position = Vector2(320, Options[0].global_position.y)
 		await selected_option
 	else:
-		await Text.finishedalltexts
+		await Text.finished_all_texts
 	get_viewport().set_input_as_handled()
 	$Control/Soul.hide()
 	for i in Options.size():
@@ -137,39 +138,41 @@ func generic(text: PackedStringArray, options: PackedStringArray = [], text_afte
 	Global.player_in_menu = false
 	_dismiss_box()
 
-func character(character: int, text: PackedStringArray, head_expressions: Array, options: PackedStringArray = [], text_after_options: Array = [], head_expressions_options: Array = []):
+func character(chr: int, text: PackedStringArray, head_expressions: Array, options: PackedStringArray = [], text_after_options: Array = [], head_expressions_options: Array = []) -> void:
 	$Control/Speaker.show()
-	var tw = create_tween()
+	var tw := create_tween()
 	tw.tween_property($Control/Speaker, "modulate:a", 1, 0.3)
-	$Control/Speaker/Head.animation = char_head[character]
+	$Control/Speaker/Head.animation = char_head[chr]
+	Text.currentfont = char_font.get(chr)
 	for i in Options.size() + 1:
 		if i == 0:
-			Text.click = get_node(char_sound[character])
+			Text.click = get_node(char_sound[chr])
 		else:
-			Options[i -1].click = get_node(char_sound[character])
+			Options[i -1].click = get_node(char_sound[chr])
 
-	Text.startedtyping.connect(set_head_frame)
+	Text.started_typing.connect(set_head_frame)
 	Global.player_in_menu = true
 	await _summon_box()
 	headframestemp = head_expressions
 	Text.typetext(text)
-	await Text.finishedtyping
+	await Text.finished_typing
 	
-	for i in min(options.size(), 4):
+	for i: int in min(options.size(), 4):
 		Options[i].show()
-	for i in min(options.size(), 4):
+	for i: int in min(options.size(), 4):
 		Options[i].typetext(options[i])
-		await Options[i].finishedtyping
+		await Options[i].finished_typing
 	if options.size():
 		$Control/Soul.show()
 		selecting = true
 		optionamt = options.size()
+		@warning_ignore("narrowing_conversion")
 		soulpos = (optionamt - 1) / 2.0
 		$Control/Soul/choice.play()
 		soul_position = Vector2(320, Options[0].global_position.y)
 		await selected_option
 	else:
-		await Text.finishedalltexts
+		await Text.finished_all_texts
 	get_viewport().set_input_as_handled()
 	$Control/Soul.hide()
 	for i in Options.size():
@@ -185,10 +188,10 @@ func character(character: int, text: PackedStringArray, head_expressions: Array,
 	_dismiss_box()
 
 var headframestemp: Array
-func set_head_frame(counter: int):
+func set_head_frame(counter: int) -> void:
 	$Control/Speaker/Head.frame = headframestemp[counter]
 
-func _unhandled_input(event):
+func _input(event: InputEvent) -> void:
 	if selecting:
 		if event.is_action_pressed("ui_left") and soulpos > 0:
 			soulpos = int(soulpos - 1)
@@ -205,5 +208,5 @@ func _unhandled_input(event):
 			$Control/Soul/select.play()
 
 
-func _process(delta):
+func _process(delta: float) -> void:
 	$Control/Soul.global_position = $Control/Soul.global_position.lerp(soul_position, delta * 40)

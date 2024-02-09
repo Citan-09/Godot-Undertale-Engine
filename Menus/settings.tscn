@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://llwvcsnw2bb4"]
 
 [ext_resource type="Script" path="res://Menus/settings.gd" id="1_vaq82"]
-[ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Battle/Box/box.png" id="2_0d74t"]
+[ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Boxes/box.png" id="2_0d74t"]
 [ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="2_7ljl4"]
-[ext_resource type="Texture2D" uid="uid://ck1wb2qlndn4h" path="res://Battle/Soul/soulborder.png" id="4_bc3tt"]
+[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="4_bc3tt"]
 [ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="5_caqbe"]
 [ext_resource type="Theme" uid="uid://bevcq3qnk3n8h" path="res://Battle/hud.tres" id="5_nhp2e"]
 [ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="6_3gipu"]

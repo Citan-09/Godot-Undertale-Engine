@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dlrfms62tsdqe" path="res://Battle/Backgrounds/default.png" id="1_eamob"]
 [ext_resource type="Script" path="res://Battle/Backgrounds/background.gd" id="1_olddw"]
 
-[node name="Background" type="CanvasLayer"]
+[node name="Background" type="ParallaxBackground"]
 layer = -10
 script = ExtResource("1_olddw")
 

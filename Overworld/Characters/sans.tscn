@@ -155,9 +155,6 @@ wall_min_slide_angle = 0.785398
 platform_on_leave = 2
 script = ExtResource("1_4tjdc")
 dialogues = Array[ExtResource("3_w2xjp")]([SubResource("Resource_sootg")])
-speech_text = null
-speech_heads = null
-walk_speed = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2.5)

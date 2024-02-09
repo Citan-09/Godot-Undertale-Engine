@@ -5,26 +5,27 @@ const sizethingys = {PADDING = 40, SIZE_PER_OPTION = 40}
 @export var OptionSeperation := Vector2.ZERO
 
 @onready var Soul: Sprite2D = $Control/StatAndOptions/Soul
-@onready var Stats = $Control/StatAndOptions/Detailed
-@onready var Items = $Control/StatAndOptions/Items
-@onready var Cells = $Control/StatAndOptions/Cells
-@onready var Item_Actions = {
+@onready var Stats: NinePatchRect = $Control/StatAndOptions/Detailed
+@onready var Items: NinePatchRect = $Control/StatAndOptions/Items
+@onready var Cells: NinePatchRect = $Control/StatAndOptions/Cells
+@onready var Item_Actions := {
 	0.0: $Control/StatAndOptions/Items/Use,
 	1.0: $Control/StatAndOptions/Items/Info,
 	2.0: $Control/StatAndOptions/Items/Drop
 }
 var soulposition := Vector2.ZERO
-var optionsize = {
+var optionsize := {
 	states.OPTIONS: Vector2(1, 3),
 	states.STATS: Vector2.ZERO,
 	states.ITEM: Vector2(1, 1),
 	states.ITEM_ACTION: Vector2(3, 1),
 	states.CELL: Vector2.ONE,
+	states.ITEM_USE_DISABLE_MOVEMENT: Vector2.ZERO,
 }
-var textboxscene = preload("res://Overworld/text_box.tscn")
+var textboxscene: PackedScene = preload("res://Overworld/text_box.tscn")
 var textbox: TextBox
 @onready var soultarget: Vector2 = $Control/StatAndOptions/Options/Options.global_position
-var current_state = states.OPTIONS
+var current_state := states.OPTIONS
 
 enum states {
 	OPTIONS,
@@ -32,8 +33,9 @@ enum states {
 	ITEM,
 	ITEM_ACTION,
 	CELL,
+	ITEM_USE_DISABLE_MOVEMENT,
 }
-var enabled_options = [
+var enabled_options := [
 	true,
 	true,
 	false,
@@ -44,15 +46,16 @@ var enabled_options = [
 	2: "CELL",
 	3: "BOX",
 }
-var pos_history = {
+var pos_history := {
 	states.OPTIONS: null,
 	states.STATS: null,
 	states.ITEM: null,
 	states.ITEM_ACTION: null,
 	states.CELL: null,
+	states.ITEM_USE_DISABLE_MOVEMENT: null,
 }
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	Global.player_in_menu = true
 	_set_overview()
 	_write_options()
@@ -60,7 +63,7 @@ func _ready():
 	$Control/StatAndOptions/Options.grow()
 	$Control/StatAndOptions/Stats.grow()
 
-func _in_state(state: states):
+func _in_state(state: states) -> void:
 	pos_history[current_state] = soulposition
 	if pos_history[state] != null:
 		soulposition = pos_history[state]
@@ -81,17 +84,16 @@ func _in_state(state: states):
 		states.CELL:
 			_set_cells()
 			Cells.grow()
+		states.ITEM_USE_DISABLE_MOVEMENT:
+			Items.shrink()
 	soul_move(Vector2.ZERO)
+	$Control/StatAndOptions/Soul/Ghost.restart()
+	$Control/StatAndOptions/Soul/Ghost.emitting = true
 
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 # sets which options are enabled (they show as white instead of gray)
-func _set_enabled_options():
-	var enabled_array = []
+func _set_enabled_options() -> void:
+	var enabled_array := []
 	for i in enabled_options.size():
 		# CHECK CONDITIONS
 		match i:
@@ -103,21 +105,21 @@ func _set_enabled_options():
 				enabled_array.append(Global.cells.size() > 0)
 			3:
 				if Global.boxesinmenu:
-					enabled_array.append(Global.unlockedboxes.size() > 0)
+					enabled_array.append(Global.unlockedboxes > 0)
 	enabled_options = enabled_array
 
-func _write_options():
+func _write_options() -> void:
 	_set_enabled_options()
-	var txt = ""
+	var txt := ""
 	for i in enabled_options.size():
 		txt += "[color=%s]%s[/color]\n" % ["white" if enabled_options[i] else "gray", options_dict[i]]
 	$Control/StatAndOptions/Options/Options.text = txt
 
-func _set_overview():
+func _set_overview() -> void:
 	$Control/StatAndOptions/Stats/Name.text = Global.player_name
 	$Control/StatAndOptions/Stats/Stats.text = "LV %s\nHP %s/%s\nG   %s" % [Global.player_lv, Global.player_hp, Global.player_max_hp, Global.player_gold]
 
-func _set_detailed():
+func _set_detailed() -> void:
 	$Control/StatAndOptions/Detailed/Name.text = "%s" % Global.player_name
 	$Control/StatAndOptions/Detailed/Hp.text = "HP %s/%s" % [Global.player_hp, Global.player_max_hp]
 	$Control/StatAndOptions/Detailed/Stats.text = "AT %s(%s) \nDF %s(%s)" % [
@@ -131,17 +133,17 @@ func _set_detailed():
 	$Control/StatAndOptions/Detailed/Lv.text = "LV %s" % Global.player_lv
 	$Control/StatAndOptions/Detailed/Exp.text = "EXP %s" % Global.player_exp
 
-func _set_items():
+func _set_items() -> void:
 	var txt := ""
-	for i in Global.items.size():
+	for i: int in Global.items.size():
 		txt += "%s\n" % Global.item_list[Global.items[i]].item_name
 	optionsize[states.ITEM] = Vector2(1, Global.items.size())
 	$Control/StatAndOptions/Items/Items.text = txt
 
-func _set_cells():
-	pass  # OVERWRITE THIS IF U WANT
+func _set_cells() -> void:
+	pass  # Overwrite this if u want.
 
-func _close_menu():
+func _close_menu() -> void:
 	Items.shrink()
 	Stats.shrink()
 	Cells.shrink()
@@ -149,12 +151,12 @@ func _close_menu():
 	set_process_unhandled_input(false)
 	$Control/StatAndOptions/Stats.shrink()
 	$Control/StatAndOptions/Options.shrink()
-	var tw = create_tween()
+	var tw := create_tween()
 	tw.tween_property($Control/StatAndOptions/Soul, "modulate:a", 0, 0.2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	await $Control/StatAndOptions/Options.tw.finished
 	queue_free()
 
-func _unhandled_input(event):
+func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_down"):
 		soul_move(Vector2.DOWN)
 	if event.is_action_pressed("ui_up"):
@@ -184,24 +186,38 @@ func _unhandled_input(event):
 			states.ITEM_ACTION:
 				match soulposition.x:
 					0.0:
-						_close_menu()
+						_in_state(states.ITEM_USE_DISABLE_MOVEMENT)
+						@warning_ignore("narrowing_conversion")
+						var txt: PackedStringArray= Global.item_use_text(Global.items[soulposition.y])
 						textbox = textboxscene.instantiate()
 						get_tree().current_scene.add_child(textbox)
-						textbox.generic(Global.item_use_text(soulposition.y))
+						@warning_ignore("narrowing_conversion")
 						Global.items.remove_at(soulposition.y)
 						_set_items()
+						await textbox.generic(txt)
+						Global.player_in_menu = true
+						_write_options()
+						_in_state(states.OPTIONS)
 					1.0:
-						_close_menu()
+						_in_state(states.ITEM_USE_DISABLE_MOVEMENT)
 						textbox = textboxscene.instantiate()
 						get_tree().current_scene.add_child(textbox)
-						textbox.generic(Global.item_list[Global.items[soulposition.y]].item_information)
+						await textbox.generic(Global.item_list[Global.items[soulposition.y]].item_information)
+						Global.player_in_menu = true
+						_write_options()
+						_in_state(states.OPTIONS)
 					2.0:
-						_close_menu()
+						_in_state(states.ITEM_USE_DISABLE_MOVEMENT)
+						var txt: PackedStringArray = Global.item_list[Global.items[soulposition.y]].throw_message
 						textbox = textboxscene.instantiate()
 						get_tree().current_scene.add_child(textbox)
-						textbox.generic(Global.item_list[Global.items[soulposition.y]].throw_message)
+						@warning_ignore("narrowing_conversion")
 						Global.items.remove_at(soulposition.y)
 						_set_items()
+						await textbox.generic(txt)
+						Global.player_in_menu = true
+						_write_options()
+						_in_state(states.OPTIONS)
 	if event.is_action_pressed("ui_cancel"):
 		match current_state:
 			states.ITEM:
@@ -215,7 +231,7 @@ func _unhandled_input(event):
 			states.OPTIONS:
 				_close_menu()
 
-func soul_move(action: Vector2):
+func soul_move(action: Vector2) -> bool:
 	$choice.play()
 	if soulposition.x + action.x > optionsize[current_state].x - 1: return false
 	if soulposition.y + action.y > optionsize[current_state].y - 1: return false
@@ -233,5 +249,4 @@ func soul_move(action: Vector2):
 		states.CELL:
 			soultarget = $Control/StatAndOptions/Cells/Numbers.global_position + soulposition * ItemsSeperation
 	Soul.global_position = soultarget + Vector2(-12, 15)
-	$Control/StatAndOptions/Soul/Ghost.restart()
-	$Control/StatAndOptions/Soul/Ghost.emitting = true
+	return true

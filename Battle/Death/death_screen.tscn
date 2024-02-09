@@ -1,12 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://dggr74u132cr4"]
+[gd_scene load_steps=12 format=3 uid="uid://dggr74u132cr4"]
 
 [ext_resource type="Script" path="res://Battle/Death/death_screen.gd" id="1_tng4c"]
 [ext_resource type="PackedScene" uid="uid://dleuqhnhqqffc" path="res://Battle/Death/death_soul.tscn" id="2_kpjqu"]
 [ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="3_41erg"]
 [ext_resource type="AudioStream" uid="uid://dsid8nuan7lku" path="res://sfx/player_hurt.wav" id="4_cfkwu"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="5_1ttji"]
-[ext_resource type="FontFile" uid="uid://cav88vffjqyar" path="res://Text/Fonts/HelpMe.ttf" id="6_6n2hk"]
+[ext_resource type="FontFile" uid="uid://bnfel6poieddy" path="res://Text/Fonts/UNDERTALE font/undertale-font-lowercase-f.otf" id="5_j3jjq"]
 [ext_resource type="Script" path="res://Resources/RichTextEffects/tremble.gd" id="6_bk2ka"]
+[ext_resource type="AudioStream" uid="uid://gaeh4kqgpyox" path="res://Musics/death_screen_music_thing.wav" id="8_vka2r"]
 
 [sub_resource type="RichTextEffect" id="RichTextEffect_aqna0"]
 script = ExtResource("6_bk2ka")
@@ -39,11 +40,13 @@ offset_right = 640.0
 offset_bottom = 401.0
 theme = ExtResource("5_1ttji")
 theme_override_constants/outline_size = 9
-theme_override_fonts/normal_font = ExtResource("6_6n2hk")
+theme_override_fonts/normal_font = ExtResource("5_j3jjq")
 theme_override_font_sizes/normal_font_size = 48
 theme_override_font_sizes/bold_font_size = 24
 bbcode_enabled = true
-text = "[center][tremble amp=5 chance=5][color=red]YOU DIED[/color][b]
+text = "[center][tremble amp=5 chance=5][color=white]GAME OVER[/color][b]
+
+
 
 
 
@@ -87,4 +90,9 @@ texture = SubResource("GradientTexture2D_kcpej")
 
 [node name="hurt" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_cfkwu")
+bus = &"SFX"
+
+[node name="mus" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_vka2r")
+volume_db = -64.0
 bus = &"SFX"

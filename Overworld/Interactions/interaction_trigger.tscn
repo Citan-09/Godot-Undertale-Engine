@@ -4,7 +4,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xipl7"]
 
-[node name="Area" type="Area2D" groups=["interactable"]]
+[node name="InteractArea" type="Area2D" groups=["interactable"]]
 script = ExtResource("1_dy8qa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

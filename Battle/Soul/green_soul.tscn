@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://cs4oqxnh1qt80"]
+
+[ext_resource type="Script" path="res://Battle/Soul/green_soul.gd" id="1_lr7yd"]
+[ext_resource type="AudioStream" uid="uid://d0k0xvw728ly7" path="res://sfx/soul_changemode.wav" id="2_j5lm3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6k7ln"]
+size = Vector2(13, 81)
+
+[node name="GreenSoul" type="Node2D"]
+script = ExtResource("1_lr7yd")
+
+[node name="Shield" type="Area2D" parent="." groups=["player"]]
+
+[node name="Col" type="CollisionShape2D" parent="Shield"]
+position = Vector2(-32, 0)
+shape = SubResource("RectangleShape2D_6k7ln")
+
+[node name="Line2D" type="Line2D" parent="Shield/Col"]
+modulate = Color(1, 0, 0, 1)
+points = PackedVector2Array(0, -40, 0, 40, 8, 0)
+width = 2.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[node name="ding" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_j5lm3")
+bus = &"SFX"
+
+[connection signal="area_entered" from="Shield" to="." method="_on_shield_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

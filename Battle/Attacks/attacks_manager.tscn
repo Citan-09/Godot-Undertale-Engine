@@ -8,6 +8,7 @@
 shader = ExtResource("1_u4bks")
 
 [node name="BoxClipper" type="BackBufferCopy"]
+copy_mode = 2
 script = ExtResource("1_g3pf3")
 
 [node name="Mask" type="Node2D" parent="."]
@@ -18,6 +19,7 @@ z_index = 100
 use_parent_material = true
 scale = Vector2(200, 200)
 texture = ExtResource("1_22eaa")
+offset = Vector2(0.025, 0.025)
 
 [node name="BR" type="Sprite2D" parent="Mask"]
 z_index = 100
@@ -26,3 +28,4 @@ position = Vector2(640, 481)
 rotation = 3.14159
 scale = Vector2(200, 200)
 texture = ExtResource("1_22eaa")
+offset = Vector2(0.025, 0.025)

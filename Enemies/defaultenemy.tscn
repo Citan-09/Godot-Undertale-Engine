@@ -1,112 +1,76 @@
-[gd_scene load_steps=112 format=3 uid="uid://dj4xee72r6xcl"]
+[gd_scene load_steps=106 format=3 uid="uid://dj4xee72r6xcl"]
 
 [ext_resource type="Script" path="res://Enemies/defaultenemy.gd" id="1_25twd"]
-[ext_resource type="Script" path="res://Resources/Enemies/Act.gd" id="2_5ihvl"]
-[ext_resource type="Script" path="res://Resources/Enemies/EnemyState.gd" id="2_33qh4"]
 [ext_resource type="Texture2D" uid="uid://cpcpbncmm3ati" path="res://Enemies/sans_raw.png" id="2_h12tw"]
-[ext_resource type="Script" path="res://Resources/Dialogues/dialogue.gd" id="2_jkoea"]
-[ext_resource type="Script" path="res://Resources/Dialogues/dialogues.gd" id="3_05xdo"]
+[ext_resource type="Script" path="res://Resources/Dialogues/dialogue.gd" id="2_oftqm"]
 [ext_resource type="AudioStream" uid="uid://d0shy16q7rrx" path="res://sfx/snd_ehurt1.wav" id="3_b67b5"]
+[ext_resource type="Script" path="res://Resources/Dialogues/dialogues.gd" id="3_fkfcv"]
+[ext_resource type="Script" path="res://Resources/Enemies/Act.gd" id="4_14tjn"]
 [ext_resource type="PackedScene" uid="uid://d3j04wql8n25c" path="res://Battle/Misc/dialogue.tscn" id="4_ds1rv"]
 [ext_resource type="AudioStream" uid="uid://dtoo70e1wko8r" path="res://sfx/snd_vaporized.wav" id="4_m5bp8"]
 [ext_resource type="Shader" uid="uid://5h6o16kson3k" path="res://Enemies/dust/undertale_dust.tres" id="5_3ymmu"]
 [ext_resource type="Texture2D" uid="uid://cm5va8tkbbc8t" path="res://Battle/Misc/Bubble/bubble_3.png" id="5_8173r"]
+[ext_resource type="Script" path="res://Resources/Enemies/EnemyState.gd" id="5_aph2x"]
 [ext_resource type="Texture2D" uid="uid://v2uk8ex2yh8f" path="res://Enemies/dust/default_dust.png" id="8_dm5rl"]
 [ext_resource type="Texture2D" uid="uid://bw02r33khpc4w" path="res://particles/smoke.png" id="9_xear3"]
 
-[sub_resource type="Resource" id="Resource_u0wa4"]
-script = ExtResource("2_jkoea")
-dialog_text = "so kiddo.,,
-"
+[sub_resource type="Resource" id="Resource_wdijk"]
+script = ExtResource("2_oftqm")
+dialog_text = "test"
 dialog_expressions = Array[int]([0, 0])
 
-[sub_resource type="Resource" id="Resource_i0e1m"]
-script = ExtResource("2_jkoea")
-dialog_text = "you're finally here."
-dialog_expressions = Array[int]([4, 0])
+[sub_resource type="Resource" id="Resource_vh3oq"]
+script = ExtResource("3_fkfcv")
+dialogues = Array[ExtResource("2_oftqm")]([SubResource("Resource_wdijk")])
 
-[sub_resource type="Resource" id="Resource_o7cn2"]
-script = ExtResource("2_jkoea")
-dialog_text = "..."
-dialog_expressions = Array[int]([4, 0])
+[sub_resource type="Resource" id="Resource_kunsu"]
+script = ExtResource("2_oftqm")
+dialog_text = "Spare Dialogue"
+dialog_expressions = Array[int]([4, 1])
 
-[sub_resource type="Resource" id="Resource_hcat2"]
-script = ExtResource("2_jkoea")
-dialog_text = "welp"
-dialog_expressions = Array[int]([2, 1])
-
-[sub_resource type="Resource" id="Resource_ojjyg"]
-script = ExtResource("2_jkoea")
-dialog_text = "here goes nothing..."
-dialog_expressions = Array[int]([5, 0])
-
-[sub_resource type="Resource" id="Resource_gb0f2"]
-script = ExtResource("3_05xdo")
-dialogues = Array[ExtResource("2_jkoea")]([SubResource("Resource_u0wa4"), SubResource("Resource_i0e1m"), SubResource("Resource_o7cn2"), SubResource("Resource_hcat2"), SubResource("Resource_ojjyg")])
-
-[sub_resource type="Resource" id="Resource_l4tn5"]
-script = ExtResource("2_jkoea")
-dialog_text = "kiddo..."
+[sub_resource type="Resource" id="Resource_sa26r"]
+script = ExtResource("2_oftqm")
+dialog_text = "pls spare."
 dialog_expressions = Array[int]([2, 0])
 
-[sub_resource type="Resource" id="Resource_27420"]
-script = ExtResource("2_jkoea")
-dialog_text = "i'll give you this chance only because you're so cool and amongus."
-dialog_expressions = Array[int]([0, 0])
+[sub_resource type="Resource" id="Resource_611tx"]
+script = ExtResource("3_fkfcv")
+dialogues = Array[ExtResource("2_oftqm")]([SubResource("Resource_kunsu"), SubResource("Resource_sa26r")])
 
-[sub_resource type="Resource" id="Resource_i6388"]
-script = ExtResource("2_jkoea")
-dialog_text = "don't dissapoint."
-dialog_expressions = Array[int]([2, 0])
-
-[sub_resource type="Resource" id="Resource_8n5im"]
-script = ExtResource("2_jkoea")
-dialog_text = "spare me."
-dialog_expressions = Array[int]([4, 0])
-
-[sub_resource type="Resource" id="Resource_a6ofq"]
-script = ExtResource("3_05xdo")
-dialogues = Array[ExtResource("2_jkoea")]([SubResource("Resource_l4tn5"), SubResource("Resource_27420"), SubResource("Resource_i6388"), SubResource("Resource_8n5im")])
-
-[sub_resource type="Resource" id="Resource_fvuo7"]
-script = ExtResource("2_5ihvl")
-Act = "check"
-Description = ["* THE AMONGUS - ATK 120 DEF -40 
+[sub_resource type="Resource" id="Resource_18lvj"]
+script = ExtResource("4_14tjn")
+Act = "* Check"
+Description = ["* THE ENEMY - ATK 1 DEF 1 
 * The strongest yet weakest enemy."]
 
-[sub_resource type="Resource" id="Resource_vxubj"]
-script = ExtResource("2_5ihvl")
-Act = "compliment"
-Description = ["* You complimented the Enemy.
-* It appreciated it!"]
+[sub_resource type="Resource" id="Resource_anrtk"]
+script = ExtResource("4_14tjn")
+Act = "* Test2"
+Description = ["* Test2"]
 
-[sub_resource type="Resource" id="Resource_runc6"]
-script = ExtResource("2_5ihvl")
-Act = "insult"
-Description = ["* You try to insult the enemy.
-* It failed."]
+[sub_resource type="Resource" id="Resource_ij1ul"]
+script = ExtResource("4_14tjn")
+Act = "* Test3"
+Description = ["* Test3"]
 
-[sub_resource type="Resource" id="Resource_qvx6j"]
-script = ExtResource("2_5ihvl")
-Act = "inquire"
-Description = ["* You inquired about amongus.", "* ...
-", "Among Us is a 2018 online multiplayer social deduction game developed and published by American game studio Innersloth.", "The game was inspired by the party game Mafia and the science fiction horror film The Thing.", " The game allows for cross-platform play; it was released on iOS and Android devices in June 2018 and on Windows later that year in November.", "It was ported to the Nintendo Switch in December 2020 and on the PlayStation 4, PlayStation 5, Xbox One and Xbox Series X/S in December 2021. A virtual reality adaptation, Among Us VR, was released on November 10, 2022."]
+[sub_resource type="Resource" id="Resource_vnnko"]
+script = ExtResource("4_14tjn")
+Act = "* Spare Condition"
+Description = ["* You made it spare you!"]
 
-[sub_resource type="Resource" id="Resource_ajgl1"]
-script = ExtResource("2_33qh4")
-Acts = Array[ExtResource("2_5ihvl")]([SubResource("Resource_fvuo7"), SubResource("Resource_vxubj"), SubResource("Resource_runc6"), SubResource("Resource_qvx6j")])
+[sub_resource type="Resource" id="Resource_gi6a1"]
+script = ExtResource("5_aph2x")
+Acts = Array[ExtResource("4_14tjn")]([SubResource("Resource_18lvj"), SubResource("Resource_anrtk"), SubResource("Resource_ij1ul"), SubResource("Resource_vnnko")])
 Sparable = false
 
-[sub_resource type="Resource" id="Resource_gxdao"]
-script = ExtResource("2_5ihvl")
-Act = "check"
-Description = ["* THE AMONGUS - ATK 120 DEF -40 
-* The strongest yet weakest enemy.
-* Wants you to spare."]
+[sub_resource type="Resource" id="Resource_obkgt"]
+script = ExtResource("4_14tjn")
+Act = "* Check"
+Description = ["* Spare!"]
 
-[sub_resource type="Resource" id="Resource_f0ctp"]
-script = ExtResource("2_33qh4")
-Acts = Array[ExtResource("2_5ihvl")]([SubResource("Resource_gxdao")])
+[sub_resource type="Resource" id="Resource_hxxkl"]
+script = ExtResource("5_aph2x")
+Acts = Array[ExtResource("4_14tjn")]([SubResource("Resource_obkgt")])
 Sparable = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sd4a3"]
@@ -913,7 +877,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
-"values": [Vector2(-1, -25.5), Vector2(-3, -25.5), Vector2(-4, -25.5), Vector2(-4, -25.5), Vector2(0, -25.5)]
+"values": [Vector2(-1, -25.5), Vector2(-3, -25.5), Vector2(-4, -25.5), Vector2(1, -25.5), Vector2(0, -25.5)]
 }
 
 [sub_resource type="Animation" id="Animation_a3xj3"]
@@ -996,11 +960,11 @@ animation = &"idle"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ljowp"]
 animation = &"throw_down"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mgi8w"]
-animation = &"throw_right"
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iph13"]
 animation = &"throw_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mgi8w"]
+animation = &"throw_right"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1jfv8"]
 animation = &"throw_up"
@@ -1032,18 +996,18 @@ states/idle/node = SubResource("AnimationNodeAnimation_tpgl8")
 states/idle/position = Vector2(523, 120)
 states/throw_down/node = SubResource("AnimationNodeAnimation_ljowp")
 states/throw_down/position = Vector2(371, 169)
-states/throw_left/node = SubResource("AnimationNodeAnimation_mgi8w")
-states/throw_left/position = Vector2(649, 72)
-states/throw_right/node = SubResource("AnimationNodeAnimation_iph13")
-states/throw_right/position = Vector2(679, 178)
+states/throw_left/node = SubResource("AnimationNodeAnimation_iph13")
+states/throw_left/position = Vector2(679, 178)
+states/throw_right/node = SubResource("AnimationNodeAnimation_mgi8w")
+states/throw_right/position = Vector2(649, 72)
 states/throw_up/node = SubResource("AnimationNodeAnimation_1jfv8")
 states/throw_up/position = Vector2(499, 231)
-transitions = ["throw_down", "idle", SubResource("AnimationNodeStateMachineTransition_es3ss"), "throw_up", "idle", SubResource("AnimationNodeStateMachineTransition_bivjs"), "throw_right", "idle", SubResource("AnimationNodeStateMachineTransition_nvpam"), "throw_left", "idle", SubResource("AnimationNodeStateMachineTransition_x6xkg"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_ggb24")]
+transitions = ["throw_down", "idle", SubResource("AnimationNodeStateMachineTransition_es3ss"), "throw_up", "idle", SubResource("AnimationNodeStateMachineTransition_bivjs"), "throw_left", "idle", SubResource("AnimationNodeStateMachineTransition_nvpam"), "throw_right", "idle", SubResource("AnimationNodeStateMachineTransition_x6xkg"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_ggb24")]
 graph_offset = Vector2(-116, 30)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bf5b2"]
 shader = ExtResource("5_3ymmu")
-shader_parameter/progress = 1.0
+shader_parameter/progress = 0.0
 shader_parameter/particle_lifetime_fraction = 0.5
 shader_parameter/connect_lines = true
 shader_parameter/direction = Vector3(0, -1, 0)
@@ -1097,9 +1061,14 @@ anim_offset_curve = SubResource("CurveTexture_lx7ot")
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_25twd")
-dodging = true
-dialogues = Array[ExtResource("3_05xdo")]([SubResource("Resource_gb0f2"), SubResource("Resource_a6ofq")])
-enemy_states = Array[ExtResource("2_33qh4")]([SubResource("Resource_ajgl1"), SubResource("Resource_f0ctp")])
+enemy_name = "Sans..?"
+dialogues = Array[ExtResource("3_fkfcv")]([SubResource("Resource_vh3oq"), SubResource("Resource_611tx")])
+flavour_text = PackedStringArray("* It\'s sans guys.")
+rewards = {
+"exp": 1000000,
+"gold": 100000
+}
+enemy_states = Array[ExtResource("5_aph2x")]([SubResource("Resource_gi6a1"), SubResource("Resource_hxxkl")])
 
 [node name="Sprites" type="Node2D" parent="."]
 position = Vector2(0, -59)
@@ -1157,6 +1126,7 @@ bus = &"SFX"
 libraries = {
 "": SubResource("AnimationLibrary_p1ddc")
 }
+speed_scale = 1.2
 
 [node name="States" type="AnimationTree" parent="."]
 deterministic = false
@@ -1172,6 +1142,7 @@ emitting = false
 amount = 16000
 process_material = SubResource("ShaderMaterial_bf5b2")
 one_shot = true
+explosiveness = 1.0
 visibility_rect = Rect2(-6.06821, -19.7972, 119.866, 163.797)
 local_coords = true
 
@@ -1200,8 +1171,16 @@ custom_character = 1
 theme_override_constants/margin_left = 32
 
 [node name="Text" parent="Dialogue/TextContainer" index="0"]
+current_character = 1
 click_path = NodePath("Sounds/Sans")
+queued_texts_handling = null
+entire_text_bbcode = null
 
-[connection signal="set_head" from="Dialogue" to="." method="set_expression"]
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.6
+one_shot = true
+
+[connection signal="set_head" from="Dialogue" to="." method="_set_expression"]
+[connection signal="timeout" from="Timer" to="." method="end_throw"]
 
 [editable path="Dialogue"]

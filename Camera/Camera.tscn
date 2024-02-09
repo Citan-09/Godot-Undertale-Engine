@@ -5,9 +5,8 @@
 [ext_resource type="Shader" path="res://Shaders/glitch.gdshader" id="2_uujgf"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_62gol"]
-noise_type = 0
+noise_type = 2
 cellular_distance_function = 3
-cellular_jitter = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_un5sr"]
 resource_local_to_scene = true

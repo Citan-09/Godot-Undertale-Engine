@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c1wx3v78bpu57"]
+[gd_scene load_steps=14 format=3 uid="uid://c1wx3v78bpu57"]
 
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="1_m7kmx"]
 [ext_resource type="Script" path="res://Intro/name_selection.gd" id="1_osq8k"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://btx6cbfdqvvbh" path="res://sfx/mus_cymbal.ogg" id="6_eucha"]
 [ext_resource type="Script" path="res://Text/TextTyper.gd" id="7_kw0yt"]
 [ext_resource type="AudioStream" uid="uid://bp5oyjspngmp2" path="res://sfx/Clicks/generic2.wav" id="8_ajba3"]
+[ext_resource type="Script" path="res://Menus/option_selectable.gd" id="10_njhot"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tm4b4"]
 
@@ -66,6 +67,8 @@ placeholder_text = "NAME"
 alignment = 1
 max_length = 6
 context_menu_enabled = false
+selecting_enabled = false
+drag_and_drop_selection_enabled = false
 
 [node name="choice" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_ovwmy")
@@ -96,13 +99,36 @@ offset_bottom = 400.0
 mouse_filter = 2
 theme = ExtResource("1_m7kmx")
 bbcode_enabled = true
+visible_characters_behavior = 1
 script = ExtResource("7_kw0yt")
-interval = 0.06
-queued_texts_handling = 1
+interval = 0.05
 
 [node name="Click" type="AudioStreamPlayer" parent="Typer"]
 stream = ExtResource("8_ajba3")
 bus = &"SFX"
+
+[node name="Confirmation" type="HSplitContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 238.0
+offset_top = 360.0
+offset_right = 402.0
+offset_bottom = 411.0
+split_offset = 120
+
+[node name="YES" type="RichTextLabel" parent="Confirmation"]
+clip_contents = false
+layout_mode = 2
+theme = ExtResource("1_m7kmx")
+text = "YES"
+script = ExtResource("10_njhot")
+
+[node name="NO" type="RichTextLabel" parent="Confirmation"]
+clip_contents = false
+layout_mode = 2
+theme = ExtResource("1_m7kmx")
+text = "NO"
+script = ExtResource("10_njhot")
 
 [connection signal="text_changed" from="NameInput" to="." method="_on_name_input_text_changed"]
 [connection signal="text_submitted" from="NameInput" to="." method="_on_name_input_text_submitted"]

@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://bcels1x86fcp0"]
+
+[ext_resource type="Script" path="res://Battle/Soul/cyan_detection.gd" id="1_tyyye"]
+[ext_resource type="Texture2D" uid="uid://vivbkmaqbgwh" path="res://Battle/Soul/soul_border.png" id="2_kgjtk"]
+
+[sub_resource type="Gradient" id="Gradient_nqtj3"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ems2k"]
+gradient = SubResource("Gradient_nqtj3")
+
+[sub_resource type="Curve" id="Curve_txx6o"]
+max_value = 1.5
+_data = [Vector2(0, 1), 0.0, -0.31359, 0, 0, Vector2(1, 1.5), 1.36073e-06, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_r73qr"]
+curve = SubResource("Curve_txx6o")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c48rp"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_r73qr")
+color_ramp = SubResource("GradientTexture1D_ems2k")
+
+[node name="CyanDetection" type="Area2D"]
+show_behind_parent = true
+script = ExtResource("1_tyyye")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(16, -40, 0, -28, -16, -40, -24, -38, -40, -24, -40, 8, -8, 38, 8, 38, 40, 8, 40, -24, 24, -38)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.3, 1, 1, 0.156863)
+texture = ExtResource("2_kgjtk")
+
+[node name="Glow" type="GPUParticles2D" parent="Sprite2D"]
+emitting = false
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_c48rp")
+texture = ExtResource("2_kgjtk")
+lifetime = 2.0
+interp_to_end = 0.05
+local_coords = true

@@ -6,8 +6,9 @@ class_name Item
 @export_group("Weapon Stats")
 @export var weapon_speed: float = 1.0
 @export var weapon_bars: int = 1
-@export var bar_trans_type := Tween.TRANS_CUBIC
+@export var bar_trans_type := Tween.TRANS_LINEAR
 @export var weapon_type := weapon_types.KNIFE
+@export var critical_hits := false
 @export_group("Item Use Stats")
 @export_multiline var use_message: PackedStringArray = ["* You used the Item!"]
 @export_multiline var item_information: PackedStringArray = ["* Item - Heals 0 hp \n* This means this item has no description or is the default item."]

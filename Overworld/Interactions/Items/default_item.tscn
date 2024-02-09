@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://e06nntxil3bd"]
+
+[ext_resource type="Script" path="res://Overworld/Interactions/Items/default_item.gd" id="1_1sdqt"]
+[ext_resource type="PackedScene" uid="uid://tl343l587k6h" path="res://Overworld/Interactions/Items/item_interaction.tscn" id="2_wcekw"]
+[ext_resource type="PackedScene" uid="uid://d34ncxu853v44" path="res://Overworld/Interactions/interaction_trigger.tscn" id="3_audim"]
+
+[sub_resource type="Gradient" id="Gradient_8bwfd"]
+offsets = PackedFloat32Array(0, 0.239496, 0.516807, 0.844538, 1)
+colors = PackedColorArray(0.602631, 0, 0.847656, 1, 0.925781, 0.925781, 0.925781, 1, 1, 0, 0, 1, 0, 1, 0.929688, 1, 0.0456238, 0.449219, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4dx7d"]
+gradient = SubResource("Gradient_8bwfd")
+width = 20
+height = 20
+fill_from = Vector2(0, 1)
+
+[node name="DefaultItem" type="Node2D"]
+script = ExtResource("1_1sdqt")
+no_item_text = ["* There is nothing here."]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_4dx7d")
+
+[node name="PickupInteractArea" parent="." instance=ExtResource("2_wcekw")]
+discover_text = ["* There is something on the 
+  ground.", "* Pick it up?"]
+accept_text = ["* It was added to your 
+  [color=yellow]ITEMS[/color]."]
+reject_text = ["* There was no item."]
+
+[node name="InteractArea" parent="." instance=ExtResource("3_audim")]
+monitoring = false
+monitorable = false
+
+[connection signal="interacted" from="PickupInteractArea" to="." method="_on_pickup_interact_area_took_item"]
+[connection signal="interacted" from="InteractArea" to="." method="_on_interact_area_interacted"]

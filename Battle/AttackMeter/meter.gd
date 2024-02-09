@@ -1,59 +1,62 @@
 extends CanvasLayer
+class_name AttackMeter
 
-var time = 0.5
-var transtype = Tween.TRANS_EXPO
+const time: float= 0.5
+const transtype := Tween.TRANS_SPRING
 
-var targetdef = 0
-@onready var meter = $Meter
-@onready var bar = preload("res://Battle/AttackMeter/bar.tscn")
+var targetdef: int = 0
+@onready var meter: Sprite2D = $Meter
+@onready var bar: PackedScene = preload("res://Battle/AttackMeter/bar.tscn")
 var hits: float
-var speed_mult = 1.0
-var targetid = 0
+var speed_mult: float = 1.0
+var targetid: int = 0
 
 var target: int
 signal calculated
-signal damagetarget(damage, target, crit)
-signal missed(target)
-var distance = 0
-var score = 0
-var misses = 0
-var crits = 0
+signal damagetarget(damage: int, target: int, crit: bool)
+signal missed(target: int)
+var distance: float = 0
+var score: int = 0
+var misses: int = 0
+var crits: int = 0
 
-var summonclock: Tween
+var can_crit: bool = Global.item_list[Global.equipment["weapon"]].critical_hits
+
 func _ready() -> void:
 	meter.modulate.a = 0
 	meter.scale.x = 0.33
-	var tw = create_tween().set_ease(Tween.EASE_OUT).set_trans(transtype).set_parallel()
+	var tw := create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(transtype).set_parallel()
+	tw.tween_property(meter, "modulate:a", 1, time / 2)
 	tw.tween_property(meter, "scale:x", 1, time)
-	tw.tween_property(meter, "modulate:a", 1, time / 2.0)  #.set_trans(Tween.TRANS_LINEAR)
-	var randir = (randi_range(0, 1) * 2)-1
-	var summonpos = Vector2(43, 320)
+	var randir: int = (randi_range(0, 1) * 2)-1
+	var summonpos := Vector2(43, 320)
 	if randir == 1:
-		summonpos.x = 43
+		summonpos.x = 40
 	elif randir == -1:
-		summonpos.x = 597
+		summonpos.x = 600
 	hits = Global.item_list[Global.equipment["weapon"]].weapon_bars
 	speed_mult = Global.item_list[Global.equipment["weapon"]].weapon_speed
-	summonclock = create_tween().set_loops(hits)
-	summonclock.tween_callback(summonbar.bind(summonpos, randir))
-	summonclock.tween_interval(0.2 + randi_range(0, 1) * 0.1)
+	for i in hits:
+		summonbar(summonpos , randir, randi_range(0, 4) * 0.025 + 0.2 * i)
 	for i in hits:
 		await calculated
-	var damage = finalcalculation()
+	var damage := finalcalculation()
+	remove_meter()
 	if misses < hits:
 		emit_signal("damagetarget", damage, target, crits == hits)
 	else:
 		emit_signal("missed", target)
 
-func remove_meter():
-	var tw = create_tween().set_ease(Tween.EASE_OUT).set_trans(transtype).set_parallel()
-	tw.tween_property(meter, "scale:x", 0, time)
-	tw.tween_property(meter, "modulate:a", 0, time / 2.0)  #.set_trans(Tween.TRANS_LINEAR)
+func remove_meter() -> void:
+	var tw := create_tween().set_trans(transtype).set_parallel()
+	#tw.tween_property(meter, "scale:x", 0, time)
+	tw.tween_property(meter, "modulate:a", 0, time)  #.set_trans(Tween.TRANS_LINEAR)
 	tw.chain().tween_callback(queue_free).set_delay(0.2)
 
-func summonbar(position, direction):
-	var clonebar = bar.instantiate()
-	clonebar.bar_number = (hits - summonclock.get_loops_left() + 1) / hits
+func summonbar(position: Vector2, direction: int, delay: float) -> void:
+	await get_tree().create_timer(delay, false).timeout
+	var clonebar: Node = bar.instantiate()
+	#clonebar.bar_number = (hits - summonclock.get_loops_left() + 1) / hits
 	clonebar.hit.connect(calculate)
 	clonebar.miss.connect(miss)
 	clonebar.speed_mult = speed_mult
@@ -62,11 +65,11 @@ func summonbar(position, direction):
 	add_child(clonebar)
 	move_child(clonebar, 1)
 
-func miss():
+func miss() -> void:
 	misses += 1
 	emit_signal("calculated")
 
-func calculate(posx: int, crit: bool, hspeed: float):
+func calculate(posx: int, crit: bool, hspeed: float) -> void:
 	crits += int(crit)
 	distance = abs(posx - $Meter.position.x)
 	if distance <= 12:
@@ -75,7 +78,8 @@ func calculate(posx: int, crit: bool, hspeed: float):
 	if hits <= 1:
 		distance = 2 * (1- distance)
 	else:
-		distance = distance * hspeed / 10.0 - 0.8
+		distance = distance * hspeed / 7.0 - 0.8
+		if (28 <= distance): score += 1
 		if (22 <= distance and distance < 28): score += 10
 		if (16 <= distance and distance < 22): score += 15
 		if (10 <= distance and distance < 16): score += 20
@@ -85,15 +89,19 @@ func calculate(posx: int, crit: bool, hspeed: float):
 		if (2 <= distance and distance < 3): score += 80
 		if (1 <= distance and distance < 2): score += 90
 		if (distance < 1): score += 110
-	emit_signal("calculated")
+	calculated.emit()
 
-func finalcalculation():
-	var damage = Global.player_attack + 10 + Global.item_list[Global.equipment["weapon"]].attack_amount + Global.item_list[Global.equipment["armor"]].attack_amount + Global.temp_atk
+func finalcalculation() -> int:
+	var damage: int = Global.player_attack + 10 + Global.item_list[Global.equipment["weapon"]].attack_amount + Global.item_list[Global.equipment["armor"]].attack_amount + Global.temp_atk
 	damage -= targetdef
 	if hits <= 1:
 		return round((damage + randf_range(-2, 2)) * distance)
-	else:
-		if score > 430: score *= 1.4
-		if score > 390: score *= 1.2
-		return round(damage * (score / 160.0) * (4.0 / hits)) + round(randf_range(-2, 2))
+	if can_crit:
+		@warning_ignore("narrowing_conversion")
+		if score > 440: score *= 1.4
+		@warning_ignore("narrowing_conversion")
+		if score > 380: score *= 1.2
+	print(score)
+	return round(damage * (score / 160.0) * (4.0 / hits)) + round(randf_range(-2, 2))
+
 

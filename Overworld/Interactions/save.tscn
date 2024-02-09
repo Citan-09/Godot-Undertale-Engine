@@ -27,7 +27,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucano"]
-size = Vector2(16, 13.5)
+size = Vector2(16, 16)
 
 [node name="Save" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_88hfa")
@@ -44,7 +44,7 @@ position = Vector2(0, 10)
 position = Vector2(0, 9)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, 1.75)
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_ucano")
 debug_color = Color(0.85098, 0.85098, 0.85098, 0.419608)
 

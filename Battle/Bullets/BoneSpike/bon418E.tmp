@@ -1,0 +1,104 @@
+[gd_scene load_steps=11 format=3 uid="uid://jaey6n5ae5bp"]
+
+[ext_resource type="Script" path="res://Battle/Bullets/bullet_area.gd" id="1_2imqv"]
+[ext_resource type="Script" path="res://Battle/Bullets/BoneSpike/bone_spike.gd" id="1_m2xpf"]
+[ext_resource type="Texture2D" uid="uid://ci5kv42j2n1yi" path="res://Battle/Bullets/BoneSpike/bone_sans_wall.png" id="3_fkikv"]
+[ext_resource type="Texture2D" uid="uid://cscq0mb5qeptw" path="res://Battle/Bullets/BoneSpike/warning.png" id="4_nwx77"]
+[ext_resource type="AudioStream" uid="uid://b7pkf261ktb1q" path="res://sfx/overworld_encounter_surprise.wav" id="5_ngoh0"]
+[ext_resource type="AudioStream" uid="uid://bqw2wstnohhsq" path="res://sfx/bullet_rise.wav" id="6_e6brk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dm26u"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_q42h4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Warning:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jf6qr"]
+resource_name = "warning"
+length = 0.1
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Warning:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.049, 0.051, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Color(1, 0, 0, 1), Color(1, 0, 0, 1), Color(0.992157, 1, 0, 1), Color(0.992157, 1, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bdhas"]
+_data = {
+"RESET": SubResource("Animation_q42h4"),
+"warning": SubResource("Animation_jf6qr")
+}
+
+[node name="BoneSpike" type="CharacterBody2D"]
+script = ExtResource("1_m2xpf")
+damage = 1
+iframe_grant = 2
+
+[node name="Sprite" type="NinePatchRect" parent="."]
+visible = false
+offset_top = -1.0
+offset_right = 640.0
+offset_bottom = 166.0
+texture = ExtResource("3_fkikv")
+patch_margin_top = 9
+patch_margin_bottom = 9
+axis_stretch_horizontal = 1
+
+[node name="Warning" type="NinePatchRect" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+offset_right = 640.0
+offset_bottom = 118.0
+texture = ExtResource("4_nwx77")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
+
+[node name="Panel" type="Panel" parent="Warning"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dm26u")
+
+[node name="Area2D" type="Area2D" parent="." groups=["bullet"]]
+script = ExtResource("1_2imqv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+debug_color = Color(1, 0.603922, 0.603922, 0.419608)
+
+[node name="Alert" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ngoh0")
+bus = &"SFX"
+
+[node name="Spike" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_e6brk")
+bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bdhas")
+}
+autoplay = "warning"
