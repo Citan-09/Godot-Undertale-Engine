@@ -10,7 +10,7 @@ script = ExtResource("1_6pur3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 clip_children = 2
-position = Vector2(42, 38)
+position = Vector2(328, 238)
 texture = ExtResource("2_ta4tl")
 
 [node name="Sprite2D" type="Sprite2D" parent="Sprite2D"]
@@ -21,6 +21,6 @@ texture = ExtResource("2_4ohrb")
 position = Vector2(320, 240)
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 0.4
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

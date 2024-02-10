@@ -48,7 +48,6 @@ layout_mode = 2
 theme_override_styles/panel = ExtResource("2_o8u07")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="BoxContainer"]
-clip_contents = true
 layout_mode = 2
 texture = ExtResource("3_ms4jc")
 patch_margin_left = 9
@@ -65,8 +64,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="RectNoClip" type="Control" parent="BoxContainer"]
+[node name="Bullets" type="Control" parent="BoxContainer/NinePatchRect"]
+show_behind_parent = true
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RectNoClip" type="Control" parent="BoxContainer/NinePatchRect"]
+show_behind_parent = true
 layout_mode = 2
+anchors_preset = 0
+offset_right = 584.0
+offset_bottom = 140.0
 
 [node name="Collisions" type="StaticBody2D" parent="BoxContainer"]
 collision_mask = 0

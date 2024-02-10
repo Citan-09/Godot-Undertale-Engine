@@ -6,7 +6,7 @@ class_name AttackBase
 @onready var Mask: AttackManager = Main.Attacks
 @onready var Camera: CameraFx = Main.Camera
 @onready var Box: BattleBox = Main.Box
-@onready var BoxRect: NinePatchRect = Box.Rect
+@onready var BoxRectClip: Control = Box.RectClip
 @onready var BoxRectNoClip: Control = Box.RectNoClip
 @onready var Soul: SoulBattle = Main.Soul_Battle
 
@@ -45,7 +45,7 @@ func add_bullet(_bullet: Node, mask: int = 0) -> void:
 		Masking.RELATIVE_BOX:
 			BoxRectNoClip.add_child(_bullet, true)
 		Masking.RELATIVE_BOX_CLIP:
-			BoxRect.add_child(_bullet, true)
+			BoxRectClip.add_child(_bullet, true)
 
 ## BULLETS ADDED TO BOX MIGHT MOVE UNEXPECTEDLY DUE TO BOX RESIZING!
 func quick_bullet(_bullet: PackedScene, pos: Vector2 , rot: float = 0, mask: int = 0) -> Node:
