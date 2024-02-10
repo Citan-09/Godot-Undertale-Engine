@@ -13,7 +13,7 @@ var walk_speed_modifier := 1.0
 @export var Encounters: Array[Encounter] =[
 	
 ]
-@export var StepCounterNeeded: int = 75
+@export var StepCounterNeeded: int = 200
 var step_count: int = 0
 
 @onready var Sprite: AnimatedSprite2D = $Sprite
@@ -101,10 +101,10 @@ var moving := false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Global.player_can_move and !Global.player_in_menu:
-		if (	   event.is_action_pressed("ui_left")
-				or event.is_action_pressed("ui_right")
-				or event.is_action_pressed("ui_up")
-				or event.is_action_pressed("ui_down")
+		if (	   event.is_action("ui_left")
+				or event.is_action("ui_right")
+				or event.is_action("ui_up")
+				or event.is_action("ui_down")
 			):
 				_step()
 		if event.is_action_pressed("ui_accept"):
@@ -120,7 +120,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_timer_timeout() -> void:
 	if moving:
 		frame_counter += 1
-		_step()
 
 func _step() -> void:
 	step_count += 1
