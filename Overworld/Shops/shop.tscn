@@ -124,10 +124,10 @@ offset_top = 250.0
 offset_right = 640.0
 offset_bottom = 455.0
 texture = ExtResource("2_c0m18")
-patch_margin_left = 9
-patch_margin_top = 9
-patch_margin_right = 9
-patch_margin_bottom = 9
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
 
 [node name="Panel" type="Panel" parent="Control/Info"]
 show_behind_parent = true
@@ -161,10 +161,10 @@ offset_top = 240.0
 offset_right = 419.0
 offset_bottom = 479.0
 texture = ExtResource("2_c0m18")
-patch_margin_left = 9
-patch_margin_top = 9
-patch_margin_right = 9
-patch_margin_bottom = 9
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
 
 [node name="Panel" type="Panel" parent="Control/TextBox"]
 show_behind_parent = true
@@ -269,10 +269,10 @@ offset_top = 240.0
 offset_right = 640.0
 offset_bottom = 480.0
 texture = ExtResource("2_c0m18")
-patch_margin_left = 9
-patch_margin_top = 9
-patch_margin_right = 9
-patch_margin_bottom = 9
+patch_margin_left = 11
+patch_margin_top = 11
+patch_margin_right = 11
+patch_margin_bottom = 11
 
 [node name="Soul" type="Sprite2D" parent="Control/Main"]
 modulate = Color(1, 0, 0, 1)
