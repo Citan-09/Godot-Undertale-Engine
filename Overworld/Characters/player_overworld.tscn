@@ -1,10 +1,21 @@
-[gd_scene load_steps=53 format=3 uid="uid://d4g7r4oj7f4t8"]
+[gd_scene load_steps=57 format=3 uid="uid://d4g7r4oj7f4t8"]
 
 [ext_resource type="Script" path="res://Overworld/Characters/player_overworld.gd" id="1_pcoqs"]
 [ext_resource type="Texture2D" uid="uid://bybvlxtnn2rh3" path="res://Overworld/Characters/friskfromunderswaprealnofake.png" id="2_7grso"]
+[ext_resource type="Texture2D" uid="uid://dlrfms62tsdqe" path="res://Battle/Backgrounds/default.png" id="2_7ii2w"]
+[ext_resource type="Script" path="res://Resources/Encounters/Encounter.gd" id="3_8orjj"]
 [ext_resource type="Texture2D" uid="uid://cqbiox3gwrn6e" path="res://Overworld/Characters/frisk.png" id="3_54vmf"]
+[ext_resource type="PackedScene" uid="uid://dj4xee72r6xcl" path="res://Enemies/defaultenemy.tscn" id="3_bc8cv"]
 [ext_resource type="Texture2D" uid="uid://dgt76c4oamvka" path="res://Overworld/Interactions/alert.png" id="4_3i2lt"]
 [ext_resource type="AudioStream" uid="uid://b7pkf261ktb1q" path="res://sfx/overworld_encounter_surprise.wav" id="5_5j3a3"]
+
+[sub_resource type="Resource" id="Resource_47dxv"]
+script = ExtResource("3_8orjj")
+encounter_name = &"Encounter"
+background = ExtResource("2_7ii2w")
+enemies = Array[PackedScene]([ExtResource("3_bc8cv")])
+mercy_options = Array[String](["* Spare", "* Flee"])
+flee_chance = 0.2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbnmf"]
 size = Vector2(16, 3)
@@ -338,6 +349,7 @@ animations = [{
 slide_on_ceiling = false
 wall_min_slide_angle = 0.785398
 script = ExtResource("1_pcoqs")
+Encounters = Array[ExtResource("3_8orjj")]([SubResource("Resource_47dxv")])
 InteractPosx = {
 -1: Vector2(-5, -2),
 1: Vector2(5, -2)

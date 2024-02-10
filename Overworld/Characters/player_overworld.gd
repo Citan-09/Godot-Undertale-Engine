@@ -10,6 +10,11 @@ var frame_counter: int = -1
 @export_range(0, 500) var walk_speed: float = 80.0
 var walk_speed_modifier := 1.0
 
+@export var Encounters: Array[Encounter] =[
+	
+]
+@export var StepCounterNeeded: int = 75
+var step_count: int = 0
 
 @onready var Sprite: AnimatedSprite2D = $Sprite
 @onready var Interacter: Area2D = $Interacter
@@ -45,7 +50,7 @@ func _physics_process(_delta: float) -> void:
 		velocity.x = direction.x * walk_speed * walk_speed_modifier
 		velocity.y = direction.y * walk_speed * walk_speed_modifier
 		move_and_slide()
-		Global.player_position = get_global_transform_with_canvas().origin + Vector2(0, -15)
+		Global.player_position = get_global_transform_with_canvas().origin + Vector2(0, -17)
 	Sprite.frame = current_animation[frame_counter % 4 if moving else 0] + int(shadow) * 4
 	interactables.clear()
 	for area in Interacter.get_overlapping_areas():
@@ -96,26 +101,12 @@ var moving := false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Global.player_can_move and !Global.player_in_menu:
-		if (event.is_action("ui_down")
-		or event.is_action("ui_up")
-		or event.is_action("ui_left")
-		or event.is_action("ui_right")
-		):
-			if direction:
-				match direction.x:
-					1.0:
-						current_animation = walk_anims[2]
-						Sprite.flip_h = true
-					-1.0:
-						current_animation = walk_anims[2]
-						Sprite.flip_h = false
-				match direction.y:
-					1.0:
-						current_animation = walk_anims[0]
-						Sprite.flip_h = false
-					-1.0:
-						current_animation = walk_anims[1]
-						Sprite.flip_h = false
+		if (	   event.is_action_pressed("ui_left")
+				or event.is_action_pressed("ui_right")
+				or event.is_action_pressed("ui_up")
+				or event.is_action_pressed("ui_down")
+			):
+				_step()
 		if event.is_action_pressed("ui_accept"):
 			get_viewport().set_input_as_handled()
 			for i: InteractionTrigger in interactables:
@@ -128,8 +119,23 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_timer_timeout() -> void:
 	if moving:
-		anim_step()
+		frame_counter += 1
+		_step()
 
-func anim_step() -> void:
-	frame_counter += 1
+func _step() -> void:
+	step_count += 1
+	if step_count > StepCounterNeeded and randf() > 0.11:
+		step_count = 0
+		_enter_random_encounter()
 	
+
+func _enter_random_encounter() -> void:
+	Global.player_can_move = false
+	if Encounters.is_empty():
+		return
+	$Alert.show()
+	$encounter.play()
+	await get_tree().create_timer(0.35, false).timeout
+	OverworldSceneChanger.load_battle(OverworldSceneChanger.DEFAULT_BATTLE, Encounters.pick_random(), true)
+	await get_tree().create_timer(0.6, false).timeout
+	$Alert.hide()

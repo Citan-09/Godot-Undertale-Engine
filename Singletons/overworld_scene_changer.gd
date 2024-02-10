@@ -4,6 +4,7 @@ extends Node
 @onready var Blinder: ColorRect = $Blinder
 var overworld_scene: Overworld
 
+const DEFAULT_BATTLE := "res://Battle/battle.tscn"
 
 const blind_time: float = 0.5
 
@@ -74,7 +75,7 @@ func load_cached_overworld_scene() -> void:
 	tree.current_scene = sc
 
 func load_battle(
-				battle_scene_path: String = "res://Battle/battle.tscn",
+				battle_scene_path: String = DEFAULT_BATTLE,
 				battle_resource: Encounter = preload("res://Resources/Encounters/EncounterTest.tres"),
 				transistion := true, to_position := Vector2(48, 452)
 			) -> void:

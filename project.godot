@@ -36,6 +36,10 @@ window/stretch/scale_mode="integer"
 
 enabled=PackedStringArray()
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 ui_accept={

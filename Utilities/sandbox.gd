@@ -15,4 +15,4 @@ func _on_timer_timeout() -> void:
 	add_child(clone)
 	clone.rotation = fmod(Time.get_unix_time_from_system() * 2.5, TAU)
 	clone.position = Vector2(320,240) + Vector2.UP.rotated(clone.rotation) * 500.0
-	clone.fire(Vector2(320,240) + Vector2.UP.rotated(clone.rotation) * 200.0, 2, 0.8, 0.1)
+	clone.fire(Vector2(320,240) + Vector2.UP.rotated(clone.rotation) * 200.0, 10, 0.8, 1)
