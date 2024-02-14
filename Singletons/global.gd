@@ -14,7 +14,7 @@ var items: Array
 var boxitems: Array  #[[],[],[]]
 var settings: Dictionary = {"music": 100, "sfx": 100, "misc": 100, "shake": true, "vfx": false}
 
-var savepath := "user://savegame.bin"
+const savepath := "user://savegame.json"
 
 signal saved
 

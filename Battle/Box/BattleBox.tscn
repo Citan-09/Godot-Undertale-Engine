@@ -57,6 +57,7 @@ patch_margin_bottom = 11
 
 [node name="Webs" type="Control" parent="BoxContainer/NinePatchRect"]
 show_behind_parent = true
+clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

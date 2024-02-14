@@ -1,21 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dqju025dnhuna"]
+[gd_scene load_steps=6 format=3 uid="uid://dqju025dnhuna"]
 
 [ext_resource type="Script" path="res://Battle/hud.gd" id="1_7bydp"]
 [ext_resource type="Theme" uid="uid://bevcq3qnk3n8h" path="res://Battle/hud.tres" id="1_e8i8v"]
 [ext_resource type="FontFile" uid="uid://cpwhwcvfj8ern" path="res://Text/Fonts/ut-hp-font.ttf" id="2_6w6gy"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="4_h3gwi"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lhhit"]
-bg_color = Color(0.988235, 0, 0, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0, 0, 0, 1)
-expand_margin_left = 2.0
-expand_margin_top = 2.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tb5la"]
 
@@ -71,7 +59,7 @@ modulate = Color(1, 0, 1, 1)
 layout_mode = 2
 size_flags_vertical = 1
 theme = ExtResource("4_h3gwi")
-theme_override_styles/background = SubResource("StyleBoxFlat_lhhit")
+theme_type_variation = &"KrBar"
 max_value = 20.0
 value = 15.0
 show_percentage = false

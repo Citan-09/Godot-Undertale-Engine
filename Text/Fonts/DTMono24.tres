@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=20 format=3 uid="uid://s3o3wkvbt3ej"]
+[gd_resource type="Theme" load_steps=22 format=3 uid="uid://s3o3wkvbt3ej"]
 
 [ext_resource type="FontFile" uid="uid://dp6lncabgomk" path="res://Text/Fonts/DTM-Mono.otf" id="1_pfd0d"]
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="2_iwlbw"]
@@ -46,8 +46,24 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lhhit"]
+bg_color = Color(0.988235, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tb5la"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_md32v"]
 bg_color = Color(1, 1, 1, 1)
+anti_aliasing = false
 
 [resource]
 default_font = ExtResource("1_pfd0d")
@@ -84,8 +100,11 @@ ItemList/styles/hovered = SubResource("StyleBoxEmpty_dplv4")
 ItemList/styles/panel = SubResource("StyleBoxEmpty_t0vwc")
 ItemList/styles/selected = SubResource("StyleBoxEmpty_5chkv")
 ItemList/styles/selected_focus = SubResource("StyleBoxFlat_646oc")
+KrBar/base_type = &"ProgressBar"
+KrBar/styles/background = SubResource("StyleBoxFlat_lhhit")
 ProgressBar/font_sizes/font_size = 24
 ProgressBar/fonts/font = ExtResource("1_pfd0d")
+ProgressBar/styles/background = SubResource("StyleBoxEmpty_tb5la")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_md32v")
 RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
 RichTextLabel/constants/outline_size = 10

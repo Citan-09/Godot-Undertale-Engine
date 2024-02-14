@@ -101,7 +101,6 @@ func finalcalculation() -> int:
 		if score > 440: score *= 1.4
 		@warning_ignore("narrowing_conversion")
 		if score > 380: score *= 1.2
-	print(score)
 	return round(damage * (score / 160.0) * (4.0 / hits)) + round(randf_range(-2, 2))
 
 

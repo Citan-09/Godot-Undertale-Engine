@@ -77,6 +77,7 @@ func disable() -> void:
 		_kill_able_tween()
 		set_process(false)
 		set_physics_process(false)
+		Global.player_position = get_global_transform_with_canvas().origin
 		_able_tween = create_tween()
 		_able_tween.tween_property(self, "modulate:a", 0, 0.2)
 		_able_tween.tween_callback(get_parent().remove_child.bind(self)).set_delay(0.05)

@@ -14,6 +14,7 @@ const sizethingys = {PADDING = 40, SIZE_PER_OPTION = 40}
 	2.0: $Control/StatAndOptions/Items/Drop
 }
 var soulposition := Vector2.ZERO
+var soulposition_item := Vector2.ZERO
 var optionsize := {
 	states.OPTIONS: Vector2(1, 3),
 	states.STATS: Vector2.ZERO,
@@ -65,11 +66,15 @@ func _ready() -> void:
 
 func _in_state(state: states) -> void:
 	pos_history[current_state] = soulposition
+	current_state = state
 	if pos_history[state] != null:
 		soulposition = pos_history[state]
+		while soulposition.x >= optionsize[current_state].x:
+			soulposition.x -= 1
+		while soulposition.y >= optionsize[current_state].y:
+			soulposition.y -= 1
 	else:
 		soulposition = Vector2.ZERO
-	current_state = state
 	match state:
 		states.OPTIONS:
 			Items.shrink()
@@ -156,7 +161,10 @@ func _close_menu() -> void:
 	await $Control/StatAndOptions/Options.tw.finished
 	queue_free()
 
+
 func _unhandled_input(event: InputEvent) -> void:
+	if textbox:
+		return
 	if event.is_action_pressed("ui_down"):
 		soul_move(Vector2.DOWN)
 	if event.is_action_pressed("ui_up"):
@@ -180,6 +188,7 @@ func _unhandled_input(event: InputEvent) -> void:
 						2.0:
 							_in_state(states.CELL)
 			states.ITEM:
+				soulposition_item.y = soulposition.y
 				_in_state(states.ITEM_ACTION)
 			states.CELL:
 				_in_state(states.CELL)
@@ -187,14 +196,14 @@ func _unhandled_input(event: InputEvent) -> void:
 				match soulposition.x:
 					0.0:
 						_in_state(states.ITEM_USE_DISABLE_MOVEMENT)
-						@warning_ignore("narrowing_conversion")
-						var txt: PackedStringArray= Global.item_use_text(Global.items[soulposition.y])
+						var txt: PackedStringArray= Global.item_use_text(Global.items[soulposition_item.y])
 						textbox = textboxscene.instantiate()
 						get_tree().current_scene.add_child(textbox)
 						@warning_ignore("narrowing_conversion")
-						Global.items.remove_at(soulposition.y)
+						Global.items.remove_at(soulposition_item.y)
 						_set_items()
 						await textbox.generic(txt)
+						textbox = null
 						Global.player_in_menu = true
 						_write_options()
 						_in_state(states.OPTIONS)
@@ -202,22 +211,25 @@ func _unhandled_input(event: InputEvent) -> void:
 						_in_state(states.ITEM_USE_DISABLE_MOVEMENT)
 						textbox = textboxscene.instantiate()
 						get_tree().current_scene.add_child(textbox)
-						await textbox.generic(Global.item_list[Global.items[soulposition.y]].item_information)
+						await textbox.generic(Global.item_list[Global.items[soulposition_item.y]].item_information)
+						textbox = null
 						Global.player_in_menu = true
 						_write_options()
 						_in_state(states.OPTIONS)
 					2.0:
 						_in_state(states.ITEM_USE_DISABLE_MOVEMENT)
-						var txt: PackedStringArray = Global.item_list[Global.items[soulposition.y]].throw_message
+						var txt: PackedStringArray = Global.item_list[Global.items[soulposition_item.y]].throw_message
 						textbox = textboxscene.instantiate()
 						get_tree().current_scene.add_child(textbox)
 						@warning_ignore("narrowing_conversion")
-						Global.items.remove_at(soulposition.y)
+						Global.items.remove_at(soulposition_item.y)
 						_set_items()
 						await textbox.generic(txt)
+						textbox = null
 						Global.player_in_menu = true
 						_write_options()
 						_in_state(states.OPTIONS)
+				_set_overview()
 	if event.is_action_pressed("ui_cancel"):
 		match current_state:
 			states.ITEM:
