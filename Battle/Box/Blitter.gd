@@ -14,10 +14,12 @@ func blittertext(alltext: PackedStringArray) -> void:
 func typetext(Text: Variant = "Blank") -> void:
 	if typeof(Text) != TYPE_ARRAY and typeof(Text) != TYPE_PACKED_STRING_ARRAY: Text = [Text]
 	for i: int in Text.size():
+		get_viewport().set_input_as_handled()
 		started_typing.emit(i)
 		await _type_one_line(Text[i])
 		await confirm
 	finished_all_texts.emit()
+
 
 func _process(_delta: float) -> void:
 	if !container.visible:

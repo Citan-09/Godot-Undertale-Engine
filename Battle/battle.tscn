@@ -25,10 +25,6 @@ offset_top = 401.0
 offset_right = 718.0
 offset_bottom = 425.0
 
-[node name="Buttons" parent="." instance=ExtResource("3_m5l1o")]
-unique_name_in_owner = true
-position = Vector2(0, 453)
-
 [node name="Enemies" type="Node2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(317, 240)
@@ -44,6 +40,11 @@ position = Vector2(320, 454)
 unique_name_in_owner = true
 position = Vector2(324, 323)
 
+[node name="Buttons" parent="." instance=ExtResource("3_m5l1o")]
+unique_name_in_owner = true
+z_index = -1
+position = Vector2(0, 453)
+
 [node name="Camera" parent="." instance=ExtResource("3_j2jej")]
 unique_name_in_owner = true
 position = Vector2(320, 240)
@@ -58,18 +59,17 @@ unique_name_in_owner = true
 stream = ExtResource("10_ldyum")
 bus = &"SFX"
 
-[connection signal="endturn" from="." to="." method="_on_enemy_turn_start"]
-[connection signal="movesoul" from="Buttons" to="BattleBox/Soul_Menu" method="_on_movesoul"]
-[connection signal="selectbutton" from="Buttons" to="BattleBox" method="_on_use_button"]
+[connection signal="end_turn" from="." to="." method="_on_enemy_turn_start"]
 [connection signal="act" from="BattleBox" to="." method="_act"]
-[connection signal="exitmenu" from="BattleBox" to="Buttons" method="reset"]
-[connection signal="exitmenu" from="BattleBox" to="BattleBox/Soul_Menu" method="_on_exitmenu"]
-[connection signal="exitmenu" from="BattleBox" to="BattleBox/Soul_Menu" method="disable"]
+[connection signal="exit_menu" from="BattleBox" to="BattleBox/Soul_Menu" method="disable"]
+[connection signal="exit_menu" from="BattleBox" to="Buttons" method="reset"]
 [connection signal="fight" from="BattleBox" to="." method="_fight"]
 [connection signal="item" from="BattleBox" to="." method="_item"]
 [connection signal="mercy" from="BattleBox" to="." method="_mercy"]
-[connection signal="movesoul" from="BattleBox" to="BattleBox/Soul_Menu" method="_on_movesoul"]
-[connection signal="movetobuttons" from="BattleBox" to="Buttons" method="enable"]
+[connection signal="move_soul" from="BattleBox" to="BattleBox/Soul_Menu" method="_on_move_soul"]
+[connection signal="moved_to_buttons" from="BattleBox" to="Buttons" method="enable"]
 [connection signal="shake_camera" from="BattleBox/Soul_Battle" to="Camera" method="add_shake"]
+[connection signal="movesoul" from="Buttons" to="BattleBox/Soul_Menu" method="_on_move_soul"]
+[connection signal="selectbutton" from="Buttons" to="BattleBox" method="_on_use_button"]
 [connection signal="player_turn" from="Attacks/BoxClipper" to="." method="_on_player_turn_start"]
 [connection signal="player_turn" from="Attacks/BoxClipper" to="BattleBox" method="reset_box"]

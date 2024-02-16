@@ -1,8 +1,8 @@
 extends CanvasLayer
 class_name AttackMeter
 
-const time: float= 0.5
-const transtype := Tween.TRANS_SPRING
+const TIME: float = 0.6
+const transtype := Tween.TRANS_CIRC
 
 var targetdef: int = 0
 @onready var meter: Sprite2D = $Meter
@@ -25,9 +25,11 @@ var can_crit: bool = Global.item_list[Global.equipment["weapon"]].critical_hits
 func _ready() -> void:
 	meter.modulate.a = 0
 	meter.scale.x = 0.33
-	var tw := create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(transtype).set_parallel()
-	tw.tween_property(meter, "modulate:a", 1, time / 2)
-	tw.tween_property(meter, "scale:x", 1, time)
+	var tw := create_tween().set_ease(Tween.EASE_OUT).set_trans(transtype).set_parallel()
+	tw.tween_interval(0.1)
+	tw.chain()
+	tw.tween_property(meter, "modulate:a", 1, TIME / 2)
+	tw.tween_property(meter, "scale:x", 1, TIME)
 	var randir: int = (randi_range(0, 1) * 2)-1
 	var summonpos := Vector2(43, 320)
 	if randir == 1:
@@ -49,14 +51,12 @@ func _ready() -> void:
 
 func remove_meter() -> void:
 	var tw := create_tween().set_trans(transtype).set_parallel()
-	#tw.tween_property(meter, "scale:x", 0, time)
-	tw.tween_property(meter, "modulate:a", 0, time)  #.set_trans(Tween.TRANS_LINEAR)
+	tw.tween_property(meter, "modulate:a", 0, TIME)  #.set_trans(Tween.TRANS_LINEAR)
 	tw.chain().tween_callback(queue_free).set_delay(0.2)
 
 func summonbar(position: Vector2, direction: int, delay: float) -> void:
 	await get_tree().create_timer(delay, false).timeout
 	var clonebar: Node = bar.instantiate()
-	#clonebar.bar_number = (hits - summonclock.get_loops_left() + 1) / hits
 	clonebar.hit.connect(calculate)
 	clonebar.miss.connect(miss)
 	clonebar.speed_mult = speed_mult

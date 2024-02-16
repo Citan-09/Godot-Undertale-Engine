@@ -18,12 +18,12 @@ var options_pos_step := Vector2(257, 30)
 const colsize: int = 500
 
 var mercychoice: int = 0
-var currenttarget: int = 0
+var current_target_id: int = 0
 var button_choice: int = 0
 var soulposition := Vector2i(0, 0)
 var choicesextends := [1, 1, 1, 1, 1, 1]
 var history: Array = [[null, null], [null, null], [null, null], [null, null]]
-var ActionMemory: Array[state] = [state.Disabled]
+var ActionMemory: Array[State] = [State.Disabled]
 
 const itemsize = 1
 ##STATS
@@ -31,7 +31,7 @@ var enemies: Array[Node] = []
 
 @onready var HpBarContainer: MarginContainer = $Target/HpBars
 @onready var Blitter: MarginContainer = $Blitter
-@onready var Blittertext: GenericTextTyper = $Blitter/Text
+@onready var BlitterText: GenericTextTyper = $Blitter/Text
 @onready var Main: BattleMain = $/root/main
 @onready var RectContainer: MarginContainer = $BoxContainer
 @onready var Rect: NinePatchRect = $BoxContainer/NinePatchRect
@@ -42,7 +42,6 @@ var current_web: int = 0
 @onready var RectNoClip: Control = $BoxContainer/NinePatchRect/RectNoClip
 @onready var RectClip: Control = $BoxContainer/NinePatchRect/Bullets
 @onready var Collisions: Array[CollisionShape2D] = [$BoxContainer/Collisions/Top, $BoxContainer/Collisions/Bottom, $BoxContainer/Collisions/Left, $BoxContainer/Collisions/Right]
-@onready var Texts: Array[Control] = [$Blitter, $Target, $Acts, $Items, $Mercy]
 @onready var HpBars: Array[ProgressBar] = [$"Target/HpBars/Control/1" ,$"Target/HpBars/Control/2", $"Target/HpBars/Control/3"]
 
 ## WARNING: CHANGING THE BOX's SIZE WHILE BULLETS ARE IN THEM MIGHT MOVE THE BULLETS DUE TO HOW SIZE WORKS IN GODOT
@@ -54,81 +53,71 @@ enum {
 	RELATIVE_CENTER
 }
 enum {
-	OPTION_FIGHT,
-	OPTION_ACT,
-	OPTION_ITEM,
-	OPTION_MERCY,
+	OPTION_FIGHT = 0,
+	OPTION_ACT = 1,
+	OPTION_ITEM = 2,
+	OPTION_MERCY = 3,
 }
 
-signal movetobuttons
-signal movesoul(newpos: Vector2)
-signal exitmenu
+signal moved_to_buttons
+signal move_soul(newpos: Vector2)
+signal exit_menu
 signal act(target: int, option: int)
 signal fight(target: int)
 signal item(item_choice: int)
 signal mercy(target: int)
 
-
-func setenemies(Enemies: Array) -> void:
-	enemies = Enemies
-	settargets()
-
-func settargets() -> void:
-	var Targets := ""
-	for i in 3:
-		HpBars[i].visible = Main.enemies.size() > i and Main.enemies[i] != null
-		if HpBars[i].visible:
-			HpBars[i].max_value = Main.enemies[i].stats.max_hp
-			HpBars[i].value = Main.enemies[i].stats.hp
-	for i in enemies.size():
-		if Main.enemies[i]:
-			Targets += "[color=%s]* %s[/color]\n" % ["yellow" if enemies[i].enemy_states[enemies[i].current_state].Sparable else "white", enemies[i].enemy_name]
-		else:
-			Targets += "[color=white][/color]\n"
-	$Target/Targets.text = Targets
-
-
-func set_mercy_options() -> void:
-	var txt := ""
-	var spare_color := "white"
-	for i in enemies.size():
-		if enemies[i] and enemies[i].enemy_states[enemies[i].current_state].Sparable:
-			spare_color = "yellow"
-	for i in Main.encounter.mercy_options.size():
-		txt += "[color=%s]%s[/color]\n" % [spare_color, Main.encounter.mercy_options[i]]
-		spare_color = "white"
-	$Mercy/Choices.text = txt
-	choicesextends.resize(Main.encounter.mercy_options.size())
-	choicesextends.fill(1)
-
-enum state {
-	Disabled = 0,
-	Blittering = 1,
-	TargetEnemy = 2,
-	Acting = 3,
-	Iteming = 4,
-	Mercying = 5,
+@onready var Screens: Dictionary = {
+	State.Blittering: $Blitter,
+	State.BlitteringCasual: $Blitter,
+	State.TargetEnemy: $Target,
+	State.Acting: $Acts,
+	State.Iteming: $Items,
+	State.Mercying: $Mercy,
 }
 
-func soulpostoid(soulpos: Vector2, x_limit: int = 2) -> int:
-	@warning_ignore("narrowing_conversion")
-	return soulpos.y * x_limit + soulpos.x
 
-func idtosoulpos(id: int, x_limit: int = 2) -> Array:
-	var x := []
-	while id > 0:
-		if id - x_limit > 0:
-			id -= x_limit
-			x.append(x_limit)
-		else:
-			x.append(id)
-			id = 0
-	return x
+
+enum State {
+	Disabled,
+	BlitteringCasual,
+	Blittering,
+	TargetEnemy,
+	Acting,
+	Iteming,
+	Mercying,
+	Fighting,
+}
+
+#const ActionFlow := {
+	#OPTION_FIGHT: [
+		#State.TargetEnemy,
+		#State.Fighting,
+	#],
+	#OPTION_ACT: [
+		#State.TargetEnemy,
+		#State.Acting,
+		#State.Blittering,
+		#],
+	#OPTION_ITEM: [
+		#State.Iteming,
+		#State.Blittering,
+	#],
+	#OPTION_MERCY: [
+		#State.Mercying,
+		#State.Blittering,
+	#]
+#}
+const BUTTON_ACTIONS = {
+	OPTION_FIGHT: State.TargetEnemy,
+	OPTION_ACT: State.TargetEnemy,
+	OPTION_ITEM: State.Iteming,
+	OPTION_MERCY: State.TargetEnemy,
+}
 
 func _ready() -> void:
 	_physics_process(0.0)
-	Blitter.show()
-	Blittertext.text = ""
+	BlitterText.text = ""
 	anchor_targets[0] = Vector2(RectContainer.get("theme_override_constants/margin_left"), RectContainer.get("theme_override_constants/margin_top"))
 	anchor_targets[1] = Vector2(640, 480) - Vector2(RectContainer.get("theme_override_constants/margin_right"), RectContainer.get("theme_override_constants/margin_bottom"))
 	defanchors = anchor_targets.duplicate()
@@ -166,19 +155,62 @@ func _physics_process(_delta: float) -> void:
 	TL.position = cornerpositions[0]
 	BR.position = cornerpositions[1]
 
-func returnitempage(pagenumber: int) -> Array:
-	var items := []
-	for i in 4:
-		items.append(Global.items[i + pagenumber * 4.0])
-	return items
 
-func setoptions() -> void:
+#region Screens text setting
+func setenemies(Enemies: Array) -> void:
+	enemies = Enemies
+	set_targets()
+
+func set_targets() -> void:
+	var Targets := ""
+	for i in 3:
+		HpBars[i].visible = Main.enemies.size() > i and Main.enemies[i] != null
+		if HpBars[i].visible:
+			HpBars[i].max_value = Main.enemies[i].stats.max_hp
+			HpBars[i].value = Main.enemies[i].stats.hp
+	for i in enemies.size():
+		if Main.enemies[i]:
+			Targets += "[color=%s]* %s[/color]\n" % ["yellow" if enemies[i].enemy_states[enemies[i].current_state].Sparable else "white", enemies[i].enemy_name]
+		else:
+			Targets += "[color=white][/color]\n"
+	$Target/Targets.text = Targets
+
+
+func set_mercy_options() -> void:
+	var txt := ""
+	var spare_color := "white"
+	for i in enemies.size():
+		if enemies[i] and enemies[i].enemy_states[enemies[i].current_state].Sparable:
+			spare_color = "yellow"
+	for i in Main.encounter.mercy_options.size():
+		txt += "[color=%s]%s[/color]\n" % [spare_color, Main.encounter.mercy_options[i]]
+		spare_color = "white"
+	$Mercy/Choices.text = txt
+	choicesextends.resize(Main.encounter.mercy_options.size())
+	choicesextends.fill(1)
+
+
+func soulpos_to_id(soulpos: Vector2, x_limit: int = 2) -> int:
+	return int(soulpos.y * x_limit + soulpos.x)
+
+func id_to_soulpos(id: int, x_limit: int = 2) -> Array:
+	var x := []
+	while id > 0:
+		if id - x_limit > 0:
+			id -= x_limit
+			x.append(x_limit)
+		else:
+			x.append(id)
+			id = 0
+	return x
+
+func set_options() -> void:
 	var acts := []
 	for i: int in 6:
-		var _act: ActInfo = enemies[currenttarget].get_act_info(i)
+		var _act: ActInfo = enemies[current_target_id].get_act_info(i)
 		if _act:
 			acts.append(_act.Act)
-	choicesextends = idtosoulpos(acts.size())
+	choicesextends = id_to_soulpos(acts.size())
 	var actsp1 := ""
 	var actsp2 := ""
 	for i in acts.size():
@@ -194,7 +226,7 @@ func setoptions() -> void:
 	$Acts/Options/Column1.text = actsp1
 	$Acts/Options/Column2.text = actsp2
 
-func setitems() -> void:
+func set_items() -> void:
 	var items: PackedStringArray = []
 	for i: int in Global.items.size():
 		items.append(Global.item_list[Global.items[i]].item_name + "\n")
@@ -204,142 +236,108 @@ func setitems() -> void:
 	choicesextends.fill(1)
 	$Items/TextContainer/Items.text =  "* " + "* ".join(items)
 
-#region OptionsSelecting
 func _on_use_button(choice: int) -> void:
 	soulposition = Vector2.ZERO
 	button_choice = choice
-	match choice:
-		OPTION_FIGHT:
-			ActionMemory.append(state.TargetEnemy)
-		OPTION_ACT:
-			ActionMemory.append(state.TargetEnemy)
-		OPTION_ITEM:
-			if Global.items:
-				ActionMemory.append(state.Iteming)
-			else:
-				emit_signal("movetobuttons")
-				return
-		OPTION_MERCY:
-			ActionMemory.append(state.Mercying)
-			set_mercy_options()
-	if history[choice][0]:
-		soulposition = history[choice][0]
-	else:
-		history[choice][0] = soulposition
-	soul_choice(Vector2i.ZERO)
+	change_state(BUTTON_ACTIONS[choice])
+	#soul_choice(Vector2i.ZERO)
 	refresh_options()
 
 
-func backout(steps: int) -> void:
-	ActionMemory.resize(ActionMemory.size()-steps)
+func backout() -> void:
+	ActionMemory.resize(ActionMemory.size() - 1)
+	refresh_nodes()
 	soulposition = Vector2.ZERO
 	soul_choice(Vector2i.ZERO)
 
+@onready var Behaviours: Node = $Behaviours
+@onready var current_state_nodes := {
+	State.BlitteringCasual: $Behaviours/BlitteringCasual,
+	State.Blittering: $Behaviours/Blittering,
+	State.TargetEnemy: $Behaviours/Targetting,
+	State.Acting: $Behaviours/Acting,
+	State.Iteming: $Behaviours/Iteming,
+	State.Mercying: $Behaviours/Mercying,
+	State.Fighting: $Behaviours/Fighting,
+}
+@onready var current_state_node: BattleBoxBehaviour = current_state_nodes[State.Blittering]
 
-func refresh_options(append_action: Variant = null) -> void:
-	if append_action != null:
-		ActionMemory.append(append_action)
-		if history[button_choice][0] and (ActionMemory.back() == state.TargetEnemy or ActionMemory.back() == state.Iteming):
-			soulposition = history[button_choice][0]
-		elif history[button_choice][1] and ActionMemory.back() != state.Disabled and ActionMemory.back() != state.Blittering:
-			soulposition = history[button_choice][1]
-		soul_choice(Vector2i.ZERO)
-	match append_action if append_action != null else ActionMemory.back():
-		state.TargetEnemy:
-			choicesextends.resize(enemies.size())
-			choicesextends.fill(1)
-		state.Iteming:
-			setitems()
+
+func change_state(new_state: State) -> void:
+	if new_state == ActionMemory.back():
+		return
+	if new_state == State.Disabled:
+			disable()
+			return
+	ActionMemory.append(new_state)
+	refresh_nodes()
+
+func refresh_nodes() -> void:
+	refresh_options()
+	current_state_node.lose_control()
+	current_state_node = current_state_nodes.get(ActionMemory.back(), -2)
+	current_state_node.gain_control()
+
+
+
+func refresh_options() -> void:
 	var willrefresh: bool = soulposition.y >= choicesextends.size() or soulposition.x > choicesextends[clamp(soulposition.y, 0, max(choicesextends.size()-1, 0))]-1
 	if willrefresh:
 		while soulposition.y > choicesextends.size() - 1:
 			soulposition.y -= 1
 		while soulposition.x > choicesextends[min(soulposition.y, choicesextends.size()-1)] - 1:
 			soulposition.x -= 1
-		soul_choice(Vector2i.ZERO)
-	for i in Texts:
-		i.hide()
-	Texts[ActionMemory.back()-1].show()
-	if ActionMemory.back() == state.TargetEnemy:
-		currenttarget = soulpostoid(soulposition, 1)
+	soul_choice(Vector2i.ZERO)
 
 func disable() -> void:
-	for i in Texts:
+	for i: CanvasItem in Screens.values():
 		i.hide()
 	ActionMemory.resize(1)
-	ActionMemory[0] = state.Disabled
+	ActionMemory[0] = State.Disabled
 	if button_choice != 0:
 		button_choice = 0
 
 var used_item: int = 0
 
+func blitter_flavour() -> void:
+	BlitterText.blitter(Main.TurnNumber)
+	ActionMemory[0] = State.BlitteringCasual
+	Blitter.show()
+	#Box.BlitterText.blitter(TurnNumber)
+
+
+func blitter_act() -> void:
+	await BlitterText.typetext(enemies[current_target_id].get_act_info(soulpos_to_id(soulposition)).Description)
+
+
+func blitter_item() -> void:
+	Global.items.remove_at(soulpos_to_id(soulposition, 1))
+	await BlitterText.typetext(Global.item_use_text(used_item))
+	#print(Global.item_use_text(used_item))
+
+
+func blitter_mercy() -> void:
+	mercychoice = soulpos_to_id(soulposition, 1)
+	randomize()
+	var rand := randf()
+	if mercychoice == 1 and rand >= Main.encounter.flee_chance:
+		mercychoice = -1
+		change_state(State.Blittering)
+		await BlitterText.typetext(mercytexts[mercychoice])
+		
+		return
+	change_state(State.Blittering)
+	await BlitterText.typetext(mercytexts[mercychoice])
+	
+
+
 func _unhandled_input(event: InputEvent) -> void:
-	if ActionMemory[0] != state.Disabled:
-		if event.is_action_pressed("ui_accept"):
-			if ActionMemory.size() > 1:
-				if ActionMemory.size() == 4:
-					match button_choice:
-						OPTION_ACT:
-							if Blittertext.visibletween.is_valid(): await Blittertext.finished_all_texts
-							if button_choice != 0: emit_signal("act", currenttarget, soulpostoid(soulposition))
-							disable()
-					return
-				if ActionMemory.size() == 3:
-					history[button_choice][1] = soulposition
-					match button_choice:
-						OPTION_ACT:
-							refresh_options(state.Blittering)
-							emit_signal("exitmenu")
-							Blittertext.typetext(enemies[currenttarget].get_act_info(soulpostoid(soulposition)).Description)
-						OPTION_ITEM:
-							if Blittertext.visibletween.is_valid(): await Blittertext.finished_all_texts
-							if button_choice != 0: emit_signal("item", used_item)
-							disable()
-						OPTION_MERCY:
-							if Blittertext.visibletween.is_valid(): await Blittertext.finished_all_texts
-							if button_choice != 0: emit_signal("mercy", mercychoice)
-							disable()
-					return
-				if ActionMemory.size() == 2:
-					match button_choice:
-						OPTION_FIGHT:
-							if Main.enemies[currenttarget] != null:
-								emit_signal("fight", currenttarget)
-								emit_signal("exitmenu")
-								disable()
-						OPTION_ACT:
-							if Main.enemies[currenttarget] != null:
-								setoptions()
-								refresh_options(state.Acting)
-						OPTION_ITEM:
-							emit_signal("exitmenu")
-							refresh_options(state.Blittering)
-							used_item = Global.items[soulpostoid(soulposition, 1)]
-							#print("ID: %s POS: %s" % [used_item, soulpostoid(soulposition, 1)])
-							Blittertext.typetext(Global.item_use_text(used_item))
-							Global.items.remove_at(soulpostoid(soulposition))
-						OPTION_MERCY:
-							emit_signal("exitmenu")
-							mercychoice = soulpostoid(soulposition, 1)
-							randomize()
-							var rand := randf()
-							if mercychoice == 1 and rand >= Main.encounter.flee_chance:
-								mercychoice = -1
-								Blittertext.typetext(mercytexts[mercychoice])
-								refresh_options(state.Blittering)
-								return
-							Blittertext.typetext(mercytexts[mercychoice])
-							refresh_options(state.Blittering)
-					return
-		if event.is_action_pressed("ui_cancel"):
-			if ActionMemory.size() == 2:
-				history[button_choice][0] = soulposition
-				emit_signal("movetobuttons")
-				Blittertext.blitter(Main.TurnNumber)
-				backout(1)
-			elif ActionMemory.back() != state.Disabled and ActionMemory.back() != state.Blittering:
-				history[button_choice][1] = soulposition
-				backout(1)
+	if ActionMemory[0] != State.Disabled:
+		#if event.is_action_pressed("ui_accept"):
+			#if ActionFlow.get(button_choice).size() < ActionMemory.size():
+				#change_state(State.Disabled)
+				#return
+			#change_state(ActionFlow.get(button_choice)[ActionMemory.size() - 1])
 		if event.is_action_pressed("ui_down") and ActionMemory.size() > 1:
 			if soulposition.y < choicesextends.size() - 1:
 				soul_choice(Vector2i.DOWN)
@@ -352,18 +350,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("ui_up") and ActionMemory.size() > 1:
 			if soulposition.y > 0:
 				soul_choice(Vector2i.UP)
-		if ActionMemory.back() != state.Disabled and event.is_pressed():
-			refresh_options()
 
 func soul_choice(action: Vector2i) -> void:
-	if ActionMemory.back() != state.Blittering:
+	if ActionMemory.back() != State.Blittering:
 		soulposition += action
-		if ActionMemory.back() == state.Iteming:
-			emit_signal("movesoul", options_pos_base + options_pos_step * Vector2(soulposition.x, soulposition.y % itemsize))
+		if ActionMemory.back() == State.Iteming:
+			emit_signal("move_soul", options_pos_base + options_pos_step * Vector2(soulposition.x, soulposition.y % itemsize))
 		else:
-			emit_signal("movesoul", options_pos_base + options_pos_step * Vector2(soulposition.x, soulposition.y))
+			emit_signal("move_soul", options_pos_base + options_pos_step * Vector2(soulposition.x, soulposition.y))
 		if action != Vector2i.ZERO: $Sounds/choice.play()
 #endregion
+
 #region Manual Size Changers
 func change_size(new_size: Vector2, relative := false, custom_time: Variant = null) -> void:
 	var intended_size := anchor_targets[1] - anchor_targets[0]

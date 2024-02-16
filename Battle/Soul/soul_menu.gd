@@ -19,7 +19,6 @@ func enable() -> void:
 	if !enabled:
 		enabled = true
 		if !is_node_ready(): await ready
-		print(Global.player_position)
 		position = Global.player_position #Vector2(320, 454)
 		modulate.a = 1
 		#_able_tween = create_tween().set_trans(Tween.TRANS_SINE).set_parallel()
@@ -35,7 +34,7 @@ func disable() -> void:
 		_able_tween.tween_property(self, "modulate:a", 0, 0.2)
 		_able_tween.tween_callback(get_parent().remove_child.bind(self)).set_delay(0.05)
 
-func _on_movesoul(newpos: Vector2) -> void:
+func _on_move_soul(newpos: Vector2) -> void:
 	if movetween and movetween.is_valid():
 		movetween.kill()
 	if is_inside_tree():
@@ -44,6 +43,7 @@ func _on_movesoul(newpos: Vector2) -> void:
 		#movetween.tween_property(self, "scale", Vector2.ZERO, 0.01)
 		#movetween.chain().tween_callback(set_position.bind(newpos))
 		#movetween.tween_property(self, "scale", Vector2.ONE, TIME * 2)
+
 
 
 

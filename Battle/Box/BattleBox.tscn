@@ -1,13 +1,20 @@
-[gd_scene load_steps=14 format=3 uid="uid://3mahpp3h1cx4"]
+[gd_scene load_steps=21 format=3 uid="uid://3mahpp3h1cx4"]
 
 [ext_resource type="Script" path="res://Battle/Box/BattleBox.gd" id="1_htnbd"]
+[ext_resource type="Script" path="res://Battle/Box/fighting.gd" id="2_ek8mg"]
+[ext_resource type="Script" path="res://Battle/Box/targetting.gd" id="2_esh8s"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_o8u07"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="3_f5ep8"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="3_ms4jc"]
+[ext_resource type="Script" path="res://Battle/Box/acting.gd" id="3_u6s6u"]
+[ext_resource type="Script" path="res://Battle/Box/iteming.gd" id="4_oja00"]
 [ext_resource type="Script" path="res://Battle/Box/Blitter.gd" id="4_shawu"]
 [ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Menus/Slider.tscn" id="5_20ij6"]
 [ext_resource type="AudioStream" uid="uid://bp5oyjspngmp2" path="res://sfx/Clicks/generic2.wav" id="5_61718"]
+[ext_resource type="Script" path="res://Battle/Box/mercying.gd" id="5_m6mii"]
+[ext_resource type="Script" path="res://Battle/Box/blittering.gd" id="6_f6pem"]
 [ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="7_u3o5n"]
+[ext_resource type="Script" path="res://Battle/Box/blittering_casual.gd" id="8_5trmn"]
 [ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="8_wdevt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yiolc"]
@@ -25,6 +32,34 @@ bg_color = Color(0.101961, 1, 0, 1)
 [node name="BattleBox" type="Node2D"]
 script = ExtResource("1_htnbd")
 TransType = 5
+
+[node name="Behaviours" type="Node" parent="."]
+
+[node name="Fighting" type="Node" parent="Behaviours"]
+script = ExtResource("2_ek8mg")
+
+[node name="Targetting" type="Node" parent="Behaviours"]
+script = ExtResource("2_esh8s")
+BoxPath = null
+
+[node name="Acting" type="Node" parent="Behaviours"]
+script = ExtResource("3_u6s6u")
+BoxPath = null
+
+[node name="Iteming" type="Node" parent="Behaviours"]
+script = ExtResource("4_oja00")
+BoxPath = null
+
+[node name="Mercying" type="Node" parent="Behaviours"]
+script = ExtResource("5_m6mii")
+BoxPath = null
+
+[node name="Blittering" type="Node" parent="Behaviours"]
+script = ExtResource("6_f6pem")
+
+[node name="BlitteringCasual" type="Node" parent="Behaviours"]
+script = ExtResource("8_5trmn")
+BoxPath = null
 
 [node name="BoxContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(35, 35)
@@ -299,6 +334,7 @@ context_menu_enabled = true
 visible_characters_behavior = 1
 script = ExtResource("4_shawu")
 interval = 0.05
+queued_texts_handling = 1
 
 [node name="Click" type="AudioStreamPlayer" parent="Blitter/Text"]
 stream = ExtResource("5_61718")
@@ -314,3 +350,11 @@ bus = &"SFX"
 [node name="choice" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("8_wdevt")
 bus = &"SFX"
+
+[connection signal="change_state" from="Behaviours/Fighting" to="Behaviours/Fighting" method="_on_changed_state"]
+[connection signal="change_state" from="Behaviours/Targetting" to="Behaviours/Targetting" method="_on_changed_state"]
+[connection signal="change_state" from="Behaviours/Acting" to="Behaviours/Acting" method="_on_changed_state"]
+[connection signal="change_state" from="Behaviours/Iteming" to="Behaviours/Iteming" method="_on_changed_state"]
+[connection signal="change_state" from="Behaviours/Mercying" to="Behaviours/Mercying" method="_on_changed_state"]
+[connection signal="change_state" from="Behaviours/Blittering" to="Behaviours/Blittering" method="_on_changed_state"]
+[connection signal="change_state" from="Behaviours/BlitteringCasual" to="Behaviours/BlitteringCasual" method="_on_changed_state"]

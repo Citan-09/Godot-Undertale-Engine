@@ -47,7 +47,7 @@ var kr := false
 ## Signal to connect the Damage Info (HP Bar and Damage Info)'s finish signal to miss() and hit().
 signal damage_info_finished
 ## Used to start enemies' turn (after all actions have been processed).
-signal endturn
+signal end_turn
 
 signal item_used(id: int)
 signal spare_used
@@ -58,9 +58,7 @@ func _on_player_turn_start() -> void:
 	Box.add_child(Soul_Menu, true)
 	Box.move_child(Soul_Menu, 3)
 	Buttons.enable()
-	Box.ActionMemory[0] = Box.state.Blittering
-	Box.Blitter.show()
-	Box.Blittertext.blitter(TurnNumber)
+	Box.blitter_flavour()
 
 func _on_enemy_turn_start() -> void:
 	TurnNumber += 1
@@ -88,10 +86,10 @@ func _ready() -> void:
 			kr = true
 			HUD.set_kr()
 		enemies[i].id = i
-		enemies[i].changed_state.connect(Box.settargets)
+		enemies[i].changed_state.connect(Box.set_targets)
 		enemieshp.append(enemies[i].stats.get("hp", 0))
 		enemiesmaxhp.append(enemies[i].stats.get("max_hp", 1))
-		Box.Blittertext.flavour_texts.append_array(enemies[i].flavour_text if enemies[i].flavour_text else ["* %s approaches!" % enemies[i].enemy_name])
+		Box.BlitterText.flavour_texts.append_array(enemies[i].flavour_text if enemies[i].flavour_text else ["* %s approaches!" % enemies[i].enemy_name])
 		# REWARDS (add more if needed)
 		var rwrds: Dictionary = enemies[i].rewards if enemies[i].rewards else {}
 		rewards["gold"] += rwrds.get("gold", 0)
@@ -103,14 +101,14 @@ func _ready() -> void:
 		spare_used.connect(enemies[i].on_mercy_used)
 		
 		enemies[i].spared.connect(spare_enemy)
-		endturn.connect(enemies[i]._on_get_turn)
+		end_turn.connect(enemies[i]._on_get_turn)
 	
 	Buttons.enable()
 	Soul_Battle.get_parent().remove_child(Soul_Battle)
 	music_player.stream = music
 	music_player.play()
-	Box.ActionMemory[0] = Box.state.Blittering
-	Box.Blittertext.blitter(0)
+	Box.ActionMemory[0] = Box.State.Blittering
+	Box.blitter_flavour()
 	Box.TL.remote_path = Box.TL.get_path_to(Attacks.TopLeft)
 	Box.BR.remote_path = Box.TL.get_path_to(Attacks.BottomRight)
 	
@@ -125,18 +123,18 @@ func _initialize() -> void:
 
 func _act(target: int, option: int) -> void:
 	enemies[target].on_act_used(option)
-	endturn.emit()
+	end_turn.emit()
 
 func _mercy(choice: int) -> void:
 	match choice:
 		-1:
-			endturn.emit()
+			end_turn.emit()
 		0:
 			for i in enemies.size():
 				if enemies[i]:
 					enemies[i].on_mercy_used()
 			if not check_end_encounter():
-				endturn.emit()
+				end_turn.emit()
 		1:
 			await Camera.blind(1, 1)
 			Global.temp_atk = 0
@@ -146,7 +144,7 @@ func _mercy(choice: int) -> void:
 func _item(item_id: int) -> void:
 	for e: Enemy in enemies:
 		e.on_item_used(item_id)
-	endturn.emit()
+	end_turn.emit()
 
 # region fight_logic
 ##Creates the attack meter and handles damaging enemies and showing damage with hit() and miss().
@@ -187,7 +185,7 @@ func hit(damage: int, target: int, crit := false) -> void:
 		enemies[target].on_death()
 		kill_enemy(target)
 	else:
-		endturn.emit()
+		end_turn.emit()
 
 ## Used when you miss (for dodging as well).
 func miss(target: int) -> void:
@@ -199,7 +197,7 @@ func miss(target: int) -> void:
 	Box.add_child(clone)
 	clone.finished.connect(emit_signal.bind("damage_info_finished"))
 	await clone.finished
-	endturn.emit()
+	end_turn.emit()
 # endregion
 
 ## Kills enemy and checks if the encounter can end.
@@ -280,10 +278,9 @@ func end_encounter() -> void:
 		wintxt += " \n* Your Love increased!"
 		$lvlup.play()
 	await get_tree().process_frame
-	Box.Blitter.show()
-	Box.ActionMemory = [Box.state.Blittering]
-	Box.Blittertext.typetext(wintxt)
-	await Box.Blittertext.finished_all_texts
+	Box.change_state(Box.State.Blittering)
+	Box.BlitterText.typetext(wintxt)
+	await Box.BlitterText.finished_all_texts
 	await Camera.blind(1, 1)
 	Global.temp_atk = 0
 	Global.temp_def = 0

@@ -1,24 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://tuefpi4sls5y"]
+[gd_scene load_steps=5 format=3 uid="uid://tuefpi4sls5y"]
 
 [ext_resource type="Script" path="res://Battle/AttackMeter/damage.gd" id="1_bc4im"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="1_pvpyk"]
 [ext_resource type="FontFile" uid="uid://dktlxb4np0wls" path="res://Text/Fonts/hachicro.TTF" id="3_ehycn"]
 [ext_resource type="AudioStream" uid="uid://dimh8qn8ampsv" path="res://sfx/snd_damage.wav" id="4_ex8rf"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ofimf"]
-bg_color = Color(0.2, 0.2, 0.2, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0, 0, 0, 1)
-expand_margin_left = 2.0
-expand_margin_top = 2.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ivht"]
-bg_color = Color(0.172549, 1, 0, 1)
 
 [node name="Damage" type="Control"]
 layout_mode = 3
@@ -50,8 +35,7 @@ offset_top = -16.0
 offset_right = 100.0
 offset_bottom = 8.0
 theme = ExtResource("1_pvpyk")
-theme_override_styles/background = SubResource("StyleBoxFlat_ofimf")
-theme_override_styles/fill = SubResource("StyleBoxFlat_8ivht")
+theme_type_variation = &"EnemyHpBar"
 value = 40.0
 show_percentage = false
 

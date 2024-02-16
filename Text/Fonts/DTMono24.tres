@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=22 format=3 uid="uid://s3o3wkvbt3ej"]
+[gd_resource type="Theme" load_steps=25 format=3 uid="uid://s3o3wkvbt3ej"]
 
 [ext_resource type="FontFile" uid="uid://dp6lncabgomk" path="res://Text/Fonts/DTM-Mono.otf" id="1_pfd0d"]
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="2_iwlbw"]
@@ -13,6 +13,24 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p0pao"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r0vj8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ofimf"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esylu"]
+bg_color = Color(0.0784314, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0b5o1"]
+bg_color = Color(0.0784314, 1, 0, 1)
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_th1da"]
 grow_begin = 0.0
@@ -75,6 +93,11 @@ Button/styles/focus = SubResource("StyleBoxEmpty_qcuuh")
 Button/styles/hover = SubResource("StyleBoxEmpty_qj6tb")
 Button/styles/normal = SubResource("StyleBoxEmpty_p0pao")
 Button/styles/pressed = SubResource("StyleBoxEmpty_r0vj8")
+EnemyHpBar/base_type = &"ProgressBar"
+EnemyHpBar/styles/background = SubResource("StyleBoxFlat_ofimf")
+EnemyHpBar/styles/fill = SubResource("StyleBoxFlat_esylu")
+EnemyHpBarTop/base_type = &"ProgressBar"
+EnemyHpBarTop/styles/fill = SubResource("StyleBoxFlat_0b5o1")
 HSlider/icons/grabber = ExtResource("2_iwlbw")
 HSlider/icons/grabber_disabled = ExtResource("3_0bicc")
 HSlider/icons/grabber_highlight = ExtResource("2_iwlbw")

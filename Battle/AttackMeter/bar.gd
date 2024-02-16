@@ -50,13 +50,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			frame = 2
 			Overlay.color.a = 1
 			Overlay.modulate.a = 1
+			$hit.play()
 		else:
 			$AnimationPlayer.play("glow")
 			t.tween_property(self, "modulate:a", 0, TIME).set_delay(TIME)
 		if can_crit:
-			#var t2 = create_tween().set_trans(Tween.TRANS_SINE).set_loops(3)
-			#t2.tween_property(Overlay, "color:a", 1, TIME / 3).set_ease(Tween.EASE_IN)
-			#t2.tween_property(Overlay, "color:a", 0, TIME / 3).set_ease(Tween.EASE_IN)
 			if position.x > critzone.x and position.x < critzone.y:
 				$critical.play()
 				t.tween_property(self, "modulate:b", 0, TIME / 2)
@@ -68,8 +66,6 @@ func _unhandled_input(event: InputEvent) -> void:
 				$hit.play()
 				t.tween_property(self, "modulate:g", 0, TIME / 2)
 				t.tween_property(self, "modulate:b", 0, TIME / 2)
-		else:
-			$hit.play()
 		await t.finished
 		queue_free()
 
