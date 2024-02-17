@@ -14,13 +14,14 @@ var slow_down: int
 
 var gravity_direction := Vector2.DOWN: set = set_gravity_direction_silent
 @export_enum("ARROW_KEYS", "VELOCITY", "ARROW_KEYS_AND_MOVING") var special_bullet_mode: int = 0
-@onready var sprites: Node2D = $Sprite
-@onready var ghost: GPUParticles2D = $Sprite/Ghost
+@onready var Sprite: Node2D = $Sprite
+@onready var Ghost: GPUParticles2D = $Sprite/Ghost
 @onready var Shoot: AudioStreamPlayer = $Shoot
 @onready var ModeChangeS: AudioStreamPlayer = $Ding
 @onready var Main: BattleMain = $/root/main
 @onready var HurtSound: AudioStreamPlayer = $Hurt
 @onready var Area: Area2D = $Area2D
+@onready var Collision: CollisionShape2D = $CollisionShape2D
 
 
 ## SoulMode Stuff
@@ -60,48 +61,36 @@ var invulnerable := false
 var overlapping_areas: Array[Area2D] = []
 
 signal shake_camera(amt: float)
+
 func _ready() -> void:
 	set_gravity_direction(Vector2.DOWN, false)
 	modulate.a = 0
 	set_physics_process(false)
 	set_process(false)
 	red()
+	menu_enable()
 
 var _able_tween: Tween
 
-func _kill_able_tween():
+func _kill_able_tween() -> void:
 	if _able_tween and _able_tween.is_valid(): _able_tween.kill()
 
 func disable() -> void:
-	if is_processing():
-		_kill_able_tween()
-		set_process(false)
-		set_physics_process(false)
-		Global.player_position = get_global_transform_with_canvas().origin
-		_able_tween = create_tween()
-		_able_tween.tween_property(self, "modulate:a", 0, 0.2)
-		_able_tween.tween_callback(get_parent().remove_child.bind(self)).set_delay(0.05)
+	_kill_able_tween()
+	_able_tween = create_tween()
+	_able_tween.tween_property(self, "modulate:a", 0, 0.2)
 
-func _enter_tree() -> void:
-	enable()
-	motion = Vector2.ZERO
-	velocity = Vector2.ZERO
-	gravity_direction = Vector2.DOWN
-	mode = DISABLE_MOVEMENT
 
 func enable() -> void:
-	if !is_processing():
-		if !is_node_ready(): await ready
-		_kill_able_tween()
-		position = Vector2(320, 320)
-		_able_tween = create_tween()
-		_able_tween.tween_property(self, "modulate:a", 1, 0.2)
-		_able_tween.tween_callback(set_process.bind(true))
-		_able_tween.tween_callback(set_physics_process.bind(true))
+	z_index = 1
+	Collision.disabled = false
+	position = Vector2(320, 320)
+	enable_tween()
+	
 
 
 func _physics_process(_delta: float) -> void:
-	sprites.scale = Vector2.ONE
+	Sprite.scale = Vector2.ONE
 	if gravity_direction.x:
 		motion.x = velocity.y
 		motion.y = velocity.x * gravity_direction.x
@@ -138,11 +127,11 @@ func _process(delta: float) -> void:
 	hiframes -= delta * delta_frame
 	if iframes > 0:
 		if int(iframes) % 8 == 0:
-			self.modulate.a = 1
+			Sprite.modulate.a = 1
 		elif int(iframes) % 8 == 4 and Global.settings["vfx"]:
-			self.modulate.a = 0.6
+			Sprite.modulate.a = 0.6
 	else:
-		self.modulate.a = 1
+		Sprite.modulate.a = 1
 
 
 func check_bullet(area: Area2D) -> void:
@@ -188,8 +177,8 @@ func heal(area: BulletArea) -> void:
 func set_mode(new_mode := RED) -> void:
 	set_mode_silent(new_mode)
 	ModeChangeS.play()
-	ghost.restart()
-	ghost.emitting = true
+	Ghost.restart()
+	Ghost.emitting = true
 
 
 var fade_tw: Tween
@@ -246,7 +235,7 @@ const DIRS = {
 
 
 func red() -> void:
-	sprites.modulate = Color(1, 1, 1, 1) if soul_type == soul_types.SOUL_MONSTER else Color(1, 0, 0, 1)
+	Sprite.modulate = Color(1, 1, 1, 1) if soul_type == soul_types.SOUL_MONSTER else Color(1, 0, 0, 1)
 	four_dir_movement()
 
 
@@ -261,7 +250,7 @@ func four_dir_movement() -> void:
 var motion := Vector2.ZERO
 
 func blue() -> void:
-	sprites.modulate = Color(0, 0, 1, 1)
+	Sprite.modulate = Color(0, 0, 1, 1)
 	slow_down = int(Input.is_action_pressed("ui_cancel")) + 1
 	match gravity_direction:
 		Vector2.DOWN:
@@ -312,26 +301,26 @@ func _motion_align_gravity_direction() -> void:
 
 func green() -> void:
 	motion = Vector2.ZERO
-	sprites.modulate = Color.WEB_GREEN
+	Sprite.modulate = Color.WEB_GREEN
 	pass
 
 func yellow() -> void:
-	sprites.modulate = Color.YELLOW
-	sprites.scale.y = -1
+	Sprite.modulate = Color.YELLOW
+	Sprite.scale.y = -1
 	if Input.is_action_just_pressed("ui_accept"):
 		Shoot.play()
 		var _c = yellow_bullet.instantiate() as YellowBullet
 		Main.Box.add_child(_c)
-		_c.global_position = sprites.global_position
-		_c.rotation = sprites.global_rotation
-		_c.velocity = Vector2.UP.rotated(sprites.global_rotation) * YellowBullet.SPEED
+		_c.global_position = Sprite.global_position
+		_c.rotation = Sprite.global_rotation
+		_c.velocity = Vector2.UP.rotated(Sprite.global_rotation) * YellowBullet.SPEED
 	four_dir_movement()
 
 var purple_pos: int = 0
 var p_tween: Tween
 
 func purple() -> void:
-	sprites.modulate = Color.PURPLE
+	Sprite.modulate = Color.PURPLE
 	slow_down = int(Input.is_action_pressed("ui_cancel")) + 1
 	inputlist = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	motion.x = speed * inputlist.x / slow_down
@@ -351,7 +340,7 @@ func update_purple_pos():
 	await p_tween.finished
 
 func orange() -> void:
-	sprites.modulate = Color(1, 0.65, 0)
+	Sprite.modulate = Color(1, 0.65, 0)
 	motion = speed * inputlist
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -364,10 +353,37 @@ func _unhandled_input(event: InputEvent) -> void:
 		if _input_list_pressed.y: inputlist.y = _input_list_pressed.y
 
 func cyan() -> void:
-	sprites.modulate = Color.CYAN
+	Sprite.modulate = Color.CYAN
 	slow_down = int(Input.is_action_pressed("ui_cancel")) + 1
 	inputlist = Vector2(
 		Input.get_action_raw_strength("ui_right") - Input.get_action_raw_strength("ui_left"),
 		Input.get_action_raw_strength("ui_down") - Input.get_action_raw_strength("ui_up")
 		)
 	motion = speed * inputlist / slow_down if CyanDetector.can_move else Vector2.ZERO
+
+#region MenuLogic
+var movetween: Tween
+
+const TIME: float = 0.2
+
+func _on_move_soul(newpos: Vector2) -> void:
+	if movetween and movetween.is_valid(): movetween.kill()
+	if !is_inside_tree():
+		return
+	movetween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_parallel()
+	movetween.tween_property(self, "position", newpos, TIME)
+
+
+func menu_enable() -> void:
+	z_index = 0
+	Collision.disabled = true
+	enable_tween()
+
+
+func enable_tween() -> void:
+	_kill_able_tween()
+	_able_tween = create_tween()
+	_able_tween.tween_property(self, "modulate:a", 1, 0.2)
+	_able_tween.tween_callback(set_process.bind(true))
+	_able_tween.tween_callback(set_physics_process.bind(true))
+

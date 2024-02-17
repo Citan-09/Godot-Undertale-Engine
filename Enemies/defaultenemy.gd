@@ -47,9 +47,9 @@ func throw(dir: Vector2 = Vector2.DOWN) -> void:
 	AnimStates.stop()
 	AnimStates.travel(animations.find_key(dir))
 	throw_head.play("crazy", true)
-	await get_tree().create_timer(0.2, false).timeout
+	await get_tree().create_timer(0.25, false).timeout
 	Soul.set_gravity_direction(dir, true)
-	for i in 2: await get_tree().process_frame
+	for i in 5: await get_tree().process_frame
 	Soul.gravity_multiplier = 10
 
 func end_throw() -> void:

@@ -11,7 +11,6 @@ class_name Enemy
 @onready var Camera: CameraFx = Main.Camera
 @onready var Box: BattleBox = Main.Box
 @onready var Soul: SoulBattle = Main.Soul_Battle
-@onready var MenuSoul: SoulMenu = Main.Soul_Menu
 
 var kr: bool = true
 

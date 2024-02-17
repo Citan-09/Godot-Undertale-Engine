@@ -11,8 +11,6 @@ var slash: PackedScene = preload("res://Battle/Slashes/slashes.tscn")
 var damageinfo: PackedScene = preload("res://Battle/AttackMeter/damage.tscn")
 ## Background
 @onready var Bg: Background = $Background
-## Seperate Soul for menu.
-@onready var Soul_Menu: SoulMenu = %Soul_Menu
 ## Seperate Soul for Battle Box.
 @onready var Soul_Battle: SoulBattle = %Soul_Battle
 ## Attacks Handler (NOT THE CURRENT ATTACK).
@@ -54,20 +52,18 @@ signal spare_used
 
 ## Handles resettings Battle Box's ActionMemory and puts your soul into the Battle Box
 func _on_player_turn_start() -> void:
-	Soul_Battle.disable()
-	Box.add_child(Soul_Menu, true)
-	Box.move_child(Soul_Menu, 3)
+	Soul_Battle.menu_enable()
 	Buttons.enable()
 	Box.blitter_flavour()
 
 func _on_enemy_turn_start() -> void:
+	Soul_Battle.enable()
 	TurnNumber += 1
-	Box.add_child(Soul_Battle, true)
-	Box.move_child(Soul_Battle, 3)
+
 
 func _ready() -> void:
 	Bg.texture_rect.texture = encounter.background
-	var enemy_scenes: Array[PackedScene] = encounter.enemies
+	var enemy_scenes: Array[PackedScene] = encounter.enemies.duplicate()
 	enemynames = enemy_scenes
 	for i in enemy_scenes.size():
 		var enemy: Node = enemy_scenes[i].instantiate()
@@ -106,7 +102,7 @@ func _ready() -> void:
 		end_turn.connect(enemies[i]._on_get_turn)
 
 	Buttons.enable()
-	Soul_Battle.get_parent().remove_child(Soul_Battle)
+	#Soul_Battle.get_parent().remove_child(Soul_Battle)
 	music_player.stream = music
 	music_player.play()
 	Box.ActionMemory[0] = Box.State.Blittering
@@ -295,6 +291,5 @@ func end_encounter() -> void:
 	Global.temp_atk = 0
 	Global.temp_def = 0
 	Soul_Battle.queue_free()
-	Soul_Menu.queue_free()
 	OverworldSceneChanger.load_cached_overworld_scene()
 

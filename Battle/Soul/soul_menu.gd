@@ -15,16 +15,21 @@ func _ready() -> void:
 
 var _able_tween: Tween
 
+
+func _enter_tree() -> void:
+	enable()
+
+
+
 func enable() -> void:
 	if !enabled:
 		enabled = true
 		if !is_node_ready(): await ready
-		position = Global.player_position  #Vector2(320, 454)
+		#position = Global.player_position  #Vector2(320, 454)
 		modulate.a = 1
 
 
-func _enter_tree() -> void:
-	enable()
+
 
 func disable() -> void:
 	if enabled:

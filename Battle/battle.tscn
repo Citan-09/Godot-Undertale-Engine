@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c01b4hbwgce3o"]
+[gd_scene load_steps=11 format=3 uid="uid://c01b4hbwgce3o"]
 
 [ext_resource type="Script" path="res://Battle/battle.gd" id="1_yqdne"]
 [ext_resource type="Resource" uid="uid://cxu6iatwdxlye" path="res://Resources/Encounters/EncounterTest.tres" id="2_ju3kp"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://ctmkb1gh0a14s" path="res://Battle/Buttons/buttons.tscn" id="3_m5l1o"]
 [ext_resource type="PackedScene" uid="uid://d1p4teid7wp70" path="res://Battle/Attacks/attacks_manager.tscn" id="4_elftc"]
 [ext_resource type="PackedScene" uid="uid://3mahpp3h1cx4" path="res://Battle/Box/BattleBox.tscn" id="5_1exqf"]
-[ext_resource type="PackedScene" uid="uid://dupc0kwi03isy" path="res://Battle/Soul/soul_menu.tscn" id="5_rabss"]
 [ext_resource type="PackedScene" uid="uid://cobjcttlv6o13" path="res://Battle/Soul/soul_battle.tscn" id="6_rlfkv"]
 [ext_resource type="PackedScene" uid="uid://dqju025dnhuna" path="res://Battle/hud.tscn" id="8_pj1aw"]
 [ext_resource type="PackedScene" uid="uid://0nraaqapf5jy" path="res://Battle/Backgrounds/background.tscn" id="9_0orpf"]
@@ -31,10 +30,6 @@ position = Vector2(317, 240)
 
 [node name="BattleBox" parent="." instance=ExtResource("5_1exqf")]
 unique_name_in_owner = true
-
-[node name="Soul_Menu" parent="BattleBox" instance=ExtResource("5_rabss")]
-unique_name_in_owner = true
-position = Vector2(320, 454)
 
 [node name="Soul_Battle" parent="BattleBox" instance=ExtResource("6_rlfkv")]
 unique_name_in_owner = true
@@ -61,15 +56,15 @@ bus = &"SFX"
 
 [connection signal="end_turn" from="." to="." method="_on_enemy_turn_start"]
 [connection signal="act" from="BattleBox" to="." method="_act"]
-[connection signal="exit_menu" from="BattleBox" to="BattleBox/Soul_Menu" method="disable"]
+[connection signal="exit_menu" from="BattleBox" to="BattleBox/Soul_Battle" method="disable"]
 [connection signal="exit_menu" from="BattleBox" to="Buttons" method="reset"]
 [connection signal="fight" from="BattleBox" to="." method="_fight"]
 [connection signal="item" from="BattleBox" to="." method="_item"]
 [connection signal="mercy" from="BattleBox" to="." method="_mercy"]
-[connection signal="move_soul" from="BattleBox" to="BattleBox/Soul_Menu" method="_on_move_soul"]
+[connection signal="move_soul" from="BattleBox" to="BattleBox/Soul_Battle" method="_on_move_soul"]
 [connection signal="moved_to_buttons" from="BattleBox" to="Buttons" method="enable"]
 [connection signal="shake_camera" from="BattleBox/Soul_Battle" to="Camera" method="add_shake"]
-[connection signal="movesoul" from="Buttons" to="BattleBox/Soul_Menu" method="_on_move_soul"]
+[connection signal="movesoul" from="Buttons" to="BattleBox/Soul_Battle" method="_on_move_soul"]
 [connection signal="selectbutton" from="Buttons" to="BattleBox" method="_on_use_button"]
 [connection signal="player_turn" from="Attacks/BoxClipper" to="." method="_on_player_turn_start"]
 [connection signal="player_turn" from="Attacks/BoxClipper" to="BattleBox" method="reset_box"]

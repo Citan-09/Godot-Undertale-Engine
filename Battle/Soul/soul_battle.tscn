@@ -39,7 +39,6 @@ size = Vector2(10, 10)
 size = Vector2(16, 16)
 
 [node name="Soul" type="CharacterBody2D"]
-z_index = 1
 collision_layer = 0
 floor_snap_length = 0.0
 platform_on_leave = 1
@@ -63,8 +62,9 @@ local_coords = true
 shape = SubResource("RectangleShape2D_sjyg3")
 debug_color = Color(0.631373, 0, 1, 0.568627)
 
-[node name="CollisionPolygon2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ns07m")
+disabled = true
 debug_color = Color(1, 0.858824, 0.635294, 0.235294)
 
 [node name="Hurt" type="AudioStreamPlayer" parent="."]

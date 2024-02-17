@@ -9,7 +9,7 @@
 script = ExtResource("1_ao0dm")
 encounter_name = &"Encounter"
 background = ExtResource("1_usoym")
-enemies = Array[PackedScene]([ExtResource("1_2egsl"), ExtResource("1_2egsl"), ExtResource("1_2egsl")])
+enemies = Array[PackedScene]([ExtResource("1_2egsl")])
 music = ExtResource("2_61squ")
 mercy_options = Array[String](["* Spare", "* Flee"])
 flee_chance = 0.2
