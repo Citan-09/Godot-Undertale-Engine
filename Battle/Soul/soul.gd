@@ -70,23 +70,6 @@ func _ready() -> void:
 	red()
 	menu_enable()
 
-var _able_tween: Tween
-
-func _kill_able_tween() -> void:
-	if _able_tween and _able_tween.is_valid(): _able_tween.kill()
-
-func disable() -> void:
-	_kill_able_tween()
-	_able_tween = create_tween()
-	_able_tween.tween_property(self, "modulate:a", 0, 0.2)
-
-
-func enable() -> void:
-	z_index = 1
-	Collision.disabled = false
-	position = Vector2(320, 320)
-	enable_tween()
-	
 
 
 func _physics_process(_delta: float) -> void:
@@ -285,9 +268,9 @@ func blue() -> void:
 			motion.y += gravity * (jump[2]-1.0)
 		elif not inputlist.y:
 			if motion.y < 20:
-				motion.y = lerpf(motion.y, 0, (jump[1]-1.0) / 20.0)
+				motion.y = lerpf(motion.y, 0, (jump[1] - 1.0) / 20.0)
 			else:
-				motion.y = lerpf(motion.y, 20, (jump[0]-1.0) / 20.0)
+				motion.y = lerpf(motion.y, 20, (jump[0] - 1.0) / 20.0)
 
 func _motion_align_gravity_direction() -> void:
 	if gravity_direction.x:
@@ -330,6 +313,7 @@ func purple() -> void:
 		update_purple_pos()
 
 
+
 func update_purple_pos():
 	if purple_pos < -1:
 		purple_pos = 0
@@ -362,15 +346,35 @@ func cyan() -> void:
 	motion = speed * inputlist / slow_down if CyanDetector.can_move else Vector2.ZERO
 
 #region MenuLogic
+
 var movetween: Tween
 
 const TIME: float = 0.2
+
+
+var _able_tween: Tween
+
+func _kill_able_tween() -> void:
+	if _able_tween and _able_tween.is_valid(): _able_tween.kill()
+
+func disable() -> void:
+	_kill_able_tween()
+	_able_tween = create_tween()
+	_able_tween.tween_property(self, "modulate:a", 0, 0.2)
+
+
+func enable() -> void:
+	z_index = 1
+	Collision.disabled = false
+	position = Vector2(320, 320)
+	enable_tween()
+
 
 func _on_move_soul(newpos: Vector2) -> void:
 	if movetween and movetween.is_valid(): movetween.kill()
 	if !is_inside_tree():
 		return
-	movetween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_parallel()
+	movetween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT).set_parallel()
 	movetween.tween_property(self, "position", newpos, TIME)
 
 
@@ -387,3 +391,5 @@ func enable_tween() -> void:
 	_able_tween.tween_callback(set_process.bind(true))
 	_able_tween.tween_callback(set_physics_process.bind(true))
 
+
+#endregion

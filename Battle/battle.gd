@@ -158,7 +158,7 @@ func _fight(target: int) -> void:
 func hit(damage: int, target: int, crit := false) -> void:
 	var slashes: Slash = slash.instantiate() as Slash
 	slashes.crit = crit
-	Box.add_child(slashes, true)
+	Box.add_child.call_deferred(slashes, true)
 	slashes.global_position = enemies[target].sprites.global_position
 	if enemies[target].dodging:
 		slashes.started.connect(enemies[target].dodge)

@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Node
 class_name AttackMeter
 
 const TIME: float = 0.6
@@ -31,11 +31,11 @@ func _ready() -> void:
 	tw.tween_property(meter, "modulate:a", 1, TIME / 2)
 	tw.tween_property(meter, "scale:x", 1, TIME)
 	var randir: int = (randi_range(0, 1) * 2)-1
-	var summonpos := Vector2(43, 320)
+	var summonpos := Vector2(320, 320)
 	if randir == 1:
-		summonpos.x = 40
+		summonpos.x = 0
 	elif randir == -1:
-		summonpos.x = 600
+		summonpos.x = 640
 	hits = Global.item_list[Global.equipment["weapon"]].weapon_bars
 	speed_mult = Global.item_list[Global.equipment["weapon"]].weapon_speed
 	for i in hits:

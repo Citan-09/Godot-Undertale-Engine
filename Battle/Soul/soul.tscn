@@ -33,10 +33,10 @@ color = Color(1, 1, 1, 0.666667)
 alpha_curve = SubResource("CurveTexture_e8o5g")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sjyg3"]
-size = Vector2(10, 10)
+size = Vector2(12, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ns07m"]
-size = Vector2(16, 16)
+size = Vector2(18, 18)
 
 [node name="Soul" type="CharacterBody2D"]
 collision_layer = 0

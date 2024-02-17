@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ctmkb1gh0a14s" path="res://Battle/Buttons/buttons.tscn" id="3_m5l1o"]
 [ext_resource type="PackedScene" uid="uid://d1p4teid7wp70" path="res://Battle/Attacks/attacks_manager.tscn" id="4_elftc"]
 [ext_resource type="PackedScene" uid="uid://3mahpp3h1cx4" path="res://Battle/Box/BattleBox.tscn" id="5_1exqf"]
-[ext_resource type="PackedScene" uid="uid://cobjcttlv6o13" path="res://Battle/Soul/soul_battle.tscn" id="6_rlfkv"]
+[ext_resource type="PackedScene" uid="uid://cobjcttlv6o13" path="res://Battle/Soul/soul.tscn" id="6_rlfkv"]
 [ext_resource type="PackedScene" uid="uid://dqju025dnhuna" path="res://Battle/hud.tscn" id="8_pj1aw"]
 [ext_resource type="PackedScene" uid="uid://0nraaqapf5jy" path="res://Battle/Backgrounds/background.tscn" id="9_0orpf"]
 [ext_resource type="AudioStream" uid="uid://dip1sm43dv85a" path="res://sfx/snd_levelup.wav" id="10_ldyum"]

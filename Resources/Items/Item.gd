@@ -6,7 +6,6 @@ class_name Item
 @export_group("Weapon Stats")
 @export var weapon_speed: float = 1.0
 @export var weapon_bars: int = 1
-@export var bar_trans_type := Tween.TRANS_LINEAR
 @export var weapon_type := weapon_types.KNIFE
 @export var critical_hits := false
 @export_group("Item Use Stats")

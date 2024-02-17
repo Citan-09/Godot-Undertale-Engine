@@ -1,21 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://14srg3yt7uxo"]
+[gd_scene load_steps=3 format=3 uid="uid://14srg3yt7uxo"]
 
 [ext_resource type="Script" path="res://Battle/AttackMeter/meter.gd" id="1_olgph"]
 [ext_resource type="Texture2D" uid="uid://chnxh4khbo84n" path="res://Battle/AttackMeter/meter.png" id="1_w0nur"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_grmdm"]
-size = Vector2(570, 150)
-
-[node name="AttackMater" type="CanvasLayer"]
+[node name="Meter" type="CanvasLayer"]
 script = ExtResource("1_olgph")
 
 [node name="Meter" type="Sprite2D" parent="."]
 position = Vector2(320, 320)
 texture = ExtResource("1_w0nur")
-
-[node name="VisibleZone" type="Area2D" parent="." groups=["attack_meter"]]
-position = Vector2(320, 320)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="VisibleZone"]
-shape = SubResource("RectangleShape2D_grmdm")
-debug_color = Color(0.45098, 0.172549, 0.521569, 0.141176)

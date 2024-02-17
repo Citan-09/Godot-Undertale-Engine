@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://e4mlmtm3prrv"]
+[gd_scene load_steps=13 format=3 uid="uid://e4mlmtm3prrv"]
 
 [ext_resource type="Texture2D" uid="uid://ct6ntajwcqflg" path="res://Battle/AttackMeter/bars.png" id="1_uqwy5"]
 [ext_resource type="Texture2D" uid="uid://chnxh4khbo84n" path="res://Battle/AttackMeter/meter.png" id="2_bkue7"]
@@ -34,9 +34,6 @@ animations = [{
 "name": &"sprites",
 "speed": 8.0
 }]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cq5j4"]
-size = Vector2(15, 130)
 
 [sub_resource type="Animation" id="Animation_leloy"]
 length = 0.001
@@ -77,7 +74,6 @@ _data = {
 }
 
 [node name="Bar" type="AnimatedSprite2D" groups=["attack_bar"]]
-self_modulate = Color(1, 1, 1, 0)
 position = Vector2(43, 323)
 sprite_frames = SubResource("SpriteFrames_ycm5y")
 animation = &"sprites"
@@ -91,12 +87,6 @@ bus = &"SFX"
 stream = ExtResource("4_rdxli")
 bus = &"SFX"
 
-[node name="Area2D" type="Area2D" parent="." groups=["attack_bar"]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_cq5j4")
-debug_color = Color(0.533333, 0.94902, 0.494118, 0.141176)
-
 [node name="Overlay" type="ColorRect" parent="."]
 offset_left = -8.0
 offset_top = -65.0
@@ -108,6 +98,3 @@ color = Color(1, 1, 1, 0)
 libraries = {
 "": SubResource("AnimationLibrary_ftbe7")
 }
-
-[connection signal="area_entered" from="Area2D" to="." method="_on_enter_meter"]
-[connection signal="area_exited" from="Area2D" to="." method="_on_exit_box"]
