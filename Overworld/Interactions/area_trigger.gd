@@ -32,7 +32,6 @@ func _on_body_entered(body: Node) -> void:
 		if action & 8: finished_work.emit()
 		return
 	if body.is_in_group("player"):
-		print(body.get_groups())
 		_successful_enter()
 
 func _successful_enter() -> void:
@@ -51,10 +50,10 @@ func _successful_enter() -> void:
 				"entrance": new_room_entrance,
 			})
 			if action & 8: finished_work.emit()
-			
+
 
 func disable() -> void:
-	set_deferred("monitorable",false)
-	set_deferred("monitoring",false)
-	$Collision.set_deferred("disabled",true)
+	set_deferred("monitorable", false)
+	set_deferred("monitoring", false)
+	$Collision.set_deferred("disabled", true)
 

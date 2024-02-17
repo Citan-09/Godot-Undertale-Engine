@@ -40,7 +40,6 @@ script = ExtResource("2_ek8mg")
 
 [node name="Targetting" type="Node" parent="Behaviours"]
 script = ExtResource("2_esh8s")
-BoxPath = null
 
 [node name="Acting" type="Node" parent="Behaviours"]
 script = ExtResource("3_u6s6u")
@@ -56,7 +55,6 @@ script = ExtResource("6_f6pem")
 
 [node name="BlitteringCasual" type="Node" parent="Behaviours"]
 script = ExtResource("8_5trmn")
-BoxPath = null
 
 [node name="BoxContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(35, 35)

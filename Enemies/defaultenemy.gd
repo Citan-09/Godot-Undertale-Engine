@@ -61,6 +61,7 @@ func on_fight_used() -> void:
 func on_act_used(option: int) -> void:
 	if option == 3:
 		change_state(1)
+		dodging = false
 		stats.def = -50
 
 func on_mercy_used() -> void:

@@ -79,7 +79,6 @@ func set_mode(mode := MODE_BLUE):
 	damage_mode = mode
 	
 
-
 func fade() -> void:
 	var fadetw := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	fadetw.tween_property(self, "modulate:a", 0, 0.5)

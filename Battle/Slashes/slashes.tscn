@@ -1,4 +1,4 @@
-[gd_scene load_steps=92 format=3 uid="uid://csbnb8kew00yb"]
+[gd_scene load_steps=93 format=3 uid="uid://csbnb8kew00yb"]
 
 [ext_resource type="Texture2D" uid="uid://brh6qgeth3xte" path="res://Battle/Slashes/Punch/punch_1.png" id="1_6qjek"]
 [ext_resource type="Texture2D" uid="uid://cbru6ui556frr" path="res://Battle/Slashes/Knife/slashes.png" id="1_qjocq"]
@@ -89,6 +89,10 @@ region = Rect2(128, 0, 32, 128)
 [sub_resource type="AtlasTexture" id="AtlasTexture_kjfp3"]
 atlas = ExtResource("1_qjocq")
 region = Rect2(160, 0, 32, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s1c4s"]
+atlas = ExtResource("1_qjocq")
+region = Rect2(192, 192, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d364v"]
 animations = [{
@@ -188,6 +192,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kjfp3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s1c4s")
 }],
 "loop": false,
 "name": &"slash",
@@ -1046,7 +1053,7 @@ packet_sequence = SubResource("OggPacketSequence_ifr5m")
 position = Vector2(314, 200)
 sprite_frames = SubResource("SpriteFrames_d364v")
 animation = &"slash"
-frame = 5
+frame = 6
 script = ExtResource("11_kdmy1")
 
 [node name="press_z" type="Sprite2D" parent="."]
@@ -1091,7 +1098,7 @@ explosiveness = 1.0
 [node name="GPUParticles2D3" type="GPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_xa0je")
 emitting = false
-amount = 5
+amount = 4
 amount_ratio = 0.15
 process_material = SubResource("ParticleProcessMaterial_67tha")
 texture = ExtResource("15_iwqe4")

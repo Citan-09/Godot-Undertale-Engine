@@ -27,7 +27,7 @@ var ActionMemory: Array[State] = [State.Disabled]
 
 const itemsize = 1
 ##STATS
-var enemies: Array[Node] = []
+var enemies: Array[Enemy] = []
 
 @onready var HpBarContainer: MarginContainer = $Target/HpBars
 @onready var Blitter: MarginContainer = $Blitter

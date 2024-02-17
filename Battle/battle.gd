@@ -32,7 +32,7 @@ var rewards := {"gold": 0, "exp": 0}
 ## Cache enemy names.
 var enemynames := []
 ## Cache enemy Nodes.
-var enemies := []
+var enemies: Array[Enemy] = []
 ## Cache enemies
 var enemieshp := []
 ## Cache enemy's max hp only.
@@ -67,17 +67,19 @@ func _on_enemy_turn_start() -> void:
 
 func _ready() -> void:
 	Bg.texture_rect.texture = encounter.background
-	enemies.append_array(encounter.enemies)
-	enemynames = enemies
-	for i in enemies.size():
-		var enemy: Node = enemies[i].instantiate()
+	var enemy_scenes: Array[PackedScene] = encounter.enemies
+	enemynames = enemy_scenes
+	for i in enemy_scenes.size():
+		var enemy: Node = enemy_scenes[i].instantiate()
 		Enemies.add_child(enemy, true)
-		if enemies.size() == 2:
+		if enemy_scenes.size() == 2:
 			enemy.position.x = -100 if i == 0 else 100
-		if enemies.size() == 3 and i != 1:
+		if enemy_scenes.size() == 3 and i != 1:
 			enemy.position.x = -200 if i == 0 else 200
 
-	enemies = Enemies.get_children()
+	for enemy in Enemies.get_children():
+		enemies.append(enemy)
+	assert(null not in enemies, "Error, value \"null\" was found in enemies (Array)")
 	Box.setenemies(enemies)
 	for i in enemies.size():
 		if enemies.size() > 1:
@@ -89,20 +91,20 @@ func _ready() -> void:
 		enemies[i].changed_state.connect(Box.set_targets)
 		enemieshp.append(enemies[i].stats.get("hp", 0))
 		enemiesmaxhp.append(enemies[i].stats.get("max_hp", 1))
-		Box.BlitterText.flavour_texts.append_array(enemies[i].flavour_text if enemies[i].flavour_text else ["* %s approaches!" % enemies[i].enemy_name])
+		Box.BlitterText.flavour_texts.append_array(enemies[i].flavour_text if enemies[i].flavour_text else (["* %s approaches!" % enemies[i].enemy_name] as PackedStringArray))
 		# REWARDS (add more if needed)
 		var rwrds: Dictionary = enemies[i].rewards if enemies[i].rewards else {}
 		rewards["gold"] += rwrds.get("gold", 0)
 		rewards["exp"] += rwrds.get("exp", 0)
 		# END
 		music = encounter.music
-		
+
 		item_used.connect(enemies[i].on_item_used)
 		spare_used.connect(enemies[i].on_mercy_used)
-		
+
 		enemies[i].spared.connect(spare_enemy)
 		end_turn.connect(enemies[i]._on_get_turn)
-	
+
 	Buttons.enable()
 	Soul_Battle.get_parent().remove_child(Soul_Battle)
 	music_player.stream = music
@@ -111,7 +113,7 @@ func _ready() -> void:
 	Box.blitter_flavour()
 	Box.TL.remote_path = Box.TL.get_path_to(Attacks.TopLeft)
 	Box.BR.remote_path = Box.TL.get_path_to(Attacks.BottomRight)
-	
+
 	_initialize()
 
 
@@ -158,12 +160,12 @@ func _fight(target: int) -> void:
 
 ## Used when the bar doesn't miss (NOT FOR BLOCKING).
 func hit(damage: int, target: int, crit := false) -> void:
-	var slashes: Node = slash.instantiate()
+	var slashes: Slash = slash.instantiate() as Slash
 	slashes.crit = crit
 	Box.add_child(slashes, true)
 	slashes.global_position = enemies[target].sprites.global_position
 	if enemies[target].dodging:
-		enemies[target].dodge()
+		slashes.started.connect(enemies[target].dodge)
 	await slashes.finished
 	damage = floor(damage * slashes.dmg_mult)
 
@@ -180,12 +182,15 @@ func hit(damage: int, target: int, crit := false) -> void:
 	Box.add_child(clone, true)
 	clone.finished.connect(emit_signal.bind("damage_info_finished"))
 	await clone.finished
+	@warning_ignore("redundant_await")
 	await enemies[target].on_fight_used()
+	Box.disable()
 	if enemieshp[target] < 0.0:
 		enemies[target].on_death()
 		kill_enemy(target)
 	else:
 		end_turn.emit()
+
 
 ## Used when you miss (for dodging as well).
 func miss(target: int) -> void:
@@ -207,12 +212,16 @@ func kill_enemy(enemy_id: int = 0) -> void:
 	enemies[enemy_id] = null
 	enemynames[enemy_id] = null
 	Box.setenemies(enemies)
+	Box.disable()
 	if check_end_encounter():
 		end_encounter()
 	else:
 		var _solo := check_enemy_solo()
 		for i in enemies.size():
+			if enemies[i] == null:
+				continue
 			enemies[i].solo = _solo
+		end_turn.emit()
 
 
 func check_enemy_solo() -> bool:
@@ -247,6 +256,7 @@ func spare_enemy(enemy_id: int = 0) -> void:
 		for i in enemies.size():
 			if enemies[i]:
 				enemies[i].solo = _solo
+		end_turn.emit()
 
 const Magnitudes := {
 	0.00_000_000_1: "n",

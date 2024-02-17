@@ -1062,6 +1062,7 @@ anim_offset_curve = SubResource("CurveTexture_lx7ot")
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_25twd")
 enemy_name = "Sans..?"
+dodging = true
 dialogues = Array[ExtResource("3_fkfcv")]([SubResource("Resource_vh3oq"), SubResource("Resource_611tx")])
 flavour_text = PackedStringArray("* It\'s sans guys.")
 rewards = {

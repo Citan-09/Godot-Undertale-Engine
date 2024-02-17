@@ -62,10 +62,10 @@ script = ExtResource("2_1aujb")
 item_type = 1
 item_name = "Testweapon"
 weapon_speed = 1.0
-weapon_bars = 1
+weapon_bars = 2
 bar_trans_type = 0
-weapon_type = 0
-critical_hits = false
+weapon_type = 1
+critical_hits = true
 use_message = ["* You used the Item!"]
 item_information = ["* Item - Heals 0 hp 
 * This means this item has no description or is the default item."]

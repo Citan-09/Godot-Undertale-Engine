@@ -1,13 +1,15 @@
-extends AnimatedSprite2D
+class_name Slash extends AnimatedSprite2D
 
 @onready var animtree: AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/playback")
 
 signal finished
+signal started
 signal punchfinish
 var canpunch := false
 var z_count: int = 0
 var crit: bool
 var dmg_mult: float = 1.0
+
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept") and canpunch:
@@ -29,6 +31,7 @@ func _ready() -> void:
 		modulate = Color("fffd8a")
 	match Global.item_list[Global.equipment["weapon"]].weapon_type:
 		Global.weaponstype.KNIFE:
+			started.emit()
 			animtree.start("slash")
 			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.6)
 		Global.weaponstype.PUNCH:
@@ -37,6 +40,7 @@ func _ready() -> void:
 			$press_z.show()
 			get_tree().create_timer(0.8).timeout.connect(emit_signal.bind("punchfinish"))
 			await punchfinish
+			started.emit()
 			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.5)
 			canpunch = false
 			animtree.next()
@@ -47,21 +51,25 @@ func _ready() -> void:
 				animtree.start("punch")
 				$AnimationTree.set("parameters/conditions/weak", true)
 		Global.weaponstype.SHOE:
+			started.emit()
 			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.4)
 			animtree.start("shoe")
 			if crit:
 				$Sparkle.play()
 		Global.weaponstype.BOOK:
+			started.emit()
 			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.7)
 			animtree.start("book")
 			if crit:
 				$Sparkle.play()
 		Global.weaponstype.PAN:
+			started.emit()
 			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.5)
 			animtree.start("pan")
 			if crit:
 				$Sparkle.play()
 		Global.weaponstype.GUN:
+			started.emit()
 			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.65)
 			animtree.start("gun")
 			if crit:

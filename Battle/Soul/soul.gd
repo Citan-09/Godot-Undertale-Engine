@@ -206,7 +206,10 @@ func set_mode_silent(new_mode := RED) -> void:
 			if ModeNodes[key].is_inside_tree():
 				fade_tw = create_tween()
 				fade_tw.tween_property(ModeNodes[key], "modulate:a", 0, FADE_TIME)
-				fade_tw.tween_callback(remove_child.bind(ModeNodes[key]))
+				fade_tw.tween_callback(func():
+					if ModeNodes[key].get_parent() == self:
+						self.remove_child(ModeNodes[key])
+					)
 		elif !ModeNodes[key].is_inside_tree():
 			fade_tw = create_tween()
 			ModeNodes[key].modulate.a = 0
