@@ -172,7 +172,7 @@ autostart = true
 
 [node name="Area" parent="." instance=ExtResource("3_mi26t")]
 position = Vector2(0, -4)
-scale = Vector2(0.983261, 0.614621)
+scale = Vector2(0.983261, 0.45462)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="interacted" from="Area" to="." method="_on_area_interacted"]

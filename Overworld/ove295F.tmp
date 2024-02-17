@@ -144,6 +144,7 @@ layer_1/tile_data = PackedInt32Array(-65533, 2, 0, 11, 196612, 0, 17, 196612, 0,
 [node name="PlayerOverworld" parent="YSortNodes/TileMap" instance=ExtResource("3_6otus")]
 y_sort_enabled = true
 position = Vector2(43, 68)
+walk_speed = 241.995
 
 [node name="Camera" parent="YSortNodes/TileMap/PlayerOverworld" instance=ExtResource("3_h3f43")]
 zoom = Vector2(2, 2)
@@ -168,12 +169,13 @@ position = Vector2(-108, 28)
 [node name="Start" parent="YSortNodes/TileMap/CutsceneStarters" instance=ExtResource("5_mpiu6")]
 position = Vector2(315, 48)
 scale = Vector2(1, 5.08)
+required_collider_group = "player"
 action = 14
 
 [node name="SansStop" parent="YSortNodes/TileMap/CutsceneStarters" instance=ExtResource("5_mpiu6")]
 position = Vector2(302, 48)
 scale = Vector2(1, 5.08)
-required_collider_group = &"sans"
+required_collider_group = "sans"
 action = 10
 
 [node name="ParallaxPillars" type="ParallaxBackground" parent="YSortNodes"]
@@ -227,6 +229,22 @@ offset_left = 1481.0
 offset_top = 21.0
 offset_right = 1519.0
 offset_bottom = 35.0
+
+[node name="Entry" parent="RoomExits" instance=ExtResource("5_mpiu6")]
+visible = false
+position = Vector2(60, 28)
+scale = Vector2(2, 0.8)
+monitoring = false
+monitorable = false
+action = 19
+new_room = "res://Overworld/Shops/shop.tscn"
+
+[node name="Exit" parent="RoomExits" instance=ExtResource("5_mpiu6")]
+visible = false
+position = Vector2(1500, 28)
+scale = Vector2(2, 0.8)
+monitoring = false
+monitorable = false
 
 [node name="Label" type="Label" parent="."]
 offset_left = -1.0

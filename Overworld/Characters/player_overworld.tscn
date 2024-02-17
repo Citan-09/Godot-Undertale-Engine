@@ -314,7 +314,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3j44q"]
-size = Vector2(3, 6)
+size = Vector2(8, 8)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ilg8t"]
 atlas = ExtResource("4_3i2lt")
@@ -351,12 +351,12 @@ wall_min_slide_angle = 0.785398
 script = ExtResource("1_pcoqs")
 Encounters = Array[ExtResource("3_8orjj")]([SubResource("Resource_47dxv")])
 InteractPosx = {
--1: Vector2(-5, -2),
-1: Vector2(5, -2)
+-1: Vector2(-5, -5),
+1: Vector2(5, -5)
 }
 InteractPosy = {
--1: Vector2(0, -5),
-1: Vector2(0, 2)
+-1: Vector2(0, -8),
+1: Vector2(0, -2)
 }
 
 [node name="BottomCollision" type="CollisionShape2D" parent="."]

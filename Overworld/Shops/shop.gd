@@ -27,6 +27,7 @@ class_name Shop
 @export var can_be_sold_to := true
 @export var KeeperCannotSellDialogues: Dialogues = preload("res://Resources/Dialogues/KeeperDefault/default_shop_cannot_sell.tres")
 
+@export var ExitNode : RoomEntranceNode
 var soul_position: int = 0
 
 const soul_positions := {
@@ -212,7 +213,7 @@ func _set_soul_pos() -> void:
 
 func _exit() -> void:
 	await Camera.blind(1)
-	OverworldSceneChanger.load_cached_overworld_scene()
+	ExitNode.force_enter()
 	
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cky15oufpvxym"]
+[gd_scene load_steps=31 format=3 uid="uid://cky15oufpvxym"]
 
 [ext_resource type="Shader" path="res://Shaders/fog.gdshader" id="1_6eh7p"]
 [ext_resource type="Script" path="res://Overworld/Shops/shop.gd" id="1_l5aam"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Menus/Slider.tscn" id="12_tldfv"]
 [ext_resource type="AudioStream" uid="uid://bf28qk1u2k1xi" path="res://sfx/buy_item.wav" id="15_ssolt"]
 [ext_resource type="AudioStream" uid="uid://dsid8nuan7lku" path="res://sfx/player_hurt.wav" id="16_jjntu"]
+[ext_resource type="PackedScene" uid="uid://cghwnwk5gpmta" path="res://Overworld/room_entrance_node.tscn" id="20_7qmr8"]
 
 [sub_resource type="Resource" id="Resource_m0kg6"]
 script = ExtResource("2_345qe")
@@ -85,10 +86,11 @@ shader_parameter/density = 1.0
 shader_parameter/speed = Vector2(0.2, 0.06)
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_fr68d")
 
-[node name="Shop" type="CanvasLayer"]
+[node name="Shop" type="CanvasLayer" node_paths=PackedStringArray("ExitNode")]
 script = ExtResource("1_l5aam")
 Offerings = Array[ExtResource("2_345qe")]([ExtResource("2_4d5yb"), SubResource("Resource_m0kg6")])
 Sellferings = Array[ExtResource("2_345qe")]([SubResource("Resource_bcjth")])
+ExitNode = NodePath("RoomEntranceNode")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -357,5 +359,8 @@ bus = &"SFX"
 [node name="insufficient" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("16_jjntu")
 bus = &"SFX"
+
+[node name="RoomEntranceNode" parent="." instance=ExtResource("20_7qmr8")]
+door_margin = 0
 
 [connection signal="keeper_expression" from="." to="Control/Keeper" method="_set_expression"]

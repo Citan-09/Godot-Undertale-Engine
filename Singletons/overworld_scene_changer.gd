@@ -50,12 +50,11 @@ func _load_and_set_scene(path: String) -> void:
 	get_tree().root.add_child(resource)
 	get_tree().current_scene = resource
 	
-	_set_player_data(resource)
+	_set_player_data.call_deferred(resource)
 
 func _set_player_data(current_scene: Node) -> void:
 	if current_scene is Overworld:
-		current_scene.data = data
-		current_scene.room_init()
+		current_scene.room_init(data)
 	Global.player_can_move = true
 	Global.player_in_menu = false
 	data = data_default.duplicate()
@@ -63,9 +62,6 @@ func _set_player_data(current_scene: Node) -> void:
 	tw.tween_property(Blinder,"modulate:a",0,blind_time)
 
 func load_cached_overworld_scene() -> void:
-	Blinder.modulate.a = 1
-	var tw := create_tween().set_trans(Tween.TRANS_QUAD)
-	tw.tween_property(Blinder, "modulate:a", 0, blind_time)
 	Global.player_can_move = true
 	Global.player_in_menu = false
 	var tree := get_tree()
@@ -73,6 +69,7 @@ func load_cached_overworld_scene() -> void:
 	var sc: Node = overworld_scene if overworld_scene else load(default_scene).instantiate()
 	tree.root.add_child(sc)
 	tree.current_scene = sc
+	sc.request_ready()
 
 func load_battle(
 				battle_scene_path: String = DEFAULT_BATTLE,

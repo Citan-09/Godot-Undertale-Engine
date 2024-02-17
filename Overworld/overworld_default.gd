@@ -12,7 +12,8 @@ func _default_trigger_battle() -> void:
 	$YSortNodes/TileMap/Sans.position.x += 100
 
 
-func _ready() -> void:
-	if Global.flags.get("SANS_FOUGHT", false):
-		$YSortNodes/TileMap/CutsceneStarters/Start.disable()
-		$YSortNodes/TileMap/CutsceneStarters/SansStop.disable()
+func ready() -> void:
+	if !Global.flags.get("SANS_FOUGHT", false):
+		return
+	$YSortNodes/TileMap/CutsceneStarters/Start.disable()
+	$YSortNodes/TileMap/CutsceneStarters/SansStop.disable()
