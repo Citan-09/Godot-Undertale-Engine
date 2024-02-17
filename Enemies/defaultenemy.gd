@@ -27,14 +27,16 @@ func _on_get_turn() -> void:
 	Soul.mode = Soul.DISABLE_MOVEMENT
 	Box.change_size(Vector2(350, 140))
 	if not enemy_states[current_state].Sparable:
-		var a := Attacks.add_attack(attack, self)
+		var a := Attacks.add_attack(attack)
+		a.connect(&"throw", throw)
 		await dialogue.DialogueText(dialogues[0].get_dialogues_single(Dialogues.DIALOGUE_TEXT), dialogues[0].get_dialogues_single(Dialogues.DIALOGUE_EXPRESSIONS))
 		Soul.mode = Soul.RED
-		a.start_attack() # Method ran to start attack (use any other method if you want for some reason.)
+		a.start_attack()  # Method ran to start attack (use any other method if you want for some reason.)
 	else:
-		var a := Attacks.add_attack(attack_spare, self)
+		var a := Attacks.add_attack(attack_spare)
+		a.connect(&"throw", throw)
 		await dialogue.DialogueText(dialogues[1].get_dialogues_single(Dialogues.DIALOGUE_TEXT), dialogues[1].get_dialogues_single(Dialogues.DIALOGUE_EXPRESSIONS))
-		a.start_attack() # Method ran to start attack (use any other method if you want for some reason.)
+		a.start_attack()  # Method ran to start attack (use any other method if you want for some reason.)
 
 func _set_expression(exp_id: Array) -> void:
 	head.frame = exp_id[0]

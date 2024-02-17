@@ -33,13 +33,13 @@ var paused := false
 # stats
 var player_name := "ERROR"
 var player_gold: int = 0
-var player_lv: int  = 1
-var player_exp: int  = 0
-var player_hp: int  = 20
-var player_max_hp: int  = 20
-var player_defense: int  = 0
-var player_attack: int  = 10
-var player_kr: int  = 0
+var player_lv: int = 1
+var player_exp: int = 0
+var player_hp: int = 20
+var player_max_hp: int = 20
+var player_defense: int = 0
+var player_attack: int = 10
+var player_kr: int = 0
 
 var krtime: float = 0.5
 
@@ -50,10 +50,8 @@ var player_position := Vector2.ZERO
 var overworld_temp_data := {
 	"global_position": Vector2.ZERO,
 }
-# Overworld
-#@export var rooms :Array[PackedScene] = [
-	#preload("res://Overworld/overworld_default.tscn")
-#]
+
+
 var just_died := true
 var overworld_data := {
 	"room": "",
@@ -63,11 +61,11 @@ var overworld_data := {
 
 ## ADD FLAGS HERE
 var flags: Dictionary = {
-	
+
 }
 
 var flags_at_save: Dictionary = {
-	
+
 }
 
 ## Sets a flag in Global.flags to a binary value.
@@ -131,7 +129,7 @@ func item_use_text(item_id: int) -> PackedStringArray:
 
 #endregion
 
-func heal(amt: int) ->  void:
+func heal(amt: int) -> void:
 	heal_sound.play()
 	##check max hp
 	if player_hp + amt > player_max_hp: amt = player_max_hp - player_hp
@@ -156,7 +154,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			player_can_move = true
 			player_in_menu = false
 			get_tree().reload_current_scene.call_deferred()
-			
+
 		if event.is_action_pressed("force_save"):
 			savegame()
 
@@ -176,11 +174,6 @@ func _process(delta: float) -> void:
 	$KrTimer.wait_time = krtime / 3.0 if player_kr > 30 else krtime
 
 
-#func _notification(what):
-	#if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		#savegame()
-		#await get_tree().process_frame
-		#get_tree().quit()
 
 func savegame() -> void:
 	first = false
@@ -375,7 +368,7 @@ func check_level_up() -> int:
 
 	return lvup
 
-	
+
 
 
 

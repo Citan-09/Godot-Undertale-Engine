@@ -10,7 +10,7 @@ class_name AttackBase
 @onready var BoxRectNoClip: Control = Box.RectNoClip
 @onready var Soul: SoulBattle = Main.Soul_Battle
 
-var enemy_attacker: Node
+#var enemy_attacker: Node
 # Non-bullets
 var platform: PackedScene = preload("res://Battle/Platform/platform.tscn")
 
@@ -32,6 +32,8 @@ enum Masking {
 	RELATIVE_BOX,
 }
 
+signal throw(dir: Vector2)
+
 ## BULLETS ADDED TO BOX MIGHT MOVE UNEXPECTEDLY DUE TO BOX RESIZING!
 func add_bullet(_bullet: Node, mask: int = 0) -> void:
 	if "shakeCamera" in _bullet: _bullet.shakeCamera.connect(Camera.add_shake)
@@ -41,14 +43,14 @@ func add_bullet(_bullet: Node, mask: int = 0) -> void:
 			NonMask.add_child(_bullet, true)
 			NonMask.move_child(_bullet, 0)
 		Masking.ABSOLUTE_CLIP:
-			Mask.add_child(_bullet,true)
+			Mask.add_child(_bullet, true)
 		Masking.RELATIVE_BOX:
 			BoxRectNoClip.add_child(_bullet, true)
 		Masking.RELATIVE_BOX_CLIP:
 			BoxRectClip.add_child(_bullet, true)
 
 ## BULLETS ADDED TO BOX MIGHT MOVE UNEXPECTEDLY DUE TO BOX RESIZING!
-func quick_bullet(_bullet: PackedScene, pos: Vector2 , rot: float = 0, mask: int = 0) -> Node:
+func quick_bullet(_bullet: PackedScene, pos: Vector2, rot: float = 0, mask: int = 0) -> Node:
 	var b: Node = _bullet.instantiate()
 	add_bullet(b, mask)
 	b.position = pos
@@ -57,7 +59,7 @@ func quick_bullet(_bullet: PackedScene, pos: Vector2 , rot: float = 0, mask: int
 
 ## Use this to start your attacks
 func start_attack() -> void:
-	pass # Override with actual attack
+	pass  # Override with actual attack
 
 
 func end_attack() -> void:

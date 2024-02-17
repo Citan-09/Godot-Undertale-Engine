@@ -6,7 +6,7 @@ class_name BattleBox
 @export var TransType := Tween.TRANS_QUAD
 @export var EaseType := Tween.EASE_OUT
 
-@export_multiline var mercytexts: PackedStringArray= ["* You spared the enemies.", "* You fled.", "* Failed to flee."]
+@export_multiline var mercytexts: PackedStringArray = ["* You spared the enemies.", "* You fled.", "* Failed to flee."]
 @export var wintext := "* You won! \n* You Earned %s EXP and %s Gold."
 var anchor_targets: Array[Vector2] = [Vector2(220, 140), Vector2(420, 340)]
 #TL, TR, BL, BR
@@ -42,7 +42,7 @@ var current_web: int = 0
 @onready var RectNoClip: Control = $BoxContainer/NinePatchRect/RectNoClip
 @onready var RectClip: Control = $BoxContainer/NinePatchRect/Bullets
 @onready var Collisions: Array[CollisionShape2D] = [$BoxContainer/Collisions/Top, $BoxContainer/Collisions/Bottom, $BoxContainer/Collisions/Left, $BoxContainer/Collisions/Right]
-@onready var HpBars: Array[ProgressBar] = [$"Target/HpBars/Control/1" ,$"Target/HpBars/Control/2", $"Target/HpBars/Control/3"]
+@onready var HpBars: Array[ProgressBar] = [$"Target/HpBars/Control/1", $"Target/HpBars/Control/2", $"Target/HpBars/Control/3"]
 
 ## WARNING: CHANGING THE BOX's SIZE WHILE BULLETS ARE IN THEM MIGHT MOVE THE BULLETS DUE TO HOW SIZE WORKS IN GODOT
 enum {
@@ -89,25 +89,6 @@ enum State {
 	Fighting,
 }
 
-#const ActionFlow := {
-	#OPTION_FIGHT: [
-		#State.TargetEnemy,
-		#State.Fighting,
-	#],
-	#OPTION_ACT: [
-		#State.TargetEnemy,
-		#State.Acting,
-		#State.Blittering,
-		#],
-	#OPTION_ITEM: [
-		#State.Iteming,
-		#State.Blittering,
-	#],
-	#OPTION_MERCY: [
-		#State.Mercying,
-		#State.Blittering,
-	#]
-#}
 const BUTTON_ACTIONS = {
 	OPTION_FIGHT: State.TargetEnemy,
 	OPTION_ACT: State.TargetEnemy,
@@ -151,7 +132,7 @@ func _physics_process(_delta: float) -> void:
 	Collisions[2].position = Vector2(cornerpositions[0].x - (colsize / 2.0 - 5.5), cornerpositions[0].y + current_size.y / 2.0)
 	Collisions[3].position = Vector2(cornerpositions[1].x + (colsize / 2.0 - 5.5), cornerpositions[0].y + current_size.y / 2.0)
 	RectContainer.pivot_offset = cornerpositions[0] + current_size / 2.0
-	
+
 	TL.position = cornerpositions[0]
 	BR.position = cornerpositions[1]
 
@@ -235,13 +216,12 @@ func set_items() -> void:
 	$Items/ScrollContainer/Slider.value = soulposition.y
 	choicesextends.resize(Global.items.size())
 	choicesextends.fill(1)
-	$Items/TextContainer/Items.text =  "* " + "* ".join(items)
+	$Items/TextContainer/Items.text = "* " + "* ".join(items)
 
 func _on_use_button(choice: int) -> void:
 	soulposition = Vector2.ZERO
 	button_choice = choice
 	change_state(BUTTON_ACTIONS[choice])
-	#soul_choice(Vector2i.ZERO)
 	refresh_options()
 
 
@@ -249,7 +229,7 @@ func backout() -> void:
 	ActionMemory.resize(ActionMemory.size() - 1)
 	refresh_nodes()
 	soulposition = Vector2.ZERO
-	#soul_choice(Vector2i.ZERO)
+
 
 @onready var Behaviours: Node = $Behaviours
 @onready var current_state_nodes := {
@@ -288,7 +268,7 @@ func refresh_options() -> void:
 			soulposition.y -= 1
 		while soulposition.x > choicesextends[min(soulposition.y, choicesextends.size()-1)] - 1:
 			soulposition.x -= 1
-	#soul_choice(Vector2i.ZERO)
+
 
 func disable() -> void:
 	for i: CanvasItem in Screens.values():
@@ -304,7 +284,7 @@ func blitter_flavour() -> void:
 	BlitterText.blitter(Main.TurnNumber)
 	ActionMemory[0] = State.BlitteringCasual
 	Blitter.show()
-	#Box.BlitterText.blitter(TurnNumber)
+
 
 
 func blitter_act() -> void:
@@ -314,7 +294,6 @@ func blitter_act() -> void:
 func blitter_item() -> void:
 	Global.items.remove_at(soulpos_to_id(soulposition, 1))
 	await BlitterText.typetext(Global.item_use_text(used_item))
-	#print(Global.item_use_text(used_item))
 
 
 func blitter_mercy() -> void:
@@ -325,20 +304,15 @@ func blitter_mercy() -> void:
 		mercychoice = -1
 		change_state(State.Blittering)
 		await BlitterText.typetext(mercytexts[mercychoice])
-		
+
 		return
 	change_state(State.Blittering)
 	await BlitterText.typetext(mercytexts[mercychoice])
-	
+
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if ActionMemory[0] != State.Disabled:
-		#if event.is_action_pressed("ui_accept"):
-			#if ActionFlow.get(button_choice).size() < ActionMemory.size():
-				#change_state(State.Disabled)
-				#return
-			#change_state(ActionFlow.get(button_choice)[ActionMemory.size() - 1])
 		if event.is_action_pressed("ui_down") and ActionMemory.size() > 1:
 			if soulposition.y < choicesextends.size() - 1:
 				soul_choice(Vector2i.DOWN)
@@ -380,7 +354,7 @@ func change_position(new_position: Vector2, relative := false, custom_time: Vari
 	anchor_targets[0] = new_position - intended_size / 2.0
 	anchor_targets[1] = new_position + intended_size / 2.0
 	await TweenSize(custom_time)
-	return 
+	return
 
 func change_position_size(
 				relative_to: int, new_position: Vector2 = Vector2.ZERO,
@@ -414,7 +388,7 @@ func change_position_size(
 func rotate_by(rot: float, relative := false, custom_time: Variant = null) -> void:
 	var tw_r: PropertyTweener = create_tween().set_ease(EaseType).set_trans(TransType).tween_property(RectContainer, "rotation", rot, custom_time if custom_time else Duration)
 	if relative: tw_r.as_relative()
-		
+
 func TweenSize(duration: Variant) -> void:
 	if !duration:
 		duration = Duration
@@ -452,7 +426,7 @@ func set_webs(n: int, seperation: float = -1, margin: int = 15) -> void:
 		Webs.add_child(_w)
 		_w.position = Vector2(0, _seperation * i + 10 + margin)
 	WebsArray = Webs.get_children()
-	
+
 func get_web_y_pos(id: int) -> float:
 	if WebsArray.is_empty():
 		push_error("Webs are empty, please use set_webs() to add them else the purple soul will break!")

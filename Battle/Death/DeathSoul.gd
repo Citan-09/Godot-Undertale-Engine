@@ -7,6 +7,7 @@ var monster_color := Color.WHITE
 
 @export var camera_path := ^""
 @onready var Camera: CameraFx = get_node(camera_path)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if soul_type:

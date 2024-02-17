@@ -10,8 +10,8 @@ var movetween: Tween
 @export var soul_type := SoulBattle.soul_types.SOUL_HUMAN
 
 func _ready() -> void:
-	$Sprite.modulate = Color(1, 1, 1, 1) if soul_type == SoulBattle.soul_types.SOUL_MONSTER else Color(1, 0, 0 , 1)
-	#$Sprite.animation = &"directions" if soul_type == SoulBattle.soul_types.SOUL_HUMAN else &"directions_m"
+	$Sprite.modulate = Color(1, 1, 1, 1) if soul_type == SoulBattle.soul_types.SOUL_MONSTER else Color(1, 0, 0, 1)
+
 
 var _able_tween: Tween
 
@@ -19,10 +19,9 @@ func enable() -> void:
 	if !enabled:
 		enabled = true
 		if !is_node_ready(): await ready
-		position = Global.player_position #Vector2(320, 454)
+		position = Global.player_position  #Vector2(320, 454)
 		modulate.a = 1
-		#_able_tween = create_tween().set_trans(Tween.TRANS_SINE).set_parallel()
-		#_able_tween.tween_property(self, "modulate:a", 1, 0.2)
+
 
 func _enter_tree() -> void:
 	enable()
@@ -40,10 +39,6 @@ func _on_move_soul(newpos: Vector2) -> void:
 	if is_inside_tree():
 		movetween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_parallel()
 		movetween.tween_property(self, "position", newpos, TIME)
-		#movetween.tween_property(self, "scale", Vector2.ZERO, 0.01)
-		#movetween.chain().tween_callback(set_position.bind(newpos))
-		#movetween.tween_property(self, "scale", Vector2.ONE, TIME * 2)
-
 
 
 

@@ -2,13 +2,13 @@ extends AttackBase
 class_name default_attack
 
 func start_attack() -> void:
-	enemy_attacker.throw(Vector2.UP)
+	throw.emit(Vector2.UP)
 	await get_tree().create_timer(0.5, false).timeout
-	enemy_attacker.throw(Vector2.RIGHT)
+	throw.emit(Vector2.RIGHT)
 	await get_tree().create_timer(0.5, false).timeout
-	enemy_attacker.throw(Vector2.LEFT)
+	throw.emit(Vector2.LEFT)
 	await get_tree().create_timer(0.5, false).timeout
-	enemy_attacker.throw(Vector2.DOWN)
+	throw.emit(Vector2.DOWN)
 	for i in 4:
 		if i % 2 == 1:
 			Box.change_size(Vector2(-40, 0), true)
@@ -57,17 +57,17 @@ func start_attack() -> void:
 	add_bullet(spike)
 	spike.position = Vector2(0, 250)
 	spike.fire(Vector2(600, 140), 1.3, 1, Bullet.MODE_BLUE)
-	
+
 	spike = bone_spike.instantiate()
 	add_bullet(spike)
 	spike.position = Vector2(601, 400)
 	spike.rotation = PI
 	spike.fire(Vector2(600, 60), 1, 1)
-	
+
 	add_bullet(plat)
 	plat.position = Vector2(300, 120)
 	plat.fire(Vector2(300, 330), 40, 160.0)
-	
+
 	await get_tree().create_timer(2.5, false).timeout
 	plat.fire(Vector2(300, 600), 40, 80.0)
 	Soul.set_mode(Soul.RED)
@@ -97,7 +97,7 @@ func start_attack() -> void:
 	circle = bullet_circle.instantiate() as BulletCircle
 	add_bullet(circle, Masking.ABSOLUTE)
 	circle.position = Soul.position
-	circle.bullet_circle(bullet1,60, 30, 80, 1).set_delay(2).set_mode( Bullet.MODE_GREEN).set_destroy_time(BulletCircle.FADE_OFF_SCREEN)
+	circle.bullet_circle(bullet1, 60, 30, 80, 1).set_delay(2).set_mode(Bullet.MODE_GREEN).set_destroy_time(BulletCircle.FADE_OFF_SCREEN)
 	await get_tree().create_timer(4.5, false).timeout
 	Soul.set_mode(Soul.GREEN)
 	var bl = quick_bullet(blaster, Vector2(320, 40), 0, Masking.ABSOLUTE) as Blaster

@@ -20,7 +20,6 @@ var can_crit: bool = Global.item_list[Global.equipment["weapon"]].critical_hits
 
 func _ready() -> void:
 	$Area2D/CollisionShape2D.position.x = 25 * direction
-	#if can_crit: create_tween().tween_callback($AnimationPlayer.play.bind("glow")).set_delay(randf_range(0, 0.2))
 	tw = create_tween().set_ease(Tween.EASE_OUT).set_trans(TRANSTYPE).set_parallel()
 	tw.tween_interval(TIME)
 	tw.set_ease(Tween.EASE_IN_OUT)

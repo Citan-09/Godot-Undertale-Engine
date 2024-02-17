@@ -10,9 +10,9 @@ func _default_trigger_battle() -> void:
 	request_ready()
 	$YSortNodes/TileMap/Sans.start_walking(Vector2.ZERO)
 	$YSortNodes/TileMap/Sans.position.x += 100
-	#await load_battle_save_data()
+
 
 func _ready() -> void:
-	if Global.flags.get("SANS_FOUGHT", false): 
+	if Global.flags.get("SANS_FOUGHT", false):
 		$YSortNodes/TileMap/CutsceneStarters/Start.disable()
 		$YSortNodes/TileMap/CutsceneStarters/SansStop.disable()

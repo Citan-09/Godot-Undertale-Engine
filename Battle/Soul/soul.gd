@@ -8,7 +8,7 @@ const speed: float = 160
 const gravity: float = 3.25
 
 @export var soul_type := soul_types.SOUL_HUMAN
-var mode := RED : set = set_mode_silent
+var mode := RED: set = set_mode_silent
 var inputlist := Vector2.ZERO
 var slow_down: int
 
@@ -66,7 +66,7 @@ func _ready() -> void:
 	set_physics_process(false)
 	set_process(false)
 	red()
-	
+
 var _able_tween: Tween
 
 func _kill_able_tween():
@@ -108,7 +108,7 @@ func _physics_process(_delta: float) -> void:
 	else:
 		motion.y = velocity.y * gravity_direction.y
 		motion.x = velocity.x
-	
+
 	up_direction = gravity_direction * -1
 	match mode:
 		RED:
@@ -184,16 +184,13 @@ func heal(area: BulletArea) -> void:
 		Global.player_kr = max(Global.player_hp -1, 0)
 	Global.heal_sound.play()
 
-#func match_sprites_with_soul():
-	#pass var texture: Texture2D = sprites.sprite_frames.get_frame_texture(sprites.get_animation(), sprites.frame)
-	#ghost.texture = texture
 
 func set_mode(new_mode := RED) -> void:
 	set_mode_silent(new_mode)
 	ModeChangeS.play()
 	ghost.restart()
 	ghost.emitting = true
-	#match_sprites_with_soul()
+
 
 var fade_tw: Tween
 const FADE_TIME: float = 0.2
@@ -202,7 +199,7 @@ func set_mode_silent(new_mode := RED) -> void:
 	mode = new_mode
 	if not is_node_ready():
 		return
-	
+
 	for key in ModeNodes:
 		assert(ModeNodes[key] is Node, "PLEASE Put a Node as a value in \"ModeNodes\"")
 		if key != new_mode:
@@ -215,15 +212,15 @@ func set_mode_silent(new_mode := RED) -> void:
 			ModeNodes[key].modulate.a = 0
 			fade_tw.tween_property(ModeNodes[key], "modulate:a", 1, FADE_TIME)
 			add_child(ModeNodes[key])
-	
+
 	if new_mode == PURPLE:
 		purple_pos = 0
 		update_purple_pos()
-		
-	
+
+
 	if new_mode != BLUE:
 		set_gravity_direction_silent(Vector2.DOWN)
-	
+
 func set_gravity_direction(new_direction: Vector2, force_blue_mode: bool = true) -> void:
 	velocity = Vector2.ZERO
 	gravity_direction = new_direction
@@ -246,7 +243,7 @@ const DIRS = {
 
 
 func red() -> void:
-	sprites.modulate = Color(1, 1, 1, 1) if soul_type == soul_types.SOUL_MONSTER else Color(1, 0, 0 , 1)
+	sprites.modulate = Color(1, 1, 1, 1) if soul_type == soul_types.SOUL_MONSTER else Color(1, 0, 0, 1)
 	four_dir_movement()
 
 
@@ -307,7 +304,7 @@ func _motion_align_gravity_direction() -> void:
 	else:
 		velocity.y = motion.y * gravity_direction.y
 		velocity.x = motion.x
-	
+
 	move_and_slide()
 
 func green() -> void:
@@ -337,7 +334,7 @@ func purple() -> void:
 	motion.x = speed * inputlist.x / slow_down
 	if Input.is_action_just_pressed("ui_down") or Input.is_action_just_pressed("ui_up"):
 		purple_pos += int(round(inputlist.y))
-		purple_pos = clamp(purple_pos, 0 , Main.Box.WebsArray.size() - 1)
+		purple_pos = clamp(purple_pos, 0, Main.Box.WebsArray.size() - 1)
 		update_purple_pos()
 
 
@@ -356,12 +353,12 @@ func orange() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if mode == ORANGE:
-		var _input_list_pressed =  Vector2(
+		var _input_list_pressed = Vector2(
 			int(event.is_action_pressed("ui_right")) - int(event.is_action_pressed("ui_left")),
 			int(event.is_action_pressed("ui_down")) - int(event.is_action_pressed("ui_up"))
 		)
 		if _input_list_pressed.x: inputlist.x = _input_list_pressed.x
-		if _input_list_pressed.y: inputlist.y = _input_list_pressed.y 
+		if _input_list_pressed.y: inputlist.y = _input_list_pressed.y
 
 func cyan() -> void:
 	sprites.modulate = Color.CYAN
