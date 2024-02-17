@@ -9,7 +9,7 @@ class_name BattleHUD
 @onready var KrText: RichTextLabel = $KrText/KR
 @onready var Hp: RichTextLabel = $Hp
 
-var kr := false
+
 # Called when the node enters the scene tree for the first time.
 func _process(_delta: float) -> void:
 	Name.text = str(Global.player_name)
@@ -27,8 +27,5 @@ func _ready() -> void:
 
 
 func set_kr(to := true) -> void:
-	if to:
-		KrText.show()
-	else:
-		KrText.hide()
+	KrText.visible = to
 	

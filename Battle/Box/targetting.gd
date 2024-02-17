@@ -4,11 +4,11 @@ extends BattleBoxBehaviour
 func _on_gain_control() -> void:
 	if Box.history[Box.button_choice][0]:
 		Box.soulposition = Box.history[Box.button_choice][0]
-		Box.soul_choice(Vector2.ZERO)
+	Box.soul_choice(Vector2.ZERO)
 	Box.choicesextends.resize(Box.enemies.size())
 	Box.Screens[Box.State.TargetEnemy].show()
 	Box.choicesextends.fill(1)
-	Box.set_targets()
+	Box.set_targets(false if Box.button_choice else true)
 
 func input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):

@@ -3,7 +3,7 @@ extends BattleBoxBehaviour
 func _on_gain_control():
 	if Box.history[Box.button_choice][1]:
 		Box.soulposition = Box.history[Box.button_choice][1]
-		Box.soul_choice(Vector2.ZERO)
+	Box.soul_choice(Vector2.ZERO)
 	Box.set_mercy_options()
 	Box.Screens[Box.State.Mercying].show()
 

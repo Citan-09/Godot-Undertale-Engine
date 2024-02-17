@@ -161,19 +161,20 @@ func setenemies(Enemies: Array) -> void:
 	enemies = Enemies
 	set_targets()
 
-func set_targets() -> void:
+func set_targets(show_hp_bar := false) -> void:
 	var Targets := ""
-	for i in 3:
-		HpBars[i].visible = Main.enemies.size() > i and Main.enemies[i] != null
-		if HpBars[i].visible:
-			HpBars[i].max_value = Main.enemies[i].stats.max_hp
-			HpBars[i].value = Main.enemies[i].stats.hp
 	for i in enemies.size():
 		if Main.enemies[i]:
 			Targets += "[color=%s]* %s[/color]\n" % ["yellow" if enemies[i].enemy_states[enemies[i].current_state].Sparable else "white", enemies[i].enemy_name]
 		else:
 			Targets += "[color=white][/color]\n"
 	$Target/Targets.text = Targets
+	for i in 3:
+		HpBars[i].visible = Main.enemies.size() > i and Main.enemies[i] != null and show_hp_bar
+		if !HpBars[i].visible:
+			continue
+		HpBars[i].max_value = Main.enemies[i].stats.max_hp
+		HpBars[i].value = Main.enemies[i].stats.hp
 
 
 func set_mercy_options() -> void:
@@ -248,7 +249,7 @@ func backout() -> void:
 	ActionMemory.resize(ActionMemory.size() - 1)
 	refresh_nodes()
 	soulposition = Vector2.ZERO
-	soul_choice(Vector2i.ZERO)
+	#soul_choice(Vector2i.ZERO)
 
 @onready var Behaviours: Node = $Behaviours
 @onready var current_state_nodes := {
@@ -287,7 +288,7 @@ func refresh_options() -> void:
 			soulposition.y -= 1
 		while soulposition.x > choicesextends[min(soulposition.y, choicesextends.size()-1)] - 1:
 			soulposition.x -= 1
-	soul_choice(Vector2i.ZERO)
+	#soul_choice(Vector2i.ZERO)
 
 func disable() -> void:
 	for i: CanvasItem in Screens.values():

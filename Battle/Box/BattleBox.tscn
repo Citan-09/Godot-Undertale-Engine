@@ -44,15 +44,12 @@ BoxPath = null
 
 [node name="Acting" type="Node" parent="Behaviours"]
 script = ExtResource("3_u6s6u")
-BoxPath = null
 
 [node name="Iteming" type="Node" parent="Behaviours"]
 script = ExtResource("4_oja00")
-BoxPath = null
 
 [node name="Mercying" type="Node" parent="Behaviours"]
 script = ExtResource("5_m6mii")
-BoxPath = null
 
 [node name="Blittering" type="Node" parent="Behaviours"]
 script = ExtResource("6_f6pem")

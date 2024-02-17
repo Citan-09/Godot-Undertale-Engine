@@ -4,10 +4,11 @@ extends BattleBoxBehaviour
 func _on_gain_control():
 	if !Global.items.size() > 0:
 		Box.moved_to_buttons.emit()
+		Box.backout()
 		return
 	if Box.history[Box.button_choice][0]:
 		Box.soulposition = Box.history[Box.button_choice][0]
-		Box.soul_choice(Vector2.ZERO)
+	Box.soul_choice(Vector2.ZERO)
 	Box.set_items()
 	Box.Screens[Box.State.Iteming].show()
 
@@ -21,6 +22,7 @@ func input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		if !Global.items.size() > 0:
 			Box.moved_to_buttons.emit()
+			Box.backout()
 			return
 		Box.change_state(Box.State.Blittering)
 		Box.used_item = Global.items[Box.soulpos_to_id(Box.soulposition, 1)]
