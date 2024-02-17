@@ -365,9 +365,10 @@ shape = SubResource("RectangleShape2D_pbnmf")
 debug_color = Color(1, 1, 1, 0.419608)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -15)
+position = Vector2(0, -10)
 sprite_frames = SubResource("SpriteFrames_ex77f")
 animation = &"walks_ut"
+offset = Vector2(0, -5)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.2
