@@ -3,42 +3,52 @@ extends Control
 
 var name_text := ""
 
-@onready var NameInput: LineEdit = $NameInput
+@onready var Name = $Name
 
+
+signal disable
+signal enable
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-func _process(_delta: float) -> void:
-	var c: int = NameInput.caret_column
-	NameInput.text = NameInput.text.to_upper()
-	NameInput.caret_column = c
 
-@warning_ignore("unused_parameter")
+
 func _on_name_input_text_changed(new_text: String) -> void:
-	$choice.play()
+	if Name.text.length() >= 6:
+		return
+	Name.text += new_text
+
+
+func _on_backspace_pressed() -> void:
+	if Name.text.length() < 1:
+		return
+	Name.text = Name.text.left(-1)
 
 
 @warning_ignore("unused_parameter")
-func _on_name_input_text_submitted(new_text: String) -> void:
+func _on_name_input_text_submitted() -> void:
+	if !Name.text:
+		$no.play()
+		emit_signal.call_deferred("enable")
+		return
+	disable.emit()
 	$select.play()
-	NameInput.editable = false
-	NameInput.release_focus()
-	_check_names.call_deferred(NameInput.text)
-	var c: bool = await pass_name
-	if !c:
-		NameInput.editable = true
+	_check_names.call_deferred(Name.text.to_upper())
+	var allowed: bool = await pass_name
+	if !allowed:
+		enable.emit()
 		Typer.text = ""
-		NameInput.text = ""
+		Name.text = ""
 		get_viewport().set_input_as_handled()
 		return 
 	Typer.hide()
-	Global.player_name = NameInput.text
+	Global.player_name = Name.text
 	var tw := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_parallel()
-	tw.tween_property($NAMEPLS, "modulate:a", 0, 0.3)
+	tw.tween_property($Prompt, "modulate:a", 0, 0.3)
 	tw.tween_property($Camera, "zoom", Vector2.ONE * 5, 6)
 	tw.tween_property($ColorRect, "modulate:a", 1, 6).set_ease(Tween.EASE_IN)
-	tw.tween_property($Camera, "position:y", 70, 1).set_trans(Tween.TRANS_LINEAR)
+	tw.tween_property($Camera, "position:y", 100, 1).set_trans(Tween.TRANS_LINEAR)
 	tw.tween_callback($cymbal.play).set_delay(0.89)
 	$Camera.rgbsplit(5, 0.7)
 	await tw.finished
@@ -59,14 +69,21 @@ func _check_names(Name: String) -> void:
 			pass_name.emit(false)
 			return
 		"SANS":
-			Typer.typetext(["[center]NO PLEASE"])
-			await Typer.finished_all_texts
-			pass_name.emit(false)
-			return
+			react_to_name("[center]NO!!!!!", true)
 		"FRISK":
-			Typer.typetext(["[center]WARNING: \nThis makes your life hell.\n Proceed anyway?"])
-			await Typer.visibletween.finished
-			await _await_confirm()
+			react_to_name("[center]WARNING: \nThis makes your life hell.\n Proceed anyway?")
+		_:
+			pass_name.emit(true)
+	
+
+func react_to_name(text: String, deny := false) -> void:
+	Typer.typetext(text)
+	await Typer.visibletween.finished
+	if deny:
+		await Typer.confirm
+		pass_name.emit(false)
+		return
+	await _await_confirm()
 	pass_name.emit(true)
 
 var confirmable := false

@@ -6,16 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="3_yercc"]
 [ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="3_yoymk"]
 [ext_resource type="RichTextEffect" uid="uid://ow3wqtvijk5x" path="res://Resources/RichTextEffects/tremble.tres" id="4_2dwwy"]
+[ext_resource type="Script" path="res://Intro/typing.gd" id="5_siv8b"]
 [ext_resource type="AudioStream" uid="uid://btx6cbfdqvvbh" path="res://sfx/mus_cymbal.ogg" id="6_eucha"]
-[ext_resource type="Script" path="res://Text/TextTyper.gd" id="7_kw0yt"]
+[ext_resource type="Script" path="res://Intro/Options.gd" id="6_t53ty"]
+[ext_resource type="Script" path="res://Text/text_typer.gd" id="7_kw0yt"]
 [ext_resource type="AudioStream" uid="uid://bp5oyjspngmp2" path="res://sfx/Clicks/generic2.wav" id="8_ajba3"]
 [ext_resource type="Script" path="res://Menus/option_selectable.gd" id="10_njhot"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tm4b4"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sqa4a"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ohbf4"]
+[ext_resource type="AudioStream" uid="uid://dsid8nuan7lku" path="res://sfx/player_hurt.wav" id="12_mlnhy"]
 
 [node name="Name Selection" type="Control"]
 process_mode = 3
@@ -31,64 +28,114 @@ script = ExtResource("1_osq8k")
 [node name="Camera" parent="." instance=ExtResource("3_yercc")]
 position = Vector2(320, 240)
 
-[node name="NAMEPLS" type="RichTextLabel" parent="."]
+[node name="Prompt" type="RichTextLabel" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.026
+anchor_top = 0.125
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 theme = ExtResource("1_m7kmx")
-theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
-text = "[center][tremble chance=1 amp=5]GIVE THE FALLEN HUMAN A NAME"
+text = "[center][tremble chance=1 amp=5]Name the fallen human
+"
 scroll_active = false
 custom_effects = [ExtResource("4_2dwwy")]
 
-[node name="NameInput" type="LineEdit" parent="."]
+[node name="Name" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.12
+anchor_top = 0.18
 anchor_right = 1.0
-anchor_bottom = 0.2
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme = ExtResource("1_m7kmx")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_styles/normal = SubResource("StyleBoxEmpty_tm4b4")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_sqa4a")
-theme_override_styles/read_only = SubResource("StyleBoxEmpty_ohbf4")
-placeholder_text = "NAME"
-alignment = 1
-max_length = 6
-context_menu_enabled = false
-selecting_enabled = false
-drag_and_drop_selection_enabled = false
+horizontal_alignment = 1
+visible_characters_behavior = 1
 
-[node name="choice" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_ovwmy")
-bus = &"SFX"
+[node name="Letters" type="ReferenceRect" parent="." node_paths=PackedStringArray("Choice")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 117.0
+offset_top = 150.0
+offset_right = -108.0
+offset_bottom = -87.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(0.435294, 0.403922, 1, 1)
+border_width = 2.0
+script = ExtResource("5_siv8b")
+margin_letters = Vector2(64, 29)
+Choice = NodePath("../choice")
 
-[node name="select" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_yoymk")
-bus = &"SFX"
+[node name="Shift" type="Label" parent="Letters"]
+self_modulate = Color(0.721569, 0.721569, 0.721569, 1)
+layout_mode = 0
+offset_left = 150.0
+offset_top = 288.0
+offset_right = 257.0
+offset_bottom = 337.0
+theme = ExtResource("1_m7kmx")
+text = "SHIFT"
+horizontal_alignment = 1
+script = ExtResource("10_njhot")
+selected_color = Color(1, 1, 1, 1)
 
-[node name="cymbal" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_eucha")
-bus = &"SFX"
+[node name="Options" type="ReferenceRect" parent="." node_paths=PackedStringArray("Choice")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 116.0
+offset_top = -75.0
+offset_right = -109.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("6_t53ty")
+Choice = NodePath("../choice")
+
+[node name="Quit" type="Label" parent="Options"]
+layout_mode = 0
+offset_right = 58.0
+offset_bottom = 40.0
+theme = ExtResource("1_m7kmx")
+text = "Quit"
+script = ExtResource("10_njhot")
+
+[node name="Backspace" type="Label" parent="Options"]
+layout_mode = 0
+offset_left = 122.0
+offset_right = 252.0
+offset_bottom = 40.0
+theme = ExtResource("1_m7kmx")
+text = "Backspace"
+script = ExtResource("10_njhot")
+
+[node name="Done" type="Label" parent="Options"]
+layout_mode = 0
+offset_left = 324.0
+offset_right = 382.0
+offset_bottom = 40.0
+theme = ExtResource("1_m7kmx")
+text = "Done"
+script = ExtResource("10_njhot")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 0
-offset_left = -257.0
-offset_top = -131.0
-offset_right = 849.0
-offset_bottom = 552.0
+offset_left = -269.0
+offset_top = -164.0
+offset_right = 837.0
+offset_bottom = 519.0
 mouse_filter = 2
 
 [node name="Typer" type="RichTextLabel" parent="."]
@@ -130,5 +177,37 @@ theme = ExtResource("1_m7kmx")
 text = "NO"
 script = ExtResource("10_njhot")
 
-[connection signal="text_changed" from="NameInput" to="." method="_on_name_input_text_changed"]
-[connection signal="text_submitted" from="NameInput" to="." method="_on_name_input_text_submitted"]
+[node name="choice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ovwmy")
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_yoymk")
+bus = &"SFX"
+
+[node name="no" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_mlnhy")
+bus = &"SFX"
+
+[node name="cymbal" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_eucha")
+bus = &"SFX"
+
+[connection signal="disable" from="." to="Prompt" method="hide"]
+[connection signal="disable" from="." to="Name" method="hide"]
+[connection signal="disable" from="." to="Letters" method="hide"]
+[connection signal="disable" from="." to="Options" method="disable"]
+[connection signal="disable" from="." to="Options" method="hide"]
+[connection signal="enable" from="." to="Prompt" method="show"]
+[connection signal="enable" from="." to="Name" method="show"]
+[connection signal="enable" from="." to="Letters" method="enable_input"]
+[connection signal="enable" from="." to="Letters" method="show"]
+[connection signal="enable" from="." to="Options" method="show"]
+[connection signal="pass_name" from="." to="Name" method="show" unbinds=1]
+[connection signal="backspace_key" from="Letters" to="." method="_on_backspace_pressed"]
+[connection signal="enter_key" from="Letters" to="." method="_on_name_input_text_submitted"]
+[connection signal="exited_letter" from="Letters" to="Options" method="enable"]
+[connection signal="letter_input" from="Letters" to="." method="_on_name_input_text_changed"]
+[connection signal="backspace" from="Options" to="." method="_on_backspace_pressed"]
+[connection signal="confirm_name" from="Options" to="." method="_on_name_input_text_submitted"]
+[connection signal="enter_typing" from="Options" to="Letters" method="enable_input"]
