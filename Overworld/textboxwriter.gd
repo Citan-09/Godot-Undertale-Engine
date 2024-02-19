@@ -2,14 +2,15 @@ extends AdvancedTextTyper
 
 signal finished_typing
 
-func type_text_advanced(Text: Dialogues) -> void:
+func type_text_advanced(dialogues: Dialogues) -> void:
 	typing = true
-	var expressions: Array = Text.get_dialogues_single(Dialogues.DIALOGUE_EXPRESSIONS)
-	for i: int in Text.dialogues.size():
+	var expressions: Array = dialogues.get_dialogues_single(Dialogues.DIALOGUE_EXPRESSIONS)
+	for i: int in dialogues.dialogues.size():
 		started_typing.emit(i)
 		expression_set.emit(expressions[i])
-		await type_buffer(Text, i)
-		if i == Text.dialogues.size() - 1:
+		pauses = dialogues.dialogues[i].pauses
+		await type_buffer(dialogues, i)
+		if i == dialogues.dialogues.size() - 1:
 			finished_typing.emit()
 		await confirm
 		get_viewport().set_input_as_handled()

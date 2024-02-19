@@ -217,3 +217,5 @@ bus = &"SFX"
 stream = SubResource("AudioStreamRandomizer_34yic")
 max_polyphony = 3
 bus = &"SFX"
+
+[connection signal="expression_set" from="TextContainer/Text" to="." method="_on_text_expression_set"]

@@ -1,6 +1,7 @@
-[gd_scene load_steps=106 format=3 uid="uid://dj4xee72r6xcl"]
+[gd_scene load_steps=109 format=3 uid="uid://dj4xee72r6xcl"]
 
 [ext_resource type="Script" path="res://Enemies/defaultenemy.gd" id="1_25twd"]
+[ext_resource type="Script" path="res://Resources/Dialogues/pause.gd" id="2_ba03n"]
 [ext_resource type="Texture2D" uid="uid://cpcpbncmm3ati" path="res://Enemies/sans_raw.png" id="2_h12tw"]
 [ext_resource type="Script" path="res://Resources/Dialogues/dialogue.gd" id="2_oftqm"]
 [ext_resource type="AudioStream" uid="uid://d0shy16q7rrx" path="res://sfx/snd_ehurt1.wav" id="3_b67b5"]
@@ -14,10 +15,22 @@
 [ext_resource type="Texture2D" uid="uid://v2uk8ex2yh8f" path="res://Enemies/dust/default_dust.png" id="8_dm5rl"]
 [ext_resource type="Texture2D" uid="uid://bw02r33khpc4w" path="res://particles/smoke.png" id="9_xear3"]
 
+[sub_resource type="Resource" id="Resource_rhwy5"]
+script = ExtResource("2_ba03n")
+pause_index = 4
+pause_duration = 0.5
+
+[sub_resource type="Resource" id="Resource_8elpn"]
+script = ExtResource("2_ba03n")
+pause_index = 6
+pause_duration = 1.0
+
 [sub_resource type="Resource" id="Resource_wdijk"]
 script = ExtResource("2_oftqm")
-dialog_text = "test"
+dialog_text = "test
+123"
 dialog_expressions = Array[int]([0, 0])
+pauses = Array[ExtResource("2_ba03n")]([SubResource("Resource_rhwy5"), SubResource("Resource_8elpn")])
 
 [sub_resource type="Resource" id="Resource_vh3oq"]
 script = ExtResource("3_fkfcv")
@@ -27,11 +40,13 @@ dialogues = Array[ExtResource("2_oftqm")]([SubResource("Resource_wdijk")])
 script = ExtResource("2_oftqm")
 dialog_text = "Spare Dialogue"
 dialog_expressions = Array[int]([4, 1])
+pauses = Array[ExtResource("2_ba03n")]([])
 
 [sub_resource type="Resource" id="Resource_sa26r"]
 script = ExtResource("2_oftqm")
 dialog_text = "pls spare."
 dialog_expressions = Array[int]([2, 0])
+pauses = Array[ExtResource("2_ba03n")]([])
 
 [sub_resource type="Resource" id="Resource_611tx"]
 script = ExtResource("3_fkfcv")
@@ -1174,14 +1189,11 @@ theme_override_constants/margin_left = 32
 [node name="Text" parent="Dialogue/TextContainer" index="0"]
 current_character = 1
 click_path = NodePath("Sounds/Sans")
-queued_texts_handling = null
-entire_text_bbcode = null
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.6
 one_shot = true
 
-[connection signal="set_head" from="Dialogue" to="." method="_set_expression"]
 [connection signal="timeout" from="Timer" to="." method="end_throw"]
 
 [editable path="Dialogue"]

@@ -62,7 +62,6 @@ func type_text(Text: PackedStringArray) -> void:
 func createtweeners() -> void:
 	visibletween = create_tween()
 	soundtween = create_tween()
-	visibletween.tween_interval(interval / 2.0)
 
 
 func _type_one_line(line: String) -> bool:
@@ -81,20 +80,20 @@ func _type_one_line(line: String) -> bool:
 	visible_ratio = 0
 	var parsed_text := get_parsed_text()
 	visibletween.tween_property(self, "visible_ratio", 1, interval * parsed_text.length())
-	soundtween.set_loops(parsed_text.length() + soundtween.get_loops_left())
-	soundtween.tween_callback(playclick)
+	soundtween.set_loops(parsed_text.length())
 	soundtween.tween_interval(interval)
+	soundtween.tween_callback(playclick)
 	await visibletween.finished
 	return true
 
 func playclick() -> void:
 	var currentchar := chache_parsed_text[visible_characters]
 	if currentchar in extra_delay:
-		if !visibletween.is_valid() or !soundtween.is_valid():
+		if !visibletween.is_running() or !soundtween.is_running():
 			return
 		soundtween.pause()
 		visibletween.pause()
-		pausetween = create_tween()
+		pausetween = create_tween().set_parallel()
 		pausetween.tween_callback(visibletween.play).set_delay(interval)
 		pausetween.tween_callback(soundtween.play).set_delay(interval)
 		return

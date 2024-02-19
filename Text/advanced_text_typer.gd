@@ -14,14 +14,15 @@ func type_text(_a: PackedStringArray) -> void:
 func type_text_advanced(dialogues: Dialogues) -> void:
 	typing = true
 	var expressions: Array = dialogues.get_dialogues_single(Dialogues.DIALOGUE_EXPRESSIONS)
-	for i: int in dialogues.size():
+	for i: int in dialogues.dialoguesx.size():
 		started_typing.emit(i)
 		expression_set.emit(expressions[i])
-		pauses = dialogues.get_dialogues_single(Dialogues.DIALOGUE_PAUSES)[i]
+		pauses = dialogues.dialogues[i].pauses
 		await type_buffer(dialogues, i)
 		await confirm
 	finished_all_texts.emit()
 	typing = false
+
 
 func type_buffer(dialogues: Dialogues, i: int) -> void:
 	text_size_counter = 0
@@ -32,7 +33,6 @@ func type_buffer(dialogues: Dialogues, i: int) -> void:
 
 
 
-
 func type_buffer_text(txt: String) -> void:
 	text = txt
 	chache_parsed_text = get_parsed_text()
@@ -40,38 +40,45 @@ func type_buffer_text(txt: String) -> void:
 	visible_ratio = 0
 	var parsed_text := get_parsed_text()
 	visibletween.tween_property(self, "visible_ratio", 1, interval * parsed_text.length())
-	soundtween.set_loops(parsed_text.length() + soundtween.get_loops_left())
-	soundtween.tween_callback(playclick)
+	soundtween.set_loops(parsed_text.length())
 	soundtween.tween_interval(interval)
+	soundtween.tween_callback(playclick)
 	await visibletween.finished
 
 
-func createtweeners() -> void:
-	visibletween = create_tween()
-	soundtween = create_tween()
-	visibletween.tween_interval(interval / 2.0)
 
 var text_size_counter: int = 0
 var pauses_done_counter: int = 0
 
 func playclick() -> void:
-	text_size_counter += 1
+	set_deferred(&"text_size_counter", text_size_counter + 1)
 	var currentchar := chache_parsed_text[visible_characters]
 	if currentchar in extra_delay:
-		if !visibletween.is_valid() or !soundtween.is_valid():
+		if !visibletween.is_running() or !soundtween.is_running():
 			return
 		soundtween.pause()
 		visibletween.pause()
-		pausetween = create_tween()
+		pausetween = create_tween().set_parallel()
 		pausetween.tween_callback(visibletween.play).set_delay(
-				interval + pauses[pauses_done_counter].pause_duration if pauses.size() - 1 > pauses_done_counter and text_size_counter == pauses[pauses_done_counter].pause_index else interval
+				interval + pauses[pauses_done_counter].pause_duration if
+				 pauses.size() > pauses_done_counter and text_size_counter == pauses[pauses_done_counter].pause_index
+				else interval
 				)
 		pausetween.tween_callback(soundtween.play).set_delay(
-				interval + pauses[pauses_done_counter].pause_duration if pauses.size() - 1 > pauses_done_counter and text_size_counter == pauses[pauses_done_counter].pause_index else interval
+				interval + pauses[pauses_done_counter].pause_duration if
+				 pauses.size() > pauses_done_counter and text_size_counter == pauses[pauses_done_counter].pause_index
+				else interval
 				)
-		if pauses.size() - 1 > pauses_done_counter and text_size_counter == pauses[pauses_done_counter].pause_index:
+		if pauses.size() > pauses_done_counter and text_size_counter == pauses[pauses_done_counter].pause_index:
 			pauses_done_counter += 1
 		return
+	elif pauses.size() > pauses_done_counter and text_size_counter == pauses[pauses_done_counter].pause_index:
+		soundtween.pause()
+		visibletween.pause()
+		pausetween = create_tween().set_parallel()
+		pausetween.tween_callback(soundtween.play).set_delay(pauses[pauses_done_counter].pause_duration)
+		pausetween.tween_callback(visibletween.play).set_delay(pauses[pauses_done_counter].pause_duration)
+		pauses_done_counter += 1
 	if currentchar in no_sound:
 		return
 	click.play()

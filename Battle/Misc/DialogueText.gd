@@ -1,4 +1,4 @@
-extends GenericTextTyper
+extends AdvancedTextTyper
 class_name EnemySpeech
 
 @export var current_character: characters = characters.GENERIC
@@ -28,12 +28,14 @@ func character_customize() -> void:
 			entire_text_bbcode = "[shake amp=6]"
 
 
-func type_text(Text: Variant = "Blank") -> void:
+func type_text_advanced(dialogues: Dialogues) -> void:
 	typing = true
-	if typeof(Text) != TYPE_ARRAY and typeof(Text) != TYPE_PACKED_STRING_ARRAY: Text = [Text]
-	for i: int in Text.size():
+	var expressions: Array = dialogues.get_dialogues_single(Dialogues.DIALOGUE_EXPRESSIONS)
+	for i: int in dialogues.dialogues.size():
 		started_typing.emit(i)
-		await _type_one_line(Text[i])
+		expression_set.emit(expressions[i])
+		pauses = dialogues.dialogues[i].pauses
+		await type_buffer(dialogues, i)
 		await confirm
 		get_viewport().set_input_as_handled()
 	finished_all_texts.emit()
