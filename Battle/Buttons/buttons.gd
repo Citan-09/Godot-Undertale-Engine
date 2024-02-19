@@ -17,7 +17,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		changepos(1)
 	if event.is_action_pressed("ui_accept") and enabled:
 		disable()
-		#get_viewport().set_input_as_handled()
 		emit_signal("selectbutton", choice)
 		select.play()
 

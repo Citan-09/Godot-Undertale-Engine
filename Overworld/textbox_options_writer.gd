@@ -1,7 +1,7 @@
 extends GenericTextTyper
 
 signal finished_typing
-func typetext(Text: Variant = "Blank") -> void:
+func type_text(Text: Variant = "Blank") -> void:
 	typing = true
 	if typeof(Text) != TYPE_ARRAY and typeof(Text) != TYPE_PACKED_STRING_ARRAY: Text = [Text]
 	for i: int in Text.size():

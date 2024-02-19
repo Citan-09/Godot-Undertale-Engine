@@ -52,4 +52,7 @@ func _on_timer_timeout() -> void:
 func _on_area_interacted() -> void:
 	var ct: TextBox = text_box.instantiate()
 	add_child(ct)
-	ct.character(TextBox.SANS, dialogues[0].get_dialogues_single(Dialogues.DIALOGUE_TEXT), dialogues[0].get_dialogues_single(Dialogues.DIALOGUE_EXPRESSION_HEAD))
+	ct.character(TextBox.SANS, dialogues[0])
+	ct.character_talk.connect(func():
+		self.Sprite.frame = (self.Sprite.frame + 1) % 16
+		)

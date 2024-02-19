@@ -285,7 +285,7 @@ func end_encounter() -> void:
 		$lvlup.play()
 	await get_tree().process_frame
 	Box.change_state(Box.State.Blittering)
-	Box.BlitterText.typetext(wintxt)
+	Box.BlitterText.type_text([wintxt])
 	await Box.BlitterText.finished_all_texts
 	await Camera.blind(1, 1)
 	Global.temp_atk = 0

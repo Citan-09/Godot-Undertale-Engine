@@ -8,7 +8,7 @@ class_name Shop
 
 ## Price for items sold to shopkeeper.
 @export var Sellferings: Array[ShopItem] = [
-	
+
 ]
 
 ## Use this to set the dialogues to be used in KeeperDialogue after selecting a DialogueOptions.
@@ -27,15 +27,15 @@ class_name Shop
 @export var can_be_sold_to := true
 @export var KeeperCannotSellDialogues: Dialogues = preload("res://Resources/Dialogues/KeeperDefault/default_shop_cannot_sell.tres")
 
-@export var ExitNode : RoomEntranceNode
+@export var ExitNode: RoomEntranceNode
 var soul_position: int = 0
 
 const soul_positions := {
-	0 : [
+	0: [
 		Vector2(38, 38),
 		Vector2(0, 40),
 	],
-	1 : [
+	1: [
 		Vector2(52, 38),
 		Vector2(0, 40),
 	],
@@ -76,8 +76,8 @@ enum States {
 	SELECTING_DIALOGUE = 1,
 	BUYING_ITEMS = 2,
 	SELLING_ITEMS = 3,
-	
-	
+
+
 	VIEWING_DIALOGUE,
 }
 var current_state := States.SELECTING_ACTIONS
@@ -109,7 +109,7 @@ func _get_sell_items(id: int, size: int = 4) -> String:
 
 func _write_sell_items(id: int) -> void:
 	SellItems.text = _get_sell_items(id + 1)
-	
+
 func _write_shop_items() -> void:
 	var txt := ""
 	for i in Offerings.size():
@@ -160,7 +160,7 @@ func _set_item_panel():
 	if current_state != States.BUYING_ITEMS:
 		tw.tween_callback(ItemsInfoBox.set.bind("visible", false))
 	_refresh_item_panel()
-	
+
 
 func _set_keeper_box():
 	if tw2 and tw2.is_valid(): tw2.kill()
@@ -186,7 +186,7 @@ func _refresh_g_info(red := false):
 signal keeper_expression(exp: Array)
 
 func _keeper_dialogue(dialogues: Dialogues):
-	KeeperDialogue.typetext.call_deferred(dialogues.get_dialogues_single(Dialogues.DIALOGUE_TEXT))
+	KeeperDialogue.type_text.call_deferred(dialogues.get_dialogues_single(Dialogues.DIALOGUE_TEXT))
 	var expressions := dialogues.get_dialogues_single(Dialogues.DIALOGUE_EXPRESSIONS)
 	for i in dialogues.dialogues.size():
 		await KeeperDialogue.started_typing
@@ -199,7 +199,7 @@ func _keeper_dialogue_temp(dialogues: Dialogues, return_state: States):
 	get_viewport().set_input_as_handled()
 	_in_state(return_state)
 	_set_keeper_box()
-	
+
 
 func _set_soul_pos() -> void:
 	if current_state == States.SELLING_ITEMS:
@@ -214,7 +214,7 @@ func _set_soul_pos() -> void:
 func _exit() -> void:
 	await Camera.blind(1)
 	ExitNode.force_enter()
-	
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if current_state < States.VIEWING_DIALOGUE:
@@ -238,8 +238,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				States.SELLING_ITEMS:
 					soul_position = 1
 					_in_state(States.SELECTING_ACTIONS)
-				
-				
+
+
 		if event.is_action_pressed("ui_accept"):
 			match current_state:
 				States.SELECTING_ACTIONS:
@@ -285,5 +285,5 @@ func _unhandled_input(event: InputEvent) -> void:
 						if !_get_sell_items_count():
 							soul_position = 1
 							_in_state(States.SELECTING_ACTIONS)
-			
-		
+
+

@@ -1,7 +1,7 @@
 extends Overworld
 
 func _default_cutscene() -> void:
-	await summontextbox().generic(["* WARNING!", "* SANS IS APPROACHING!!!"], ["DIE", "DIE NOW!"], ["* Ok", "* Good desicion!"])
+	await summontextbox().generic(Dialogues.new().from(["* WARNING!", "* SANS IS APPROACHING!!!"]), ["DIE", "DIE NOW!"], [Dialogues.new().from(["* Ok"]), Dialogues.new().from(["* Good desicion!"])])
 	$YSortNodes/TileMap/Sans.global_position.y = $YSortNodes/TileMap/PlayerOverworld.global_position.y
 	$YSortNodes/TileMap/Sans.start_walking(Vector2i.LEFT)
 

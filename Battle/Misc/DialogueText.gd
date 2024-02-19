@@ -28,7 +28,7 @@ func character_customize() -> void:
 			entire_text_bbcode = "[shake amp=6]"
 
 
-func typetext(Text: Variant = "Blank") -> void:
+func type_text(Text: Variant = "Blank") -> void:
 	typing = true
 	if typeof(Text) != TYPE_ARRAY and typeof(Text) != TYPE_PACKED_STRING_ARRAY: Text = [Text]
 	for i: int in Text.size():

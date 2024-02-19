@@ -13,7 +13,7 @@ func _on_interact_save() -> void:
 	Global.heal(100000)
 	var textbox := txt_box.instantiate() as TextBox
 	get_tree().current_scene.add_child(textbox)
-	await textbox.generic(save_text)
+	await textbox.generic(Dialogues.new().from(save_text))
 	var save_menu: Node = _save.instantiate()
 	get_tree().current_scene.add_child(save_menu)
 	save_menu._show()

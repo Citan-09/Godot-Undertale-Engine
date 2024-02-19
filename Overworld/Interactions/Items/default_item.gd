@@ -22,4 +22,4 @@ func _on_pickup_interact_area_took_item() -> void:
 func _on_interact_area_interacted() -> void:
 	var _t := txtbox.instantiate() as TextBox
 	add_child(_t)
-	_t.generic(no_item_text)
+	_t.generic(Dialogues.new().from(no_item_text))

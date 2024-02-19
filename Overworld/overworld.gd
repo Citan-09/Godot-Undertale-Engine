@@ -37,6 +37,10 @@ func _ready() -> void:
 
 func room_init(data: Dictionary) -> void:
 	if data.entrance == null:
+		if Global.overworld_data.get("room_pos",[0.0, 0.0]) == [0.0, 0.0] or !Global.just_died:
+			return
+		Player.global_position = Vector2(Global.overworld_data["room_pos"][0], Global.overworld_data["room_pos"][1])
+		Global.just_died = false
 		return
 	## Finding entrances
 	for room in room_entrances:
@@ -46,13 +50,11 @@ func room_init(data: Dictionary) -> void:
 		Player.force_direction(room.facing_direction)
 		break
 	
-	if Global.overworld_data.get("room_pos",[0.0, 0.0]) != [0.0, 0.0] and Global.just_died:
-		Player.global_position = Vector2(Global.overworld_data["room_pos"][0], Global.overworld_data["room_pos"][1])
-		Global.just_died = false
 	
-	if Global.overworld_temp_data.get("global_position"):
-		Player.global_position = Global.overworld_temp_data["global_position"]
-		Global.overworld_temp_data["global_position"] = Vector2.ZERO
+	
+	#if Global.overworld_temp_data.get("global_position"):
+		#Player.global_position = Global.overworld_temp_data["global_position"]
+		#Global.overworld_temp_data["global_position"] = Vector2.ZERO
 
 
 func summontextbox() -> TextBox:

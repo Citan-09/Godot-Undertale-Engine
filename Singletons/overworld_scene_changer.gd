@@ -25,7 +25,7 @@ func enter_room_default() -> void:
 	await tw.finished
 	_load_and_set_scene(default_scene)
 
-	
+
 func enter_room_path(room_path: String, extra_data: Dictionary = {}) -> void:
 	data.merge(extra_data, true)
 	var tw := create_tween().set_trans(Tween.TRANS_QUAD)
@@ -49,7 +49,7 @@ func _load_and_set_scene(path: String) -> void:
 	get_tree().unload_current_scene()
 	get_tree().root.add_child(resource)
 	get_tree().current_scene = resource
-	
+
 	_set_player_data.call_deferred(resource)
 
 func _set_player_data(current_scene: Node) -> void:
@@ -59,7 +59,7 @@ func _set_player_data(current_scene: Node) -> void:
 	Global.player_in_menu = false
 	data = data_default.duplicate()
 	var tw := create_tween().set_trans(Tween.TRANS_QUAD)
-	tw.tween_property(Blinder,"modulate:a",0,blind_time)
+	tw.tween_property(Blinder, "modulate:a", 0, blind_time)
 
 func load_cached_overworld_scene() -> void:
 	Global.player_can_move = true

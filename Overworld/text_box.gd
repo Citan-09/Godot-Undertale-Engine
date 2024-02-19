@@ -63,7 +63,7 @@ var char_head := {
 	TORIEL: "toriel",
 }
 
-@onready var Text: GenericTextTyper = $Control/TextContainer/Text
+@onready var Text: AdvancedTextTyper = $Control/TextContainer/Text
 @onready var Options: Array[GenericTextTyper] = [
 	$Control/TextContainer/Options/First,
 	$Control/TextContainer/Options/Second,
@@ -74,6 +74,7 @@ var char_head := {
 @onready var defsize: Vector2 = $Control.size
 
 signal selected_option(option: int)
+signal character_talk
 
 
 func _ready() -> void:
@@ -100,20 +101,18 @@ func _dismiss_box() -> void:
 	await tw.finished
 	queue_free()
 
-func generic(text: PackedStringArray, options: PackedStringArray = [], text_after_options: Array = []) -> void:
-	for i in Options.size() + 1:
-		if i == 0:
-			Text.click = get_node(char_sound[DEFAULT])
-		else:
-			Options[i -1].click = get_node(char_sound[DEFAULT])
+
+## WARNING: don't use this!
+func abstract(text: Dialogues, options: PackedStringArray = [], text_after_options: Array[Dialogues] = []) -> void:
 	Global.player_in_menu = true
 	await _summon_box()
-	Text.typetext(text)
+	Text.type_text_advanced(text)
+
 	await Text.finished_typing
 	for i: int in min(options.size(), 4):
 		Options[i].show()
 	for i: int in min(options.size(), 4):
-		Options[i].typetext(options[i])
+		Options[i].type_text_advanced([options[i]])
 		await Options[i].finished_typing
 	if options.size():
 		$Control/Soul.show()
@@ -133,12 +132,21 @@ func generic(text: PackedStringArray, options: PackedStringArray = [], text_afte
 		Options[i].text = ""
 		Options[i].hide()
 	if text_after_options.size() > soulpos and text_after_options[soulpos]:
-		await Text.typetext(text_after_options[soulpos])
+		await Text.type_text_advanced(text_after_options[soulpos])
 	Text.text = ""
 	Global.player_in_menu = false
 	_dismiss_box()
 
-func character(chr: int, text: PackedStringArray, head_expressions: Array, options: PackedStringArray = [], text_after_options: Array = [], head_expressions_options: Array = []) -> void:
+func generic(text: Dialogues, options: PackedStringArray = [], text_after_options: Array[Dialogues] = []) -> void:
+	for i in Options.size() + 1:
+		if i == 0:
+			Text.click = get_node(char_sound[DEFAULT])
+		else:
+			Options[i -1].click = get_node(char_sound[DEFAULT])
+	await abstract(text, options, text_after_options)
+
+
+func character(chr: int, dialogues: Dialogues, options: PackedStringArray = [], dialogues_after_options: Array[Dialogues] = []) -> void:
 	$Control/Speaker.show()
 	var tw := create_tween()
 	tw.tween_property($Control/Speaker, "modulate:a", 1, 0.3)
@@ -150,46 +158,13 @@ func character(chr: int, text: PackedStringArray, head_expressions: Array, optio
 		else:
 			Options[i -1].click = get_node(char_sound[chr])
 
-	Text.started_typing.connect(set_head_frame)
-	Global.player_in_menu = true
-	await _summon_box()
-	headframestemp = head_expressions
-	Text.typetext(text)
-	await Text.finished_typing
-	
-	for i: int in min(options.size(), 4):
-		Options[i].show()
-	for i: int in min(options.size(), 4):
-		Options[i].typetext(options[i])
-		await Options[i].finished_typing
-	if options.size():
-		$Control/Soul.show()
-		selecting = true
-		optionamt = options.size()
-		@warning_ignore("narrowing_conversion")
-		soulpos = (optionamt - 1) / 2.0
-		$Control/Soul/choice.play()
-		soul_position = Vector2(320, Options[0].global_position.y)
-		await selected_option
-	else:
-		await Text.finished_all_texts
-	get_viewport().set_input_as_handled()
-	$Control/Soul.hide()
-	for i in Options.size():
-		Options[i].text = ""
-		Options[i].hide()
-	if text_after_options.size() > soulpos and text_after_options[soulpos]:
-		headframestemp = head_expressions_options[soulpos]
-		await Text.typetext(text_after_options[soulpos])
-	Text.text = ""
-	Global.player_in_menu = false
+	await abstract(dialogues, options, dialogues_after_options)
 	tw = create_tween()
 	tw.tween_property($Control/Speaker, "modulate:a", 0, 0.3)
-	_dismiss_box()
 
-var headframestemp: Array
-func set_head_frame(counter: int) -> void:
-	$Control/Speaker/Head.frame = headframestemp[counter]
+
+func set_head_frame(expr: Array[int]) -> void:
+	$Control/Speaker/Head.frame = expr[0]
 
 func _input(event: InputEvent) -> void:
 	if selecting:
@@ -210,3 +185,7 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	$Control/Soul.global_position = $Control/Soul.global_position.lerp(soul_position, delta * 40)
+
+
+func _on_text_click_played() -> void:
+	character_talk.emit()

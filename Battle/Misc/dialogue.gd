@@ -16,7 +16,7 @@ func _ready() -> void:
 func DialogueText(text: Array, exp_arr: Array) -> void:
 	bubble_text.text = ""
 	await create_tween().tween_property(self, "modulate:a", 1, 0.1).finished
-	bubble_text.typetext.call_deferred(text)
+	bubble_text.type_text.call_deferred(text)
 	for i in exp_arr.size():
 		var expr: int = await bubble_text.started_typing
 		set_head.emit(exp_arr[expr])

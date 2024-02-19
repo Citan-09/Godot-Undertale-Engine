@@ -1,8 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://bowyh7ekg7tlt"]
+[gd_scene load_steps=11 format=3 uid="uid://bowyh7ekg7tlt"]
 
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="1_mmxx1"]
 [ext_resource type="Script" path="res://Text/demo.gd" id="2_ls7e5"]
 [ext_resource type="AudioStream" uid="uid://degl6ii2gdr87" path="res://sfx/Clicks/generic1.wav" id="3_447nt"]
+[ext_resource type="Script" path="res://Text/demo2.gd" id="4_3jy1a"]
+[ext_resource type="Script" path="res://Resources/Dialogues/pause.gd" id="5_b1x3k"]
+[ext_resource type="Script" path="res://Resources/Dialogues/dialogue.gd" id="5_vwg6h"]
+[ext_resource type="Script" path="res://Resources/Dialogues/dialogues.gd" id="6_im228"]
+
+[sub_resource type="Resource" id="Resource_vtwpa"]
+script = ExtResource("5_b1x3k")
+pause_index = 3
+pause_duration = 0.2
+
+[sub_resource type="Resource" id="Resource_7vqi8"]
+script = ExtResource("5_vwg6h")
+dialog_text = "Hello"
+dialog_expressions = Array[int]([0, 0])
+pauses = Array[ExtResource("5_b1x3k")]([SubResource("Resource_vtwpa")])
+
+[sub_resource type="Resource" id="Resource_mf43h"]
+script = ExtResource("6_im228")
+dialogues = Array[ExtResource("5_vwg6h")]([SubResource("Resource_7vqi8")])
 
 [node name="TextTyperDemo" type="Control"]
 layout_mode = 3
@@ -13,6 +32,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
+visible = false
 layout_mode = 0
 offset_right = 362.0
 offset_bottom = 192.0
@@ -26,8 +46,27 @@ a"
 visible_characters = 1
 visible_ratio = 0.2
 script = ExtResource("2_ls7e5")
-interval = 0.05
 
 [node name="Click" type="AudioStreamPlayer" parent="RichTextLabel"]
+stream = ExtResource("3_447nt")
+bus = &"SFX"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 362.0
+offset_bottom = 192.0
+theme = ExtResource("1_mmxx1")
+bbcode_enabled = true
+text = "[ul bullet=*]
+aa
+a
+a
+a"
+visible_characters = 1
+visible_ratio = 0.2
+script = ExtResource("4_3jy1a")
+dialogue = SubResource("Resource_mf43h")
+
+[node name="Click" type="AudioStreamPlayer" parent="RichTextLabel2"]
 stream = ExtResource("3_447nt")
 bus = &"SFX"

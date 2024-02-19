@@ -149,7 +149,7 @@ func _input(event: InputEvent) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if debugmode:
 		if event.is_action_pressed("refresh_scene"):
-			push_warning("WARNING: This will basically leak a bunch of memory due to leaked orphan nodes!")
+			push_warning("WARNING: This will leak all orphan nodes that aren't referenced.")
 			player_hp = player_max_hp
 			player_can_move = true
 			player_in_menu = false

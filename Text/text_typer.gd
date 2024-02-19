@@ -37,7 +37,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept") and (!visibletween or !visibletween.is_running()):
 		emit_signal("confirm")
 
-func kill_tweens(complete_text :=false) -> void:
+func kill_tweens(complete_text := false) -> void:
 	if pausetween and pausetween.is_valid():
 		pausetween.kill()
 	if soundtween and soundtween.is_valid():
@@ -47,12 +47,11 @@ func kill_tweens(complete_text :=false) -> void:
 			visibletween.custom_step(10000)
 		else:
 			visibletween.kill()
-	
 
 
-func typetext(Text: Variant = "Blank") -> void:
+
+func type_text(Text: PackedStringArray) -> void:
 	typing = true
-	if typeof(Text) != TYPE_ARRAY and typeof(Text) != TYPE_PACKED_STRING_ARRAY: Text = [Text]
 	for i: int in Text.size():
 		started_typing.emit(i)
 		await _type_one_line(Text[i])

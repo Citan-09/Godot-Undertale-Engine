@@ -413,8 +413,6 @@ visible_characters_behavior = 1
 script = ExtResource("8_kq74i")
 click_path = NodePath("../../../Sounds/Generic")
 interval = 0.05
-queued_texts_handling = null
-entire_text_bbcode = null
 
 [node name="Options" type="HBoxContainer" parent="Control/TextContainer"]
 layout_mode = 2
@@ -572,3 +570,6 @@ bus = &"SFX"
 stream = SubResource("AudioStreamRandomizer_ju7g6")
 max_polyphony = 3
 bus = &"SFX"
+
+[connection signal="click_played" from="Control/TextContainer/Text" to="." method="_on_text_click_played"]
+[connection signal="expression_set" from="Control/TextContainer/Text" to="." method="set_head_frame"]

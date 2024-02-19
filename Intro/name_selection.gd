@@ -41,7 +41,7 @@ func _on_name_input_text_submitted() -> void:
 		Typer.text = ""
 		Name.text = ""
 		get_viewport().set_input_as_handled()
-		return 
+		return
 	Typer.hide()
 	Global.player_name = Name.text
 	var tw := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_parallel()
@@ -61,8 +61,8 @@ signal pass_name(allowed: bool)
 @onready var Typer: GenericTextTyper = $Typer
 
 ## USE THIS TO DO COOL STUFF WITH CUSTOM NAMES
-func _check_names(Name: String) -> void:
-	match Name:
+func _check_names(_name: String) -> void:
+	match _name:
 		"GASTER":
 			OS.alert("Error code: -1 \nCannot concatenate type \"Null\" to type \"String\" \nPlease report this error to https://undertale.com", "CRITICAL ERROR!")
 			OS.crash("Gaster broke the game!!!!")
@@ -74,10 +74,10 @@ func _check_names(Name: String) -> void:
 			react_to_name("[center]WARNING: \nThis makes your life hell.\n Proceed anyway?")
 		_:
 			pass_name.emit(true)
-	
+
 
 func react_to_name(text: String, deny := false) -> void:
-	Typer.typetext(text)
+	Typer.type_text([text])
 	await Typer.visibletween.finished
 	if deny:
 		await Typer.confirm
@@ -101,7 +101,7 @@ func _await_confirm() -> void:
 	confirmable = false
 	pass_name.emit(!c)
 	return
-	
+
 
 var soul_pos: int = 0
 

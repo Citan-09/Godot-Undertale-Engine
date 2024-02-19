@@ -1,7 +1,7 @@
 extends InteractionTrigger
 class_name ItemInteraction
 
-enum Decisions{
+enum Decisions {
 	ITEM_PICK_UP,
 	ITEM_LEAVE_ALONE,
 }
@@ -32,13 +32,13 @@ signal took_item
 func discover() -> void:
 	var _txtbox := text_box.instantiate() as TextBox
 	add_child(_txtbox)
-	_txtbox.generic(discover_text, option_names, [accept_text if Global.items.size() != 8 else full_text, reject_text])
+	_txtbox.generic(Dialogues.new().from(discover_text), option_names, [Dialogues.new().from(accept_text if Global.items.size() != 8 else full_text), Dialogues.new().from(reject_text)])
 	var decision: int = await _txtbox.selected_option
 	if !decision and Global.items.size() != 8:
 		Global.items.append(item_id)
 		took_item.emit()
 		$PickUp.play()
-	
+
 func disable_item() -> void:
 	position = Vector2.INF
 	monitoring = false

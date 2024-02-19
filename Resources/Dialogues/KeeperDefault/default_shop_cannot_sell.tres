@@ -7,6 +7,7 @@
 script = ExtResource("1_qwrjl")
 dialog_text = "* Can't sell to me bozo."
 dialog_expressions = Array[int]([0, 0])
+pauses = Array[Resource("res://Resources/Dialogues/pause.gd")]([])
 
 [resource]
 script = ExtResource("2_01cyl")

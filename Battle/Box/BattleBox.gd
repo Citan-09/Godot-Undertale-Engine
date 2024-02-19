@@ -288,12 +288,12 @@ func blitter_flavour() -> void:
 
 
 func blitter_act() -> void:
-	await BlitterText.typetext(enemies[current_target_id].get_act_info(soulpos_to_id(soulposition)).Description)
+	await BlitterText.type_text(enemies[current_target_id].get_act_info(soulpos_to_id(soulposition)).Description)
 
 
 func blitter_item() -> void:
 	Global.items.remove_at(soulpos_to_id(soulposition, 1))
-	await BlitterText.typetext(Global.item_use_text(used_item))
+	await BlitterText.type_text(Global.item_use_text(used_item))
 
 
 func blitter_mercy() -> void:
@@ -303,11 +303,11 @@ func blitter_mercy() -> void:
 	if mercychoice == 1 and rand >= Main.encounter.flee_chance:
 		mercychoice = -1
 		change_state(State.Blittering)
-		await BlitterText.typetext(mercytexts[mercychoice])
+		await BlitterText.type_text([mercytexts[mercychoice]])
 
 		return
 	change_state(State.Blittering)
-	await BlitterText.typetext(mercytexts[mercychoice])
+	await BlitterText.type_text([mercytexts[mercychoice]])
 
 
 
