@@ -19,7 +19,6 @@ z_index = 100
 use_parent_material = true
 scale = Vector2(200, 200)
 texture = ExtResource("1_22eaa")
-offset = Vector2(0.03, 0.03)
 
 [node name="BR" type="Sprite2D" parent="Mask"]
 z_index = 100
@@ -28,4 +27,3 @@ position = Vector2(640, 481)
 rotation = 3.14159
 scale = Vector2(200, 200)
 texture = ExtResource("1_22eaa")
-offset = Vector2(0.03, 0.03)

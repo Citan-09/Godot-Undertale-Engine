@@ -24,7 +24,6 @@ var attack: PackedScene = preload("res://Battle/Attacks/default_attack.tscn")
 var attack_spare: PackedScene = preload("res://Battle/Attacks/attack_nothing.tscn")
 
 func _on_get_turn() -> void:
-	Soul.mode = Soul.DISABLE_MOVEMENT
 	Box.change_size(Vector2(350, 140))
 	if not enemy_states[current_state].Sparable:
 		var a := Attacks.add_attack(attack)

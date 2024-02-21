@@ -133,8 +133,8 @@ func _physics_process(_delta: float) -> void:
 	Collisions[3].position = Vector2(cornerpositions[1].x + (colsize / 2.0 - 5.5), cornerpositions[0].y + current_size.y / 2.0)
 	RectContainer.pivot_offset = cornerpositions[0] + current_size / 2.0
 
-	TL.position = cornerpositions[0]
-	BR.position = cornerpositions[1]
+	TL.position = cornerpositions[0] + Vector2.ONE * 6
+	BR.position = cornerpositions[1] - Vector2.ONE * 6
 
 
 #region Screens text setting

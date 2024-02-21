@@ -9,7 +9,7 @@ const gravity: float = 3.25
 
 @export var soul_type := soul_types.SOUL_HUMAN
 var mode := RED: set = set_mode_silent
-var inputlist := Vector2.ZERO
+var inputs := Vector2.ZERO
 var slow_down: int
 
 var gravity_direction := Vector2.DOWN: set = set_gravity_direction_silent
@@ -65,8 +65,6 @@ signal shake_camera(amt: float)
 func _ready() -> void:
 	set_gravity_direction(Vector2.DOWN, false)
 	modulate.a = 0
-	set_physics_process(false)
-	set_process(false)
 	red()
 	menu_enable()
 
@@ -128,10 +126,10 @@ func check_bullet(area: Area2D) -> void:
 				Bullet.MODE_WHITE:
 					hurt(area)
 				Bullet.MODE_BLUE:
-					if special_bullet_mode == 0 and !inputlist.is_zero_approx() or special_bullet_mode == 1 and velocity or special_bullet_mode == 2 and (!inputlist.is_zero_approx() and velocity):
+					if special_bullet_mode == 0 and !inputs.is_zero_approx() or special_bullet_mode == 1 and velocity or special_bullet_mode == 2 and (!inputs.is_zero_approx() and velocity):
 						hurt(area)
 				Bullet.MODE_ORANGE:
-					if special_bullet_mode == 0 and !inputlist.is_zero_approx() or special_bullet_mode == 1 and not velocity or special_bullet_mode == 2 and not (!inputlist.is_zero_approx() and velocity):
+					if special_bullet_mode == 0 and !inputs.is_zero_approx() or special_bullet_mode == 1 and not velocity or special_bullet_mode == 2 and not (!inputs.is_zero_approx() and velocity):
 						hurt(area)
 
 func hurt(area: BulletArea) -> void:
@@ -171,7 +169,8 @@ func set_mode_silent(new_mode := RED) -> void:
 	mode = new_mode
 	if not is_node_ready():
 		return
-
+	if new_mode == DISABLE_MOVEMENT:
+		inputs = Vector2.ZERO
 	for key in ModeNodes:
 		assert(ModeNodes[key] is Node, "PLEASE Put a Node as a value in \"ModeNodes\"")
 		if key != new_mode:
@@ -224,11 +223,11 @@ func red() -> void:
 
 func four_dir_movement() -> void:
 	slow_down = int(Input.is_action_pressed("ui_cancel")) + 1
-	inputlist = Vector2(
+	inputs = Vector2(
 		Input.get_action_raw_strength("ui_right") - Input.get_action_raw_strength("ui_left"),
 		Input.get_action_raw_strength("ui_down") - Input.get_action_raw_strength("ui_up")
 		)
-	motion = speed * inputlist / slow_down
+	motion = speed * inputs / slow_down
 
 var motion := Vector2.ZERO
 
@@ -237,36 +236,36 @@ func blue() -> void:
 	slow_down = int(Input.is_action_pressed("ui_cancel")) + 1
 	match gravity_direction:
 		Vector2.DOWN:
-			inputlist = Vector2(
+			inputs = Vector2(
 				Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
 				Input.is_action_pressed("ui_up"))
 		Vector2.LEFT:
-			inputlist = Vector2(
+			inputs = Vector2(
 				Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up"),
 				Input.is_action_pressed("ui_right"))
 		Vector2.RIGHT:
-			inputlist = Vector2(
+			inputs = Vector2(
 				Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up"),
 				Input.is_action_pressed("ui_left"))
 		Vector2.UP:
-			inputlist = Vector2(
+			inputs = Vector2(
 				Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
 				Input.is_action_pressed("ui_down"))
 	if not is_on_floor():
 		motion.y += gravity * gravity_multiplier
-	motion.x = speed * ceil(inputlist.x) / slow_down
+	motion.x = speed * ceil(inputs.x) / slow_down
 	if is_on_floor():
 		if motion.y > 0: motion.y = 0
 		if gravity_multiplier > 1.0:
 			gravity_multiplier = 1.0
 			$Wallhit.play()
 			shake_camera.emit(0.6)
-		if inputlist.y:
+		if inputs.y:
 			motion.y -= jump[3]
 	else:
 		if motion.y > 0:
 			motion.y += gravity * (jump[2]-1.0)
-		elif not inputlist.y:
+		elif not inputs.y:
 			if motion.y < 20:
 				motion.y = lerpf(motion.y, 0, (jump[1] - 1.0) / 20.0)
 			else:
@@ -305,10 +304,10 @@ var p_tween: Tween
 func purple() -> void:
 	Sprite.modulate = Color.PURPLE
 	slow_down = int(Input.is_action_pressed("ui_cancel")) + 1
-	inputlist = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	motion.x = speed * inputlist.x / slow_down
+	inputs = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	motion.x = speed * inputs.x / slow_down
 	if Input.is_action_just_pressed("ui_down") or Input.is_action_just_pressed("ui_up"):
-		purple_pos += int(round(inputlist.y))
+		purple_pos += int(round(inputs.y))
 		purple_pos = clamp(purple_pos, 0, Main.Box.WebsArray.size() - 1)
 		update_purple_pos()
 
@@ -325,7 +324,7 @@ func update_purple_pos():
 
 func orange() -> void:
 	Sprite.modulate = Color(1, 0.65, 0)
-	motion = speed * inputlist
+	motion = speed * inputs
 
 func _unhandled_input(event: InputEvent) -> void:
 	if mode == ORANGE:
@@ -333,17 +332,16 @@ func _unhandled_input(event: InputEvent) -> void:
 			int(event.is_action_pressed("ui_right")) - int(event.is_action_pressed("ui_left")),
 			int(event.is_action_pressed("ui_down")) - int(event.is_action_pressed("ui_up"))
 		)
-		if _input_list_pressed.x: inputlist.x = _input_list_pressed.x
-		if _input_list_pressed.y: inputlist.y = _input_list_pressed.y
+		if _input_list_pressed: inputs = _input_list_pressed
 
 func cyan() -> void:
 	Sprite.modulate = Color.CYAN
 	slow_down = int(Input.is_action_pressed("ui_cancel")) + 1
-	inputlist = Vector2(
+	inputs = Vector2(
 		Input.get_action_raw_strength("ui_right") - Input.get_action_raw_strength("ui_left"),
 		Input.get_action_raw_strength("ui_down") - Input.get_action_raw_strength("ui_up")
 		)
-	motion = speed * inputlist / slow_down if CyanDetector.can_move else Vector2.ZERO
+	motion = speed * inputs / slow_down if CyanDetector.can_move else Vector2.ZERO
 
 #region MenuLogic
 
@@ -364,6 +362,7 @@ func disable() -> void:
 
 
 func enable() -> void:
+	set_physics_process(true)
 	z_index = 1
 	Collision.disabled = false
 	position = Vector2(320, 320)
@@ -379,6 +378,7 @@ func _on_move_soul(newpos: Vector2) -> void:
 
 
 func menu_enable() -> void:
+	mode = DISABLE_MOVEMENT
 	z_index = 0
 	Collision.disabled = true
 	enable_tween()
@@ -388,8 +388,6 @@ func enable_tween() -> void:
 	_kill_able_tween()
 	_able_tween = create_tween()
 	_able_tween.tween_property(self, "modulate:a", 1, 0.2)
-	_able_tween.tween_callback(set_process.bind(true))
-	_able_tween.tween_callback(set_physics_process.bind(true))
 
 
 #endregion
