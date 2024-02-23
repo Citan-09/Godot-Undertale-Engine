@@ -15,8 +15,8 @@ weapon_bars = 1
 weapon_type = 0
 critical_hits = false
 use_message = ["* You used the Item!"]
-item_information = ["* Item - Heals 0 hp 
-* This means this item has no description or is the default item."]
+item_information = ["* Item - Heals 5 hp.
+* Awesome Item"]
 throw_message = ["* You threw the Item!"]
 heal_amount = 5
 attack_amount = 0
@@ -31,8 +31,8 @@ weapon_bars = 1
 weapon_type = 0
 critical_hits = false
 use_message = ["* You used the Item!"]
-item_information = ["* Item - Heals 0 hp 
-* This means this item has no description or is the default item."]
+item_information = ["* Item - Heals 2 hp 
+* This means this item is OP"]
 throw_message = ["* You threw the Item!"]
 heal_amount = 2
 attack_amount = 0

@@ -71,7 +71,7 @@ func start_attack() -> void:
 	await get_tree().create_timer(2.5, false).timeout
 	plat.fire(Vector2(300, 600), 40, 80.0)
 	Soul.set_mode(Soul.RED)
-	await Box.change_position_size(Box.RELATIVE_CENTER, Vector2(0, -50), Vector2(0, 100), true, true)
+	await Box.advanced_change_size(Box.RELATIVE_BOTTOM_RIGHT, Vector2(0, 0), Vector2(0, 100), true, true)
 	var circle: BulletCircle
 	for i in 7:
 		if i % 2 == 0:

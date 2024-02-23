@@ -40,7 +40,8 @@ size = Vector2(18, 18)
 
 [node name="Soul" type="CharacterBody2D"]
 collision_layer = 0
-floor_snap_length = 0.0
+floor_stop_on_slope = false
+floor_max_angle = 0.0
 platform_on_leave = 1
 script = ExtResource("1_baf50")
 special_bullet_mode = 2

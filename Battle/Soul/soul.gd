@@ -196,9 +196,9 @@ func set_mode_silent(new_mode := RED) -> void:
 		set_gravity_direction_silent(Vector2.DOWN)
 
 func set_gravity_direction(new_direction: Vector2, force_blue_mode: bool = true) -> void:
-	velocity = Vector2.ZERO
-	gravity_direction = new_direction
 	up_direction = gravity_direction * -1
+	gravity_direction = new_direction
+	velocity = Vector2.ZERO
 	if force_blue_mode:
 		set_mode(BLUE)
 	rotation = Vector2.RIGHT.angle_to(new_direction) - PI / 2.0
@@ -379,6 +379,7 @@ func _on_move_soul(newpos: Vector2) -> void:
 
 func menu_enable() -> void:
 	mode = DISABLE_MOVEMENT
+	set_physics_process(false)
 	z_index = 0
 	Collision.disabled = true
 	enable_tween()

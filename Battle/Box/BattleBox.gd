@@ -2,7 +2,6 @@
 extends Node2D
 class_name BattleBox
 
-@export var Duration: float = 0.7
 @export var TransType := Tween.TRANS_QUAD
 @export var EaseType := Tween.EASE_OUT
 
@@ -10,6 +9,7 @@ class_name BattleBox
 @export var wintext := "* You won! \n* You Earned %s EXP and %s Gold."
 var anchor_targets: Array[Vector2] = [Vector2(220, 140), Vector2(420, 340)]
 #TL, TR, BL, BR
+
 
 var tw: Tween
 var cornerpositions: Array
@@ -104,15 +104,17 @@ func _ready() -> void:
 	defanchors = anchor_targets.duplicate()
 
 var defanchors := []
+
+const DURATION = 0.6
 func reset_box() -> void:
 	if tw and tw.is_valid():
 		tw.kill()
 	if !is_zero_approx(RectContainer.rotation):
 		RectContainer.rotation = fmod(RectContainer.rotation, PI)
 		tw = create_tween().set_ease(EaseType).set_trans(TransType)
-		tw.tween_property(RectContainer, "rotation", 0, Duration)
+		tw.tween_property(RectContainer, "rotation", 0, DURATION)
 	anchor_targets = defanchors.duplicate()
-	TweenSize(Duration)
+	TweenSize(ArgsHolder.new())
 	clear_webs()
 
 @onready var TL: RemoteTransform2D = $BoxContainer/TL
@@ -337,7 +339,14 @@ func soul_choice(action: Vector2i) -> void:
 #endregion
 
 #region Manual Size Changers
-func change_size(new_size: Vector2, relative := false, custom_time: Variant = null) -> void:
+class ArgsHolder:
+	var args: Array = []
+	var duration: float = DURATION: set = set_duration
+	
+	func set_duration(dur: float) -> void:
+		duration = dur
+
+func change_size(new_size: Vector2, relative := false) -> ArgsHolder:
 	var intended_size := anchor_targets[1] - anchor_targets[0]
 	var current_center := anchor_targets[0] + intended_size / 2.0
 	if relative: new_size += intended_size
@@ -345,22 +354,24 @@ func change_size(new_size: Vector2, relative := false, custom_time: Variant = nu
 	if new_size.y < RectContainer.custom_minimum_size.y: new_size.y = RectContainer.custom_minimum_size.y
 	anchor_targets[0] = current_center - new_size / 2.0
 	anchor_targets[1] = current_center + new_size / 2.0
-	await TweenSize(custom_time)
-	return
+	var args: = ArgsHolder.new()
+	TweenSize(args)
+	return args
 
-func change_position(new_position: Vector2, relative := false, custom_time: Variant = null) -> void:
+func change_position(new_position: Vector2, relative := false) -> ArgsHolder:
 	var intended_size := anchor_targets[1] - anchor_targets[0]
 	if relative: new_position += anchor_targets[0]
 	anchor_targets[0] = new_position - intended_size / 2.0
 	anchor_targets[1] = new_position + intended_size / 2.0
-	await TweenSize(custom_time)
-	return
+	var args: = ArgsHolder.new()
+	TweenSize(args)
+	return args
 
-func change_position_size(
+func advanced_change_size(
 				relative_to: int, new_position: Vector2 = Vector2.ZERO,
 				new_size: Vector2 = Vector2(100, 100), position_relative := false,
-				size_relative := false, custom_time: Variant = null
-			) -> void:
+				size_relative := false
+			) -> ArgsHolder:
 	var intended_size := anchor_targets[1] - anchor_targets[0]
 	if size_relative: new_size += intended_size
 	if new_size.x < RectContainer.custom_minimum_size.x: new_size.x = RectContainer.custom_minimum_size.x
@@ -383,27 +394,30 @@ func change_position_size(
 			anchor_targets[0] = new_position - new_size / 2.0
 
 	anchor_targets[1] = anchor_targets[0] + new_size
-	await TweenSize(custom_time)
+	var args: = ArgsHolder.new()
+	TweenSize(args)
+	return args
 
-func rotate_by(rot: float, relative := false, custom_time: Variant = null) -> void:
-	var tw_r: PropertyTweener = create_tween().set_ease(EaseType).set_trans(TransType).tween_property(RectContainer, "rotation", rot, custom_time if custom_time else Duration)
-	if relative: tw_r.as_relative()
+func rotate_by(rot: float, relative := false) -> ArgsHolder:
+	var args = ArgsHolder.new()
+	args.args = [rot, relative]
+	real_rotate_by(args)
+	return args
 
-func TweenSize(duration: Variant) -> void:
-	if !duration:
-		duration = Duration
-	else:
-		duration = duration as float
-		if !duration: duration = Duration
-	if tw and (tw.is_valid() and tw.is_running()):
-		tw.stop()
-		tw.chain()
-	else:
-		tw = create_tween().set_parallel().set_ease(EaseType).set_trans(TransType)
-	tw.tween_property(RectContainer, "theme_override_constants/margin_left", anchor_targets[0].x, duration)
-	tw.tween_property(RectContainer, "theme_override_constants/margin_top", anchor_targets[0].y, duration)
-	tw.tween_property(RectContainer, "theme_override_constants/margin_right", 640- anchor_targets[1].x, duration)
-	tw.tween_property(RectContainer, "theme_override_constants/margin_bottom", 480- anchor_targets[1].y, duration)
+func real_rotate_by(args: ArgsHolder) -> void:
+	await get_tree().process_frame
+	var tw_r: PropertyTweener = create_tween().set_ease(EaseType).set_trans(TransType).tween_property(RectContainer, "rotation", args.args[0], args.duratiom)
+	if args.args[1]:
+		tw_r.as_relative()
+
+
+func TweenSize(args: ArgsHolder) -> void:
+	await get_tree().process_frame
+	tw = create_tween().set_parallel().set_ease(EaseType).set_trans(TransType)
+	tw.tween_property(RectContainer, "theme_override_constants/margin_left", anchor_targets[0].x - cornerpositions[0].x , args.duration).as_relative()
+	tw.tween_property(RectContainer, "theme_override_constants/margin_top", anchor_targets[0].y - cornerpositions[0].y, args.duration).as_relative()
+	tw.tween_property(RectContainer, "theme_override_constants/margin_right", cornerpositions[1].x - anchor_targets[1].x, args.duration).as_relative()
+	tw.tween_property(RectContainer, "theme_override_constants/margin_bottom", cornerpositions[1].y - anchor_targets[1].y, args.duration).as_relative()
 	tw.play()
 	await tw.finished
 	return

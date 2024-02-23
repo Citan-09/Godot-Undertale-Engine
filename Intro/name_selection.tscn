@@ -193,6 +193,14 @@ bus = &"SFX"
 stream = ExtResource("6_eucha")
 bus = &"SFX"
 
+[connection signal="disable" from="." to="Prompt" method="hide"]
+[connection signal="disable" from="." to="Letters" method="hide"]
+[connection signal="disable" from="." to="Options" method="hide"]
+[connection signal="enable" from="." to="Prompt" method="show"]
+[connection signal="enable" from="." to="Name" method="show"]
+[connection signal="enable" from="." to="Letters" method="show"]
+[connection signal="enable" from="." to="Options" method="show"]
+[connection signal="enable" from="." to="Letters" method="enable_input" binds= [0]]
 [connection signal="backspace_key" from="Letters" to="." method="_on_backspace_pressed"]
 [connection signal="enter_key" from="Letters" to="." method="_on_name_input_text_submitted"]
 [connection signal="exited_letter" from="Letters" to="Options" method="enable"]
