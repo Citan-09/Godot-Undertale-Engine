@@ -12,7 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="6_dv01m"]
 [ext_resource type="AudioStream" uid="uid://c31288d48uxlm" path="res://sfx/Clicks/sans.wav" id="7_ayrok"]
 [ext_resource type="AudioStream" uid="uid://celgg0c7gujrh" path="res://sfx/Clicks/papyrus.wav" id="8_e2arg"]
-[ext_resource type="Script" path="res://Overworld/textboxwriter.gd" id="8_kq74i"]
+[ext_resource type="Script" path="res://Overworld/text_box_writer.gd" id="8_kq74i"]
 [ext_resource type="AudioStream" uid="uid://dp0b2vwktmxyv" path="res://sfx/Clicks/undyne1.wav" id="9_hcihw"]
 [ext_resource type="Script" path="res://Overworld/textbox_options_writer.gd" id="10_mpdck"]
 [ext_resource type="AudioStream" uid="uid://4ueo8s56ie5m" path="res://sfx/Clicks/undyne2.wav" id="10_prty4"]
@@ -434,8 +434,6 @@ autowrap_mode = 0
 script = ExtResource("10_mpdck")
 click_path = NodePath("../../../../Sounds/Generic")
 interval = 0.05
-queued_texts_handling = null
-entire_text_bbcode = null
 
 [node name="Second" type="RichTextLabel" parent="Control/TextContainer/Options"]
 visible = false
@@ -454,8 +452,6 @@ autowrap_mode = 0
 script = ExtResource("10_mpdck")
 click_path = NodePath("../../../../Sounds/Generic")
 interval = 0.05
-queued_texts_handling = null
-entire_text_bbcode = null
 
 [node name="Third" type="RichTextLabel" parent="Control/TextContainer/Options"]
 visible = false
@@ -473,8 +469,6 @@ autowrap_mode = 0
 script = ExtResource("10_mpdck")
 click_path = NodePath("../../../../Sounds/Generic")
 interval = 0.05
-queued_texts_handling = null
-entire_text_bbcode = null
 
 [node name="Fourth" type="RichTextLabel" parent="Control/TextContainer/Options"]
 visible = false
@@ -492,8 +486,6 @@ autowrap_mode = 0
 script = ExtResource("10_mpdck")
 click_path = NodePath("../../../../Sounds/Generic")
 interval = 0.05
-queued_texts_handling = null
-entire_text_bbcode = null
 
 [node name="Textbox" type="TextureRect" parent="."]
 visible = false

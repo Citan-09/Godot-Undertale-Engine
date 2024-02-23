@@ -212,78 +212,78 @@ func _set_soul_pos() -> void:
 	Soul.position = pos_info[0] + pos_info[1] * (soul_position if current_state != States.SELLING_ITEMS else 0)
 
 func _exit() -> void:
-	await Camera.blind(1)
 	ExitNode.force_enter()
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if current_state < States.VIEWING_DIALOGUE:
-		if event.is_action_pressed("ui_down") and soul_position < option_numbers[current_state]:
-			soul_position += 1
-			$select.play()
-			_set_soul_pos()
-		if event.is_action_pressed("ui_up") and soul_position > 0:
-			soul_position -= 1
-			$select.play()
-			_set_soul_pos()
-		if event.is_action_pressed("ui_cancel"):
-			match current_state:
-				States.BUYING_ITEMS:
-					soul_position = 0
-					_in_state(States.SELECTING_ACTIONS)
+	if !current_state < States.VIEWING_DIALOGUE:
+		return
+	
+	if event.is_action_pressed("ui_down") and soul_position < option_numbers[current_state]:
+		soul_position += 1
+		$select.play()
+		_set_soul_pos()
+	if event.is_action_pressed("ui_up") and soul_position > 0:
+		soul_position -= 1
+		$select.play()
+		_set_soul_pos()
+	if event.is_action_pressed("ui_cancel"):
+		match current_state:
+			States.BUYING_ITEMS:
+				soul_position = 0
+				_in_state(States.SELECTING_ACTIONS)
+				_refresh_g_info()
+			States.SELECTING_DIALOGUE:
+				soul_position = 2
+				_in_state(States.SELECTING_ACTIONS)
+			States.SELLING_ITEMS:
+				soul_position = 1
+				_in_state(States.SELECTING_ACTIONS)
+	
+	
+	if event.is_action_pressed("ui_accept"):
+		match current_state:
+			States.SELECTING_ACTIONS:
+				KeeperDialogue.kill_tweens(true)
+				match soul_position:
+					0:
+						soul_position = 0
+						_in_state(States.BUYING_ITEMS)
+					1:
+						if can_be_sold_to and Global.items.size() > 0 and _get_sell_items_count() > 0:
+							soul_position = 0
+							option_numbers[3] = _get_sell_items_count() - 1
+							_in_state(States.SELLING_ITEMS)
+						else:
+							_keeper_dialogue_temp(KeeperCannotSellDialogues, States.SELECTING_ACTIONS)
+					2:
+						soul_position = 0
+						_in_state(States.SELECTING_DIALOGUE)
+					3:
+						_exit()
+			States.SELECTING_DIALOGUE:
+				_keeper_dialogue_temp(KeeperDialogues[soul_position], States.SELECTING_DIALOGUE)
+			States.BUYING_ITEMS:
+				if Global.player_gold >= Offerings[soul_position].cost and Global.items.size() < 8:
+					Global.player_gold -= Offerings[soul_position].cost
+					Global.items.append(Offerings[soul_position].item)
+					$bought.play()
 					_refresh_g_info()
-				States.SELECTING_DIALOGUE:
-					soul_position = 2
-					_in_state(States.SELECTING_ACTIONS)
-				States.SELLING_ITEMS:
-					soul_position = 1
-					_in_state(States.SELECTING_ACTIONS)
-
-
-		if event.is_action_pressed("ui_accept"):
-			match current_state:
-				States.SELECTING_ACTIONS:
-					KeeperDialogue.kill_tweens(true)
-					match soul_position:
-						0:
-							soul_position = 0
-							_in_state(States.BUYING_ITEMS)
-						1:
-							if can_be_sold_to and Global.items.size() > 0 and _get_sell_items_count() > 0:
-								soul_position = 0
-								option_numbers[3] = _get_sell_items_count() - 1
-								_in_state(States.SELLING_ITEMS)
-							else:
-								_keeper_dialogue_temp(KeeperCannotSellDialogues, States.SELECTING_ACTIONS)
-						2:
-							soul_position = 0
-							_in_state(States.SELECTING_DIALOGUE)
-						3:
-							_exit()
-				States.SELECTING_DIALOGUE:
-					_keeper_dialogue_temp(KeeperDialogues[soul_position], States.SELECTING_DIALOGUE)
-				States.BUYING_ITEMS:
-					if Global.player_gold >= Offerings[soul_position].cost and Global.items.size() < 8:
-						Global.player_gold -= Offerings[soul_position].cost
-						Global.items.append(Offerings[soul_position].item)
-						$bought.play()
-						_refresh_g_info()
-					else:
-						$insufficient.play()
-						if Global.items.size() >= 8:
-							_refresh_g_info(true)
-				States.SELLING_ITEMS:
-					if Global.items.size() > soul_position and Global.items[soul_position] >= 0:
-						Global.items.remove_at(soul_position)
-						_refresh_g_info()
-						$bought.play()
-						option_numbers[3] = _get_sell_items_count() - 1
-						if soul_position > option_numbers[3]:
-							soul_position = option_numbers[3]
-						_set_soul_pos()
-						_write_sell_items(soul_position)
-						if !_get_sell_items_count():
-							soul_position = 1
-							_in_state(States.SELECTING_ACTIONS)
-
+				else:
+					$insufficient.play()
+					if Global.items.size() >= 8:
+						_refresh_g_info(true)
+			States.SELLING_ITEMS:
+				if Global.items.size() > soul_position and Global.items[soul_position] >= 0:
+					Global.items.remove_at(soul_position)
+					_refresh_g_info()
+					$bought.play()
+					option_numbers[3] = _get_sell_items_count() - 1
+					if soul_position > option_numbers[3]:
+						soul_position = option_numbers[3]
+					_set_soul_pos()
+					_write_sell_items(soul_position)
+					if !_get_sell_items_count():
+						soul_position = 1
+						_in_state(States.SELECTING_ACTIONS)
 

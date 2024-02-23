@@ -7,8 +7,9 @@ var soul_position := Vector2.ZERO
 var selecting: bool = false
 var optionamt: int = 0
 
-@export var summon_duration: float = 0.6
-@export var transtype := Tween.TRANS_EXPO
+const SUMMON_DURATION: float = 0.25
+const TransType := Tween.TRANS_EXPO
+
 var talking_character := DEFAULT
 ## Characters (add as needed)
 enum {
@@ -87,17 +88,17 @@ func _ready() -> void:
 		Options[i].text = ""
 
 func _summon_box() -> void:
-	var tw := create_tween().set_parallel().set_ease(Tween.EASE_OUT).set_trans(transtype)
-	tw.tween_property($Control, "size:x", defsize.x, summon_duration)
-	tw.tween_property($Control, "position:x", defpos.x, summon_duration).from(320)
-	tw.tween_property($Control, "modulate:a", 1.0, summon_duration)
-	await get_tree().create_timer(summon_duration / 2.0, false).timeout
+	var tw := create_tween().set_parallel().set_ease(Tween.EASE_OUT).set_trans(TransType)
+	tw.tween_property($Control, "size:x", defsize.x, SUMMON_DURATION)
+	tw.tween_property($Control, "position:x", defpos.x, SUMMON_DURATION).from(320)
+	tw.tween_property($Control, "modulate:a", 1.0, SUMMON_DURATION)
+	await get_tree().create_timer(SUMMON_DURATION / 2.0, false).timeout
 
 func _dismiss_box() -> void:
-	var tw := create_tween().set_parallel().set_ease(Tween.EASE_IN).set_trans(transtype)
-	tw.tween_property($Control, "size:x", 0, summon_duration)
-	tw.tween_property($Control, "position:x", 320, summon_duration)
-	tw.tween_property($Control, "modulate:a", 0, summon_duration)
+	var tw := create_tween().set_parallel().set_ease(Tween.EASE_IN).set_trans(TransType)
+	tw.tween_property($Control, "size:x", 0, SUMMON_DURATION)
+	tw.tween_property($Control, "position:x", 320, SUMMON_DURATION)
+	tw.tween_property($Control, "modulate:a", 0, SUMMON_DURATION)
 	await tw.finished
 	queue_free()
 
@@ -112,7 +113,7 @@ func abstract(text: Dialogues, options: PackedStringArray = [], text_after_optio
 	for i: int in min(options.size(), 4):
 		Options[i].show()
 	for i: int in min(options.size(), 4):
-		Options[i].type_text_advanced([options[i]])
+		Options[i].type_text_advanced(Dialogues.new().from([options[i]]))
 		await Options[i].finished_typing
 	if options.size():
 		$Control/Soul.show()

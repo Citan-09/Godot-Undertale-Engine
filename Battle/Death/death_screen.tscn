@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://gaeh4kqgpyox" path="res://Musics/death_screen_music_thing.wav" id="8_vka2r"]
 
 [sub_resource type="Gradient" id="Gradient_gesgi"]
-offsets = PackedFloat32Array(0.0791667, 1)
+interpolation_mode = 2
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_kcpej"]
@@ -28,6 +28,38 @@ z_index = 10
 position = Vector2(320, 240)
 
 [node name="Fade" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="Fade"]
+offset_left = 640.0
+offset_right = 740.0
+offset_bottom = 640.0
+rotation = 1.5708
+texture = SubResource("GradientTexture2D_kcpej")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="Fade"]
+offset_top = 480.0
+offset_right = 100.0
+offset_bottom = 1120.0
+rotation = 4.71239
+texture = SubResource("GradientTexture2D_kcpej")
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="Fade"]
+offset_left = 640.0
+offset_top = 480.0
+offset_right = 740.0
+offset_bottom = 960.0
+rotation = 3.14159
+texture = SubResource("GradientTexture2D_kcpej")
+expand_mode = 1
+
+[node name="TextureRect4" type="TextureRect" parent="Fade"]
+offset_right = 100.0
+offset_bottom = 480.0
+rotation = 6.28318
+texture = SubResource("GradientTexture2D_kcpej")
+expand_mode = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Fade"]
 modulate = Color(1, 1, 1, 0)
@@ -54,37 +86,6 @@ OVER[/color][b]
 
 [Press Z to load your save.]"
 scroll_active = false
-
-[node name="CanvasGroup" type="CanvasGroup" parent="Fade"]
-
-[node name="TextureRect" type="TextureRect" parent="Fade/CanvasGroup"]
-offset_left = 640.0
-offset_right = 740.0
-offset_bottom = 640.0
-rotation = 1.5708
-texture = SubResource("GradientTexture2D_kcpej")
-
-[node name="TextureRect2" type="TextureRect" parent="Fade/CanvasGroup"]
-offset_top = 480.0
-offset_right = 100.0
-offset_bottom = 1120.0
-rotation = 4.71239
-texture = SubResource("GradientTexture2D_kcpej")
-
-[node name="TextureRect3" type="TextureRect" parent="Fade/CanvasGroup"]
-offset_left = 640.0
-offset_top = 572.0
-offset_right = 740.0
-offset_bottom = 1212.0
-rotation = 3.14159
-texture = SubResource("GradientTexture2D_kcpej")
-
-[node name="TextureRect4" type="TextureRect" parent="Fade/CanvasGroup"]
-offset_top = -66.0
-offset_right = 100.0
-offset_bottom = 574.0
-rotation = 6.28318
-texture = SubResource("GradientTexture2D_kcpej")
 
 [node name="hurt" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_cfkwu")

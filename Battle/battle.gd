@@ -94,17 +94,16 @@ func _ready() -> void:
 		rewards["exp"] += rwrds.get("exp", 0)
 		# END
 		music = encounter.music
-
 		item_used.connect(enemies[i].on_item_used)
 		spare_used.connect(enemies[i].on_mercy_used)
-
+		
 		enemies[i].spared.connect(spare_enemy)
 		end_turn.connect(enemies[i]._on_get_turn)
 
 	Buttons.enable()
-	#Soul_Battle.get_parent().remove_child(Soul_Battle)
 	music_player.stream = music
 	music_player.play()
+	
 	Box.ActionMemory[0] = Box.State.Blittering
 	Box.blitter_flavour()
 	Box.TL.remote_path = Box.TL.get_path_to(Attacks.TopLeft)
@@ -287,7 +286,6 @@ func end_encounter() -> void:
 	Box.change_state(Box.State.Blittering)
 	Box.BlitterText.type_text([wintxt])
 	await Box.BlitterText.finished_all_texts
-	await Camera.blind(1, 1)
 	Global.temp_atk = 0
 	Global.temp_def = 0
 	Soul_Battle.queue_free()

@@ -1,13 +1,15 @@
-extends GenericTextTyper
+extends AdvancedTextTyper
 
 signal finished_typing
-func type_text(Text: Variant = "Blank") -> void:
+func type_text_advanced(dialogues: Dialogues) -> void:
 	typing = true
-	if typeof(Text) != TYPE_ARRAY and typeof(Text) != TYPE_PACKED_STRING_ARRAY: Text = [Text]
-	for i: int in Text.size():
+	var expressions: Array = dialogues.get_dialogues_single(Dialogues.DIALOGUE_EXPRESSIONS)
+	for i: int in dialogues.dialogues.size():
 		started_typing.emit(i)
-		await _type_one_line(Text[i])
-		if i == Text.size() - 1:
+		expression_set.emit(expressions[i])
+		pauses = dialogues.dialogues[i].pauses
+		await type_buffer(dialogues, i)
+		if i == dialogues.dialogues.size() - 1:
 			finished_typing.emit()
 		await confirm
 	finished_all_texts.emit()

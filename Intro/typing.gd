@@ -26,7 +26,7 @@ var Letters := [
 var current_pos := Vector2i.ZERO: set = set_current_pos
 
 signal letter_input(letter: String)
-signal exited_letter
+signal exited_letter(x: int)
 signal backspace_key
 signal enter_key
 
@@ -60,7 +60,7 @@ func _create_letters() -> void:
 		margin_current += Vector2(0, 8)
 	refresh_thing()
 
-func enable_input() -> void:
+func enable_input(x: int) -> void:
 	Choice.play()
 	refresh_thing()
 	set_process_unhandled_input(true)
@@ -69,7 +69,7 @@ func enable_input() -> void:
 func disable_input() -> void:
 	set_process_unhandled_input(false)
 	Letters[current_pos.x][current_pos.y].selected = false
-	exited_letter.emit()
+	exited_letter.emit(current_pos.x)
 
 var shift_pressed := false: set = _on_shift_pressed
 @onready var Shift: OptionSelectable = $Shift

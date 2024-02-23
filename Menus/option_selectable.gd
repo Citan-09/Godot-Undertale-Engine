@@ -1,12 +1,15 @@
 extends CanvasItem
 class_name OptionSelectable
 
-@export var selected := false : set = set_selected
-@export var selected_color := Color.YELLOW
 @onready var default_color: Color = self_modulate
 
+@export var Selected := false
+var selected := false : set = set_selected
+@export var selected_color := Color.YELLOW
+
+
 func _ready() -> void:
-	set_selected(selected)
+	set_selected(Selected)
 
 
 func set_selected(new_val: bool) -> void:

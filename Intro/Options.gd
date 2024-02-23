@@ -2,7 +2,7 @@ extends ReferenceRect
 
 signal confirm_name
 signal backspace
-signal enter_typing
+signal enter_typing(x: int)
 
 var current_pos: int = 0: set = set_current_pos
 
@@ -19,15 +19,18 @@ func set_current_pos(pos: int) -> void:
 	current_pos = posmod(pos, 3)
 	
 
-func enable() -> void:
+func enable(x: int) -> void:
 	Choice.play()
+	current_pos = 0
+	@warning_ignore("integer_division")
+	refresh_thing(0 if x < 2 else 1 if x < 5 else 2)
 	set_process_unhandled_input(true)
 	refresh_thing()
 	
 
 func disable() -> void:
 	Options[current_pos].selected = false
-	enter_typing.emit()
+	enter_typing.emit(current_pos)
 	set_process_unhandled_input(false)
 
 func _unhandled_input(event: InputEvent) -> void:

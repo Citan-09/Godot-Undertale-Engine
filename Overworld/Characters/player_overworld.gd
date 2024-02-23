@@ -14,6 +14,7 @@ var walk_speed_modifier := 1.0
 	
 ]
 @export var StepCounterNeeded: int = 200
+@export var STEP_INCREASE: int = 40
 var step_count: int = 0
 
 @onready var Sprite: AnimatedSprite2D = $Sprite
@@ -125,6 +126,7 @@ func _step() -> void:
 	step_count += 1
 	if step_count > StepCounterNeeded and randf() > 0.11:
 		step_count = 0
+		StepCounterNeeded += STEP_INCREASE
 		_enter_random_encounter()
 	
 
@@ -135,6 +137,6 @@ func _enter_random_encounter() -> void:
 	$Alert.show()
 	$encounter.play()
 	await get_tree().create_timer(0.35, false).timeout
-	OverworldSceneChanger.load_battle(OverworldSceneChanger.DEFAULT_BATTLE, Encounters.pick_random(), true)
+	OverworldSceneChanger.load_battle(OverworldSceneChanger.DEFAULT_BATTLE, Encounters.pick_random())
 	await get_tree().create_timer(0.6, false).timeout
 	$Alert.hide()

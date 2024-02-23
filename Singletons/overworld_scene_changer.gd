@@ -6,7 +6,7 @@ var overworld_scene: Overworld
 
 const DEFAULT_BATTLE := "res://Battle/battle.tscn"
 
-const blind_time: float = 0.5
+const blind_time: float = 0.4
 
 var data := {
 	entrance = null,
@@ -61,9 +61,15 @@ func _set_player_data(current_scene: Node) -> void:
 	var tw := create_tween().set_trans(Tween.TRANS_QUAD)
 	tw.tween_property(Blinder, "modulate:a", 0, blind_time)
 
-func load_cached_overworld_scene() -> void:
+func load_cached_overworld_scene(transistion := true) -> void:
 	Global.player_can_move = true
 	Global.player_in_menu = false
+	if transistion:
+		@warning_ignore("confusable_local_declaration")
+		var tw := create_tween().set_trans(Tween.TRANS_QUAD)
+		tw.tween_property(Blinder, "modulate:a", 1, blind_time)
+		tw.tween_property(Blinder, "modulate:a", 0, blind_time)
+		await tw.step_finished
 	var tree := get_tree()
 	tree.unload_current_scene()
 	var sc: Node = overworld_scene if overworld_scene else load(default_scene).instantiate()
@@ -98,7 +104,8 @@ func load_general_scene(scene_path: String, transistion := true):
 		@warning_ignore("confusable_local_declaration")
 		var tw := create_tween().set_trans(Tween.TRANS_QUAD)
 		tw.tween_property(Blinder, "modulate:a", 1, blind_time)
-		await tw.finished
+		tw.tween_property(Blinder, "modulate:a", 0, blind_time)
+		await tw.step_finished
 	Global.player_in_menu = false
 	Global.player_can_move = true
 	var scene: Node = load(scene_path).instantiate()
@@ -106,5 +113,4 @@ func load_general_scene(scene_path: String, transistion := true):
 	tree.root.remove_child(overworld_scene)
 	tree.root.add_child(scene)
 	tree.current_scene = scene
-	var tw := create_tween().set_trans(Tween.TRANS_QUAD)
-	tw.tween_property(Blinder, "modulate:a", 0, blind_time)
+		

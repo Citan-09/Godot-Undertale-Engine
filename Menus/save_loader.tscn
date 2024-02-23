@@ -104,7 +104,7 @@ bbcode_enabled = true
 text = "Continue"
 scroll_active = false
 script = ExtResource("4_licp7")
-selected = true
+Selected = true
 
 [node name="Reset" type="RichTextLabel" parent="Control/Options"]
 clip_contents = false
