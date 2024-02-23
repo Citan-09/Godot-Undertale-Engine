@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lanp82b7imsm"
-path="res://.godot/imported/spotlight_wide.png-e4c3abc8aa24a1f9c630f212d16bfa85.ctex"
+uid="uid://bia1mm06mtctc"
+path="res://.godot/imported/spotlight_basic.png-bbc41573ee3a6b1fc0e53561584b2a08.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Battle/Lights/spotlight_wide.png"
-dest_files=["res://.godot/imported/spotlight_wide.png-e4c3abc8aa24a1f9c630f212d16bfa85.ctex"]
+source_file="res://Battle/Lights/spotlight_basic.png"
+dest_files=["res://.godot/imported/spotlight_basic.png-bbc41573ee3a6b1fc0e53561584b2a08.ctex"]
 
 [params]
 

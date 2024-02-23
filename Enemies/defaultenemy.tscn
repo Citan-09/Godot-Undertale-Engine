@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://cm5va8tkbbc8t" path="res://Battle/Misc/Bubble/bubble_3.png" id="5_8173r"]
 [ext_resource type="Script" path="res://Resources/Enemies/EnemyState.gd" id="5_aph2x"]
 [ext_resource type="Texture2D" uid="uid://v2uk8ex2yh8f" path="res://Enemies/dust/default_dust.png" id="8_dm5rl"]
-[ext_resource type="Texture2D" uid="uid://bw02r33khpc4w" path="res://particles/smoke.png" id="9_xear3"]
+[ext_resource type="Texture2D" uid="uid://bw02r33khpc4w" path="res://Particles/smoke.png" id="9_xear3"]
 
 [sub_resource type="Resource" id="Resource_rhwy5"]
 script = ExtResource("2_ba03n")
