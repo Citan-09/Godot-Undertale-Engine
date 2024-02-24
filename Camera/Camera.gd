@@ -8,10 +8,10 @@ class_name CameraFx
 ]
 var blindertween: Tween
 
-@export var shake_amounts: Array = [32.0, 32.0, 10.0]
+@export var shake_amounts: Array = [40.0, 24.0, 8.0]
 @export var noise: FastNoiseLite
 var counter: float = 0.0
-var shakeamt: float = 0.0
+var shake_amt: float = 0.0
 
 var glitchtween: Tween
 
@@ -44,11 +44,11 @@ func rgbsplit(time: float = 0, targetrate: float = 1) -> void:
 
 var vfx: bool = Global.settings.vfx
 
-func _process(_delta: float) -> void:
-	if shakeamt > 0.0 and Global.settings["shake"]:
-		shakeamt = lerpf(shakeamt, 0, 0.13)
-		if shakeamt < 0:
-			shakeamt = 0
+func _process(delta: float) -> void:
+	if shake_amt > 0.0 and Global.settings["shake"]:
+		shake_amt = lerpf(shake_amt, 0, delta * 6)
+		if shake_amt < 0:
+			shake_amt = 0
 		shake()
 	if Global.settings.vfx != vfx:
 		vfx = Global.settings.vfx
@@ -56,11 +56,11 @@ func _process(_delta: float) -> void:
 			i.visible = vfx
 
 func add_shake(amt: float = 0.1) -> void:
-	shakeamt += amt
+	shake_amt = (shake_amt + amt) / (1 + shake_amt)
 
 func shake() -> void:
 	counter += 1.0
-	offset.x = noise.get_noise_2d(noise.seed * 1.29, counter) * shake_amounts[0] * shakeamt
-	offset.y = noise.get_noise_2d(noise.seed * 5.822, counter) * shake_amounts[1] * shakeamt
-	rotation_degrees = noise.get_noise_2d(noise.seed * 6.20, counter) * shake_amounts[2] * shakeamt
+	offset.x = noise.get_noise_2d(noise.seed * 1.29, counter) * shake_amounts[0] * shake_amt
+	offset.y = noise.get_noise_2d(noise.seed * 5.822, counter) * shake_amounts[1] * shake_amt
+	rotation_degrees = noise.get_noise_2d(noise.seed * 6.20, counter) * shake_amounts[2] * shake_amt
 
