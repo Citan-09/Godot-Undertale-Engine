@@ -378,7 +378,6 @@ func enable() -> void:
 
 
 func _on_move_soul(newpos: Vector2) -> void:
-	print(newpos)
 	if movetween and movetween.is_valid(): movetween.kill()
 	movetween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT).set_parallel()
 	movetween.tween_property(self, "position", newpos, TIME)
