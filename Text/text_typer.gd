@@ -32,9 +32,9 @@ func _process(_delta: float) -> void:
 		set("theme_override_fonts/normal_font", null)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel") and visibletween and visibletween.is_running():
+	if event.is_action_pressed("ui_cancel") and visibletween and visibletween.is_valid():
 		kill_tweens(true)
-	if event.is_action_pressed("ui_accept") and (!visibletween or !visibletween.is_running()):
+	if event.is_action_pressed("ui_accept") and (!visibletween or !visibletween.is_valid()):
 		emit_signal("confirm")
 
 func kill_tweens(complete_text := false) -> void:
@@ -89,7 +89,7 @@ func _type_one_line(line: String) -> bool:
 func playclick() -> void:
 	var currentchar := chache_parsed_text[visible_characters]
 	if currentchar in extra_delay:
-		if !visibletween.is_running() or !soundtween.is_running():
+		if !visibletween.is_valid() or !soundtween.is_valid():
 			return
 		soundtween.pause()
 		visibletween.pause()

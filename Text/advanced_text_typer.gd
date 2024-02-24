@@ -54,7 +54,7 @@ func playclick() -> void:
 	set_deferred(&"text_size_counter", text_size_counter + 1)
 	var currentchar := chache_parsed_text[visible_characters]
 	if currentchar in extra_delay:
-		if !visibletween.is_running() or !soundtween.is_running():
+		if !visibletween.is_valid() or !soundtween.is_valid():
 			return
 		soundtween.pause()
 		visibletween.pause()
