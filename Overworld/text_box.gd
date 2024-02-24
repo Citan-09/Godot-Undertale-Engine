@@ -7,8 +7,8 @@ var soul_position := Vector2.ZERO
 var selecting: bool = false
 var optionamt: int = 0
 
-const SUMMON_DURATION: float = 0.25
-const TransType := Tween.TRANS_EXPO
+const SUMMON_DURATION: float = 0.2
+const TransType := Tween.TRANS_QUAD
 
 var talking_character := DEFAULT
 ## Characters (add as needed)
@@ -82,22 +82,17 @@ func _ready() -> void:
 	$Control/Speaker.modulate.a = 0
 	$Control/Speaker.hide()
 	$Control.modulate.a = 0
-	$Control.size.x = 0
 	Text.text = ""
 	for i in Options.size():
 		Options[i].text = ""
 
 func _summon_box() -> void:
-	var tw := create_tween().set_parallel().set_ease(Tween.EASE_OUT).set_trans(TransType)
-	tw.tween_property($Control, "size:x", defsize.x, SUMMON_DURATION)
-	tw.tween_property($Control, "position:x", defpos.x, SUMMON_DURATION).from(320)
+	var tw := create_tween().set_parallel().set_trans(TransType)
 	tw.tween_property($Control, "modulate:a", 1.0, SUMMON_DURATION)
 	await get_tree().create_timer(SUMMON_DURATION / 2.0, false).timeout
 
 func _dismiss_box() -> void:
-	var tw := create_tween().set_parallel().set_ease(Tween.EASE_IN).set_trans(TransType)
-	tw.tween_property($Control, "size:x", 0, SUMMON_DURATION)
-	tw.tween_property($Control, "position:x", 320, SUMMON_DURATION)
+	var tw := create_tween().set_parallel().set_trans(TransType)
 	tw.tween_property($Control, "modulate:a", 0, SUMMON_DURATION)
 	await tw.finished
 	queue_free()

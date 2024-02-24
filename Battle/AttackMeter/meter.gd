@@ -33,9 +33,9 @@ func _ready() -> void:
 	var randir: int = (randi_range(0, 1) * 2)-1
 	var summonpos := Vector2(320, 320)
 	if randir == 1:
-		summonpos.x = 0
+		summonpos.x = 40
 	elif randir == -1:
-		summonpos.x = 640
+		summonpos.x = 600
 	hits = Global.item_list[Global.equipment["weapon"]].weapon_bars
 	speed_mult = Global.item_list[Global.equipment["weapon"]].weapon_speed
 	for i in hits:

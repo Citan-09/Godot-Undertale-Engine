@@ -9,9 +9,6 @@ var name_text := ""
 signal disable
 signal enable
 
-func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
 
 
 func _on_name_input_text_changed(new_text: String) -> void:
@@ -52,7 +49,6 @@ func _on_name_input_text_submitted() -> void:
 	tw.tween_callback($cymbal.play).set_delay(0.89)
 	$Camera.rgbsplit(5, 0.7)
 	await tw.finished
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Global.savegame()
 	OverworldSceneChanger.enter_room_default()
 

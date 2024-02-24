@@ -2,7 +2,6 @@ extends CanvasLayer
 
 @onready var defsize: Vector2 = $Control.size
 var soulpos: int = 0
-var reset := false
 
 signal reset_options
 
@@ -10,36 +9,28 @@ func _ready() -> void:
 	$Control/Texts/Location.text = Global.overworld_data["room_name"]
 	refresh()
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_right") and soulpos < 1:
-		$choice.play()
-		soulpos += 1
-		reset_options.emit()
-		$Control/Options/Reset.selected = true
-	if event.is_action_pressed("ui_left") and soulpos > 0:
-		$choice.play()
-		soulpos -= 1
-		reset_options.emit()
-		$Control/Options/Load.selected = true
-	if event.is_action_pressed("ui_accept"):
-		get_viewport().set_input_as_handled()
-		$select.play()
-		if soulpos:
-			if reset:
-				set_process_unhandled_input(false)
-				Global.resetgame()
-				var tw := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
-				tw.tween_property($Control, "position:y", 640, 0.7).as_relative()
-				await tw.finished
-				await get_tree().create_timer(0.4, false).timeout
-				get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
-			else:
-				$warn.play()
-				$Control/Options/Reset.text = "[color=red]CONFIRM RESET"
-				reset = true
-		else:
-			set_process_unhandled_input(false)
-			OverworldSceneChanger.enter_room_path(Global.overworld_data.room if Global.overworld_data.room is String else OverworldSceneChanger.default_scene, {})
+
+signal disable
+var reset_level: int = 0
+
+func load_save() -> void:
+	disable.emit()
+	OverworldSceneChanger.enter_room_path(Global.overworld_data.room if Global.overworld_data.room is String else OverworldSceneChanger.default_scene, {})
+
+
+func warn() -> void:
+	$warn.play()
+	$Control/Options/Reset.text = "[color=red]CONFIRM RESET"
+	reset_level = 1
+
+func reset() -> void:
+	disable.emit()
+	Global.resetgame()
+	var tw := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	tw.tween_property($Control, "position:y", 640, 0.7).as_relative()
+	await tw.finished
+	await get_tree().create_timer(0.4, false).timeout
+	get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 
 func _hide() -> void:
 	Global.player_in_menu = false
@@ -61,3 +52,10 @@ func _show() -> void:
 	tw.tween_property($Control, "size:y", defsize.y, 0.6)
 	tw.tween_property($Control, "modulate:a", 1, 0.6)
 
+
+
+func _on_reset_accept_pressed() -> void:
+	if reset_level:
+		reset()
+		return
+	warn()

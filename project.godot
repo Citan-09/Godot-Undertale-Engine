@@ -23,6 +23,7 @@ config/icon="res://icon.svg"
 
 Global="*res://Singletons/global.tscn"
 OverworldSceneChanger="*res://Singletons/overworld_scene_changer.tscn"
+AudioPlayer="*res://Menus/audio_player.tscn"
 
 [display]
 

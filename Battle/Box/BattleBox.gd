@@ -410,6 +410,7 @@ func real_rotate_by(args: ArgsHolder) -> void:
 	if args.args[1]:
 		tw_r.as_relative()
 
+signal tweening_finished
 
 func TweenSize(args: ArgsHolder) -> void:
 	await get_tree().process_frame
@@ -420,7 +421,7 @@ func TweenSize(args: ArgsHolder) -> void:
 	tw.tween_property(RectContainer, "theme_override_constants/margin_bottom", cornerpositions[1].y - anchor_targets[1].y, args.duration).as_relative()
 	tw.play()
 	await tw.finished
-	return
+	tweening_finished.emit()
 #endregion
 
 #region webs

@@ -239,6 +239,8 @@ offset_left = 1481.0
 offset_top = 21.0
 offset_right = 1519.0
 offset_bottom = 35.0
+door_id = 1
+new_room_entrance_id = 1
 
 [node name="Marker" type="Marker2D" parent="."]
 position = Vector2(56, 41)

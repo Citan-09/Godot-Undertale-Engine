@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://btja1asr6igo1"]
+
+[ext_resource type="Script" path="res://Menus/option_selectable.gd" id="1_3blgh"]
+[ext_resource type="PackedScene" uid="uid://cqieb06a4unb2" path="res://Menus/menu_soul.tscn" id="1_d6sut"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuSoul" parent="." instance=ExtResource("1_d6sut")]
+position = Vector2(197, 146)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." node_paths=PackedStringArray("NodeDown")]
+layout_mode = 0
+offset_left = 226.0
+offset_top = 128.0
+offset_right = 546.0
+offset_bottom = 218.0
+text = "Delete this scene i hate it"
+scroll_active = false
+script = ExtResource("1_3blgh")
+Selected = true
+enabled = null
+selected_color = null
+offset = Vector2(-8, 12)
+NodeDown = NodePath("../RichTextLabel2")
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="." node_paths=PackedStringArray("NodeUp")]
+layout_mode = 0
+offset_left = 232.0
+offset_top = 238.0
+offset_right = 272.0
+offset_bottom = 278.0
+text = "Hello"
+scroll_active = false
+script = ExtResource("1_3blgh")
+Selected = null
+enabled = null
+selected_color = null
+offset = Vector2(-8, 12)
+NodeUp = NodePath("../RichTextLabel")
+
+[connection signal="accept_pressed" from="RichTextLabel" to="." method="queue_free"]
+[connection signal="moved_soul" from="RichTextLabel" to="MenuSoul" method="_move_to_global_position"]
+[connection signal="accept_pressed" from="RichTextLabel2" to="." method="print_tree_pretty"]
+[connection signal="moved_soul" from="RichTextLabel2" to="MenuSoul" method="_move_to_global_position"]

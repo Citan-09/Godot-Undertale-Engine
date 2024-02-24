@@ -26,7 +26,7 @@ func _ready() -> void:
 	tw.tween_property(self, "position:x", _dist * sign(direction), _dist / (MOVE_SPEED * speed_mult)).as_relative().set_trans(movetype)
 	await tw.finished
 	tw = create_tween().set_ease(Tween.EASE_OUT).set_trans(TRANSTYPE).set_parallel()
-	tw.chain()
+	tw.tween_callback(hide)
 	tw.tween_callback(emit_signal.bind("miss"))
 	tw.tween_callback(queue_free)
 

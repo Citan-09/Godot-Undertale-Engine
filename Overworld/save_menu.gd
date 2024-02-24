@@ -6,6 +6,7 @@ var saved := false
 @onready var sc: Node = get_tree().current_scene
 
 signal _on_save
+signal choiced
 var tw: Tween
 
 func _ready() -> void:
@@ -19,34 +20,30 @@ func _ready() -> void:
 	_show()
 	refresh()
 
+
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_right") and soulpos < 1:
-		$choice.play()
-		soulpos += 1
-		$Control/Options/Soul.position = $Control/Options/Return.position
-	if event.is_action_pressed("ui_left") and soulpos > 0:
-		$choice.play()
-		soulpos -= 1
-		$Control/Options/Soul.position = $Control/Options/Save.position
-	if event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("ui_accept") and saved or event.is_action_pressed("ui_cancel"):
+		dismiss()
 		get_viewport().set_input_as_handled()
-		if saved:
-			set_process_unhandled_input(false)
-			await _hide()
-			queue_free()
-		else:
-			if soulpos:
-				await _hide()
-				queue_free()
-			else:
-				_on_save.emit()
-				saved = true
-				$Control/Options/Return.hide()
-				$Control/Options/Save.text = "[color=yellow]Saved."
-				$Control/Options/Soul.hide()
-				Global.savegame()
-				refresh()
-				$save.play()
+	
+
+func dismiss() -> void:
+	choiced.emit()
+	set_process_unhandled_input(false)
+	await _hide()
+	queue_free()
+
+
+func save() -> void:
+	choiced.emit()
+	_on_save.emit()
+	saved = true
+	$Control/Options/Return.hide()
+	$Control/Options/Save.text = "[color=yellow]Saved."
+	$Control/Options/Soul.hide()
+	Global.savegame()
+	refresh()
+	AudioPlayer.play("save")
 
 func _show() -> void:
 	Global.player_in_menu = true

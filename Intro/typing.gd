@@ -1,4 +1,4 @@
-extends Node
+extends ReferenceRect
 
 @export var margin_letters := Vector2(0, 0)
 @export var Choice: AudioStreamPlayer
@@ -60,6 +60,7 @@ func _create_letters() -> void:
 		margin_current += Vector2(0, 8)
 	refresh_thing()
 
+@warning_ignore("unused_parameter")
 func enable_input(x: int) -> void:
 	Choice.play()
 	refresh_thing()
@@ -79,6 +80,8 @@ func _on_shift_pressed(shift: bool) -> void:
 	$Shift.selected = shift
 
 func _unhandled_input(event: InputEvent) -> void:
+	if !visible:
+		return
 	if event is InputEventKey:
 		if event.keycode == KEY_SHIFT:
 			shift_pressed = event.is_pressed()
@@ -109,6 +112,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_up"):
 		refresh_thing(Vector2.UP)
 	if event.is_action_pressed("ui_accept"):
+		Choice.play()
 		letter_input.emit(Letters[current_pos.x][current_pos.y].get_parsed_text())
 	
 

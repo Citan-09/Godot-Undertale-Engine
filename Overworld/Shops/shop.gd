@@ -49,7 +49,7 @@ const InfoPanel := {
 const KeeperBox := {
 	false: Vector2(419, 239),
 	true: Vector2(642, 239),
-	"time": 0.3,
+	"time": 0.2,
 }
 
 @onready var Rects: Array[NinePatchRect] = [$Control/Main, $Control/TextBox]
@@ -153,7 +153,7 @@ var tw2: Tween
 
 func _set_item_panel():
 	if tw and tw.is_valid(): tw.kill()
-	tw = create_tween().set_trans(Tween.TRANS_EXPO)
+	tw = create_tween().set_trans(Tween.TRANS_QUART)
 	if current_state == States.BUYING_ITEMS:
 		ItemsInfoBox.visible = true
 	tw.tween_property(ItemsInfoBox, "position", InfoPanel[current_state == States.BUYING_ITEMS], InfoPanel.time)
@@ -164,7 +164,7 @@ func _set_item_panel():
 
 func _set_keeper_box():
 	if tw2 and tw2.is_valid(): tw2.kill()
-	tw2 = create_tween().set_trans(Tween.TRANS_CUBIC).set_parallel()
+	tw2 = create_tween().set_trans(Tween.TRANS_CIRC).set_parallel()
 	if current_state == States.VIEWING_DIALOGUE:
 		tw2.tween_property(Rects[0], "modulate:a", float(current_state != States.VIEWING_DIALOGUE), KeeperBox.time)
 	tw2.tween_property(Rects[1], "size", KeeperBox[current_state == States.VIEWING_DIALOGUE], KeeperBox.time)
