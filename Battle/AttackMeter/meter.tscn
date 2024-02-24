@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://chnxh4khbo84n" path="res://Battle/AttackMeter/meter.png" id="1_w0nur"]
 
 [node name="Meter" type="CanvasLayer"]
+follow_viewport_enabled = true
 script = ExtResource("1_olgph")
 
 [node name="Meter" type="Sprite2D" parent="."]

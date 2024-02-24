@@ -23,4 +23,10 @@ position = Vector2(320, 240)
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.4
 
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -265.0
+offset_right = 895.0
+offset_bottom = 619.0
+color = Color(1, 1, 1, 0.164706)
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -2,7 +2,7 @@ extends Node2D
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouse and event.is_pressed():
-		pass
+		get_window().size = Vector2(960, 540)
 
 
 func _ready() -> void:

@@ -24,7 +24,7 @@ var attack: PackedScene = preload("res://Battle/Attacks/default_attack.tscn")
 var attack_spare: PackedScene = preload("res://Battle/Attacks/attack_nothing.tscn")
 
 func _on_get_turn() -> void:
-	Box.change_size(Vector2(350, 140))
+	Box.change_size(Vector2(140, 140))
 	if not enemy_states[current_state].Sparable:
 		var a := Attacks.add_attack(attack)
 		a.connect(&"throw", throw)
@@ -33,7 +33,6 @@ func _on_get_turn() -> void:
 		a.start_attack()  # Method ran to start attack (use any other method if you want for some reason.)
 	else:
 		var a := Attacks.add_attack(attack_spare)
-		a.connect(&"throw", throw)
 		await dialogue.DialogueText(dialogues[1])
 		a.start_attack()  # Method ran to start attack (use any other method if you want for some reason.)
 
@@ -41,15 +40,16 @@ func _set_expression(exp_id: Array) -> void:
 	head.frame = exp_id[0]
 	body.frame = exp_id[1]
 
-func throw(dir: Vector2 = Vector2.DOWN) -> void:
+
+func throw(dir: Vector2 = Vector2.DOWN, power: int = 10) -> void:
 	throw_timer.start()
 	AnimStates.stop()
 	AnimStates.travel(animations.find_key(dir))
 	throw_head.play("crazy", true)
-	await get_tree().create_timer(0.25, false).timeout
+	await get_tree().create_timer(0.15, false).timeout
 	Soul.set_gravity_direction(dir, true)
-	for i in 2: await get_tree().physics_frame
-	Soul.gravity_multiplier = 10
+	Soul.gravity_multiplier = power
+	
 
 func end_throw() -> void:
 	throw_head.animation = "heads"

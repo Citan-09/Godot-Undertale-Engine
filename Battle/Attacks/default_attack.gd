@@ -1,17 +1,19 @@
 extends AttackBase
 class_name default_attack
 
+signal throw(dir: Vector2, _pow: int)
 func start_attack() -> void:
+	await get_tree().create_timer(0.3, false).timeout
 	throw.emit(Vector2.UP)
-	await get_tree().create_timer(0.5, false).timeout
+	await get_tree().create_timer(0.3, false).timeout
 	throw.emit(Vector2.RIGHT)
-	await get_tree().create_timer(0.5, false).timeout
+	await get_tree().create_timer(0.3, false).timeout
 	throw.emit(Vector2.LEFT)
-	await get_tree().create_timer(0.5, false).timeout
-	throw.emit(Vector2.DOWN)
+	await get_tree().create_timer(1, false).timeout
+	throw.emit(Vector2.DOWN, 500)
 	for i in 4:
 		if i % 2 == 1:
-			Box.change_size(Vector2(-40, 0), true)
+			Box.change_size(Vector2(50, 0), true).set_duration(1)
 		for l in i:
 			var clone: Node = bullet1.instantiate()
 			clone.position = Vector2(120, 380 - l * 20)

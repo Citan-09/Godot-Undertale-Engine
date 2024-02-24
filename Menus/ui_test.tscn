@@ -14,7 +14,7 @@ grow_vertical = 2
 [node name="MenuSoul" parent="." instance=ExtResource("1_d6sut")]
 position = Vector2(197, 146)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="." node_paths=PackedStringArray("NodeDown")]
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
 offset_left = 226.0
 offset_top = 128.0
@@ -24,12 +24,9 @@ text = "Delete this scene i hate it"
 scroll_active = false
 script = ExtResource("1_3blgh")
 Selected = true
-enabled = null
 selected_color = null
-offset = Vector2(-8, 12)
-NodeDown = NodePath("../RichTextLabel2")
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="." node_paths=PackedStringArray("NodeUp")]
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
 layout_mode = 0
 offset_left = 232.0
 offset_top = 238.0
@@ -39,12 +36,4 @@ text = "Hello"
 scroll_active = false
 script = ExtResource("1_3blgh")
 Selected = null
-enabled = null
 selected_color = null
-offset = Vector2(-8, 12)
-NodeUp = NodePath("../RichTextLabel")
-
-[connection signal="accept_pressed" from="RichTextLabel" to="." method="queue_free"]
-[connection signal="moved_soul" from="RichTextLabel" to="MenuSoul" method="_move_to_global_position"]
-[connection signal="accept_pressed" from="RichTextLabel2" to="." method="print_tree_pretty"]
-[connection signal="moved_soul" from="RichTextLabel2" to="MenuSoul" method="_move_to_global_position"]

@@ -247,11 +247,11 @@ func backout() -> void:
 
 
 func change_state(new_state: State) -> void:
-	if new_state == ActionMemory.back():
+	if ActionMemory and new_state == ActionMemory.back():
 		return
 	if new_state == State.Disabled:
-			disable()
-			return
+		disable()
+		return
 	ActionMemory.append(new_state)
 	refresh_nodes()
 
@@ -284,7 +284,8 @@ var used_item: int = 0
 
 func blitter_flavour() -> void:
 	BlitterText.blitter(Main.TurnNumber)
-	ActionMemory[0] = State.BlitteringCasual
+	ActionMemory.clear()
+	change_state(State.BlitteringCasual)
 	Blitter.show()
 
 
@@ -314,28 +315,27 @@ func blitter_mercy() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if ActionMemory[0] != State.Disabled:
-		if event.is_action_pressed("ui_down") and ActionMemory.size() > 1:
-			if soulposition.y < choicesextends.size() - 1:
-				soul_choice(Vector2i.DOWN)
-		if event.is_action_pressed("ui_left") and ActionMemory.size() > 1:
-			if soulposition.x > 0:
-				soul_choice(Vector2i.LEFT)
-		if event.is_action_pressed("ui_right") and ActionMemory.size() > 1:
-			if soulposition.x < choicesextends[soulposition.y] - 1:
-				soul_choice(Vector2i.RIGHT)
-		if event.is_action_pressed("ui_up") and ActionMemory.size() > 1:
-			if soulposition.y > 0:
-				soul_choice(Vector2i.UP)
+	if ActionMemory[0] == State.Disabled:
+		return
+	if event.is_action_pressed("ui_down") and ActionMemory.size() > 1:
+		if soulposition.y < choicesextends.size() - 1:
+			soul_choice(Vector2i.DOWN)
+	if event.is_action_pressed("ui_left") and ActionMemory.size() > 1:
+		if soulposition.x > 0:
+			soul_choice(Vector2i.LEFT)
+	if event.is_action_pressed("ui_right") and ActionMemory.size() > 1:
+		if soulposition.x < choicesextends[soulposition.y] - 1:
+			soul_choice(Vector2i.RIGHT)
+	if event.is_action_pressed("ui_up") and ActionMemory.size() > 1:
+		if soulposition.y > 0:
+			soul_choice(Vector2i.UP)
 
 func soul_choice(action: Vector2i) -> void:
-	if ActionMemory.back() != State.Blittering:
-		soulposition += action
-		if ActionMemory.back() == State.Iteming:
-			emit_signal("move_soul", options_pos_base + options_pos_step * Vector2(soulposition.x, soulposition.y % itemsize))
-		else:
-			emit_signal("move_soul", options_pos_base + options_pos_step * Vector2(soulposition.x, soulposition.y))
-		if action != Vector2i.ZERO: $Sounds/choice.play()
+	if ActionMemory.back() == State.Blittering:
+		return
+	soulposition += action
+	move_soul.emit(options_pos_base + options_pos_step * Vector2(soulposition.x, soulposition.y))
+	if action != Vector2i.ZERO: $Sounds/choice.play()
 #endregion
 
 #region Manual Size Changers
@@ -431,15 +431,15 @@ func clear_webs() -> void:
 		i.free()
 
 ## Set n = 0 to clear webs.
-func set_webs(n: int, seperation: float = -1, margin: int = 15) -> void:
+func set_webs(n: int, seperation: float = -1, margin: int = 0) -> void:
 	clear_webs()
 	if n < 1:
 		return
-	var _seperation: float = (current_size.y - 10 - margin) / n if seperation == -1 else seperation
-	for i in n:
+	var _seperation: float = (current_size.y - 10 - margin * 2) / (n + 1) if seperation == -1 else seperation
+	for i in range(1 , n + 1):
 		var _w = web.instantiate() as Line2D
 		Webs.add_child(_w)
-		_w.position = Vector2(0, _seperation * i + 10 + margin)
+		_w.position = Vector2(0, _seperation * i)
 	WebsArray = Webs.get_children()
 
 func get_web_y_pos(id: int) -> float:

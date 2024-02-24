@@ -32,7 +32,6 @@ enum Masking {
 	RELATIVE_BOX,
 }
 
-signal throw(dir: Vector2)
 
 ## BULLETS ADDED TO BOX MIGHT MOVE UNEXPECTEDLY DUE TO BOX RESIZING!
 func add_bullet(_bullet: Node, mask: int = 0) -> void:

@@ -297,7 +297,6 @@ stream_2/weight = 1.0
 [node name="TextBox" type="CanvasLayer"]
 layer = 2
 script = ExtResource("1_oeaq5")
-summon_duration = 0.5
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

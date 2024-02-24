@@ -70,7 +70,9 @@ func _ready() -> void:
 
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	if changed_direction_time > 0:
+		changed_direction_time -= delta
 	Sprite.scale = Vector2.ONE
 	if gravity_direction.x:
 		motion.x = velocity.y
@@ -203,9 +205,13 @@ func set_gravity_direction(new_direction: Vector2, force_blue_mode: bool = true)
 		set_mode(BLUE)
 	rotation = Vector2.RIGHT.angle_to(new_direction) - PI / 2.0
 
+var changed_direction_time: float = 0
+const TIME_GRANT: float = 0.08
+
 func set_gravity_direction_silent(new_direction: Vector2) -> void:
 	gravity_direction = new_direction
 	up_direction = gravity_direction * -1
+	changed_direction_time = TIME_GRANT
 	rotation = Vector2.RIGHT.angle_to(new_direction) - PI / 2.0
 
 const DIRS = {
@@ -256,7 +262,7 @@ func blue() -> void:
 	motion.x = speed * ceil(inputs.x) / slow_down
 	if is_on_floor():
 		if motion.y > 0: motion.y = 0
-		if gravity_multiplier > 1.0:
+		if gravity_multiplier > 1.0 and changed_direction_time <= 0:
 			gravity_multiplier = 1.0
 			$Wallhit.play()
 			shake_camera.emit(0.6)
@@ -363,6 +369,8 @@ func disable() -> void:
 
 func enable() -> void:
 	set_physics_process(true)
+	set_process_unhandled_input(true)
+	inputs = Vector2.ZERO
 	z_index = 1
 	Collision.disabled = false
 	position = Vector2(320, 320)
@@ -370,9 +378,8 @@ func enable() -> void:
 
 
 func _on_move_soul(newpos: Vector2) -> void:
+	print(newpos)
 	if movetween and movetween.is_valid(): movetween.kill()
-	if !is_inside_tree():
-		return
 	movetween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT).set_parallel()
 	movetween.tween_property(self, "position", newpos, TIME)
 
@@ -380,6 +387,7 @@ func _on_move_soul(newpos: Vector2) -> void:
 func menu_enable() -> void:
 	mode = DISABLE_MOVEMENT
 	set_physics_process(false)
+	set_process_unhandled_input(false)
 	z_index = 0
 	Collision.disabled = true
 	enable_tween()

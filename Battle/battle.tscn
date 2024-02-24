@@ -32,6 +32,7 @@ position = Vector2(317, 240)
 unique_name_in_owner = true
 
 [node name="SoulLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="Soul_Battle" parent="SoulLayer" instance=ExtResource("6_rlfkv")]
 unique_name_in_owner = true
