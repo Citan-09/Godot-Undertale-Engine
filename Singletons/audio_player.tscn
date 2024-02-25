@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://06qmf7sf647u"]
+[gd_scene load_steps=6 format=3 uid="uid://06qmf7sf647u"]
 
 [ext_resource type="Script" path="res://Singletons/audio_player.gd" id="1_tfohb"]
 [ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="2_jasgj"]
 [ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="3_vg0sk"]
 [ext_resource type="AudioStream" uid="uid://8suhxxampqkc" path="res://sfx/snd_save.wav" id="4_ajm10"]
+[ext_resource type="AudioStream" uid="uid://dsid8nuan7lku" path="res://sfx/player_hurt.wav" id="5_6qytp"]
 
 [node name="AudioPlayer" type="Node"]
 script = ExtResource("1_tfohb")
@@ -18,4 +19,8 @@ bus = &"SFX"
 
 [node name="save" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_ajm10")
+bus = &"SFX"
+
+[node name="hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_6qytp")
 bus = &"SFX"

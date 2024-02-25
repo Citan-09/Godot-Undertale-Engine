@@ -114,7 +114,6 @@ func abstract(text: Dialogues, options: PackedStringArray = [], text_after_optio
 		$Control/Soul.show()
 		selecting = true
 		optionamt = options.size()
-		@warning_ignore("narrowing_conversion")
 		soulpos = (optionamt - 1) / 2.0
 		$Control/Soul/choice.play()
 		soul_position = Vector2(320, Options[0].global_position.y)

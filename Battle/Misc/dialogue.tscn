@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Battle/Misc/dialogue.gd" id="1_dt86q"]
 [ext_resource type="Texture2D" uid="uid://1hnj4eaoawfv" path="res://Battle/Misc/Bubble/bubble_1.png" id="1_v6xqj"]
-[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="2_2m2k7"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="2_2m2k7"]
 [ext_resource type="Script" path="res://Battle/Misc/DialogueText.gd" id="11_0sva1"]
 [ext_resource type="AudioStream" uid="uid://degl6ii2gdr87" path="res://sfx/Clicks/generic1.wav" id="12_6qcf2"]
 [ext_resource type="AudioStream" uid="uid://c31288d48uxlm" path="res://sfx/Clicks/sans.wav" id="13_yqa7m"]

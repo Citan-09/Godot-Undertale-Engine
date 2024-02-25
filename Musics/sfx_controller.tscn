@@ -3,7 +3,7 @@
 [ext_resource type="AudioStream" uid="uid://n4nbydhkmdog" path="res://Musics/default2.wav" id="2_tli5q"]
 [ext_resource type="AudioStream" uid="uid://8suhxxampqkc" path="res://sfx/snd_save.wav" id="3_7pxja"]
 [ext_resource type="Texture2D" uid="uid://c4d1ca57s7ov2" path="res://Boxes/box.png" id="4_jkdk2"]
-[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="5_b8ktx"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="5_b8ktx"]
 
 [sub_resource type="GDScript" id="GDScript_yubhl"]
 script/source = "extends CanvasLayer

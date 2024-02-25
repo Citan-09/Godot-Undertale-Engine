@@ -81,8 +81,8 @@ func _type_one_line(line: String) -> bool:
 	var parsed_text := get_parsed_text()
 	visibletween.tween_property(self, "visible_ratio", 1, interval * parsed_text.length())
 	soundtween.set_loops(parsed_text.length())
-	soundtween.tween_interval(interval)
 	soundtween.tween_callback(playclick)
+	soundtween.tween_interval(interval)
 	await visibletween.finished
 	return true
 

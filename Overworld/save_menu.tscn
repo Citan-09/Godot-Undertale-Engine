@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://df7xhaqls5ufd"]
 
 [ext_resource type="Script" path="res://Overworld/save_menu.gd" id="1_86oyx"]
-[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="2_hb2sc"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_nsa7s"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="3_b32ot"]
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="3_fvu3e"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="4_3judy"]
 [ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="5_ef50b"]
 [ext_resource type="Script" path="res://Menus/menu_soul.gd" id="6_sftpf"]
 [ext_resource type="Script" path="res://Menus/option_selectable_solo.gd" id="7_3yvrc"]
@@ -62,7 +62,7 @@ offset_left = 28.0
 offset_top = 22.0
 offset_right = 440.0
 offset_bottom = 53.0
-theme = ExtResource("2_hb2sc")
+theme = ExtResource("4_3judy")
 bbcode_enabled = true
 text = "Chara"
 scroll_active = false
@@ -75,7 +75,7 @@ offset_left = 165.0
 offset_top = 22.0
 offset_right = 577.0
 offset_bottom = 53.0
-theme = ExtResource("2_hb2sc")
+theme = ExtResource("4_3judy")
 bbcode_enabled = true
 text = "LV2"
 scroll_active = false
@@ -88,7 +88,7 @@ offset_left = 270.0
 offset_top = 22.0
 offset_right = 682.0
 offset_bottom = 53.0
-theme = ExtResource("2_hb2sc")
+theme = ExtResource("4_3judy")
 bbcode_enabled = true
 text = "HH:MM:SS"
 scroll_active = false
@@ -101,7 +101,7 @@ offset_left = 28.0
 offset_top = 61.0
 offset_right = 440.0
 offset_bottom = 92.0
-theme = ExtResource("2_hb2sc")
+theme = ExtResource("4_3judy")
 bbcode_enabled = true
 text = "Ruins-LeafPile"
 scroll_active = false
@@ -130,7 +130,7 @@ offset_left = 57.0
 offset_top = 121.0
 offset_right = 469.0
 offset_bottom = 152.0
-theme = ExtResource("2_hb2sc")
+theme = ExtResource("4_3judy")
 bbcode_enabled = true
 text = "Save"
 scroll_active = false
@@ -147,7 +147,7 @@ offset_left = 233.0
 offset_top = 121.0
 offset_right = 645.0
 offset_bottom = 152.0
-theme = ExtResource("2_hb2sc")
+theme = ExtResource("4_3judy")
 bbcode_enabled = true
 text = "Return"
 scroll_active = false

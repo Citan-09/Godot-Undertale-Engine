@@ -1,4 +1,4 @@
-extends CanvasLayer
+class_name BattleTransistion extends CanvasLayer
 
 var target: Vector2
 

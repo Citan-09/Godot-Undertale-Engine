@@ -26,11 +26,9 @@ func _input(event: InputEvent) -> void:
 		return
 	input(event)
 
-@warning_ignore("unused_parameter")
 func input(event: InputEvent) -> void:
 	pass
 
 
-@warning_ignore("unused_parameter")
 func _on_changed_state(new_state: BattleBox.State) -> void:
 	pass

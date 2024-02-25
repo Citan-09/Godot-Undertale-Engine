@@ -7,10 +7,10 @@ var tw: Tween
 
 func _ready() -> void:
 	Global.Music.stop()
-	Global.loadgame()
+	Global.load_game()
 	Global.overworld_temp_data["global_position"] = null
 	Global.flags = Global.flags_at_save
-	$hurt.play()
+	AudioPlayer.play("hurt")
 	Camera.add_shake(1)
 	$DeathSoul.position = Global.player_position
 	tw = create_tween().set_trans(Tween.TRANS_QUAD).set_parallel()

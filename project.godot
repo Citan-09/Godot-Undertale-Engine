@@ -13,6 +13,7 @@ config_version=5
 config/name="UndertalEngine"
 config/description="The thing"
 run/main_scene="res://Intro/intro.tscn"
+config/auto_accept_quit=false
 config/features=PackedStringArray("4.2", "Forward Plus")
 run/max_fps=60
 boot_splash/bg_color=Color(0, 0, 0, 1)
@@ -24,6 +25,20 @@ config/icon="res://icon.svg"
 Global="*res://Singletons/global.tscn"
 OverworldSceneChanger="*res://Singletons/overworld_scene_changer.tscn"
 AudioPlayer="*res://Singletons/audio_player.tscn"
+Settings="*res://Singletons/settings.tscn"
+
+[debug]
+
+gdscript/warnings/unassigned_variable=0
+gdscript/warnings/unassigned_variable_op_assign=2
+gdscript/warnings/unused_parameter=0
+gdscript/warnings/property_used_as_function=2
+gdscript/warnings/constant_used_as_function=2
+gdscript/warnings/integer_division=0
+gdscript/warnings/narrowing_conversion=0
+gdscript/warnings/confusable_identifier=2
+gdscript/warnings/confusable_local_declaration=0
+gdscript/warnings/confusable_local_usage=2
 
 [display]
 

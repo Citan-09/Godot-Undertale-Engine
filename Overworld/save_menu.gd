@@ -41,7 +41,7 @@ func save() -> void:
 	$Control/Options/Return.hide()
 	$Control/Options/Save.text = "[color=yellow]Saved."
 	$Control/Options/Soul.hide()
-	Global.savegame()
+	Global.save_game()
 	refresh()
 	AudioPlayer.play("save")
 
@@ -60,7 +60,6 @@ func _hide() -> void:
 func refresh() -> void:
 	$Control/Texts/Name.text = Global.player_name
 	$Control/Texts/Lv.text = "LV%s" % [Global.player_lv]
-	@warning_ignore("narrowing_conversion")
 	var timetext := Time.get_time_string_from_unix_time(Global.cache_playtime)
 	$Control/Texts/Time.text = timetext
 	if "world_name" in sc:

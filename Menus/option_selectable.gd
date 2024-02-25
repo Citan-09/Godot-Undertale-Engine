@@ -4,8 +4,8 @@ class_name OptionSelectable
 @onready var default_color: Color = self_modulate
 
 @export var Selected := false
-var selected := false : set = set_selected
 @export var selected_color := Color.YELLOW
+var selected := false : set = set_selected
 
 
 func _ready() -> void:

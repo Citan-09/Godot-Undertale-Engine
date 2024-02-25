@@ -1,7 +1,6 @@
 extends ReferenceRect
 
 @export var margin_letters := Vector2(0, 0)
-@export var Choice: AudioStreamPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -43,26 +42,23 @@ func _create_letters() -> void:
 		for letter in case:
 			var rtlbl: RichTextLabel = RichTextLabel.new()
 			rtlbl.set_script(selectable_name)
-			rtlbl.theme = preload("res://Text/Fonts/DTMono24.tres")
+			rtlbl.theme = preload("res://Themes/DTMono24.tres")
 			rtlbl.custom_effects = [preload("res://Resources/RichTextEffects/tremble.tres")]
 			rtlbl.bbcode_enabled = true
 			rtlbl.text = "[tremble chance=1 amp=10]%s" % letter
 			rtlbl.scroll_active = false
 			add_child(rtlbl)
 			rtlbl.size = Vector2.ONE * 32
-			@warning_ignore("integer_division")
 			Letters[counter % LIMIT][counter / LIMIT] = rtlbl
-			@warning_ignore("integer_division")
 			rtlbl.position = margin_letters * Vector2(counter % LIMIT, counter / LIMIT) + margin_current
 			counter += 1
-		@warning_ignore("integer_division")
 		counter = (counter / LIMIT + 1) * LIMIT
 		margin_current += Vector2(0, 8)
 	refresh_thing()
 
-@warning_ignore("unused_parameter")
+
 func enable_input(x: int) -> void:
-	Choice.play()
+	AudioPlayer.play("choice")
 	refresh_thing()
 	set_process_unhandled_input(true)
 
@@ -77,7 +73,7 @@ var shift_pressed := false: set = _on_shift_pressed
 
 func _on_shift_pressed(shift: bool) -> void:
 	shift_pressed = shift
-	$Shift.selected = shift
+	Shift.selected = shift
 
 func _unhandled_input(event: InputEvent) -> void:
 	if !visible:
@@ -88,10 +84,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if shift_pressed and event.is_pressed():
 			if event.keycode > 64 and event.keycode < 91:
 				letter_input.emit(LETTERS[event.keycode - 65])
-				Choice.play()
+				AudioPlayer.play("choice")
 			if event.keycode == KEY_BACKSPACE:
 				backspace_key.emit()
-				Choice.play()
+				AudioPlayer.play("choice")
 			if event.keycode == KEY_ENTER:
 				enter_key.emit()
 				set_process_unhandled_input(false)
@@ -112,14 +108,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_up"):
 		refresh_thing(Vector2.UP)
 	if event.is_action_pressed("ui_accept"):
-		Choice.play()
+		AudioPlayer.play("choice")
 		letter_input.emit(Letters[current_pos.x][current_pos.y].get_parsed_text())
 	
 
 
 
 func refresh_thing(action := Vector2i.ZERO) -> void:
-	if action: Choice.play()
+	if action: AudioPlayer.play("choice")
 	Letters[current_pos.x][current_pos.y].selected = false
 	current_pos += action
 	while Letters[current_pos.x][current_pos.y] == null:
@@ -128,6 +124,5 @@ func refresh_thing(action := Vector2i.ZERO) -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	pass

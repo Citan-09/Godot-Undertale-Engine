@@ -6,13 +6,15 @@ var bone_width: float
 @onready var SpriteRect: NinePatchRect = get_node(sprite_path)
 
 func _ready() -> void:
-	assert("size" in Collision.shape)
+	assert(Collision.shape is RectangleShape2D)
+	@warning_ignore("unsafe_property_access")
 	bone_width = Collision.shape.size.x
 	Collision.shape = RectangleShape2D.new()
 
 
 func _process(_delta: float) -> void:
 	Collision.position.y = SpriteRect.size.y/2.0
+	@warning_ignore("unsafe_property_access")
 	Collision.shape.size = Vector2(bone_width, SpriteRect.size.y - collision_margin)
 
 func fire(target: Vector2, movement_type: int, speed: float = 100.0) -> Bone:

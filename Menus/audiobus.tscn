@@ -1,0 +1,163 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnm64bp0hy4b0"]
+
+[ext_resource type="Script" path="res://Menus/audiobus_settings.gd" id="1_ig307"]
+[ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_sf0rf"]
+[ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="3_h3fwb"]
+[ext_resource type="Theme" uid="uid://csrwnc0ryis8q" path="res://Themes/EditorMain.tres" id="4_h6exq"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="5_v40wf"]
+[ext_resource type="Texture2D" uid="uid://dsui3j2hjj67r" path="res://Menus/audiobus_volumes.PNG" id="6_fsars"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2tfb"]
+bg_color = Color(0, 0, 0, 0.862745)
+expand_margin_left = 8.0
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[node name="AudioBus" type="Control"]
+custom_minimum_size = Vector2(125, 182)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 125.0
+offset_bottom = 182.0
+mouse_filter = 1
+script = ExtResource("1_ig307")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_sf0rf")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_h3fwb")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
+
+[node name="Margin" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_top = 24.0
+offset_bottom = 48.0
+grow_horizontal = 2
+
+[node name="Solo" type="Button" parent="Margin/HBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+tooltip_text = "Solo"
+focus_mode = 0
+theme = ExtResource("5_v40wf")
+theme_override_colors/font_pressed_color = Color(0.984314, 0.854902, 0.168627, 1)
+toggle_mode = true
+text = "S"
+flat = true
+
+[node name="Mute" type="Button" parent="Margin/HBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+tooltip_text = "Mute"
+focus_mode = 0
+theme = ExtResource("5_v40wf")
+theme_override_colors/font_pressed_color = Color(1, 0.113725, 0.113725, 1)
+toggle_mode = true
+text = "M"
+flat = true
+
+[node name="Bypass" type="Button" parent="Margin/HBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+tooltip_text = "Bypass"
+focus_mode = 0
+theme = ExtResource("5_v40wf")
+theme_override_colors/font_pressed_color = Color(0.152941, 0.623529, 1, 1)
+toggle_mode = true
+text = "B"
+flat = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Margin"]
+position = Vector2(29, 65)
+texture = ExtResource("6_fsars")
+centered = false
+
+[node name="VSlider" type="VSlider" parent="Margin"]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_top = 64.0
+offset_bottom = -6.0
+grow_vertical = 2
+theme = ExtResource("4_h6exq")
+theme_type_variation = &"AudioSlider"
+value = 12.0
+
+[node name="Name" type="RichTextLabel" parent="Margin"]
+self_modulate = Color(0.870588, 0.890196, 1, 1)
+clip_contents = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.1
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_v40wf")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[center]Master"
+scroll_active = false
+
+[node name="Info" type="RichTextLabel" parent="Margin"]
+visible = false
+self_modulate = Color(0.870588, 0.890196, 1, 1)
+clip_contents = false
+layout_mode = 0
+offset_right = 72.0
+offset_bottom = 20.0
+mouse_filter = 2
+theme = ExtResource("5_v40wf")
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "0 db
+"
+scroll_active = false
+
+[node name="Panel" type="Panel" parent="Margin/Info"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a2tfb")
+
+[connection signal="toggled" from="Margin/HBoxContainer/Solo" to="." method="_on_solo_toggled"]
+[connection signal="toggled" from="Margin/HBoxContainer/Mute" to="." method="_on_mute_toggled"]
+[connection signal="toggled" from="Margin/HBoxContainer/Bypass" to="." method="_on_bypass_toggled"]
+[connection signal="drag_ended" from="Margin/VSlider" to="." method="_on_v_slider_drag_ended"]
+[connection signal="drag_started" from="Margin/VSlider" to="." method="_on_v_slider_drag_started"]
+[connection signal="value_changed" from="Margin/VSlider" to="." method="_on_volume_slider_value_changed"]

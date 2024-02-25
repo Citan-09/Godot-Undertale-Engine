@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://tuefpi4sls5y"]
 
 [ext_resource type="Script" path="res://Battle/AttackMeter/damage.gd" id="1_bc4im"]
-[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="1_pvpyk"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="2_26oo3"]
 [ext_resource type="FontFile" uid="uid://dktlxb4np0wls" path="res://Text/Fonts/hachicro.TTF" id="3_ehycn"]
 [ext_resource type="AudioStream" uid="uid://dimh8qn8ampsv" path="res://sfx/snd_damage.wav" id="4_ex8rf"]
 
@@ -21,7 +21,7 @@ offset_left = -200.0
 offset_top = -51.0
 offset_right = 200.0
 offset_bottom = 140.0
-theme = ExtResource("1_pvpyk")
+theme = ExtResource("2_26oo3")
 theme_override_constants/outline_size = 9
 theme_override_fonts/normal_font = ExtResource("3_ehycn")
 theme_override_font_sizes/normal_font_size = 32
@@ -34,7 +34,7 @@ layout_mode = 0
 offset_top = -16.0
 offset_right = 100.0
 offset_bottom = 8.0
-theme = ExtResource("1_pvpyk")
+theme = ExtResource("2_26oo3")
 theme_type_variation = &"EnemyHpBar"
 value = 40.0
 show_percentage = false

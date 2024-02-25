@@ -1,10 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://c1wx3v78bpu57"]
+[gd_scene load_steps=12 format=3 uid="uid://c1wx3v78bpu57"]
 
-[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="1_m7kmx"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="1_m7kmx"]
 [ext_resource type="Script" path="res://Intro/name_selection.gd" id="1_osq8k"]
-[ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="3_ovwmy"]
 [ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="3_yercc"]
-[ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="3_yoymk"]
 [ext_resource type="RichTextEffect" uid="uid://ow3wqtvijk5x" path="res://Resources/RichTextEffects/tremble.tres" id="4_2dwwy"]
 [ext_resource type="Script" path="res://Intro/typing.gd" id="5_siv8b"]
 [ext_resource type="AudioStream" uid="uid://btx6cbfdqvvbh" path="res://sfx/mus_cymbal.ogg" id="6_eucha"]
@@ -58,7 +56,7 @@ theme = ExtResource("1_m7kmx")
 horizontal_alignment = 1
 visible_characters_behavior = 1
 
-[node name="Letters" type="ReferenceRect" parent="." node_paths=PackedStringArray("Choice")]
+[node name="Letters" type="ReferenceRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -74,7 +72,6 @@ border_color = Color(0.435294, 0.403922, 1, 1)
 border_width = 2.0
 script = ExtResource("5_siv8b")
 margin_letters = Vector2(64, 29)
-Choice = NodePath("../choice")
 
 [node name="Shift" type="Label" parent="Letters"]
 self_modulate = Color(0.721569, 0.721569, 0.721569, 1)
@@ -89,7 +86,7 @@ horizontal_alignment = 1
 script = ExtResource("10_njhot")
 selected_color = Color(1, 1, 1, 1)
 
-[node name="Options" type="ReferenceRect" parent="." node_paths=PackedStringArray("Choice")]
+[node name="Options" type="ReferenceRect" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 1.0
@@ -101,7 +98,6 @@ offset_right = -109.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("6_t53ty")
-Choice = NodePath("../choice")
 
 [node name="Quit" type="Label" parent="Options"]
 layout_mode = 0
@@ -177,14 +173,6 @@ theme = ExtResource("1_m7kmx")
 text = "NO"
 script = ExtResource("10_njhot")
 
-[node name="choice" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_ovwmy")
-bus = &"SFX"
-
-[node name="select" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_yoymk")
-bus = &"SFX"
-
 [node name="no" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_mlnhy")
 bus = &"SFX"
@@ -199,8 +187,8 @@ bus = &"SFX"
 [connection signal="enable" from="." to="Prompt" method="show"]
 [connection signal="enable" from="." to="Name" method="show"]
 [connection signal="enable" from="." to="Letters" method="show"]
-[connection signal="enable" from="." to="Options" method="disable"]
 [connection signal="enable" from="." to="Options" method="show"]
+[connection signal="enable" from="." to="Options" method="disable"]
 [connection signal="enable" from="." to="Letters" method="enable_input" binds= [0]]
 [connection signal="backspace_key" from="Letters" to="." method="_on_backspace_pressed"]
 [connection signal="enter_key" from="Letters" to="." method="_on_name_input_text_submitted"]

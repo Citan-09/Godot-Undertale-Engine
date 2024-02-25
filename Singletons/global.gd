@@ -12,9 +12,9 @@ var equipment: Dictionary = {"weapon": 3, "armor": 2}
 var cells: Array
 var items: Array
 var boxitems: Array  #[[],[],[]]
-var settings: Dictionary = {"music": 100, "sfx": 100, "misc": 100, "shake": true, "vfx": false}
+var settings: Dictionary = {"shake": true, "vfx": false}
 
-const savepath := "user://savegame.json"
+const savepath := "user://savedgame.json"
 
 signal saved
 
@@ -156,11 +156,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_tree().reload_current_scene.call_deferred()
 
 		if event.is_action_pressed("force_save"):
-			savegame()
+			save_game()
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	loadgame()
+	load_game()
 
 
 func _process(delta: float) -> void:
@@ -174,8 +174,13 @@ func _process(delta: float) -> void:
 	$KrTimer.wait_time = krtime / 3.0 if player_kr > 30 else krtime
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		save_settings()
+		get_tree().quit()
 
-func savegame() -> void:
+
+func save_game() -> void:
 	first = false
 	flags_at_save = flags.duplicate()
 	var file := FileAccess.open(savepath, FileAccess.WRITE)
@@ -208,7 +213,7 @@ func savegame() -> void:
 	}
 	cache_playtime = playtime
 	file.store_line(JSON.stringify(savedata))
-	print("Saved!")
+	file.close()
 
 func resetgame() -> void:
 	# EQUIPMENT
@@ -238,20 +243,24 @@ func resetgame() -> void:
 	first = true
 	flags_at_save = flags.duplicate()
 	refresh_audio_busses()
-	print("Reset")
 
-func savesettings() -> void:
-	var file := FileAccess.open(savepath, FileAccess.READ_WRITE)
-	var savedata: Dictionary
-	if FileAccess.file_exists(savepath) and !file.eof_reached():
-		savedata = JSON.parse_string(file.get_as_text()) as Dictionary
-	savedata.merge(settings, true)
-	file.store_line(JSON.stringify(savedata))
-
-func loadgame() -> void:
+func save_settings() -> void:
 	var file := FileAccess.open(savepath, FileAccess.READ)
-	if FileAccess.file_exists(savepath) and !file.eof_reached():
-		var savedata: Dictionary = JSON.parse_string(file.get_as_text()) as Dictionary
+	var savedata: Dictionary
+	if FileAccess.file_exists(savepath) and !file.eof_reached() and JSON.parse_string(file.get_as_text()):
+		savedata = JSON.parse_string(file.get_as_text())
+	file.close()
+	file = FileAccess.open(savepath, FileAccess.WRITE)
+	savedata.merge({"settings" : settings}, true)
+	file.store_line(JSON.stringify(savedata))
+	file.close()
+
+
+
+func load_game() -> void:
+	var file := FileAccess.open(savepath, FileAccess.READ)
+	if FileAccess.file_exists(savepath) and !file.eof_reached() and JSON.parse_string(file.get_as_text()):
+		var savedata: Dictionary = JSON.parse_string(file.get_as_text())
 		if savedata == null:
 			savedata = {}
 		# EQUIPMENT
@@ -284,12 +293,15 @@ func loadgame() -> void:
 		first = savedata.get("first", true)
 	flags_at_save = flags.duplicate()
 	refresh_audio_busses()
-	print("Loaded!")
+	file.close()
+
+
 
 func refresh_audio_busses() -> void:
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(settings["sfx"] / 100.0))
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Misc"), linear_to_db(settings["misc"] / 100.0))
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(settings["music"] / 100.0))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(settings.get("SFX", 100) / 100.0))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(settings.get("Music", 100) / 100.0))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(settings.get("Master", 100) / 100.0))
+
 
 func toggle_collision_shape_visibility() -> void:
 	var tree := get_tree()

@@ -19,9 +19,9 @@ var gravity_direction := Vector2.DOWN: set = set_gravity_direction_silent
 @onready var Shoot: AudioStreamPlayer = $Shoot
 @onready var ModeChangeS: AudioStreamPlayer = $Ding
 @onready var Main: BattleMain = $/root/main
-@onready var HurtSound: AudioStreamPlayer = $Hurt
 @onready var Area: Area2D = $Area2D
 @onready var Collision: CollisionShape2D = $CollisionShape2D
+@onready var Wallhit: AudioStreamPlayer = $Wallhit
 
 
 ## SoulMode Stuff
@@ -145,7 +145,7 @@ func hurt(area: BulletArea) -> void:
 		Global.player_position = get_global_transform_with_canvas().origin
 		get_tree().change_scene_to_file("res://Battle/Death/death_screen.tscn")
 		return
-	HurtSound.play()
+	AudioPlayer.play("hurt")
 
 
 func heal(area: BulletArea) -> void:
@@ -264,7 +264,7 @@ func blue() -> void:
 		if motion.y > 0: motion.y = 0
 		if gravity_multiplier > 1.0 and changed_direction_time <= 0:
 			gravity_multiplier = 1.0
-			$Wallhit.play()
+			Wallhit.play()
 			shake_camera.emit(0.6)
 		if inputs.y:
 			motion.y -= jump[3]

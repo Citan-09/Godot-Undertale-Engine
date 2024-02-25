@@ -1,9 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://cobjcttlv6o13"]
+[gd_scene load_steps=15 format=3 uid="uid://cobjcttlv6o13"]
 
 [ext_resource type="Script" path="res://Battle/Soul/soul.gd" id="1_baf50"]
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="3_lkhun"]
 [ext_resource type="AudioStream" uid="uid://jyvwnx5j3hde" path="res://sfx/snd_heartshot.wav" id="4_4sia6"]
-[ext_resource type="AudioStream" uid="uid://dsid8nuan7lku" path="res://sfx/player_hurt.wav" id="7_6uret"]
 [ext_resource type="AudioStream" uid="uid://d0k0xvw728ly7" path="res://sfx/soul_changemode.wav" id="8_ycafo"]
 [ext_resource type="AudioStream" uid="uid://cbt3hmek1bq26" path="res://sfx/soul_snap.wav" id="9_3ghcw"]
 [ext_resource type="AudioStream" uid="uid://bc8nv2lgl82oe" path="res://sfx/soul_shatter.wav" id="10_y1haa"]
@@ -67,11 +66,6 @@ debug_color = Color(0.631373, 0, 1, 0.568627)
 shape = SubResource("RectangleShape2D_ns07m")
 disabled = true
 debug_color = Color(1, 0.858824, 0.635294, 0.235294)
-
-[node name="Hurt" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_6uret")
-max_polyphony = 2
-bus = &"SFX"
 
 [node name="Shoot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_4sia6")

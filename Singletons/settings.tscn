@@ -1,0 +1,187 @@
+[gd_scene load_steps=11 format=3 uid="uid://llwvcsnw2bb4"]
+
+[ext_resource type="Script" path="res://Singletons/settings.gd" id="1_vaq82"]
+[ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="2_7ljl4"]
+[ext_resource type="PackedScene" uid="uid://cnm64bp0hy4b0" path="res://Menus/audiobus.tscn" id="3_0nqt0"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="3_8y13j"]
+[ext_resource type="Script" path="res://Menus/bool_setting.gd" id="5_wnang"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s6k4h"]
+bg_color = Color(0, 0, 0, 0.705882)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mp0dj"]
+shader = ExtResource("2_7ljl4")
+shader_parameter/lod = 0.0
+
+[sub_resource type="Animation" id="Animation_ooyau"]
+resource_name = "toggle"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BusContainer:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-391, -0.25, 0, 0.2, 418.915, 249, -0.7, -3.51497, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Paused:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-84, -0.25, 0, 0.5, 1.63526, 16, -0.8, 0.223652, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBoxContainer:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-632, -0.25, 0, 0.2, 431.234, 8, -0.7, 33.4244, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_qnifu"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BusContainer:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-391, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Paused:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-84, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBoxContainer:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-632, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gxxvs"]
+_data = {
+"RESET": SubResource("Animation_qnifu"),
+"toggle": SubResource("Animation_ooyau")
+}
+
+[node name="Settings" type="CanvasLayer"]
+process_mode = 3
+layer = 10
+script = ExtResource("1_vaq82")
+
+[node name="Darken" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s6k4h")
+
+[node name="Blur" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_mp0dj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 36.0
+offset_right = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Paused" type="RichTextLabel" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -84.0
+offset_bottom = 28.0
+grow_horizontal = 2
+theme = ExtResource("3_8y13j")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center]Paused"
+
+[node name="BusContainer" type="HBoxContainer" parent="."]
+process_mode = 2
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1031.0
+offset_top = -188.0
+offset_right = -647.999
+offset_bottom = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Master" parent="BusContainer" instance=ExtResource("3_0nqt0")]
+layout_mode = 2
+
+[node name="SFX" parent="BusContainer" instance=ExtResource("3_0nqt0")]
+layout_mode = 2
+audio_bus_name = &"SFX"
+
+[node name="Music" parent="BusContainer" instance=ExtResource("3_0nqt0")]
+layout_mode = 2
+audio_bus_name = &"Music"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+process_mode = 2
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -632.0
+offset_top = 102.0
+offset_right = -648.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VFX" type="CheckButton" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_8y13j")
+text = "VFX Shaders"
+script = ExtResource("5_wnang")
+setting_name = "vfx"
+
+[node name="CamShake" type="CheckButton" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_8y13j")
+text = "Camera Shake"
+script = ExtResource("5_wnang")
+setting_name = "shake"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+deterministic = true
+libraries = {
+"": SubResource("AnimationLibrary_gxxvs")
+}
+speed_scale = 1.667

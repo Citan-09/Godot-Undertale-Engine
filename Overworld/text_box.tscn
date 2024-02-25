@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://Overworld/text_box.gd" id="1_oeaq5"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_wslm2"]
-[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="3_ew1cw"]
 [ext_resource type="Texture2D" uid="uid://cpcpbncmm3ati" path="res://Enemies/sans_raw.png" id="3_fg50u"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="4_pkb5c"]
 [ext_resource type="Texture2D" uid="uid://cyfih286nbflx" path="res://References/textbox.png" id="4_rsv03"]
@@ -11,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://degl6ii2gdr87" path="res://sfx/Clicks/generic1.wav" id="6_3inxv"]
 [ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="6_dv01m"]
 [ext_resource type="AudioStream" uid="uid://c31288d48uxlm" path="res://sfx/Clicks/sans.wav" id="7_ayrok"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="8_50i76"]
 [ext_resource type="AudioStream" uid="uid://celgg0c7gujrh" path="res://sfx/Clicks/papyrus.wav" id="8_e2arg"]
 [ext_resource type="Script" path="res://Overworld/text_box_writer.gd" id="8_kq74i"]
 [ext_resource type="AudioStream" uid="uid://dp0b2vwktmxyv" path="res://sfx/Clicks/undyne1.wav" id="9_hcihw"]
@@ -401,7 +401,7 @@ metadata/_edit_group_ = true
 [node name="Text" type="RichTextLabel" parent="Control/TextContainer"]
 clip_contents = false
 layout_mode = 2
-theme = ExtResource("3_ew1cw")
+theme = ExtResource("8_50i76")
 theme_override_constants/line_separation = 2
 theme_override_font_sizes/normal_font_size = 26
 bbcode_enabled = true
@@ -423,7 +423,7 @@ clip_contents = false
 custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 size_flags_horizontal = 6
-theme = ExtResource("3_ew1cw")
+theme = ExtResource("8_50i76")
 theme_override_constants/line_separation = 2
 theme_override_font_sizes/normal_font_size = 26
 bbcode_enabled = true
@@ -440,7 +440,7 @@ clip_contents = false
 custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 size_flags_horizontal = 6
-theme = ExtResource("3_ew1cw")
+theme = ExtResource("8_50i76")
 theme_override_constants/line_separation = 2
 theme_override_font_sizes/normal_font_size = 26
 bbcode_enabled = true
@@ -458,7 +458,7 @@ clip_contents = false
 custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 size_flags_horizontal = 6
-theme = ExtResource("3_ew1cw")
+theme = ExtResource("8_50i76")
 theme_override_constants/line_separation = 2
 theme_override_font_sizes/normal_font_size = 26
 bbcode_enabled = true
@@ -475,7 +475,7 @@ clip_contents = false
 custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 size_flags_horizontal = 6
-theme = ExtResource("3_ew1cw")
+theme = ExtResource("8_50i76")
 theme_override_constants/line_separation = 2
 theme_override_font_sizes/normal_font_size = 26
 bbcode_enabled = true

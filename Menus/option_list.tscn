@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://o2k17ipjyj6k"]
+
+[ext_resource type="Script" path="res://Menus/option_list.gd" id="1_2b4rw"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="1_80l2k"]
+
+[node name="RichTextLabel" type="RichTextLabel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_right = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_80l2k")
+bbcode_enabled = true
+text = "Option 1
+Option 2
+Option 3
+Option 4
+Option 5"
+scroll_active = false
+script = ExtResource("1_2b4rw")
+Selected = 1
+bbcode_default = "[b][l]"

@@ -199,7 +199,6 @@ func _unhandled_input(event: InputEvent) -> void:
 						var txt: PackedStringArray = Global.item_use_text(Global.items[soulposition_item.y])
 						textbox = textboxscene.instantiate()
 						get_tree().current_scene.add_child(textbox)
-						@warning_ignore("narrowing_conversion")
 						Global.items.remove_at(soulposition_item.y)
 						_set_items()
 						await textbox.generic(Dialogues.new().from(txt))
@@ -221,7 +220,6 @@ func _unhandled_input(event: InputEvent) -> void:
 						var txt: PackedStringArray = Global.item_list[Global.items[soulposition_item.y]].throw_message
 						textbox = textboxscene.instantiate()
 						get_tree().current_scene.add_child(textbox)
-						@warning_ignore("narrowing_conversion")
 						Global.items.remove_at(soulposition_item.y)
 						_set_items()
 						await textbox.generic(Dialogues.new().from(txt))

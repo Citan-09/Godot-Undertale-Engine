@@ -41,8 +41,8 @@ func type_buffer_text(txt: String) -> void:
 	var parsed_text := get_parsed_text()
 	visibletween.tween_property(self, "visible_ratio", 1, interval * parsed_text.length())
 	soundtween.set_loops(parsed_text.length())
-	soundtween.tween_interval(interval)
 	soundtween.tween_callback(playclick)
+	soundtween.tween_interval(interval)
 	await visibletween.finished
 
 
@@ -54,7 +54,7 @@ func playclick() -> void:
 	set_deferred(&"text_size_counter", text_size_counter + 1)
 	var currentchar := chache_parsed_text[visible_characters]
 	if currentchar in extra_delay:
-		if !visibletween.is_valid() or !soundtween.is_valid():
+		if !visibletween.is_running() or !soundtween.is_running():
 			return
 		soundtween.pause()
 		visibletween.pause()

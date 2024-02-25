@@ -25,6 +25,7 @@ var attack_id: int = 0
 signal remove_attack(id: int)
 signal remove_bullets
 
+
 enum Masking {
 	ABSOLUTE_CLIP,
 	ABSOLUTE,

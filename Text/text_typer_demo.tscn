@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://bowyh7ekg7tlt"]
 
-[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="1_mmxx1"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="1_mmxx1"]
 [ext_resource type="Script" path="res://Text/demo.gd" id="2_ls7e5"]
 [ext_resource type="AudioStream" uid="uid://degl6ii2gdr87" path="res://sfx/Clicks/generic1.wav" id="3_447nt"]
 [ext_resource type="Script" path="res://Text/demo2.gd" id="4_3jy1a"]

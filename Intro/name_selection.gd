@@ -3,7 +3,8 @@ extends Control
 
 var name_text := ""
 
-@onready var Name = $Name
+@onready var Name: Label = $Name
+@onready var No: AudioStreamPlayer = $no
 
 
 signal disable
@@ -23,14 +24,13 @@ func _on_backspace_pressed() -> void:
 	Name.text = Name.text.left(-1)
 
 
-@warning_ignore("unused_parameter")
 func _on_name_input_text_submitted() -> void:
 	if !Name.text:
-		$no.play()
+		AudioPlayer.play("hurt")
 		emit_signal.call_deferred("enable")
 		return
 	disable.emit()
-	$select.play()
+	AudioPlayer.play("select")
 	_check_names.call_deferred(Name.text.to_upper())
 	var allowed: bool = await pass_name
 	if !allowed:
@@ -49,7 +49,7 @@ func _on_name_input_text_submitted() -> void:
 	tw.tween_callback($cymbal.play).set_delay(0.89)
 	$Camera.rgbsplit(5, 0.7)
 	await tw.finished
-	Global.savegame()
+	Global.save_game()
 	OverworldSceneChanger.enter_room_default()
 
 
@@ -114,5 +114,5 @@ func _input(event: InputEvent) -> void:
 		Choices[0].selected = true
 		soul_pos = 0
 	if event.is_action_pressed("ui_accept"):
-		$select.play()
+		AudioPlayer.play("select")
 		choice.emit(soul_pos)

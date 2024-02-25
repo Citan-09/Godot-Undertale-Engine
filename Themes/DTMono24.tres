@@ -1,8 +1,10 @@
-[gd_resource type="Theme" load_steps=25 format=3 uid="uid://s3o3wkvbt3ej"]
+[gd_resource type="Theme" load_steps=26 format=3 uid="uid://s3o3wkvbt3ej"]
 
-[ext_resource type="FontFile" uid="uid://dp6lncabgomk" path="res://Text/Fonts/DTM-Mono.otf" id="1_pfd0d"]
-[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="2_iwlbw"]
-[ext_resource type="Texture2D" uid="uid://fxh0hyyct3b7" path="res://Battle/Soul/crack.png" id="3_0bicc"]
+[ext_resource type="FontFile" uid="uid://dp6lncabgomk" path="res://Text/Fonts/DTM-Mono.otf" id="1_bwfjk"]
+[ext_resource type="StyleBox" uid="uid://c5qjd2hte5lyc" path="res://Themes/EmptyStyleBox.tres" id="2_6iptb"]
+[ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="2_lq4ol"]
+[ext_resource type="Texture2D" uid="uid://fxh0hyyct3b7" path="res://Battle/Soul/crack.png" id="3_4hio2"]
+[ext_resource type="SystemFont" uid="uid://kdw56fky57yh" path="res://Themes/CodeFont.tres" id="4_7rsjk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_majhq"]
 
@@ -32,18 +34,14 @@ bg_color = Color(0.0784314, 1, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0b5o1"]
 bg_color = Color(0.0784314, 1, 0, 1)
 
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_th1da"]
-grow_begin = 0.0
-thickness = 8
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_qmkwr"]
-color = Color(1, 1, 1, 1)
-thickness = 12
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_v8sq2"]
-grow_begin = -4.0
-grow_end = -4.0
-thickness = 8
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_erket"]
+bg_color = Color(0, 0, 0, 0.431373)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gqenx"]
 
@@ -83,27 +81,49 @@ anti_aliasing = false
 bg_color = Color(1, 1, 1, 1)
 anti_aliasing = false
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ndtun"]
+bg_color = Color(0, 0, 0, 0.941176)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
+anti_aliasing = false
+
 [resource]
-default_font = ExtResource("1_pfd0d")
+default_font = ExtResource("1_bwfjk")
 default_font_size = 24
-Button/font_sizes/font_size = 24
-Button/fonts/font = ExtResource("1_pfd0d")
+Button/colors/font_color = Color(0.8, 0.8, 0.8, 1)
+Button/colors/font_focus_color = Color(0.8, 0.8, 0.8, 1)
+Button/font_sizes/font_size = 20
+Button/fonts/font = ExtResource("1_bwfjk")
 Button/styles/disabled = SubResource("StyleBoxEmpty_majhq")
 Button/styles/focus = SubResource("StyleBoxEmpty_qcuuh")
 Button/styles/hover = SubResource("StyleBoxEmpty_qj6tb")
 Button/styles/normal = SubResource("StyleBoxEmpty_p0pao")
 Button/styles/pressed = SubResource("StyleBoxEmpty_r0vj8")
+CheckButton/colors/font_color = Color(1, 1, 1, 1)
+CheckButton/colors/font_focus_color = Color(1, 1, 1, 1)
+CheckButton/colors/font_hover_color = Color(1, 1, 1, 1)
+CheckButton/constants/h_separation = 0
+CheckButton/styles/disabled = ExtResource("2_6iptb")
+CheckButton/styles/focus = ExtResource("2_6iptb")
+CheckButton/styles/hover = ExtResource("2_6iptb")
+CheckButton/styles/hover_pressed = ExtResource("2_6iptb")
+CheckButton/styles/normal = ExtResource("2_6iptb")
+CheckButton/styles/pressed = ExtResource("2_6iptb")
 EnemyHpBar/base_type = &"ProgressBar"
 EnemyHpBar/styles/background = SubResource("StyleBoxFlat_ofimf")
 EnemyHpBar/styles/fill = SubResource("StyleBoxFlat_esylu")
 EnemyHpBarTop/base_type = &"ProgressBar"
 EnemyHpBarTop/styles/fill = SubResource("StyleBoxFlat_0b5o1")
-HSlider/icons/grabber = ExtResource("2_iwlbw")
-HSlider/icons/grabber_disabled = ExtResource("3_0bicc")
-HSlider/icons/grabber_highlight = ExtResource("2_iwlbw")
-HSlider/styles/grabber_area = SubResource("StyleBoxLine_th1da")
-HSlider/styles/grabber_area_highlight = SubResource("StyleBoxLine_qmkwr")
-HSlider/styles/slider = SubResource("StyleBoxLine_v8sq2")
+HSlider/icons/grabber = ExtResource("2_lq4ol")
+HSlider/icons/grabber_disabled = ExtResource("3_4hio2")
+HSlider/icons/grabber_highlight = ExtResource("2_lq4ol")
+HSlider/styles/slider = SubResource("StyleBoxFlat_erket")
 ItemList/colors/font_color = Color(0.909804, 0.909804, 0.909804, 1)
 ItemList/colors/font_hovered_color = Color(0.95, 0.95, 0.95, 1)
 ItemList/colors/font_outline_color = Color(1, 1, 1, 1)
@@ -115,7 +135,7 @@ ItemList/constants/line_separation = 2
 ItemList/constants/outline_size = 0
 ItemList/constants/v_separation = 2
 ItemList/font_sizes/font_size = 24
-ItemList/fonts/font = ExtResource("1_pfd0d")
+ItemList/fonts/font = ExtResource("1_bwfjk")
 ItemList/styles/cursor = SubResource("StyleBoxEmpty_gqenx")
 ItemList/styles/cursor_unfocused = SubResource("StyleBoxEmpty_ybuae")
 ItemList/styles/focus = SubResource("StyleBoxEmpty_vp8q2")
@@ -127,15 +147,22 @@ KrBar/base_type = &"ProgressBar"
 KrBar/styles/background = SubResource("StyleBoxFlat_lhhit")
 Label/colors/font_outline_color = Color(0, 0, 0, 1)
 Label/constants/outline_size = 8
+Label/fonts/font = ExtResource("1_bwfjk")
 ProgressBar/font_sizes/font_size = 24
-ProgressBar/fonts/font = ExtResource("1_pfd0d")
+ProgressBar/fonts/font = ExtResource("1_bwfjk")
 ProgressBar/styles/background = SubResource("StyleBoxEmpty_tb5la")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_md32v")
 RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
 RichTextLabel/constants/outline_size = 10
 RichTextLabel/font_sizes/normal_font_size = 24
-RichTextLabel/fonts/bold_font = ExtResource("1_pfd0d")
-RichTextLabel/fonts/bold_italics_font = ExtResource("1_pfd0d")
-RichTextLabel/fonts/italics_font = ExtResource("1_pfd0d")
-RichTextLabel/fonts/mono_font = ExtResource("1_pfd0d")
-RichTextLabel/fonts/normal_font = ExtResource("1_pfd0d")
+RichTextLabel/fonts/bold_font = ExtResource("1_bwfjk")
+RichTextLabel/fonts/bold_italics_font = ExtResource("1_bwfjk")
+RichTextLabel/fonts/italics_font = ExtResource("1_bwfjk")
+RichTextLabel/fonts/mono_font = ExtResource("1_bwfjk")
+RichTextLabel/fonts/normal_font = ExtResource("1_bwfjk")
+TooltipLabel/constants/outline_size = 0
+TooltipLabel/constants/shadow_offset_x = 1
+TooltipLabel/constants/shadow_offset_y = 1
+TooltipLabel/font_sizes/font_size = 16
+TooltipLabel/fonts/font = ExtResource("4_7rsjk")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_ndtun")

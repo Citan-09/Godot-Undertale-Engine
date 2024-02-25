@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c4c1hkxfxvh2t"]
 
 [ext_resource type="Script" path="res://Menus/save_loader.gd" id="1_u8fb3"]
-[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="2_u0ptt"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="2_u0ptt"]
 [ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="4_6utps"]
 [ext_resource type="Script" path="res://Menus/option_selectable_solo.gd" id="4_k7abe"]
 [ext_resource type="AudioStream" uid="uid://dkpyd33jvupcp" path="res://sfx/warning.ogg" id="5_rfr4t"]

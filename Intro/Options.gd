@@ -6,7 +6,6 @@ signal enter_typing(x: int)
 
 var current_pos: int = 0: set = set_current_pos
 
-@export var Choice: AudioStreamPlayer
 
 @onready var Options := get_children()
 
@@ -20,7 +19,7 @@ func set_current_pos(pos: int) -> void:
 	
 
 func enable(x: int) -> void:
-	Choice.play()
+	AudioPlayer.play("choice")
 	current_pos = 0
 	@warning_ignore("integer_division")
 	refresh_thing(0 if x < 2 else 1 if x < 5 else 2)
@@ -54,7 +53,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 
 func refresh_thing(action: int = 0) -> void:
-	if action: Choice.play()
+	if action: AudioPlayer.play("choice")
 	Options[current_pos].selected = false
 	current_pos += action
 	while Options[current_pos] == null:

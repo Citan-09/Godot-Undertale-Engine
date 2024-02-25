@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Battle/Box/fighting.gd" id="2_ek8mg"]
 [ext_resource type="Script" path="res://Battle/Box/targetting.gd" id="2_esh8s"]
 [ext_resource type="StyleBox" uid="uid://lx860swgqgcf" path="res://Boxes/BoxBackground.tres" id="2_o8u07"]
-[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Text/Fonts/DTMono24.tres" id="3_f5ep8"]
+[ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="3_f5ep8"]
 [ext_resource type="Texture2D" uid="uid://b11qd5emkkagu" path="res://Boxes/GlobalBoxTexture.tres" id="3_ms4jc"]
 [ext_resource type="Script" path="res://Battle/Box/acting.gd" id="3_u6s6u"]
 [ext_resource type="Script" path="res://Battle/Box/iteming.gd" id="4_oja00"]
