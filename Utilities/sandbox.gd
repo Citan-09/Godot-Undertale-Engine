@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouse and event.is_pressed():
@@ -6,7 +6,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
-	$Timer.start()
+	pass #$Timer.start()
 
 
 func _on_timer_timeout() -> void:
