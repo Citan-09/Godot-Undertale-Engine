@@ -1,9 +1,12 @@
-[gd_resource type="Theme" load_steps=26 format=3 uid="uid://s3o3wkvbt3ej"]
+[gd_resource type="Theme" load_steps=29 format=3 uid="uid://s3o3wkvbt3ej"]
 
 [ext_resource type="FontFile" uid="uid://dp6lncabgomk" path="res://Text/Fonts/DTM-Mono.otf" id="1_bwfjk"]
 [ext_resource type="StyleBox" uid="uid://c5qjd2hte5lyc" path="res://Themes/EmptyStyleBox.tres" id="2_6iptb"]
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="2_lq4ol"]
+[ext_resource type="Texture2D" uid="uid://b0hydj7cd2ell" path="res://Themes/Textures/switch_t.png" id="2_wl30a"]
 [ext_resource type="Texture2D" uid="uid://fxh0hyyct3b7" path="res://Battle/Soul/crack.png" id="3_4hio2"]
+[ext_resource type="Texture2D" uid="uid://dtaw1pl75sunv" path="res://Themes/Textures/switch_d.png" id="3_d7wwe"]
+[ext_resource type="Texture2D" uid="uid://rjmx3bx4mnwo" path="res://Themes/Textures/switch_f.png" id="3_j8yck"]
 [ext_resource type="SystemFont" uid="uid://kdw56fky57yh" path="res://Themes/CodeFont.tres" id="4_7rsjk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_majhq"]
@@ -109,6 +112,10 @@ CheckButton/colors/font_color = Color(1, 1, 1, 1)
 CheckButton/colors/font_focus_color = Color(1, 1, 1, 1)
 CheckButton/colors/font_hover_color = Color(1, 1, 1, 1)
 CheckButton/constants/h_separation = 0
+CheckButton/icons/checked = ExtResource("2_wl30a")
+CheckButton/icons/unchecked = ExtResource("3_j8yck")
+CheckButton/icons/unchecked_disabled = ExtResource("3_d7wwe")
+CheckButton/icons/unchecked_disabled_mirrored = ExtResource("3_d7wwe")
 CheckButton/styles/disabled = ExtResource("2_6iptb")
 CheckButton/styles/focus = ExtResource("2_6iptb")
 CheckButton/styles/hover = ExtResource("2_6iptb")

@@ -22,4 +22,4 @@ Option 5"
 scroll_active = false
 script = ExtResource("1_2b4rw")
 Selected = 1
-bbcode_default = "[b][l]"
+bbcode_default = "[b][i]"

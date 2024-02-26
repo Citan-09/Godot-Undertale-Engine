@@ -13,6 +13,7 @@ func _ready() -> void:
 func play(audio_name: String) -> void:
 	var _player: AudioStreamPlayer = audio_stream_players.get(audio_name)
 	if !_player:
+		push_error("%s is not in audio_stream_players." % audio_name)
 		return
 	_player.play()
 

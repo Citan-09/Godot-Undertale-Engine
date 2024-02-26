@@ -45,7 +45,7 @@ func rgbsplit(time: float = 0, targetrate: float = 1) -> void:
 var vfx: bool = Global.settings.vfx
 
 func _process(delta: float) -> void:
-	if shake_amt > 0.0 and Global.settings["shake"]:
+	if shake_amt > 0.0 and Global.settings.get("shake"):
 		shake_amt = lerpf(shake_amt, 0, delta * 6)
 		if shake_amt < 0:
 			shake_amt = 0

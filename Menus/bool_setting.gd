@@ -1,4 +1,4 @@
-extends CheckButton
+class_name SettingBoolButton extends CheckButton
 
 @export var setting_name := ""
 
@@ -13,7 +13,3 @@ func _on_toggled(val: bool) -> void:
 		push_error("Setting is NOT boolean.")
 		return
 	Global.settings[setting_name] = val
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-	#pass
