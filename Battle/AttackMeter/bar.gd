@@ -2,7 +2,7 @@ extends AnimatedSprite2D
 class_name AttackBar
 
 const MOVE_SPEED: float = 210
-const TIME: float = 0.3
+const TIME: float = 0.25
 const TRANSTYPE := Tween.TRANS_CUBIC
 var speed_mult: float
 const movetype := Tween.TRANS_LINEAR

@@ -15,7 +15,6 @@ config/description="The thing"
 run/main_scene="res://Intro/intro.tscn"
 config/auto_accept_quit=false
 config/features=PackedStringArray("4.2", "Forward Plus")
-run/max_fps=60
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="res://icon.svg"
@@ -114,6 +113,7 @@ debug_turn={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/default_filters/use_nearest_mipmap_filter=true
 environment/defaults/default_clear_color=Color(0.305882, 0.298039, 0.329412, 1)
 viewport/transparent_background=true
 viewport/hdr_2d=true

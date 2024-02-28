@@ -142,6 +142,7 @@ func _input(event: InputEvent) -> void:
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		fullscreen = !fullscreen
+		$Border.visible = fullscreen
 	if event.is_action_pressed("debug") and OS.is_debug_build():
 		toggle_collision_shape_visibility()
 		debugmode = not debugmode

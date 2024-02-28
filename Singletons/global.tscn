@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cy0ailywvxv4s"]
+[gd_scene load_steps=10 format=3 uid="uid://cy0ailywvxv4s"]
 
 [ext_resource type="Script" path="res://Singletons/global.gd" id="1_iel2y"]
 [ext_resource type="Script" path="res://Resources/Items/Item.gd" id="2_1aujb"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="2_he4k0"]
 [ext_resource type="AudioStream" uid="uid://bw8viuufk2elm" path="res://sfx/heal.wav" id="3_4cmei"]
+[ext_resource type="Texture2D" uid="uid://caf7vt23vgqb2" path="res://Menus/border.png" id="5_s35lh"]
 
 [sub_resource type="Resource" id="Resource_p5cqk"]
 script = ExtResource("2_1aujb")
@@ -58,9 +59,9 @@ script = ExtResource("2_1aujb")
 item_type = 1
 item_name = "Testweapon"
 weapon_speed = 1.0
-weapon_bars = 2
-weapon_type = 4
-critical_hits = true
+weapon_bars = 1
+weapon_type = 0
+critical_hits = false
 use_message = ["* You used the Item!"]
 item_information = ["* Item - Heals 0 hp 
 * This means this item has no description or is the default item."]
@@ -93,5 +94,18 @@ autostart = true
 [node name="MusicGlobal" type="AudioStreamPlayer" parent="."]
 process_mode = 1
 bus = &"Music"
+
+[node name="Border" type="NinePatchRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_s35lh")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
 
 [connection signal="timeout" from="KrTimer" to="." method="_on_kr_tick"]

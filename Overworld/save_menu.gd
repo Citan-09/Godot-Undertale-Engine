@@ -16,8 +16,7 @@ func _ready() -> void:
 		$Control/Texts/Location.text = sc.world_name
 	else:
 		$Control/Texts/Location.text = "ROOM HAS NO NAME."
-	$Control.modulate.a = 0
-	_show()
+	show()
 	refresh()
 
 
@@ -30,7 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func dismiss() -> void:
 	choiced.emit()
 	set_process_unhandled_input(false)
-	await _hide()
+	hide()
 	queue_free()
 
 
@@ -45,17 +44,6 @@ func save() -> void:
 	refresh()
 	AudioPlayer.play("save")
 
-func _show() -> void:
-	Global.player_in_menu = true
-	tw = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tw.tween_property($Control, "modulate:a", 1, 0.2)
-
-
-func _hide() -> void:
-	Global.player_in_menu = false
-	tw = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tw.tween_property($Control, "modulate:a", 0, 0.2)
-	await tw.finished
 
 func refresh() -> void:
 	$Control/Texts/Name.text = Global.player_name

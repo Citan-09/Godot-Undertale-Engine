@@ -11,7 +11,7 @@ func _ready() -> void:
 	Global.overworld_temp_data["global_position"] = null
 	Global.flags = Global.flags_at_save
 	AudioPlayer.play("hurt")
-	Camera.add_shake(1)
+	Camera.add_shake(0.3)
 	$DeathSoul.position = Global.player_position
 	tw = create_tween().set_trans(Tween.TRANS_QUAD).set_parallel()
 	tw.tween_interval(0.4)

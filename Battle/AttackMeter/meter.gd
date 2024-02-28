@@ -1,8 +1,8 @@
 extends Node
 class_name AttackMeter
 
-const TIME: float = 0.4
-const transtype := Tween.TRANS_SINE
+const TIME: float = 0.5
+const transtype := Tween.TRANS_QUART
 
 var targetdef: int = 0
 @onready var meter: Sprite2D = $Meter
@@ -25,7 +25,7 @@ var can_crit: bool = Global.item_list[Global.equipment["weapon"]].critical_hits
 func _ready() -> void:
 	meter.modulate.a = 0
 	meter.scale.x = 0.33
-	var tw := create_tween().set_trans(transtype).set_parallel()
+	var tw := create_tween().set_trans(transtype).set_parallel().set_ease(Tween.EASE_OUT)
 	tw.tween_interval(0.1)
 	tw.chain()
 	tw.tween_property(meter, "modulate:a", 1, TIME / 2)
@@ -50,7 +50,7 @@ func _ready() -> void:
 		missed.emit(target)
 
 func remove_meter() -> void:
-	var tw := create_tween().set_trans(transtype).set_parallel()
+	var tw := create_tween().set_trans(transtype).set_parallel().set_ease(Tween.EASE_IN)
 	tw.tween_property(meter, "scale:x", 0b, TIME)
 	tw.tween_property(meter, "modulate:a", 0, TIME)
 	tw.chain().tween_callback(queue_free).set_delay(0.2)

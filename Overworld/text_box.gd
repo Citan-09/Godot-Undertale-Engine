@@ -7,7 +7,6 @@ var soul_position := Vector2.ZERO
 var selecting: bool = false
 var optionamt: int = 0
 
-const SUMMON_DURATION: float = 0.2
 const TransType := Tween.TRANS_QUAD
 
 var talking_character := DEFAULT
@@ -79,29 +78,17 @@ signal character_talk
 
 
 func _ready() -> void:
-	$Control/Speaker.modulate.a = 0
 	$Control/Speaker.hide()
-	$Control.modulate.a = 0
 	Text.text = ""
 	for i in Options.size():
 		Options[i].text = ""
 
-func _summon_box() -> void:
-	var tw := create_tween().set_parallel().set_trans(TransType)
-	tw.tween_property($Control, "modulate:a", 1.0, SUMMON_DURATION)
-	await get_tree().create_timer(SUMMON_DURATION / 2.0, false).timeout
 
-func _dismiss_box() -> void:
-	var tw := create_tween().set_parallel().set_trans(TransType)
-	tw.tween_property($Control, "modulate:a", 0, SUMMON_DURATION)
-	await tw.finished
-	queue_free()
 
 
 ## WARNING: don't use this!
 func abstract(text: Dialogues, options: PackedStringArray = [], text_after_options: Array[Dialogues] = []) -> void:
 	Global.player_in_menu = true
-	await _summon_box()
 	Text.type_text_advanced(text)
 
 	await Text.finished_typing
@@ -130,7 +117,7 @@ func abstract(text: Dialogues, options: PackedStringArray = [], text_after_optio
 		await Text.type_text_advanced(text_after_options[soulpos])
 	Text.text = ""
 	Global.player_in_menu = false
-	_dismiss_box()
+	queue_free()
 
 func generic(text: Dialogues, options: PackedStringArray = [], text_after_options: Array[Dialogues] = []) -> void:
 	for i in Options.size() + 1:
@@ -143,8 +130,6 @@ func generic(text: Dialogues, options: PackedStringArray = [], text_after_option
 
 func character(chr: int, dialogues: Dialogues, options: PackedStringArray = [], dialogues_after_options: Array[Dialogues] = []) -> void:
 	$Control/Speaker.show()
-	var tw := create_tween()
-	tw.tween_property($Control/Speaker, "modulate:a", 1, 0.3)
 	$Control/Speaker/Head.animation = char_head[chr]
 	Text.currentfont = char_font.get(chr)
 	for i in Options.size() + 1:
@@ -154,8 +139,7 @@ func character(chr: int, dialogues: Dialogues, options: PackedStringArray = [], 
 			Options[i -1].click = get_node(char_sound[chr])
 
 	await abstract(dialogues, options, dialogues_after_options)
-	tw = create_tween()
-	tw.tween_property($Control/Speaker, "modulate:a", 0, 0.3)
+
 
 
 func set_head_frame(expr: Array[int]) -> void:
