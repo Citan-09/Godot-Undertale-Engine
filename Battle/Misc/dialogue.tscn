@@ -130,17 +130,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
 
 [node name="Text" type="RichTextLabel" parent="TextContainer"]
 layout_mode = 2
 theme = ExtResource("2_2m2k7")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 0
-theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/normal_font_size = 14
 bbcode_enabled = true
 text = "TEXT LALALA.
 
