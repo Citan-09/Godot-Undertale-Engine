@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://dggr74u132cr4"]
+[gd_scene load_steps=8 format=3 uid="uid://dggr74u132cr4"]
 
 [ext_resource type="Script" path="res://Battle/Death/death_screen.gd" id="1_tng4c"]
 [ext_resource type="PackedScene" uid="uid://dleuqhnhqqffc" path="res://Battle/Death/death_soul.tscn" id="2_kpjqu"]
-[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="3_41erg"]
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="5_1ttji"]
 [ext_resource type="FontFile" uid="uid://6ugo6ka6l7is" path="res://Text/Fonts/8-BIT WONDER.TTF" id="5_hp2tx"]
 [ext_resource type="AudioStream" uid="uid://gaeh4kqgpyox" path="res://Musics/death_screen_music_thing.wav" id="8_vka2r"]
@@ -20,11 +19,6 @@ height = 640
 script = ExtResource("1_tng4c")
 
 [node name="DeathSoul" parent="." instance=ExtResource("2_kpjqu")]
-camera_path = NodePath("../Camera")
-
-[node name="Camera" parent="." instance=ExtResource("3_41erg")]
-z_index = 10
-position = Vector2(320, 240)
 
 [node name="Fade" type="CanvasLayer" parent="."]
 

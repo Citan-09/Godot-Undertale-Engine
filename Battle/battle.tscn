@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Battle/battle.gd" id="1_yqdne"]
 [ext_resource type="Resource" uid="uid://cxu6iatwdxlye" path="res://Resources/Encounters/EncounterTest.tres" id="2_ju3kp"]
-[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="3_j2jej"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="3_j2jej"]
 [ext_resource type="PackedScene" uid="uid://ctmkb1gh0a14s" path="res://Battle/Buttons/buttons.tscn" id="3_m5l1o"]
 [ext_resource type="PackedScene" uid="uid://d1p4teid7wp70" path="res://Battle/Attacks/attacks_manager.tscn" id="4_elftc"]
 [ext_resource type="PackedScene" uid="uid://3mahpp3h1cx4" path="res://Battle/Box/BattleBox.tscn" id="5_1exqf"]

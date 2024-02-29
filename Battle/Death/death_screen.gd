@@ -1,7 +1,7 @@
 extends Node2D
 class_name DeathScreen
 
-@onready var Camera: CameraFx = $Camera
+@onready var Camera: CameraFx = Global.scene_container.Camera
 
 var tw: Tween
 

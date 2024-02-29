@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://s3o3wkvbt3ej" path="res://Themes/DTMono24.tres" id="1_m7kmx"]
 [ext_resource type="Script" path="res://Intro/name_selection.gd" id="1_osq8k"]
-[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="3_yercc"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="3_yercc"]
 [ext_resource type="RichTextEffect" uid="uid://ow3wqtvijk5x" path="res://Resources/RichTextEffects/tremble.tres" id="4_2dwwy"]
 [ext_resource type="Script" path="res://Intro/typing.gd" id="5_siv8b"]
 [ext_resource type="AudioStream" uid="uid://btx6cbfdqvvbh" path="res://sfx/mus_cymbal.ogg" id="6_eucha"]
@@ -127,11 +127,12 @@ script = ExtResource("10_njhot")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
-layout_mode = 0
-offset_left = -269.0
-offset_top = -164.0
-offset_right = 837.0
-offset_bottom = 519.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
 [node name="Typer" type="RichTextLabel" parent="."]

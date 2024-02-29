@@ -5,6 +5,8 @@ extends CanvasLayer
 var first := true
 var fullscreen := false
 var debugmode := false
+var scene_container: SceneContainer
+
 
 var boxesinmenu := false
 var unlockedboxes: int = 0
@@ -12,7 +14,11 @@ var equipment: Dictionary = {"weapon": 3, "armor": 2}
 var cells: Array
 var items: Array
 var boxitems: Array  #[[],[],[]]
-var settings: Dictionary = {"shake": true, "vfx": false}
+var settings: Dictionary = {
+	"shake": true,
+	"vfx": false,
+	"border": true
+}
 
 const savepath := "user://savedgame.json"
 
@@ -105,6 +111,8 @@ enum weaponstype {
 
 @onready var heal_sound: AudioStreamPlayer = $heal
 
+signal fullscreen_toggled(to: bool)
+
 func item_use_text(item_id: int) -> PackedStringArray:
 	var item := item_list[item_id]
 	var use_text := item.use_message.duplicate()
@@ -116,8 +124,8 @@ func item_use_text(item_id: int) -> PackedStringArray:
 			temp_def += item.defense_amount
 			use_text.append("* Gain %s DEF for this battle" % [item.defense_amount])
 		else:
-					player_defense += item.defense_amount
-					use_text.append("* +%s DEF!" % [item.defense_amount])
+			player_defense += item.defense_amount
+			use_text.append("* +%s DEF!" % [item.defense_amount])
 	if item.attack_amount:
 		if item["itemtype"] == types.CONSUMABLE:
 			temp_def += item["attack"]
@@ -137,15 +145,18 @@ func heal(amt: int) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_fullscreen"):
-		if !fullscreen:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		else:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		fullscreen = !fullscreen
-		$Border.visible = fullscreen
+		toggle_fullscreen()
 	if event.is_action_pressed("debug") and OS.is_debug_build():
 		toggle_collision_shape_visibility()
 		debugmode = not debugmode
+
+func toggle_fullscreen() -> void:
+	if !fullscreen:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	fullscreen = !fullscreen
+	fullscreen_toggled.emit(fullscreen)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if debugmode:

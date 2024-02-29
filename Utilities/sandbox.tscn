@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Utilities/sandbox.gd" id="1_6pur3"]
 [ext_resource type="Texture2D" uid="uid://ct6ntajwcqflg" path="res://Battle/AttackMeter/bars.png" id="2_4ohrb"]
 [ext_resource type="Texture2D" uid="uid://chnxh4khbo84n" path="res://Battle/AttackMeter/meter.png" id="2_ta4tl"]
-[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="4_kx8hg"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="4_kx8hg"]
 
 [node name="main" type="Control"]
 layout_mode = 3

@@ -26,11 +26,7 @@ func warn() -> void:
 func reset() -> void:
 	disable.emit()
 	Global.resetgame()
-	var tw := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
-	tw.tween_property($Control, "position:y", 640, 0.7).as_relative()
-	await tw.finished
-	await get_tree().create_timer(0.4, false).timeout
-	get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
+	Global.scene_container.change_scene_to_file(Global.scene_container.default_scene)
 
 func _hide() -> void:
 	Global.player_in_menu = false

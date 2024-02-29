@@ -1,7 +1,7 @@
 extends Node
 
 @export_file("*.tscn") var default_scene: String
-@onready var Blinder: ColorRect = $Blinder
+@onready var Camera: CameraFx
 var overworld_scene: Overworld
 
 const DEFAULT_BATTLE := "res://Battle/battle.tscn"
@@ -15,23 +15,21 @@ var data := {
 
 var data_default := data.duplicate()
 
-func _ready() -> void:
-	Blinder.modulate.a = 0
+
 
 func enter_room_default() -> void:
 	Global.overworld_data.room = default_scene
-	var tw := create_tween().set_trans(Tween.TRANS_QUAD)
-	tw.tween_property(Blinder, "modulate:a", 1, blind_time)
-	await tw.finished
+	_prepare_enter_room()
+
+
+func _prepare_enter_room() -> void:
+	await Camera.blind(blind_time, 1)
 	_load_and_set_scene(default_scene)
 
 
 func enter_room_path(room_path: String, extra_data: Dictionary = {}) -> void:
 	data.merge(extra_data, true)
-	var tw := create_tween().set_trans(Tween.TRANS_QUAD)
-	tw.tween_property(Blinder, "modulate:a", 1, blind_time)
-	await tw.finished
-	_load_and_set_scene(room_path)
+	_prepare_enter_room()
 
 func _load_and_set_scene(path: String) -> void:
 	var resource: PackedScene
@@ -44,12 +42,10 @@ func _load_and_set_scene(path: String) -> void:
 		resource = load(default_scene)
 	else:
 		Global.overworld_data.room = path
-	var node := resource.instantiate()
-	get_tree().unload_current_scene()
-	get_tree().root.add_child(node)
-	get_tree().current_scene = node
+	Global.scene_container.change_scene_to_packed(resource)
 
-	_set_player_data.call_deferred(node)
+	_set_player_data.call_deferred(Global.scene_container.current_scene)
+
 
 func _set_player_data(current_scene: Node) -> void:
 	if current_scene is Overworld:
@@ -57,30 +53,25 @@ func _set_player_data(current_scene: Node) -> void:
 	Global.player_can_move = true
 	Global.player_in_menu = false
 	data = data_default.duplicate()
-	var tw := create_tween().set_trans(Tween.TRANS_QUAD)
-	tw.tween_property(Blinder, "modulate:a", 0, blind_time)
+	Camera.blind(0, blind_time)
+
 
 func load_cached_overworld_scene(transistion := true) -> void:
-	Global.player_can_move = true
-	Global.player_in_menu = false
-	if transistion:
-		var tw := create_tween().set_trans(Tween.TRANS_QUAD)
-		tw.tween_property(Blinder, "modulate:a", 1, blind_time)
-		tw.tween_property(Blinder, "modulate:a", 0, blind_time)
-		await tw.step_finished
-	var tree := get_tree()
+	await _scene_setup_thing(transistion)
+	var tree := Global.scene_container
 	tree.unload_current_scene()
 	var sc: Node = overworld_scene if overworld_scene else (load(default_scene) as PackedScene).instantiate()
-	tree.root.add_child(sc)
 	tree.current_scene = sc
+	tree.MainViewport.add_child(sc)
 	sc.request_ready()
+
 
 func load_battle(
 				battle_scene_path: String = DEFAULT_BATTLE,
 				battle_resource: Encounter = preload("res://Resources/Encounters/EncounterTest.tres"),
 				transistion := true, to_position := Vector2(48, 452)
 			) -> void:
-	var tree := get_tree()
+	var tree := Global.scene_container
 	var screen: BattleTransistion
 	if transistion:
 		screen = preload("res://Overworld/battle_transistion.tscn").instantiate()
@@ -92,22 +83,27 @@ func load_battle(
 	var battle: Node = (load(battle_scene_path) as PackedScene).instantiate()
 	battle.encounter = battle_resource
 	overworld_scene = tree.current_scene
-	tree.root.remove_child(overworld_scene)
-	tree.root.add_child(battle)
+	tree.MainViewport.remove_child(overworld_scene)
 	tree.current_scene = battle
+	tree.MainViewport.add_child(battle)
 
-func load_general_scene(scene_path: String, transistion := true):
-	var tree := get_tree()
-	if transistion:
-		var tw := create_tween().set_trans(Tween.TRANS_QUAD)
-		tw.tween_property(Blinder, "modulate:a", 1, blind_time)
-		tw.tween_property(Blinder, "modulate:a", 0, blind_time)
-		await tw.step_finished
+
+func _scene_setup_thing(transistion: bool) -> void:
 	Global.player_in_menu = false
 	Global.player_can_move = true
+	if transistion:
+		Camera.blind(1, blind_time)
+		Camera.finished_tween.connect(Camera.blind.bind(0, blind_time), CONNECT_ONE_SHOT)
+		await Camera.finished_tween
+
+
+func load_general_scene(scene_path: String, transistion := true):
+	await _scene_setup_thing(transistion)
+	var tree := Global.scene_container
 	var scene: Node = (load(scene_path) as PackedScene).instantiate()
 	overworld_scene = tree.current_scene
-	tree.root.remove_child(overworld_scene)
-	tree.root.add_child(scene)
+	tree.MainViewport.remove_child(overworld_scene)
 	tree.current_scene = scene
-		
+	tree.MainViewport.add_child(scene)
+	
+

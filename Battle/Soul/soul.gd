@@ -18,7 +18,7 @@ var gravity_direction := Vector2.DOWN: set = set_gravity_direction_silent
 @onready var Ghost: GPUParticles2D = $Sprite/Ghost
 @onready var Shoot: AudioStreamPlayer = $Shoot
 @onready var ModeChangeS: AudioStreamPlayer = $Ding
-@onready var Main: BattleMain = $/root/main
+@onready var Main: BattleMain = Global.scene_container.current_scene
 @onready var Area: Area2D = $Area2D
 @onready var Collision: CollisionShape2D = $CollisionShape2D
 @onready var Wallhit: AudioStreamPlayer = $Wallhit
@@ -142,8 +142,9 @@ func hurt(area: BulletArea) -> void:
 	if Global.player_kr >= Global.player_hp:
 		Global.player_kr = max(Global.player_hp -1, 0)
 	if Global.player_hp <= 0 and !Global.debugmode:
+		Main.AttacksParent.set_script(Main.AttacksParent.get_script())
 		Global.player_position = get_global_transform_with_canvas().origin
-		get_tree().change_scene_to_file("res://Battle/Death/death_screen.tscn")
+		Global.scene_container.change_scene_to_file.call_deferred("res://Battle/Death/death_screen.tscn")
 		return
 	AudioPlayer.play("hurt")
 

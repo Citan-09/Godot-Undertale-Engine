@@ -6,13 +6,3 @@
 layer = 9
 script = ExtResource("1_kx36n")
 default_scene = "res://Overworld/overworld_default.tscn"
-
-[node name="Blinder" type="ColorRect" parent="."]
-modulate = Color(1, 1, 1, 0)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 1)

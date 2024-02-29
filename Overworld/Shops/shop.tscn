@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://bpmpbp7g6ta2u" path="res://Battle/Soul/soul.png" id="5_axeqr"]
 [ext_resource type="AudioStream" uid="uid://degl6ii2gdr87" path="res://sfx/Clicks/generic1.wav" id="5_upaer"]
 [ext_resource type="AudioStream" uid="uid://c6u3egkne7fdu" path="res://sfx/button_choice.wav" id="10_bn7bx"]
-[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="11_1yrkt"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="11_1yrkt"]
 [ext_resource type="AudioStream" uid="uid://bh0xfl2mpo5vi" path="res://sfx/button_select.wav" id="11_udity"]
 [ext_resource type="PackedScene" uid="uid://dnu6jhm3w5lk8" path="res://Menus/Slider.tscn" id="12_tldfv"]
 [ext_resource type="AudioStream" uid="uid://bf28qk1u2k1xi" path="res://sfx/buy_item.wav" id="15_ssolt"]

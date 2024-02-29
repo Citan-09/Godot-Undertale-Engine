@@ -3,12 +3,12 @@ class_name Overworld
 
 @export var world_name := "overworld room"
 @export var player_path := ^"YSortNodes/TileMap/PlayerOverworld"
-@export var camera_path := ^"YSortNodes/TileMap/PlayerOverworld/Camera"
+#@export var camera_path := ^"YSortNodes/TileMap/PlayerOverworld/Camera"
 #@export var music_player := ^"music"
 @export var music: AudioStream = preload("res://Musics/default2.wav")
 @export var room_entrances: Array[RoomEntranceNode] = []
 @onready var Player: PlayerOverworld = get_node(player_path)
-@onready var Camera: Node = get_node(camera_path)
+@onready var Camera: CameraFx = Global.scene_container.Camera
 @onready var Music: AudioStreamPlayer = Global.Music #get_node(music_player)
 
 var text_box: PackedScene = preload("res://Overworld/text_box.tscn")

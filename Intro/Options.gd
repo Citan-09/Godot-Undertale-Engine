@@ -45,7 +45,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		match current_pos:
 			0:
 				await create_tween().tween_property($"../", "modulate:a", 0, 0.8).set_trans(Tween.TRANS_SINE).finished
-				get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
+				Global.scene_container.change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 			1:
 				backspace.emit()
 			2:

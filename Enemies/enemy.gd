@@ -5,10 +5,10 @@ class_name Enemy
 @onready var hurt_sound: Node = get_node(hurt_sound_path)
 @onready var dust_sound: Node = get_node(dust_sound_path)
 @onready var dust: GPUParticles2D = get_node(dust_path)
-@onready var Attacks: AttackManager = $/root/main/Attacks/BoxClipper
-@onready var Main: BattleMain = $/root/main
+@onready var Main: BattleMain = Global.scene_container.current_scene
+@onready var Attacks: AttackManager = Main.Attacks
 @onready var NonMask: Node = Main.AttacksParent
-@onready var Camera: CameraFx = Main.Camera
+@onready var Camera: CameraRemoteController = Main.Camera
 @onready var Box: BattleBox = Main.Box
 @onready var Soul: SoulBattle = Main.Soul_Battle
 

@@ -43,11 +43,11 @@ func _on_name_input_text_submitted() -> void:
 	Global.player_name = Name.text
 	var tw := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_parallel()
 	tw.tween_property($Prompt, "modulate:a", 0, 0.3)
-	tw.tween_property($Camera, "zoom", Vector2.ONE * 5, 6)
+	tw.tween_property(Global.scene_container.Camera, "zoom", Vector2.ONE * 5, 6)
 	tw.tween_property($ColorRect, "modulate:a", 1, 6).set_ease(Tween.EASE_IN)
-	tw.tween_property($Camera, "position:y", 100, 1).set_trans(Tween.TRANS_LINEAR)
+	tw.tween_property($Camera, "global_position:y", 100, 1)
 	tw.tween_callback($cymbal.play).set_delay(0.89)
-	$Camera.rgbsplit(5, 0.7)
+	Global.scene_container.Camera.rgbsplit(5, 0.7)
 	await tw.finished
 	Global.save_game()
 	OverworldSceneChanger.enter_room_default()

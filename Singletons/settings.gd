@@ -10,13 +10,23 @@ const TIME: float = 0.6
 @onready var Blur: CanvasItem = $Blur
 @onready var BusContainer: HBoxContainer = $BusContainer
 @onready var AnimPlayer: AnimationPlayer = $AnimationPlayer
+@onready var BoolOptions: VBoxContainer = $BoolOptions/VBoxContainer
 
 var enabled := false
+
+signal setting_changed(setting_name: String, to: Variant)
+
 
 func _ready() -> void:
 	AnimPlayer.speed_scale = 1.0 / TIME
 	Darken.modulate.a = 0
 	Blur.material.set("shader_parameter/lod", 0)
+	AnimPlayer.play(&"RESET")
+	for setting: SettingBoolButton in BoolOptions.get_children():
+		setting.pressed.connect(func():
+			self.setting_changed.emit(setting.name, setting.button_pressed)
+			)
+		
 	
 
 

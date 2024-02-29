@@ -62,7 +62,7 @@ const KeeperBox := {
 @onready var KeeperDialogue: GenericTextTyper = $Control/TextBox/MarginContainer/Dialogue
 @onready var ItemSliderThing: ItemSlider = $Control/TextBox/Slider
 @onready var Soul: Sprite2D = $Control/Main/Soul
-@onready var Camera: CameraFx = $Camera
+@onready var Camera: CameraFx = Global.scene_container.Camera
 
 @onready var option_numbers: Array[int] = [
 	3,

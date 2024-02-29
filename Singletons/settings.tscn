@@ -176,6 +176,14 @@ text = "Camera Shake"
 script = ExtResource("5_wnang")
 setting_name = "shake"
 
+[node name="Border" type="CheckButton" parent="BoolOptions/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_8y13j")
+text = "Border
+"
+script = ExtResource("5_wnang")
+setting_name = "border"
+
 [node name="NinePatchRect" type="NinePatchRect" parent="BoolOptions"]
 layout_mode = 1
 anchors_preset = 15
@@ -196,9 +204,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1031.0
+offset_left = -1351.0
 offset_top = -188.0
-offset_right = -648.0
+offset_right = -968.0
 offset_bottom = -6.0
 grow_horizontal = 0
 grow_vertical = 0

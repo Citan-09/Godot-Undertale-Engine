@@ -1,10 +1,10 @@
 extends Node
 class_name AttackBase
 
-@onready var Main: BattleMain = $/root/main
+@onready var Main: BattleMain = Global.scene_container.current_scene
 @onready var NonMask: Node = Main.AttacksParent
 @onready var Mask: AttackManager = Main.Attacks
-@onready var Camera: CameraFx = Main.Camera
+@onready var Camera: CameraRemoteController = Main.Camera
 @onready var Box: BattleBox = Main.Box
 @onready var BoxRectClip: Control = Box.RectClip
 @onready var BoxRectNoClip: Control = Box.RectNoClip

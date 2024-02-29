@@ -3,14 +3,14 @@ extends CanvasLayer
 @onready var defsize: Vector2 = $Control.size
 var soulpos: int = 0
 var saved := false
-@onready var sc: Node = get_tree().current_scene
+@onready var sc: Node = Global.scene_container.current_scene
 
 signal _on_save
 signal choiced
 var tw: Tween
 
 func _ready() -> void:
-	var c_scene: Node = get_tree().current_scene
+	var c_scene: Node = Global.scene_container.current_scene
 	if "_on_saved" in c_scene: _on_save.connect(c_scene._on_saved)
 	if "world_name" in sc:
 		$Control/Texts/Location.text = sc.world_name

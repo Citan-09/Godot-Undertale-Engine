@@ -1,7 +1,7 @@
 extends Node2D
 class_name BattleMain
 
-@onready var Camera: CameraFx = %Camera
+@onready var Camera: CameraRemoteController = %Camera
 @onready var Buttons: BattleButtons = %Buttons
 @onready var Box: BattleBox = %BattleBox
 @onready var Enemies: Node2D = %Enemies
@@ -114,8 +114,8 @@ func _ready() -> void:
 
 ## Initialize anything here (runs after ready and setting enemies)
 func _initialize() -> void:
-	Camera.blinder.modulate.a = 1
-	Camera.blind(0.5, 0)
+	Global.scene_container.Camera.blinder.modulate.a = 1
+	Global.scene_container.Camera.blind(0.5, 0)
 
 
 func _act(target: int, option: int) -> void:
@@ -133,7 +133,7 @@ func _mercy(choice: int) -> void:
 			if not check_end_encounter():
 				end_turn.emit()
 		1:
-			await Camera.blind(1, 1)
+			await Global.scene_container.Camera.blind(1, 1)
 			Global.temp_atk = 0
 			Global.temp_def = 0
 			OverworldSceneChanger.load_cached_overworld_scene()

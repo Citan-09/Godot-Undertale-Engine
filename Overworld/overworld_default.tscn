@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b2f80agdxnxy1" path="res://Overworld/Tilesets/new_home.png" id="1_8qjx8"]
 [ext_resource type="Script" path="res://Overworld/overworld_default.gd" id="1_q8h1i"]
 [ext_resource type="PackedScene" uid="uid://d4g7r4oj7f4t8" path="res://Overworld/Characters/player_overworld.tscn" id="3_6otus"]
-[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/Camera.tscn" id="3_h3f43"]
+[ext_resource type="PackedScene" uid="uid://d4gqwwjrenhax" path="res://Camera/camera.tscn" id="3_h3f43"]
 [ext_resource type="Resource" uid="uid://cxu6iatwdxlye" path="res://Resources/Encounters/EncounterTest.tres" id="4_oj6i3"]
 [ext_resource type="PackedScene" uid="uid://dd758xuvic7xl" path="res://Overworld/Interactions/area_trigger.tscn" id="5_mpiu6"]
 [ext_resource type="PackedScene" uid="uid://bj6e8xllsfsj4" path="res://Overworld/Characters/sans.tscn" id="6_2ciga"]
@@ -161,9 +161,9 @@ Encounters = Array[Resource("res://Resources/Encounters/Encounter.gd")]([ExtReso
 
 [node name="Camera" parent="YSortNodes/TileMap/PlayerOverworld" instance=ExtResource("3_h3f43")]
 zoom = Vector2(2, 2)
+position_smoothing_enabled = false
 limit_top = -80
 limit_bottom = 160
-position_smoothing_enabled = false
 
 [node name="DefaultItem" parent="YSortNodes/TileMap" instance=ExtResource("9_cs8w5")]
 z_index = -1
@@ -220,7 +220,7 @@ shape = SubResource("RectangleShape2D_bx6vr")
 debug_color = Color(0.447059, 0.447059, 0.447059, 0.419608)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="YSortNodes/MiscCollisions"]
-position = Vector2(790, 144)
+position = Vector2(790, 130)
 shape = SubResource("RectangleShape2D_iks5l")
 debug_color = Color(0.447059, 0.447059, 0.447059, 0.419608)
 

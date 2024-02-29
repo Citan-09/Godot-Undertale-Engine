@@ -12,7 +12,7 @@ config_version=5
 
 config/name="UndertalEngine"
 config/description="The thing"
-run/main_scene="res://Intro/intro.tscn"
+run/main_scene="res://Singletons/scene_container.tscn"
 config/auto_accept_quit=false
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
@@ -24,7 +24,6 @@ config/icon="res://icon.svg"
 Global="*res://Singletons/global.tscn"
 OverworldSceneChanger="*res://Singletons/overworld_scene_changer.tscn"
 AudioPlayer="*res://Singletons/audio_player.tscn"
-Settings="*res://Singletons/settings.tscn"
 
 [debug]
 
@@ -41,11 +40,11 @@ gdscript/warnings/confusable_local_usage=2
 
 [display]
 
-window/size/viewport_width=640
-window/size/viewport_height=480
+window/size/viewport_width=960
+window/size/viewport_height=540
 window/size/resizable=false
 window/size/always_on_top=true
-window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 window/stretch/scale_mode="integer"
 
 [editor_plugins]

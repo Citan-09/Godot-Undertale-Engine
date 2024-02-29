@@ -198,7 +198,7 @@ func _unhandled_input(event: InputEvent) -> void:
 						_in_state(states.ITEM_USE_DISABLE_MOVEMENT)
 						var txt: PackedStringArray = Global.item_use_text(Global.items[soulposition_item.y])
 						textbox = textboxscene.instantiate()
-						get_tree().current_scene.add_child(textbox)
+						Global.scene_container.current_scene.add_child(textbox)
 						Global.items.remove_at(soulposition_item.y)
 						_set_items()
 						await textbox.generic(Dialogues.new().from(txt))
@@ -209,7 +209,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					1.0:
 						_in_state(states.ITEM_USE_DISABLE_MOVEMENT)
 						textbox = textboxscene.instantiate()
-						get_tree().current_scene.add_child(textbox)
+						Global.scene_container.current_scene.add_child(textbox)
 						await textbox.generic(Dialogues.new().from(Global.item_list[Global.items[soulposition_item.y]].item_information))
 						textbox = null
 						Global.player_in_menu = true
@@ -219,7 +219,7 @@ func _unhandled_input(event: InputEvent) -> void:
 						_in_state(states.ITEM_USE_DISABLE_MOVEMENT)
 						var txt: PackedStringArray = Global.item_list[Global.items[soulposition_item.y]].throw_message
 						textbox = textboxscene.instantiate()
-						get_tree().current_scene.add_child(textbox)
+						Global.scene_container.current_scene.add_child(textbox)
 						Global.items.remove_at(soulposition_item.y)
 						_set_items()
 						await textbox.generic(Dialogues.new().from(txt))

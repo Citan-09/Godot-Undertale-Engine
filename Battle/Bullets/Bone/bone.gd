@@ -36,8 +36,9 @@ func queue_fire(delay: float,target: Vector2, movement_type: int, speed: float =
 	return self
 
 func _await_fire(fire_call: Callable, delay: float):
-	if velocity_tween and velocity_tween.is_running(): await velocity_tween.finished
 	var tw := create_tween()
+	tw.pause()
+	if velocity_tween and velocity_tween.is_running(): velocity_tween.finished.connect(tw.play)
 	tw.tween_interval(delay)
 	tw.tween_callback(fire_call)
 	
