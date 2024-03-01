@@ -161,14 +161,16 @@ func toggle_fullscreen() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if debugmode:
 		if event.is_action_pressed("refresh_scene"):
-			push_warning("WARNING: This will leak all orphan nodes that aren't referenced.")
+			print_debug("Warning: Orphan nodes may be lost!")
 			player_hp = player_max_hp
 			player_can_move = true
 			player_in_menu = false
-			get_tree().reload_current_scene.call_deferred()
-
+			Global.scene_container.reload_current_scene()
+		
+		
 		if event.is_action_pressed("force_save"):
 			save_game()
+
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)

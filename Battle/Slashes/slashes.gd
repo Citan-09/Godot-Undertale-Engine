@@ -81,6 +81,4 @@ func _ready() -> void:
 		else:
 			break
 	hide()
-	$Timer.start()
-	await $Timer.timeout
 	queue_free()

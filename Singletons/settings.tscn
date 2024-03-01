@@ -123,12 +123,13 @@ mouse_filter = 2
 anchors_preset = 10
 anchor_right = 1.0
 offset_top = -84.0
+offset_right = -40.0
 offset_bottom = 28.0
 grow_horizontal = 2
 theme = ExtResource("3_8y13j")
-theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/normal_font_size = 26
 bbcode_enabled = true
-text = "[center]Paused"
+text = "[center]--Paused--"
 
 [node name="BoolOptions" type="Control" parent="."]
 layout_mode = 3
@@ -136,7 +137,7 @@ anchor_right = 0.5
 anchor_bottom = 0.2
 offset_left = 8.0
 offset_top = -416.0
-offset_bottom = -332.0
+offset_bottom = -320.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -205,9 +206,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -1351.0
-offset_top = -188.0
-offset_right = -968.0
-offset_bottom = -6.0
+offset_top = -190.0
+offset_right = -967.999
+offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
 

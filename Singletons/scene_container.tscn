@@ -27,7 +27,7 @@ mouse_filter = 2
 script = ExtResource("1_ww1og")
 
 [node name="ScreenCopy" type="TextureRect" parent="."]
-modulate = Color(0.6, 0.6, 0.6, 1)
+modulate = Color(0.5, 0.5, 0.5, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

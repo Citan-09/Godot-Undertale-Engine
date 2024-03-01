@@ -6,7 +6,7 @@ const TIME: float = 0.25
 const TRANSTYPE := Tween.TRANS_CUBIC
 var speed_mult: float
 const movetype := Tween.TRANS_LINEAR
-var single: bool = Global.item_list[Global.equipment["weapon"]].weapon_bars == 1
+var single_bar: bool = Global.item_list[Global.equipment["weapon"]].weapon_bars == 1
 
 var direction: int
 const critzone = Vector2(310, 330)
@@ -15,6 +15,8 @@ var tw: Tween
 var hityet := false
 signal hit(pos: Vector2, crit: bool, speed: float)
 signal miss
+
+signal about_to_fade_out
 
 var can_crit: bool = Global.item_list[Global.equipment["weapon"]].critical_hits
 
@@ -40,29 +42,32 @@ func _unhandled_input(event: InputEvent) -> void:
 	hityet = true
 	get_viewport().set_input_as_handled()
 	hit.emit(position.x, position.x > critzone.x and position.x < critzone.y and can_crit, MOVE_SPEED * speed_mult)
-	var t := create_tween().set_ease(Tween.EASE_OUT).set_trans(TRANSTYPE).set_parallel()
-	if !single:
-		t.tween_property(self, "scale", Vector2(1.2, 1.5), TIME)
-		t.tween_property(Overlay, "color:a", 0, TIME)
+	var tween := create_tween().set_ease(Tween.EASE_OUT).set_trans(TRANSTYPE).set_parallel()
+	if !single_bar:
+		tween.tween_property(self, "scale", Vector2(1.2, 1.5), TIME)
+		tween.tween_property(Overlay, "color:a", 0, TIME)
 		frame = 2
 		Overlay.color.a = 1
 		Overlay.modulate.a = 1
 		$hit.play()
 	else:
 		$AnimationPlayer.play("glow")
-		t.tween_property(self, "modulate:a", 0, TIME).set_delay(TIME)
+		tween.tween_interval(1.4)
 	if can_crit:
-		if position.x > critzone.x and position.x < critzone.y:
+		if position.x > critzone.x and position.x < critzone.y: #Critical hit
 			$critical.play()
-			t.tween_property(self, "modulate:b", 0, TIME / 2)
-		elif position.x > 70 and position.x < 570:
+			tween.tween_property(self, "modulate:b", 0, TIME / 2)
+		elif position.x > 70 and position.x < 570: # Normal hit
 			$hit.play()
 			Overlay.color.a = 0.7
-			t.tween_property(self, "modulate:r", 0, TIME / 2)
-		else:
+			tween.tween_property(self, "modulate:r", 0, TIME / 2)
+		else: # Red (basically miss)
 			$hit.play()
-			t.tween_property(self, "modulate:g", 0, TIME / 2)
-			t.tween_property(self, "modulate:b", 0, TIME / 2)
-	await t.finished
-	queue_free()
+			tween.tween_property(self, "modulate:g", 0, TIME / 2)
+			tween.tween_property(self, "modulate:b", 0, TIME / 2)
+	await tween.finished
+	tween = create_tween().set_trans(TRANSTYPE)
+	tween.tween_property(self, "modulate:a", 0 , TIME).set_delay(TIME)
+	tween.tween_callback(queue_free)
+	about_to_fade_out.emit()
 

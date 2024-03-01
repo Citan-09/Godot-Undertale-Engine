@@ -45,7 +45,7 @@ func change_scene_to_file(path: String) -> Error:
 
 func change_scene_to_packed(file: PackedScene) -> Error:
 	unload_current_scene()
-	var scene: Node = file.instantiate()
+	var scene: Node = file.instantiate() as Node
 	current_scene = scene
 	MainViewport.add_child(scene)
 	return OK
@@ -56,7 +56,13 @@ func unload_current_scene() -> void:
 		return
 	current_scene.get_parent().remove_child(current_scene)
 	current_scene.queue_free()
+	current_scene = null
 
+
+func reload_current_scene() -> void:
+	if !current_scene:
+		return
+	change_scene_to_file(current_scene.scene_file_path)
 
 
 func reload_camera() -> void:

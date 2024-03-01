@@ -2,12 +2,12 @@ extends Node
 class_name AttackMeter
 
 const TIME: float = 0.5
-const transtype := Tween.TRANS_QUART
+const transtype := Tween.TRANS_QUAD
 
 var targetdef: int = 0
 @onready var meter: Sprite2D = $Meter
 @onready var bar: PackedScene = preload("res://Battle/AttackMeter/bar.tscn")
-var hits: float
+var total_bars: int
 var speed_mult: float = 1.0
 var targetid: int = 0
 
@@ -19,6 +19,7 @@ var distance: float = 0
 var score: int = 0
 var misses: int = 0
 var crits: int = 0
+var hits: int = 0
 
 var can_crit: bool = Global.item_list[Global.equipment["weapon"]].critical_hits
 
@@ -36,18 +37,18 @@ func _ready() -> void:
 		summonpos.x = 40
 	elif randir == -1:
 		summonpos.x = 600
-	hits = Global.item_list[Global.equipment["weapon"]].weapon_bars
+	total_bars = Global.item_list[Global.equipment["weapon"]].weapon_bars
 	speed_mult = Global.item_list[Global.equipment["weapon"]].weapon_speed
-	for i in hits:
-		summonbar(summonpos , randir, randi_range(0, 4) * 0.025 + 0.2 * i)
-	for i in hits:
+	for i in total_bars:
+		summonbar(summonpos , randir, (randi_range(0, 2) * 0.05 + 0.25 * i) / Global.item_list[Global.equipment["weapon"]].weapon_speed)
+	for i in total_bars:
 		await calculated
 	var damage := finalcalculation()
-	remove_meter()
-	if misses < hits:
-		damagetarget.emit(damage, target, crits == hits)
+	if misses < total_bars:
+		damagetarget.emit(damage, target, crits == total_bars)
 	else:
 		missed.emit(target)
+	
 
 func remove_meter() -> void:
 	var tw := create_tween().set_trans(transtype).set_parallel().set_ease(Tween.EASE_IN)
@@ -55,11 +56,11 @@ func remove_meter() -> void:
 	tw.tween_property(meter, "modulate:a", 0, TIME)
 	tw.chain().tween_callback(queue_free).set_delay(0.2)
 	
-	
+
 
 func summonbar(position: Vector2, direction: int, delay: float) -> void:
 	await get_tree().create_timer(delay, false).timeout
-	var clonebar: Node = bar.instantiate()
+	var clonebar: AttackBar = bar.instantiate() as AttackBar
 	clonebar.hit.connect(calculate)
 	clonebar.miss.connect(miss)
 	clonebar.speed_mult = speed_mult
@@ -67,10 +68,15 @@ func summonbar(position: Vector2, direction: int, delay: float) -> void:
 	clonebar.direction = direction
 	add_child(clonebar)
 	move_child(clonebar, 1)
+	clonebar.about_to_fade_out.connect(func():
+		hits += 1
+		if (self.hits + self.misses) >= self.total_bars: self.remove_meter()
+		)
 
 func miss() -> void:
 	misses += 1
-	emit_signal("calculated")
+	calculated.emit()
+
 
 func calculate(posx: int, crit: bool, hspeed: float) -> void:
 	crits += int(crit)
@@ -78,7 +84,7 @@ func calculate(posx: int, crit: bool, hspeed: float) -> void:
 	if distance <= 12:
 		distance = 12
 	distance /= 275.0
-	if hits <= 1:
+	if total_bars <= 1:
 		distance = 2 * (1- distance)
 	else:
 		distance = distance * hspeed / 7.0 - 0.8
@@ -97,11 +103,11 @@ func calculate(posx: int, crit: bool, hspeed: float) -> void:
 func finalcalculation() -> int:
 	var damage: int = Global.player_attack + 10 + Global.item_list[Global.equipment["weapon"]].attack_amount + Global.item_list[Global.equipment["armor"]].attack_amount + Global.temp_atk
 	damage -= targetdef
-	if hits <= 1:
+	if total_bars <= 1:
 		return round((damage + randf_range(-2, 2)) * distance)
 	if can_crit:
 		if score > 440: score *= 1.4
 		if score > 380: score *= 1.2
-	return round(damage * (score / 160.0) * (4.0 / hits)) + round(randf_range(-2, 2))
+	return round(damage * (score / 160.0) * (4.0 / total_bars)) + round(randf_range(-2, 2))
 
 
