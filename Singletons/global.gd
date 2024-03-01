@@ -268,8 +268,9 @@ func resetgame() -> void:
 func save_settings() -> void:
 	var file := FileAccess.open(savepath, FileAccess.READ)
 	var savedata: Dictionary
-	if FileAccess.file_exists(savepath) and !file.eof_reached() and JSON.parse_string(file.get_as_text()):
-		savedata = JSON.parse_string(file.get_as_text())
+	if !FileAccess.file_exists(savepath) or file.eof_reached() or !JSON.parse_string(file.get_as_text()):
+		return
+	savedata = JSON.parse_string(file.get_as_text())
 	file.close()
 	file = FileAccess.open(savepath, FileAccess.WRITE)
 	savedata.merge({"settings" : settings}, true)
@@ -312,9 +313,10 @@ func load_game() -> void:
 		# FLAGS
 		flags = savedata.get("flags", {})
 		first = savedata.get("first", true)
+		file.close()
 	flags_at_save = flags.duplicate()
 	refresh_audio_busses()
-	file.close()
+	
 
 
 
