@@ -195,7 +195,7 @@ func set_mode_silent(new_mode := RED) -> void:
 		update_purple_pos()
 
 
-	if new_mode != BLUE:
+	if new_mode == RED:
 		set_gravity_direction_silent(Vector2.DOWN)
 
 func set_gravity_direction(new_direction: Vector2, force_blue_mode: bool = true) -> void:
@@ -300,7 +300,7 @@ func yellow() -> void:
 		Shoot.play()
 		var _c = yellow_bullet.instantiate() as YellowBullet
 		Main.Box.add_child(_c)
-		_c.global_position = Sprite.global_position
+		_c.global_position = Sprite.global_position + (Vector2.UP.rotated(Sprite.global_rotation) * 6)
 		_c.rotation = Sprite.global_rotation
 		_c.velocity = Vector2.UP.rotated(Sprite.global_rotation) * YellowBullet.SPEED
 	four_dir_movement()
