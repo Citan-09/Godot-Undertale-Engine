@@ -165,7 +165,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			player_hp = player_max_hp
 			player_can_move = true
 			player_in_menu = false
-			Global.scene_container.reload_current_scene()
+			if get_tree().current_scene is SceneContainer:
+				Global.scene_container.reload_current_scene()
+				return
+			get_tree().reload_current_scene()
 		
 		
 		if event.is_action_pressed("force_save"):
@@ -180,7 +183,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	playtime += delta
 	if debugmode:
-		$Info.text = "[rainbow]Debug Enabled[/rainbow] \nFPS: %s\n[R] Reload current scene" % [Engine.get_frames_per_second()]
+		$Info.text =\
+"""[rainbow]Debug Mode Enabled[/rainbow]
+FPS: %s
+[R] Reload current scene
+""" % [Engine.get_frames_per_second()]
 	else:
 		$Info.text = ""
 

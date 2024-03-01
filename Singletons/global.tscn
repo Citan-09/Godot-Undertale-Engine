@@ -58,8 +58,8 @@ script = ExtResource("2_1aujb")
 item_type = 1
 item_name = "Testweapon"
 weapon_speed = 1.6
-weapon_bars = 4
-weapon_type = 0
+weapon_bars = 1
+weapon_type = 1
 critical_hits = false
 use_message = ["* You used the Item!"]
 item_information = ["* Item - Heals 0 hp 
@@ -76,11 +76,17 @@ script = ExtResource("1_iel2y")
 item_list = Array[ExtResource("2_1aujb")]([SubResource("Resource_p5cqk"), SubResource("Resource_1h2q8"), SubResource("Resource_kqj2e"), SubResource("Resource_llyn0")])
 
 [node name="Info" type="RichTextLabel" parent="."]
-offset_right = 640.0
-offset_bottom = 432.0
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("2_he4k0")
-theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 
 [node name="heal" type="AudioStreamPlayer" parent="."]

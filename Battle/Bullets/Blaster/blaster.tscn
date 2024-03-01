@@ -116,7 +116,6 @@ _data = {
 
 [node name="Blaster" type="CharacterBody2D"]
 script = ExtResource("1_622yr")
-time = 0.6
 TweenTrans = 3
 TweenEase = 1
 damage = 15
@@ -130,12 +129,12 @@ sprite_frames = SubResource("SpriteFrames_vkq66")
 modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 0
-offset_left = -12.0
+offset_left = -16.0
 offset_top = 28.0
-offset_right = 12.0
+offset_right = 16.0
 offset_bottom = 2076.0
 scale = Vector2(1e-05, 1)
-pivot_offset = Vector2(12, 0)
+pivot_offset = Vector2(16, 0)
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Sprite/Beam"]
 layout_mode = 1

@@ -70,6 +70,7 @@ func summonbar(position: Vector2, direction: int, delay: float) -> void:
 	move_child(clonebar, 1)
 	clonebar.about_to_fade_out.connect(func():
 		hits += 1
+		print(hits)
 		if (self.hits + self.misses) >= self.total_bars: self.remove_meter()
 		)
 

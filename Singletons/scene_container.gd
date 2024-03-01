@@ -8,7 +8,7 @@ class_name SceneContainer extends Control
 	set(cam):
 		Camera = cam
 		OverworldSceneChanger.Camera = Camera
-@onready var Border: NinePatchRect = $SettingsContainer/Border
+@onready var Border: Control = $SettingsContainer/Border
 @onready var ScreenCopy: TextureRect = $ScreenCopy
 
 
@@ -100,10 +100,7 @@ func _process(delta: float) -> void:
 func _refresh_window() -> void:
 	_just_toggled_border = false
 	var to: bool = Global.settings.get("border", true)
-	get_window().size = Vector2(
-		ProjectSettings.get("display/window/size/viewport_width"),
-		ProjectSettings.get("display/window/size/viewport_height")
-	) if to else SCREEN_SIZE
+	get_window().size = Vector2(960, 540) if to else SCREEN_SIZE
 	get_window().move_to_center()
 
 

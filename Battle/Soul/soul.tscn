@@ -60,12 +60,12 @@ local_coords = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_sjyg3")
-debug_color = Color(0.631373, 0, 1, 0.568627)
+debug_color = Color(1, 0.404667, 0.24, 0.0784314)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ns07m")
 disabled = true
-debug_color = Color(1, 0.858824, 0.635294, 0.235294)
+debug_color = Color(0.64, 0.922, 1, 0.0588235)
 
 [node name="Shoot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_4sia6")

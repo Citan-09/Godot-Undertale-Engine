@@ -1,6 +1,8 @@
 class_name Slash extends AnimatedSprite2D
 
-@onready var animtree: AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/playback")
+@onready var AnimTree: AnimationTree = $AnimationTree
+@onready var animtree: AnimationNodeStateMachinePlayback = AnimTree.get("parameters/playback")
+
 
 signal finished
 signal started
@@ -70,15 +72,13 @@ func _ready() -> void:
 				$Sparkle.play()
 		Global.weaponstype.GUN:
 			started.emit()
-			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.65)
+			tw.tween_callback(emit_signal.bind("finished")).set_delay(0.6)
 			animtree.start("gun")
 			if crit:
 				$Sparkle.play()
 	tw.play()
 	while animtree.get_current_node() != "End":
-		if get_tree():
-			await get_tree().process_frame
-		else:
-			break
+		await AnimTree.animation_finished
 	hide()
+	if !tw.is_valid(): finished.emit()
 	queue_free()
