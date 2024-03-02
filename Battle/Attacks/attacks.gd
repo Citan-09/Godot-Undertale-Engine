@@ -50,7 +50,7 @@ func add_bullet(_bullet: Node, mask: int = 0) -> void:
 			BoxRectClip.add_child(_bullet, true)
 
 ## BULLETS ADDED TO BOX MIGHT MOVE UNEXPECTEDLY DUE TO BOX RESIZING!
-func quick_bullet(_bullet: PackedScene, pos: Vector2, rot: float = 0, mask: Masking = 0) -> Node:
+func quick_bullet(_bullet: PackedScene, pos: Vector2, rot: float = 0, mask: Masking = Masking.ABSOLUTE_CLIP) -> Node:
 	var b: Node = _bullet.instantiate()
 	add_bullet(b, mask)
 	b.position = pos
