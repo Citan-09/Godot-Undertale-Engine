@@ -1,51 +1,93 @@
-class_name Bone extends Bullet
+extends CharacterBody2D
+class_name Bullet
 
-@export var collision_margin: float = 4
+signal shakeCamera(shake_amt: float)
 
-var bone_width: float
-@onready var SpriteRect: NinePatchRect = get_node(sprite_path)
+var target_position := Vector2.ZERO
+var fire_mode := MOVEMENT_VELOCITY
+var velocity_tween: Tween
+@export var TweenTrans := Tween.TRANS_QUAD
+@export var TweenEase := Tween.EASE_IN_OUT
+## Bullet stats (kr_amount only works if kr is enabled on the battle).
+@export_group("Bullet Stats")
+@export var damage: int = 5
+@export var iframe_grant: int = 50
+@export var kr_amount: int = 5
+@export var delete_upon_hit := false
+@export_group("")
 
-func _ready() -> void:
-	assert(Collision.shape is RectangleShape2D)
-	@warning_ignore("unsafe_property_access")
-	bone_width = Collision.shape.size.x
-	Collision.shape = RectangleShape2D.new()
+@export var area_path := ^"Area2D"
+@export var collision_path := ^"Area2D/CollisionShape2D"
+@export var sprite_path := ^"Sprite"
+@onready var Area: BulletArea = get_node(area_path)
+@onready var Collision: CollisionShape2D = get_node(collision_path)
+@onready var Sprite: CanvasItem = get_node(sprite_path)
+
+enum {
+	MOVEMENT_VELOCITY,
+	MOVEMENT_TWEEN
+}
+
+var damage_mode: int = MODE_WHITE
+
+enum {
+	MODE_WHITE,
+	MODE_GREEN,
+	MODE_BLUE,
+	MODE_ORANGE,
+}
+
+@export var colors: Array[Color] = [
+	Color.WHITE,
+	Color.GREEN,
+	Color(0, 0.85, 1),
+	Color.ORANGE,
+]
 
 
-func _process(_delta: float) -> void:
-	Collision.position.y = SpriteRect.size.y/2.0
-	@warning_ignore("unsafe_property_access")
-	Collision.shape.size = Vector2(bone_width, SpriteRect.size.y - collision_margin)
+var overlapping_areas := []
 
-func fire(target: Vector2, movement_type: int, speed: float = 100.0) -> Bone:
-	#damage_mode = mode
-	target_position = target
-	var distance: Vector2 = target_position - global_position
-	@warning_ignore("int_as_enum_without_cast")
-	fire_mode = movement_type
-	match fire_mode:
-		MOVEMENT_VELOCITY:
-			velocity = speed * distance.normalized()
-		MOVEMENT_TWEEN:
-			velocity_tween = create_tween().set_ease(TweenEase).set_trans(TweenTrans)
-			velocity_tween.tween_property(self, "position", distance, distance.length() / speed).as_relative()
+func _physics_process(_delta: float) -> void:
+	Sprite.modulate = colors[damage_mode]
+	if is_instance_valid(Collision):
+		Collision.debug_color = Sprite.modulate.blend(Color(0.8,0.0,0.0,0.33))
+		Collision.debug_color.a = 0.2
+	Area.damage_mode = damage_mode
+	if fire_mode == MOVEMENT_VELOCITY:
+		self.move_and_slide()
+	if Area.monitoring:
+		overlapping_areas = Area.get_overlapping_areas()
+		for i: Node in overlapping_areas:
+			if i.is_in_group("player") and (damage_mode <= MODE_GREEN) and delete_upon_hit:
+				_on_hit_player()
+
+func _on_hit_player() -> void:
+	queue_free()
+
+
+## Called by green soul shield.
+func _on_hit_player_shield() -> void:
+	_on_hit_player()
+
+
+## Called by the yellow soul bullets
+func _on_hit_yellow() -> void:
+	pass
+
+
+func set_mode(mode := MODE_BLUE) -> Bullet:
+	damage_mode = mode
 	return self
-
-func queue_fire(delay: float,target: Vector2, movement_type: int, speed: float = 100.0) -> Bone:
-	_await_fire(fire.bind(target, movement_type, speed),delay)
-	return self
-
-func _await_fire(fire_call: Callable, delay: float):
-	var tw := create_tween()
-	tw.pause()
-	if velocity_tween and velocity_tween.is_running(): velocity_tween.finished.connect(tw.play)
-	tw.tween_interval(delay)
-	tw.tween_callback(fire_call)
 	
-var h_tween: Tween
 
-func tween_height(new_height: float, time: float) -> PropertyTweener:
-	if h_tween and h_tween.is_valid(): h_tween.kill()
-	h_tween = create_tween()
-	return h_tween.tween_property(SpriteRect, "size:y", new_height, time)
-	
+func fade() -> void:
+	var fadetw := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	fadetw.tween_property(self, "modulate:a", 0, 0.5)
+	Area.monitorable = false
+	Area.monitoring = false
+	fadetw.tween_callback(queue_free)
+
+
+func _on_exit_screen() -> void:
+	if not velocity_tween or not velocity_tween.is_valid() or self.velocity:
+		fade()
