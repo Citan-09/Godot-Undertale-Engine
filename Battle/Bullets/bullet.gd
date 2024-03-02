@@ -75,8 +75,9 @@ func _on_hit_yellow() -> void:
 	pass
 
 
-func set_mode(mode := MODE_BLUE):
+func set_mode(mode := MODE_BLUE) -> Bullet:
 	damage_mode = mode
+	return self
 	
 
 func fade() -> void:
