@@ -204,7 +204,7 @@ func set_gravity_direction(new_direction: Vector2, force_blue_mode: bool = true)
 	velocity = Vector2.ZERO
 	if force_blue_mode:
 		set_mode(BLUE)
-	rotation = Vector2.RIGHT.angle_to(new_direction) - PI / 2.0
+
 
 var changed_direction_time: float = 0
 const TIME_GRANT: float = 0.08
@@ -213,7 +213,7 @@ func set_gravity_direction_silent(new_direction: Vector2) -> void:
 	gravity_direction = new_direction
 	up_direction = gravity_direction * -1
 	changed_direction_time = TIME_GRANT
-	rotation = Vector2.RIGHT.angle_to(new_direction) - PI / 2.0
+	rotation = Vector2.RIGHT.angle_to(new_direction) - PI / 2.0 + (PI if soul_type == soul_types.SOUL_MONSTER else 0.0)
 
 const DIRS = {
 	Vector2.DOWN: 0,
@@ -295,7 +295,7 @@ func green() -> void:
 
 func yellow() -> void:
 	Sprite.modulate = Color.YELLOW
-	Sprite.scale.y = -1
+	Sprite.scale.y = -1 if soul_type == soul_types.SOUL_HUMAN else 1
 	if Input.is_action_just_pressed("ui_accept"):
 		Shoot.play()
 		var _c = yellow_bullet.instantiate() as YellowBullet
