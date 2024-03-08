@@ -22,14 +22,12 @@ func queue_fire(delay: float, target: Vector2, movement_type: int, speed: float 
 
 var tw: Tween
 
-func _await_fire(fire_call: Callable, delay: float) -> DefaultBullet:
+func _await_fire(fire_call: Callable, delay: float):
 	if tw and tw.is_valid():
-		tw.pause()
-		tw.finished.connect(tw.play)
+		await tw.finished
 	tw = create_tween()
 	if velocity_tween and velocity_tween.is_running():
 		tw.pause()
 		velocity_tween.finished.connect(tw.play)
 	tw.tween_interval(delay)
 	tw.tween_callback(fire_call)
-	return self
