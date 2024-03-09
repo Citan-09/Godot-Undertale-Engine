@@ -158,6 +158,5 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_a2tfb")
 [connection signal="toggled" from="Margin/HBoxContainer/Solo" to="." method="_on_solo_toggled"]
 [connection signal="toggled" from="Margin/HBoxContainer/Mute" to="." method="_on_mute_toggled"]
 [connection signal="toggled" from="Margin/HBoxContainer/Bypass" to="." method="_on_bypass_toggled"]
-[connection signal="drag_ended" from="Margin/VSlider" to="." method="_on_v_slider_drag_ended"]
-[connection signal="drag_started" from="Margin/VSlider" to="." method="_on_v_slider_drag_started"]
+[connection signal="drag_ended" from="Margin/VSlider" to="." method="_on_v_slider_drag_ended" unbinds=1]
 [connection signal="value_changed" from="Margin/VSlider" to="." method="_on_volume_slider_value_changed"]
