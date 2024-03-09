@@ -1,8 +1,8 @@
 extends Bullet
 class_name Blaster
 
-@export var TIME: float = 1
-@export var beam_margin: float = 6
+const TIME: float = 0.8
+const BEAM_COLLISION_MARGIN: float = 8
 
 @onready var Beam: Control = $Sprite/Beam
 @onready var Rect: NinePatchRect = $Sprite/Beam/NinePatchRect
@@ -33,7 +33,8 @@ const GROW_TIME: float = 0.2
 const SPEED: int = 1000
 
 func _blast(duration: float) -> void:
-	Collision.shape.size = Beam.size - Vector2.RIGHT * beam_margin
+	Collision.shape.size = Beam.size - Vector2.RIGHT * BEAM_COLLISION_MARGIN
+	Collision.scale.x = 0.06
 	shakeCamera.emit(0.5)
 	Collision.position.y += Beam.size.y / 2.0
 	Beam.show()
@@ -56,6 +57,7 @@ func _blast(duration: float) -> void:
 
 	var tw := create_tween().set_trans(Tween.TRANS_QUAD).set_parallel()
 	tw.tween_property(Beam, "scale:x", 1, GROW_TIME)
+	tw.tween_property(Collision, "scale:x", 1, GROW_TIME)
 	tw.tween_property(Beam, "modulate:a", 1, GROW_TIME).set_trans(Tween.TRANS_LINEAR)
 	tw.tween_callback(tween_beam.play)
 
