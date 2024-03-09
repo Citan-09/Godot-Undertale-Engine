@@ -13,7 +13,7 @@ func _ready() -> void:
 	Collision.shape.size = Vector2.ZERO
 
 
-func fire(target: Vector2, size: float = 1, delay: float = 0.5, duration: float = 0.5) -> void:
+func fire(target: Vector2, size: float = 1, delay: float = 0.5, duration: float = 0.5) -> Blaster:
 	$load.play()
 	scale = Vector2(max(size, 1), max(size, 1.5))
 	target_position = target
@@ -26,6 +26,7 @@ func fire(target: Vector2, size: float = 1, delay: float = 0.5, duration: float 
 	velocity_tween.tween_interval(0.15)
 	velocity_tween.chain().tween_callback($fire.play)
 	velocity_tween.tween_callback(_blast.bind(duration))
+	return self
 
 
 const GROW_TIME: float = 0.2
