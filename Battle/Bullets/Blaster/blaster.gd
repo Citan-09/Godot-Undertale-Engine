@@ -2,7 +2,7 @@ extends Bullet
 class_name Blaster
 
 const TIME: float = 0.8
-const BEAM_COLLISION_MARGIN: float = 8
+const BEAM_COLLISION_MARGIN: float = 6
 
 @onready var Beam: Control = $Sprite/Beam
 @onready var Rect: NinePatchRect = $Sprite/Beam/NinePatchRect
@@ -33,8 +33,8 @@ const GROW_TIME: float = 0.2
 const SPEED: int = 1000
 
 func _blast(duration: float) -> void:
+	Collision.scale.x = 0
 	Collision.shape.size = Beam.size - Vector2.RIGHT * BEAM_COLLISION_MARGIN
-	Collision.scale.x = 0.06
 	shakeCamera.emit(0.5)
 	Collision.position.y += Beam.size.y / 2.0
 	Beam.show()

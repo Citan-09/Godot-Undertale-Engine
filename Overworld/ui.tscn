@@ -134,7 +134,7 @@ offset_top = 21.0
 offset_right = 262.0
 offset_bottom = 136.0
 theme = ExtResource("2_40sjh")
-theme_override_constants/line_separation = 11
+theme_override_constants/line_separation = 7
 bbcode_enabled = true
 text = "[color=gray]ITEM[/color]
 [color=white]STATS[/color]

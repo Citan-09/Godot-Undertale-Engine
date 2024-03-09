@@ -143,7 +143,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(12, 0)
+pivot_offset = Vector2(16, 0)
 texture = ExtResource("3_j26d0")
 patch_margin_top = 6
 

@@ -64,6 +64,7 @@ anchor_right = 1.0
 offset_top = 24.0
 offset_bottom = 48.0
 grow_horizontal = 2
+alignment = 1
 
 [node name="Solo" type="Button" parent="Margin/HBoxContainer"]
 custom_minimum_size = Vector2(32, 0)
@@ -124,7 +125,6 @@ anchor_bottom = 0.1
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_v40wf")
-theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 text = "[center]Master"
 scroll_active = false

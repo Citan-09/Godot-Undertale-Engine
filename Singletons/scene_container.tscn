@@ -107,7 +107,6 @@ transparent_bg = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(640, 480)
-render_target_update_mode = 4
 
 [node name="TextureRect" type="TextureRect" parent="SettingsContainer/SubViewport"]
 process_mode = 3

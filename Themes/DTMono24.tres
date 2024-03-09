@@ -98,10 +98,10 @@ anti_aliasing = false
 
 [resource]
 default_font = ExtResource("1_bwfjk")
-default_font_size = 26
+default_font_size = 32
 Button/colors/font_color = Color(0.8, 0.8, 0.8, 1)
 Button/colors/font_focus_color = Color(0.8, 0.8, 0.8, 1)
-Button/font_sizes/font_size = 20
+Button/font_sizes/font_size = 32
 Button/fonts/font = ExtResource("1_bwfjk")
 Button/styles/disabled = SubResource("StyleBoxEmpty_majhq")
 Button/styles/focus = SubResource("StyleBoxEmpty_qcuuh")
@@ -161,7 +161,6 @@ ProgressBar/styles/background = SubResource("StyleBoxEmpty_tb5la")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_md32v")
 RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
 RichTextLabel/constants/outline_size = 10
-RichTextLabel/font_sizes/normal_font_size = 26
 RichTextLabel/fonts/bold_font = ExtResource("1_bwfjk")
 RichTextLabel/fonts/bold_italics_font = ExtResource("1_bwfjk")
 RichTextLabel/fonts/italics_font = ExtResource("1_bwfjk")
