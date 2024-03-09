@@ -33,7 +33,7 @@ const GROW_TIME: float = 0.2
 const SPEED: int = 1000
 
 func _blast(duration: float) -> void:
-	Collision.shape.size = max(Beam.size - Vector2.RIGHT * BEAM_COLLISION_MARGIN, Vector2.ZERO)
+	Collision.shape.size = Beam.size - Vector2(0, max(BEAM_COLLISION_MARGIN, 0))
 	Collision.scale.x = 0
 	shakeCamera.emit(0.5)
 	Collision.position.y += Beam.size.y / 2.0
